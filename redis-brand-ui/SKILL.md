@@ -51,6 +51,15 @@ Use these guidelines when:
 - Never reduce the prominence of the Redis Red brand color in dark contexts.
 - See [dark mode reference](references/dark-mode.md) for the full dark palette and CSS setup.
 
+### Logos
+
+- Download official logos from [brand.redis.io/document/18](https://brand.redis.io/document/18).
+- Use the cube mark for favicons and small icon contexts (minimum 24px).
+- Use the full lockup (mark + wordmark) for headers and marketing pages (minimum 80px wide).
+- Always maintain clear space equal to 25% of the logo height on all sides.
+- NEVER recreate the logo in CSS/HTML — always use the official SVG asset.
+- See [logos reference](references/logos.md) for all variants, sizing rules, and usage examples.
+
 ## Anti-Pattern Guardrails
 
 **DO NOT:**
@@ -72,6 +81,7 @@ Use these guidelines when:
 | typography | Google Fonts imports, heading/body styles, font family config |
 | components | Buttons, cards, forms, React examples, HeroUI/NextUI theme object |
 | dark-mode | Dark palette, prefers-color-scheme setup, Tailwind dark variants |
+| [Logos](references/logos.md) | Logo variants, clear space, sizing, favicon setup |
 
 ## Quick Start Checklist
 
