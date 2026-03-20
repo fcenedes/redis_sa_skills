@@ -90,16 +90,16 @@ module.exports = {
 ## Usage Rules
 
 | Token | Use For | Example Classes |
-|-------|---------|-----------------|
-| `redis-red` | Primary buttons, CTAs, active states, brand accents | `bg-redis-red text-white` |
-| `redis-red-hover` | Hover state for primary buttons and links | `hover:bg-redis-red-hover` |
-| `redis-red-dark` | Active/pressed states, dark emphasis | `active:bg-redis-red-dark` |
-| `redis-text` | Headings, primary body text | `text-redis-text` |
-| `redis-text-secondary` | Subheadings, secondary content | `text-redis-text-secondary` |
-| `redis-text-link` | Hyperlinks, interactive text | `text-redis-text-link` |
-| `redis-text-muted` | Captions, placeholders, disabled text | `text-redis-text-muted` |
-| `redis-bg-tertiary` | Section dividers, subtle backgrounds | `bg-redis-bg-tertiary` |
-| `redis-border` | Input borders, card outlines | `border-redis-border` |
+| --- | --- | --- |
+| redis-red | Primary buttons, CTAs, active states, brand accents | bg-redis-red text-white |
+| redis-red-hover | Hover state for primary buttons and links | hover:bg-redis-red-hover |
+| redis-red-dark | Active/pressed states, dark emphasis | active:bg-redis-red-dark |
+| redis-text | Headings, primary body text | text-redis-text |
+| redis-text-secondary | Subheadings, secondary content | text-redis-text-secondary |
+| redis-text-link | Hyperlinks, interactive text | text-redis-text-link |
+| redis-text-muted | Captions, placeholders, disabled text | text-redis-text-muted |
+| redis-bg-tertiary | Section dividers, subtle backgrounds | bg-redis-bg-tertiary |
+| redis-border | Input borders, card outlines | border-redis-border |
 
 ## Accessibility Requirements
 
@@ -116,4 +116,3 @@ module.exports = {
 - **NEVER** use `#000000` for text — use `redis-text` (`#091A23`).
 - **NEVER** use arbitrary red hex values — always reference the Redis red scale tokens.
 - **NEVER** apply `redis-text-muted` to text smaller than 14px or to required form labels.
-

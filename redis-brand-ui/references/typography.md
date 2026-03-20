@@ -21,12 +21,11 @@ Or via CSS `@import`:
 ## Font Family Rules
 
 | Font | Use For | Weights |
-|------|---------|---------|
-| **Space Grotesk** | Body text, H2, H3, buttons, form labels, UI copy | 300 (Light), 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold) |
-| **Space Mono** | H1 headings, navigation labels, code blocks, monospace UI elements | 400 (Regular), 700 (Bold) |
+| --- | --- | --- |
+| Space Grotesk | Body text, H2, H3, buttons, form labels, UI copy | 300 (Light), 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold) |
+| Space Mono | H1 headings, navigation labels, code blocks, monospace UI elements | 400 (Regular), 700 (Bold) |
 
-**NEVER** use Space Mono for body text or paragraphs — it reduces readability at length.
-**NEVER** use Space Grotesk for code snippets — always use Space Mono.
+**NEVER** use Space Mono for body text or paragraphs — it reduces readability at length.**NEVER** use Space Grotesk for code snippets — always use Space Mono.
 
 ## Heading & Text Styles
 
@@ -139,4 +138,3 @@ Usage in markup:
 - **NEVER** use Space Mono for paragraphs, descriptions, or any long-form reading.
 - **NEVER** use weights outside the imported range (e.g., 800, 900 for Space Grotesk).
 - **NEVER** omit the Google Fonts import — the fonts are not system fonts and will fall back incorrectly.
-

@@ -130,7 +130,6 @@ export function RedisCard({ children, className }: { children: React.ReactNode; 
 }
 ```
 
-
 ## Form Input Styling
 
 ```css
@@ -229,4 +228,3 @@ Apply the theme in your app root:
 - **NEVER** omit `transition` on interactive elements — all buttons and inputs must animate.
 - **NEVER** skip `:focus-visible` styles — they are required for keyboard accessibility.
 - **NEVER** use padding/margin values that aren't multiples of 8px (the grid unit).
-

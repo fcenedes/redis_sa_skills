@@ -10,18 +10,18 @@
 ## Dark Mode Color Palette
 
 | Token | Light Value | Dark Value | Usage |
-|-------|------------|------------|-------|
-| `--redis-red` | `#FF4438` | `#FF4438` | Unchanged — primary accent |
-| `--redis-red-hover` | `#EB352A` | `#FF7566` | Lighter hover in dark contexts |
-| `--redis-text-primary` | `#091A23` | `#F0F4F5` | Primary text |
-| `--redis-text-secondary` | `#163341` | `#C8D1D5` | Secondary text |
-| `--redis-text-link` | `#2D4754` | `#8AB4C7` | Link text |
-| `--redis-text-muted` | `#8A99A0` | `#5A6A72` | Muted/caption text |
-| `--redis-bg-primary` | `#FFFFFF` | `#0A1A23` | Page background |
-| `--redis-bg-secondary` | `#FFFFFF` | `#122A35` | Card/panel background |
-| `--redis-bg-tertiary` | `#B9C2C6` | `#1C3A47` | Subtle section background |
-| `--redis-border-primary` | `#163341` | `#2D4754` | Primary borders |
-| `--redis-border-secondary` | `#2D4754` | `#3D5764` | Secondary borders |
+| --- | --- | --- | --- |
+| --redis-red | #FF4438 | #FF4438 | Unchanged — primary accent |
+| --redis-red-hover | #EB352A | #FF7566 | Lighter hover in dark contexts |
+| --redis-text-primary | #091A23 | #F0F4F5 | Primary text |
+| --redis-text-secondary | #163341 | #C8D1D5 | Secondary text |
+| --redis-text-link | #2D4754 | #8AB4C7 | Link text |
+| --redis-text-muted | #8A99A0 | #5A6A72 | Muted/caption text |
+| --redis-bg-primary | #FFFFFF | #0A1A23 | Page background |
+| --redis-bg-secondary | #FFFFFF | #122A35 | Card/panel background |
+| --redis-bg-tertiary | #B9C2C6 | #1C3A47 | Subtle section background |
+| --redis-border-primary | #163341 | #2D4754 | Primary borders |
+| --redis-border-secondary | #2D4754 | #3D5764 | Secondary borders |
 
 ## CSS Custom Properties with `prefers-color-scheme`
 
@@ -103,4 +103,3 @@ When CSS custom properties are not used, apply dark overrides inline:
 - **NEVER** invert the Redis Red scale for decorative use — the scale order reversal is only for HeroUI theme config.
 - **NEVER** skip contrast checks — dark mode text colors must meet WCAG AA against their background.
 - **NEVER** forget to test dark mode — toggle between modes to verify all components render correctly.
-
