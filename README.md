@@ -9,6 +9,7 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 | [redis-brand-ui](redis-brand-ui/SKILL.md) | Apply Redis official brand guidelines to frontend UI implementations. Covers colors, typography, components, dark mode, and HeroUI/NextUI theme configuration. |
 | [redis-presentation-decks](redis-presentation-decks/SKILL.md) | Create Redis-focused Reveal.js decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. |
 | [redis-excalidraw-diagrams](redis-excalidraw-diagrams/SKILL.md) | Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Query Engine, Streams, replication, clustering, observability, and Redis Cloud systems. |
+| [redis-insight-plugin](redis-insight-plugin/SKILL.md) | Build, deploy, and validate Redis Insight Workbench visualization plugins: manifests, activation methods, Parcel/Vite builds, iframe rendering, command parsing, Docker deployment, and `/api/plugins` verification. |
 
 ## Installation
 
@@ -18,6 +19,7 @@ Install skills using the Agent Skills CLI:
 npx skills add fcenedes/redis_sa_skills --skill redis-brand-ui
 npx skills add fcenedes/redis_sa_skills --skill redis-presentation-decks
 npx skills add fcenedes/redis_sa_skills --skill redis-excalidraw-diagrams
+npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
 ```
 
 Or add to your project manually by copying the skill directory into your `.agents/skills/` folder.
@@ -29,6 +31,7 @@ After installing a skill, ask your agent for the Redis artifact you need:
 ```text
 Use redis-presentation-decks to create a Redis Cloud vector search architecture deck for a technical workshop.
 Use redis-excalidraw-diagrams to draw a Redis Streams consumer group architecture with commands, acknowledgements, and observability paths.
+Use redis-insight-plugin to create an external Parcel Redis Insight plugin for XRANGE.
 ```
 
 ## Versioning
@@ -40,6 +43,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. This repo
 | redis-brand-ui | 1.0.0 |
 | redis-presentation-decks | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
+| redis-insight-plugin | 1.0.0 |
 
 ## Skill Structure
 
