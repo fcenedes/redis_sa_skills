@@ -73,6 +73,48 @@ Do not commit generated artifacts:
 
 Run `bash scripts/validate-skills.sh` before opening a PR. The script checks frontmatter fields, README cross-references, and the absence of generated artifacts and stray TODO/FIXME markers.
 
+## Model and Cost Optimization
+
+### Tokenizer Inflation: Opus 4.7
+
+Opus 4.7 uses a new tokenizer that inflates token counts by up to ~35% compared to Opus 4.6 for equivalent work. If you are seeing unexpectedly high token usage or cost:
+
+- Prefer **Opus 4.6** (`claude-opus-4-6`) for cost-sensitive workflows. Same capabilities, significantly fewer tokens.
+- In Claude Code, toggle with `/fast` (Opus 4.6 fast mode) or set `model: claude-opus-4-6` in configuration.
+- Combine with [RTK](rtk-cli/SKILL.md) for an additional 60-90% reduction on shell output tokens.
+
+### Prompt Caching
+
+Enable prompt caching to reduce costs by up to 90% on repeated system prompt and context reads:
+
+- Cached input tokens cost 90% less than uncached reads.
+- Default cache TTL is 5 minutes. Each cache hit resets the timer.
+- **Extend effective TTL to 1 hour** by ensuring at least one request hits within every 5-minute window, or by configuring `cache_control` breakpoints on large, stable context blocks (system prompts, skill definitions, reference documents).
+- Structure prompts so that stable content (system instructions, skill text, repo context) appears first and changes last — this maximizes cache hit rate.
+
+### Claude Code Environment Variables
+
+Set these in your shell profile for leaner, more reliable sessions:
+
+```bash
+export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1   # Drop telemetry and non-critical network calls
+export CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK=1   # No silent retry on non-streaming path — fail fast
+export CLAUDE_STREAM_IDLE_TIMEOUT_MS=600000           # 10-minute idle timeout (default is shorter, can kill long tool runs)
+```
+
+| Variable | Effect | When to use |
+|----------|--------|-------------|
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | Suppresses telemetry and background requests | Always — reduces noise, saves bandwidth |
+| `CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK` | Prevents silent fallback to non-streaming API path | Always — avoids hidden retries that double cost |
+| `CLAUDE_STREAM_IDLE_TIMEOUT_MS` | Idle timeout before stream is killed (ms) | Set to `600000` (10 min) for long builds, large diffs, complex tool chains |
+
+### DO NOTs
+
+- Do not default to Opus 4.7 for batch or cost-sensitive workloads without accounting for the ~35% tokenizer overhead.
+- Do not disable prompt caching unless debugging cache-specific issues.
+- Do not place volatile content (timestamps, request IDs) before stable content in prompts — it breaks cache alignment.
+- Do not leave `CLAUDE_STREAM_IDLE_TIMEOUT_MS` at default for repos with slow builds or large test suites — streams will timeout mid-run.
+
 ## Scope
 
 Keep this repo focused on:
