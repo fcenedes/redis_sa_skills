@@ -4,6 +4,8 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 
 ## Available Skills
 
+### Visualization & Brand
+
 | Skill | Description |
 |-------|-------------|
 | [redis-brand-ui](redis-brand-ui/SKILL.md) | Apply Redis official brand guidelines to frontend UI implementations. Covers colors, typography, components, dark mode, and HeroUI/NextUI theme configuration. |
@@ -246,37 +248,29 @@ Codex uses [`AGENTS.md`](AGENTS.md) for repository-level instructions and `.agen
 
 ## Recommended Agent Stack
 
-External:
+### External
 
-- Superpowers
-- `redis-development` from `redis/agent-skills`
-- `find-skills`
-- `skill-creator`
-- `frontend-design`
-- `vercel-react-best-practices`
-- `web-design-guidelines`
-- `github-actions-docs`
+| Theme | Skills |
+|-------|--------|
+| Engineering methodology | Superpowers |
+| Redis development | `redis-development` from `redis/agent-skills` |
+| Skill tooling | `find-skills`, `skill-creator` |
+| Frontend & UI | `frontend-design`, `vercel-react-best-practices`, `web-design-guidelines` |
+| CI/CD | `github-actions-docs` |
 
-This repo:
+### This Repo
 
-- `rtk-cli`
-- `caveman`
-- `playwright-cli-agent`
-- `playwright-test`
-- `redis-insight-plugin`
-- `redis-discovery-workshop`
-- `redis-demo-builder`
-- `redis-vector-search-rag`
-- `redis-performance-troubleshooting`
-- `redis-cloud-sizing`
-- `redis-streams-architecture`
-- `redis-enterprise-migration`
-- `redis-observability-runbook`
-- `redis-brand-ui`
-- `redis-presentation-decks`
-- `redis-excalidraw-diagrams`
+| Theme | Skills |
+|-------|--------|
+| Token saving | `rtk-cli`, `caveman` |
+| Visualization & brand | `redis-brand-ui`, `redis-presentation-decks`, `redis-excalidraw-diagrams` |
+| Testing & browser | `playwright-test`, `playwright-cli-agent` |
+| RedisInsight | `redis-insight-plugin` |
+| Customer engagement | `redis-discovery-workshop`, `redis-demo-builder` |
+| Redis architecture | `redis-vector-search-rag`, `redis-streams-architecture`, `redis-cloud-sizing` |
+| Operations | `redis-performance-troubleshooting`, `redis-observability-runbook`, `redis-enterprise-migration` |
 
-Some of the skills above ship in this repo today; others are planned. See the [Available Skills](#available-skills) table for what is currently shipped on `main`, and open pull requests for skills landing imminently.
+Some skills above ship today; others are planned. See [Available Skills](#available-skills) for what is on `main`, and open PRs for skills landing imminently.
 
 ## Suggested Skill Combinations
 
