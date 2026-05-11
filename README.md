@@ -9,6 +9,7 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 | [redis-brand-ui](redis-brand-ui/SKILL.md) | Apply Redis official brand guidelines to frontend UI implementations. Covers colors, typography, components, dark mode, and HeroUI/NextUI theme configuration. |
 | [redis-presentation-decks](redis-presentation-decks/SKILL.md) | Create Redis-focused Reveal.js decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. |
 | [redis-excalidraw-diagrams](redis-excalidraw-diagrams/SKILL.md) | Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Query Engine, Streams, replication, clustering, observability, and Redis Cloud systems. |
+| [playwright-test](playwright-test/SKILL.md) | Author and maintain reliable E2E/UI tests with `@playwright/test`: configs, fixtures, auth state, resilient locators, traces, CI tuning, and flake handling. |
 | [playwright-cli-agent](playwright-cli-agent/SKILL.md) | Drive a real browser via Playwright CLI to inspect, operate, screenshot, reproduce UI bugs, and discover stable selectors before authoring tests. |
 | [caveman](caveman/SKILL.md) | Ultra-compressed technical communication mode for coding-agent prose, reviews, commits, and summaries. Preserves technical accuracy; cuts filler. |
 | [redis-insight-plugin](redis-insight-plugin/SKILL.md) | Build, deploy, and validate Redis Insight Workbench visualization plugins: manifests, activation methods, Parcel/Vite builds, iframe rendering, command parsing, Docker deployment, and `/api/plugins` verification. |
@@ -22,6 +23,7 @@ Install skills using the Agent Skills CLI:
 npx skills add fcenedes/redis_sa_skills --skill redis-brand-ui
 npx skills add fcenedes/redis_sa_skills --skill redis-presentation-decks
 npx skills add fcenedes/redis_sa_skills --skill redis-excalidraw-diagrams
+npx skills add fcenedes/redis_sa_skills --skill playwright-test
 npx skills add fcenedes/redis_sa_skills --skill playwright-cli-agent
 npx skills add fcenedes/redis_sa_skills --skill caveman
 npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
@@ -37,6 +39,7 @@ After installing a skill, ask your agent for the Redis artifact you need:
 ```text
 Use redis-presentation-decks to create a Redis Cloud vector search architecture deck for a technical workshop.
 Use redis-excalidraw-diagrams to draw a Redis Streams consumer group architecture with commands, acknowledgements, and observability paths.
+Use playwright-test to add E2E coverage for the login flow.
 Use playwright-cli-agent to open the local app, reproduce the dashboard bug, and capture screenshots.
 Use caveman ultra and summarize this failing test output.
 Use redis-insight-plugin to create an external Parcel Redis Insight plugin for XRANGE.
@@ -52,6 +55,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. This repo
 | redis-brand-ui | 1.0.0 |
 | redis-presentation-decks | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
+| playwright-test | 1.0.0 |
 | playwright-cli-agent | 1.0.0 |
 | caveman | 1.0.0 |
 | redis-insight-plugin | 1.0.0 |
