@@ -4,32 +4,94 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 
 ## Available Skills
 
+### Token Efficiency
+
+| Skill | Description |
+|-------|-------------|
+| [caveman](caveman/SKILL.md) | Ultra-compressed communication mode for coding agents. Cuts filler from prose, reviews, commits, and summaries while preserving technical accuracy, code, commands, and safety warnings. 60–80% fewer output tokens. |
+| [rtk-cli](rtk-cli/SKILL.md) | Rust Token Killer CLI wrappers for noisy shell output — git diffs, test runs, logs, builds, directory listings, Docker, package managers. Filters and compresses command output to reduce token cost 60–90%. |
+
 ### Visualization & Brand
 
 | Skill | Description |
 |-------|-------------|
 | [redis-brand-ui](redis-brand-ui/SKILL.md) | Apply Redis official brand guidelines to frontend UI implementations. Covers colors, typography, components, dark mode, and HeroUI/NextUI theme configuration. |
-| [redis-presentation-decks](redis-presentation-decks/SKILL.md) | Create Redis-focused Reveal.js decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. |
+| [redis-presentation-decks](redis-presentation-decks/SKILL.md) | Create Redis-focused Reveal.js presentation decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. |
 | [redis-excalidraw-diagrams](redis-excalidraw-diagrams/SKILL.md) | Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Query Engine, Streams, replication, clustering, observability, and Redis Cloud systems. |
+
+### Testing & Browser Automation
+
+| Skill | Description |
+|-------|-------------|
 | [playwright-test](playwright-test/SKILL.md) | Author and maintain reliable E2E/UI tests with `@playwright/test`: configs, fixtures, auth state, resilient locators, traces, CI tuning, and flake handling. |
 | [playwright-cli-agent](playwright-cli-agent/SKILL.md) | Drive a real browser via Playwright CLI to inspect, operate, screenshot, reproduce UI bugs, and discover stable selectors before authoring tests. |
-| [caveman](caveman/SKILL.md) | Ultra-compressed technical communication mode for coding-agent prose, reviews, commits, and summaries. Preserves technical accuracy; cuts filler. |
+
+### RedisInsight
+
+| Skill | Description |
+|-------|-------------|
 | [redis-insight-plugin](redis-insight-plugin/SKILL.md) | Build, deploy, and validate Redis Insight Workbench visualization plugins: manifests, activation methods, Parcel/Vite builds, iframe rendering, command parsing, Docker deployment, and `/api/plugins` verification. |
-| [rtk-cli](rtk-cli/SKILL.md) | Use RTK (Rust Token Killer) wrappers for noisy shell output — git, file inspection, logs, builds, tests, Docker, package managers — to keep terminal output and token cost compact. |
+
+## Recommended External Skills
+
+This repo covers Redis SA, demos, workshops, RedisInsight plugins, troubleshooting, and field-engineering workflows. For general-purpose engineering and Redis development best practices, install these external skills alongside this repo. Do not vendor or copy them into this repository.
+
+| Theme | Skill | Install |
+|-------|-------|---------|
+| Engineering methodology | [Superpowers](https://github.com/claude-plugins/superpowers) | `/plugin install superpowers@claude-plugins-official` |
+| Redis development | [`redis-development`](https://github.com/redis/agent-skills) | `npx skills add redis/agent-skills` |
+| Skill discovery | `find-skills` | `npx skills add vercel-labs/skills --skill find-skills` |
+| Skill creation | `skill-creator` | `npx skills add anthropics/skills --skill skill-creator` |
+| Frontend design | `frontend-design` | `npx skills add anthropics/skills --skill frontend-design` |
+| React best practices | `vercel-react-best-practices` | `npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices` |
+| Web design guidelines | `web-design-guidelines` | `npx skills add vercel-labs/agent-skills --skill web-design-guidelines` |
+| GitHub Actions | `github-actions-docs` | `npx skills add xixu-me/skills --skill github-actions-docs` |
+
+### Superpowers
+
+General software engineering methodology for coding agents: brainstorming, planning, TDD, debugging, subagent-driven development, code review, and skill authoring.
+
+Claude Code: `/plugin install superpowers@claude-plugins-official`
+Codex: Open `/plugins` → Search "Superpowers" → Install Plugin
+
+### Redis Official Skills
+
+Redis maintains an official agent skills repository at [redis/agent-skills](https://github.com/redis/agent-skills). Use `redis-development` for Redis data modeling, data structures, key naming, TTL strategy, Redis Query Engine, RedisVL, vector search, semantic caching, Streams, Pub/Sub, clustering, replication, connection handling, security, observability, and performance optimization.
+
+```bash
+npx skills add redis/agent-skills
+```
+
+Claude Code: `/plugin marketplace add redis/agent-skills` then `/plugin install redis-development@redis`
+
+### Positioning
+
+- **Superpowers** — general disciplined software engineering workflow
+- **redis/agent-skills** — Redis development best practices
+- **fcenedes/redis_sa_skills** (this repo) — Redis SA, demos, workshops, visualization, troubleshooting, RedisInsight plugins, field-engineering workflows
+
+Do not duplicate external skills into this repository.
 
 ## Installation
 
 Install skills using the Agent Skills CLI:
 
 ```bash
+# Token efficiency
+npx skills add fcenedes/redis_sa_skills --skill caveman
+npx skills add fcenedes/redis_sa_skills --skill rtk-cli
+
+# Visualization & brand
 npx skills add fcenedes/redis_sa_skills --skill redis-brand-ui
 npx skills add fcenedes/redis_sa_skills --skill redis-presentation-decks
 npx skills add fcenedes/redis_sa_skills --skill redis-excalidraw-diagrams
+
+# Testing & browser automation
 npx skills add fcenedes/redis_sa_skills --skill playwright-test
 npx skills add fcenedes/redis_sa_skills --skill playwright-cli-agent
-npx skills add fcenedes/redis_sa_skills --skill caveman
+
+# RedisInsight
 npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
-npx skills add fcenedes/redis_sa_skills --skill rtk-cli
 ```
 
 Or add to your project manually by copying the skill directory into your `.agents/skills/` folder.
@@ -48,20 +110,45 @@ Use redis-insight-plugin to create an external Parcel Redis Insight plugin for X
 Use rtk-cli to inspect this repo and summarize the diff.
 ```
 
+## Suggested Skill Combinations
+
+| Workflow | Skills |
+|----------|--------|
+| General disciplined coding | Superpowers + `rtk-cli` + `caveman` |
+| Redis app development | `redis-development` (redis/agent-skills) + `redis-performance-troubleshooting` |
+| Customer discovery | `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams` |
+| Demo creation | `redis-demo-builder` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
+| RedisInsight plugin | `redis-insight-plugin` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
+| Vector search and RAG | `redis-development` (redis/agent-skills) + `redis-vector-search-rag` + `redis-demo-builder` |
+| Operations | `redis-observability-runbook` + `redis-performance-troubleshooting` |
+| Compact agent workflow | `rtk-cli` + `caveman` |
+
+## Roadmap
+
+Skills in this repo today are listed under [Available Skills](#available-skills). Planned skills:
+
+| Theme | Planned Skills |
+|-------|---------------|
+| Customer engagement | `redis-discovery-workshop`, `redis-demo-builder` |
+| Redis architecture | `redis-vector-search-rag`, `redis-streams-architecture`, `redis-cloud-sizing` |
+| Operations | `redis-performance-troubleshooting`, `redis-observability-runbook`, `redis-enterprise-migration` |
+
+See open PRs for skills landing imminently.
+
 ## Versioning
 
-Versioning is per skill through `metadata.version` in each `SKILL.md`. This repository does not currently use an archive-level version manifest.
+Versioning is per skill through `metadata.version` in each `SKILL.md`. No archive-level version manifest.
 
 | Skill | Version |
 |-------|---------|
+| caveman | 1.0.0 |
+| rtk-cli | 1.0.0 |
 | redis-brand-ui | 1.0.0 |
 | redis-presentation-decks | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
 | playwright-test | 1.0.0 |
 | playwright-cli-agent | 1.0.0 |
-| caveman | 1.0.0 |
 | redis-insight-plugin | 1.0.0 |
-| rtk-cli | 1.0.0 |
 
 ## Skill Structure
 
@@ -75,166 +162,9 @@ skill-name/
 └── package.json          # Optional helper dependencies
 ```
 
-## Recommended External Skills
-
-This repo focuses on Redis SA, demos, workshops, RedisInsight plugins, troubleshooting, and field-engineering workflows. For general-purpose engineering and Redis development best practices, install these external skills alongside this repo. Do not vendor or copy them into this repository.
-
-### 1. Superpowers
-
-[Superpowers](https://github.com/claude-plugins/superpowers) is a general software engineering methodology plugin for coding agents. Use it for:
-
-- brainstorming
-- specification refinement
-- planning
-- executing plans
-- test-driven development
-- systematic debugging
-- subagent-driven development
-- code review
-- skill authoring
-
-Claude Code installation:
-
-```text
-/plugin install superpowers@claude-plugins-official
-```
-
-Codex installation:
-
-```text
-Open /plugins
-Search for Superpowers
-Select Install Plugin
-```
-
-Positioning:
-
-- Use Superpowers for general disciplined software engineering workflow.
-- Use this repo for Redis SA, Redis demos, RedisInsight plugins, Redis troubleshooting, and field-engineering workflows.
-- Do not copy Superpowers skills into this repo.
-
-### 2. Skill Discovery
-
-```bash
-npx skills add vercel-labs/skills --skill find-skills
-```
-
-Use `find-skills` for:
-
-- finding existing skills before creating new ones
-- avoiding duplicate work
-- checking whether a community skill already exists
-
-### 3. Skill Creation
-
-```bash
-npx skills add anthropics/skills --skill skill-creator
-```
-
-Use `skill-creator` for:
-
-- creating new skills
-- improving SKILL.md descriptions
-- moving long content into references
-- deciding when a skill should include scripts or templates
-
-### 4. Frontend and UI Skills
-
-```bash
-npx skills add anthropics/skills --skill frontend-design
-npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices
-npx skills add vercel-labs/agent-skills --skill web-design-guidelines
-```
-
-Use these for:
-
-- Redis demos
-- RedisInsight plugins
-- dashboards
-- customer-facing UI
-- polished frontend design
-- React conventions
-- avoiding generic AI-looking UI
-
-### 5. GitHub Actions and Repo Automation
-
-```bash
-npx skills add xixu-me/skills --skill github-actions-docs
-```
-
-Use for:
-
-- GitHub Actions workflows
-- CI checks
-- release automation
-- validation workflows
-
-### 6. Redis Official Skills
-
-Redis maintains an official agent skills repository:
-
-https://github.com/redis/agent-skills
-
-Install with the Agent Skills CLI:
-
-```bash
-npx skills add redis/agent-skills
-```
-
-For Claude Code plugin usage:
-
-```text
-/plugin marketplace add redis/agent-skills
-/plugin install redis-development@redis
-```
-
-For Codex:
-
-- use the Agent Skills CLI when appropriate:
-
-  ```bash
-  npx skills add redis/agent-skills
-  ```
-
-- or use Codex plugin installation if available in the current environment.
-
-Use `redis-development` for:
-
-- Redis data modeling
-- Redis data structures
-- key naming
-- TTL and expiration strategy
-- Redis Query Engine
-- RedisVL and vector search
-- semantic caching
-- Streams and Pub/Sub
-- clustering and replication
-- connection handling
-- Redis security
-- Redis observability
-- performance optimization
-
-Positioning:
-
-- Use `redis/agent-skills` for general Redis development best practices.
-- Use `fcenedes/redis_sa_skills` for Redis SA, demo, workshop, visualization, troubleshooting, RedisInsight plugin, and workflow-specific skills.
-- Do not duplicate `redis-development` in this repository.
-
 ## Codex Usage
 
-Codex can use repository-local skills from:
-
-```text
-.agents/skills/
-```
-
-Codex can explicitly invoke skills with:
-
-```text
-$skill-name
-```
-
-Examples:
+Codex uses repository-local skills from `.agents/skills/` and [`AGENTS.md`](AGENTS.md) for repo-level instructions. Invoke skills with `$skill-name`:
 
 ```text
 $rtk-cli inspect this repo and summarize the diff.
@@ -243,68 +173,6 @@ $playwright-cli-agent reproduce this UI bug in the browser.
 $redis-insight-plugin create a Redis Insight Workbench plugin for XRANGE.
 $caveman ultra, summarize this failing test output.
 ```
-
-Codex uses [`AGENTS.md`](AGENTS.md) for repository-level instructions and `.agents/skills/` for repository-local skills. Do not create a `CODEX.md` file.
-
-## Recommended Agent Stack
-
-### External
-
-| Theme | Skills |
-|-------|--------|
-| Engineering methodology | Superpowers |
-| Redis development | `redis-development` from `redis/agent-skills` |
-| Skill tooling | `find-skills`, `skill-creator` |
-| Frontend & UI | `frontend-design`, `vercel-react-best-practices`, `web-design-guidelines` |
-| CI/CD | `github-actions-docs` |
-
-### This Repo
-
-| Theme | Skills |
-|-------|--------|
-| Token saving | `rtk-cli`, `caveman` |
-| Visualization & brand | `redis-brand-ui`, `redis-presentation-decks`, `redis-excalidraw-diagrams` |
-| Testing & browser | `playwright-test`, `playwright-cli-agent` |
-| RedisInsight | `redis-insight-plugin` |
-| Customer engagement | `redis-discovery-workshop`, `redis-demo-builder` |
-| Redis architecture | `redis-vector-search-rag`, `redis-streams-architecture`, `redis-cloud-sizing` |
-| Operations | `redis-performance-troubleshooting`, `redis-observability-runbook`, `redis-enterprise-migration` |
-
-Some skills above ship today; others are planned. See [Available Skills](#available-skills) for what is on `main`, and open PRs for skills landing imminently.
-
-## Suggested Skill Combinations
-
-General disciplined coding:
-
-- Superpowers + `rtk-cli` + `caveman`
-
-Redis app development:
-
-- `redis-development` from `redis/agent-skills` + `redis-performance-troubleshooting`
-
-Customer discovery:
-
-- `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams`
-
-Demo creation:
-
-- `redis-demo-builder` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test`
-
-RedisInsight plugin:
-
-- `redis-insight-plugin` + `playwright-cli-agent` + `playwright-test` + `rtk-cli`
-
-Vector search and RAG:
-
-- `redis-development` from `redis/agent-skills` + `redis-vector-search-rag` + `redis-demo-builder`
-
-Operations:
-
-- `redis-observability-runbook` + `redis-performance-troubleshooting`
-
-Compact agent workflow:
-
-- `rtk-cli` + `caveman`
 
 ## Contributing
 
