@@ -199,7 +199,7 @@ Map these tokens into the target library's theme API. Do not assume a library-sp
 
 - **NEVER** use `border-radius` values other than `5px` (`rounded-[5px]`) for standard components.
 - **NEVER** omit `transition` on interactive elements — all buttons and inputs must animate.
-- **NEVER** use `transition: all`; it can animate layout and create jank.
+- **NEVER** animate every CSS property at once; it can animate layout and create jank.
 - **NEVER** skip `:focus-visible` styles — they are required for keyboard accessibility.
 - **NEVER** use padding/margin values that aren't multiples of 8px (the grid unit).
 - **NEVER** ship buttons or inputs below `44px` target height.

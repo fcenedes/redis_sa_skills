@@ -63,7 +63,7 @@ Do not remove or overwrite current profiles when adding future guidance. See [st
 - Maintain Redis Red (`#FF4438`) as the primary accent in dark mode.
 - Invert background/text relationships — dark backgrounds with light text.
 - Use the official color/type legibility matrix for dark pairings; treat app dark-mode tokens as product extensions unless verified.
-- See [dark mode reference](references/dark-mode.md) for the full dark palette and CSS setup.
+- See [dark mode reference](references/dark-mode.md) for dark-mode colors and CSS setup.
 
 ### Logos
 

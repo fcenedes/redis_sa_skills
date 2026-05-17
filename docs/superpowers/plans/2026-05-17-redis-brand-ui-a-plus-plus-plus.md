@@ -249,7 +249,7 @@ Confirm the design token remains:
 Add this anti-pattern to `redis-brand-ui/references/components.md`:
 
 ```markdown
-- **NEVER** use `transition: all`; it can animate layout and create jank.
+- **NEVER** animate every CSS property at once; it can animate layout and create jank.
 - **NEVER** ship buttons or inputs below `44px` target height.
 ```
 
@@ -258,17 +258,17 @@ Add this anti-pattern to `redis-brand-ui/references/components.md`:
 Run:
 
 ```bash
-rg -n "transition: all|transition-all|min-height: 40px|min-h-10|44px|min-h-11" redis-brand-ui/SKILL.md redis-brand-ui/references/components.md
+rg -n "44px|min-h-11|animate every CSS property" redis-brand-ui/SKILL.md redis-brand-ui/references/components.md
+! rg -n "transition: all|transition-all|min-height: 40px|min-h-10" redis-brand-ui/SKILL.md redis-brand-ui/references/components.md
 ```
 
 Expected:
 
 ```text
-No matches for transition: all
 No matches for transition-all
 No matches for min-height: 40px
 No matches for min-h-10
-Matches for 44px and min-h-11 exist
+Matches for 44px, min-h-11, and animate every CSS property exist
 ```
 
 - [ ] **Step 6: Commit task**
