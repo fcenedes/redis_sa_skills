@@ -18,4 +18,4 @@ Use this file to choose which Redis Brand UI treatment an agent should apply.
 - Treat `redis-brand-future-light` and `redis-brand-future-dark` as opt-in hardened profiles until approved as default.
 - When the user asks for current Redis Brand UI, apply a current profile.
 - When the user asks for A+++, hardened, accessible, production-ready, or future Redis Brand UI, apply a future profile.
-- When the user does not specify a profile, ask only if the choice materially changes the deliverable; otherwise use `redis-brand-current-light` for light UI and `redis-brand-current-dark` for dark UI.
+- When the user does not specify a profile or color mode, default to `redis-brand-current-light`; use `redis-brand-current-dark` only when the user requests dark mode or the existing app is already dark.
