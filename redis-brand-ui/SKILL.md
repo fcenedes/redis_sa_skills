@@ -100,6 +100,7 @@ Do not remove or overwrite current profiles when adding future guidance. See [st
 | [Source of truth](references/source-of-truth.md) | Official brand sources vs product extension guidance |
 | [Delivery recipes](references/delivery-recipes.md) | Fast Redis demo/app recipes for dashboards, developer tools, docs, traces, and audit views |
 | [Status language](references/status-language.md) | Lightweight labels for live, sampled, modeled, derived, stale, pending, approved, evidence, and failed states |
+| [UI quality checklist](references/ui-quality-checklist.md) | Final A+++ checks before calling a Redis UI complete |
 | [Logos](references/logos.md) | Logo variants, clear space, sizing, favicon setup |
 
 ## Quick Start Checklist
@@ -110,4 +111,4 @@ Do not remove or overwrite current profiles when adding future guidance. See [st
 4. Apply component patterns from [components](references/components.md)
 5. Add source, freshness, and state labels from [status language](references/status-language.md)
 6. Implement dark mode using [dark-mode](references/dark-mode.md) mappings
-7. Run `node redis-brand-ui/scripts/check-contrast.js` and `bash scripts/validate-skills.sh`
+7. Run the [UI quality checklist](references/ui-quality-checklist.md), `node redis-brand-ui/scripts/check-contrast.js`, and `bash scripts/validate-skills.sh`
