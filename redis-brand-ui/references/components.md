@@ -25,7 +25,7 @@ Use a high-contrast filled button with a Redis Red accent for normal-size labels
   border-left: 4px solid var(--redis-hyper);
   border-radius: var(--redis-radius);
   padding: 8px 24px; /* 1 × 3 grid units */
-  min-height: 40px;
+  min-height: 44px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 600;
   font-size: 1rem;
@@ -44,9 +44,9 @@ Use a high-contrast filled button with a Redis Red accent for normal-size labels
 }
 ```
 
-Tailwind: `min-h-10 bg-redis-text text-white border border-redis-text border-l-4 border-l-redis-hyper font-redis-body font-semibold rounded-[5px] px-6 py-2 hover:bg-redis-text-secondary transition-colors duration-200 ease-in-out`
+Tailwind: `min-h-11 bg-redis-text text-white border border-redis-text border-l-4 border-l-redis-hyper font-redis-body font-semibold rounded-[5px] px-6 py-2 hover:bg-redis-text-secondary transition-colors duration-200 ease-in-out`
 
-Reviewed red treatment for large labels only: `min-h-10 bg-redis-hyper text-white text-xl font-semibold rounded-[5px] px-6 py-2`. Do not use this for normal-size button text without brand/design approval.
+Reviewed red treatment for large labels only: `min-h-11 bg-redis-hyper text-white text-xl font-semibold rounded-[5px] px-6 py-2`. Do not use this for normal-size button text without brand/design approval.
 
 ### Secondary Button
 
@@ -59,7 +59,7 @@ Outlined, transparent background. Use for secondary actions alongside a primary 
   border: 1px solid var(--redis-border-primary);
   border-radius: var(--redis-radius);
   padding: 8px 24px;
-  min-height: 40px;
+  min-height: 44px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 600;
   font-size: 1rem;
@@ -72,7 +72,7 @@ Outlined, transparent background. Use for secondary actions alongside a primary 
 }
 ```
 
-Tailwind: `min-h-10 bg-transparent text-redis-text border border-redis-border font-redis-body font-semibold rounded-[5px] px-6 py-2 hover:bg-redis-bg-tertiary transition-colors duration-200 ease-in-out`
+Tailwind: `min-h-11 bg-transparent text-redis-text border border-redis-border font-redis-body font-semibold rounded-[5px] px-6 py-2 hover:bg-redis-bg-tertiary transition-colors duration-200 ease-in-out`
 
 ### Tertiary Button
 
@@ -85,7 +85,7 @@ Subtle, no border. Use for less prominent actions like "Cancel" or inline links.
   border: none;
   border-radius: var(--redis-radius);
   padding: 8px 24px;
-  min-height: 40px;
+  min-height: 44px;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 500;
   font-size: 1rem;
@@ -98,7 +98,7 @@ Subtle, no border. Use for less prominent actions like "Cancel" or inline links.
 }
 ```
 
-Tailwind: `min-h-10 text-redis-text-link font-redis-body font-medium rounded-[5px] px-6 py-2 hover:text-redis-hyper hover:underline transition-colors duration-200 ease-in-out`
+Tailwind: `min-h-11 text-redis-text-link font-redis-body font-medium rounded-[5px] px-6 py-2 hover:text-redis-hyper hover:underline transition-colors duration-200 ease-in-out`
 
 ## React Component Examples
 
@@ -117,7 +117,7 @@ const variantClasses = {
 export function RedisButton({ variant = 'primary', className, ...props }: RedisButtonProps) {
   return (
     <button
-      className={`min-h-10 font-redis-body font-semibold rounded-[5px] px-6 py-2 transition-colors duration-200 ease-in-out focus-visible:outline-2 focus-visible:outline-redis-hyper focus-visible:outline-offset-2 ${variantClasses[variant]} ${className ?? ''}`}
+      className={`min-h-11 font-redis-body font-semibold rounded-[5px] px-6 py-2 transition-colors duration-200 ease-in-out focus-visible:outline-2 focus-visible:outline-redis-hyper focus-visible:outline-offset-2 ${variantClasses[variant]} ${className ?? ''}`}
       {...props}
     />
   );
@@ -148,7 +148,7 @@ Use [status language](status-language.md) for live, sampled, modeled, derived, s
 .redis-input {
   width: 100%;
   padding: 8px 16px;
-  min-height: 40px;
+  min-height: 44px;
   border: 1px solid var(--redis-border-secondary);
   border-radius: var(--redis-radius);
   font-family: 'Space Grotesk', sans-serif;
@@ -167,7 +167,7 @@ Use [status language](status-language.md) for live, sampled, modeled, derived, s
 }
 ```
 
-Tailwind: `min-h-10 w-full px-4 py-2 border border-redis-border-secondary rounded-[5px] font-redis-body text-redis-text bg-white placeholder:text-redis-text-muted focus:border-redis-hyper focus:ring-2 focus:ring-redis-hyper/20 focus:outline-none transition-colors duration-200 ease-in-out`
+Tailwind: `min-h-11 w-full px-4 py-2 border border-redis-border-secondary rounded-[5px] font-redis-body text-redis-text bg-white placeholder:text-redis-text-muted focus:border-redis-hyper focus:ring-2 focus:ring-redis-hyper/20 focus:outline-none transition-colors duration-200 ease-in-out`
 
 ## Lightweight Theme Configuration
 
@@ -199,6 +199,8 @@ Map these tokens into the target library's theme API. Do not assume a library-sp
 
 - **NEVER** use `border-radius` values other than `5px` (`rounded-[5px]`) for standard components.
 - **NEVER** omit `transition` on interactive elements — all buttons and inputs must animate.
+- **NEVER** use `transition: all`; it can animate layout and create jank.
 - **NEVER** skip `:focus-visible` styles — they are required for keyboard accessibility.
 - **NEVER** use padding/margin values that aren't multiples of 8px (the grid unit).
+- **NEVER** ship buttons or inputs below `44px` target height.
 - **NEVER** claim normal-size white text on `#FF4438` or `#EB352A` meets WCAG AA.

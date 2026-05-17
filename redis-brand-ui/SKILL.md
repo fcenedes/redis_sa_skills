@@ -53,6 +53,7 @@ Do not remove or overwrite current profiles when adding future guidance. See [st
 - Primary buttons: use visible Redis palette colors only. `Hyper` (`#FF4438`) and `Deep Hyper` (`#EB352A`) are brand reds, but white normal-size text on either is below WCAG AA. Use them for prominent brand moments, large labels, icon accents, or reviewed component-specific treatments.
 - Secondary buttons: transparent background, `#163341` border, dark text.
 - All interactive elements: transition only color, background, border, shadow, and transform properties.
+- Buttons and inputs must use at least a `44px` target height for touch-friendly UI.
 - Use `8px` as the base grid unit for all spacing.
 - For demos and applications, start from [delivery recipes](references/delivery-recipes.md) before inventing a new layout.
 - See [components reference](references/components.md) for button, card, form, React, and lightweight theme examples.
