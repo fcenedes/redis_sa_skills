@@ -20,24 +20,38 @@ Or via CSS `@import`:
 
 ## Font Family Rules
 
-| Font | Use For | Weights |
-| --- | --- | --- |
-| Space Grotesk | Body text, H2, H3, buttons, form labels, UI copy | 300 (Light), 400 (Regular), 500 (Medium), 600 (SemiBold), 700 (Bold) |
-| Space Mono | H1 headings, navigation labels, code blocks, monospace UI elements | 400 (Regular), 700 (Bold) |
+Use the rendered Redis typography guidance as the source of truth:
 
-**NEVER** use Space Mono for body text or paragraphs — it reduces readability at length.**NEVER** use Space Grotesk for code snippets — always use Space Mono.
+| Font | Use For | Notes |
+| --- | --- | --- |
+| TT Trailers | Expressive display headlines and brand texture | Use only when the official font is available and licensed in the target environment. Keep display use short and intentional. |
+| Space Grotesk | Body text, subheads, UI copy, forms, tables, buttons, and product surfaces | Default Redis UI font. Weights 300-700. |
+| Space Mono | Code, Redis commands, keys, identifiers, timestamps, technical labels, diagrams, and monospace UI elements | Do not use for paragraphs, navigation, general links, or long-form reading. Do not default all H1s to Space Mono. |
+| Geist / Geist Mono | Redis documentation and developer documentation surfaces | Use only for documentation surfaces aligned with the brand portal Geist guidance. Do not make Geist the default Redis product UI font. |
+
+If TT Trailers is unavailable, use Space Grotesk for display headings rather than substituting an unrelated display face.
+
+**NEVER** use Space Mono for body text or paragraphs — it reduces readability at length. **NEVER** use Space Grotesk for code snippets — always use Space Mono.
 
 ## Heading & Text Styles
 
+Use negative letter-spacing only for approved display or marketing compositions. For product UI, dashboards, tables, forms, sidebars, compact panels, and tool surfaces, keep `letter-spacing: 0` unless the official brand composition specifically requires otherwise.
+
 ```css
-/* H1 — Space Mono, bold */
+/* H1 - Space Grotesk default for product UI */
 h1 {
-  font-family: 'Space Mono', monospace;
+  font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   font-size: 2.5rem;    /* 40px */
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   color: var(--redis-text-primary);
+}
+
+/* Display heading - only for approved marketing/brand compositions */
+.display-heading {
+  font-family: 'TT Trailers', 'Space Grotesk', sans-serif;
+  letter-spacing: -0.02em;
 }
 
 /* H2 — Space Grotesk, semibold */
@@ -67,22 +81,21 @@ body {
   color: var(--redis-text-primary);
 }
 
-/* Caption / Small — Space Grotesk, light */
+/* Caption / Small - Space Grotesk, readable */
 .caption {
   font-family: 'Space Grotesk', sans-serif;
-  font-weight: 300;
-  font-size: 0.875rem;  /* 14px */
-  line-height: 1.5;
-  color: var(--redis-text-muted);
-}
-
-/* Navigation — Space Mono */
-nav a {
-  font-family: 'Space Mono', monospace;
   font-weight: 400;
   font-size: 0.875rem;  /* 14px */
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  line-height: 1.5;
+  color: var(--redis-text-secondary);
+}
+
+/* Navigation - Space Grotesk by default */
+nav a {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;  /* 14px */
+  letter-spacing: 0;
   color: var(--redis-text-link);
 }
 
@@ -103,7 +116,7 @@ a {
   transition: color 0.2s ease-in-out;
 }
 a:hover {
-  color: var(--redis-red);
+  color: var(--redis-hyper);
 }
 ```
 
@@ -125,11 +138,11 @@ module.exports = {
 Usage in markup:
 
 ```html
-<h1 class="font-redis-mono text-4xl font-bold">Page Title</h1>
+<h1 class="font-redis-body text-4xl font-bold">Page Title</h1>
 <h2 class="font-redis-body text-2xl font-semibold">Section Heading</h2>
 <p class="font-redis-body text-base">Body copy uses Space Grotesk.</p>
 <code class="font-redis-mono text-sm">redis-cli PING</code>
-<nav class="font-redis-mono text-sm uppercase tracking-wider">Navigation</nav>
+<nav class="font-redis-body text-sm font-medium">Navigation</nav>
 ```
 
 ## Anti-Patterns
