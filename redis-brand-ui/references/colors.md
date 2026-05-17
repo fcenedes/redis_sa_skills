@@ -76,7 +76,7 @@ module.exports = {
 
 ## Accessibility Requirements
 
-Use WCAG contrast checks for every text/background pairing. These ratios are the documented baseline for visible Redis brand tokens:
+Use WCAG contrast checks for every text/background pairing. These ratios are mirrored in `contrast-pairs.json` and verified by `redis-brand-ui/scripts/check-contrast.js`:
 
 | Foreground | Background | Ratio | Safe Use |
 | --- | --- | ---: | --- |

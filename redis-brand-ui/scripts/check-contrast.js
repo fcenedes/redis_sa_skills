@@ -1,16 +1,46 @@
 #!/usr/bin/env node
 
-const pairs = [
-  { foreground: "#091A23", background: "#FFFFFF", minimum: 4.5, shouldPass: true, label: "primary text on white" },
-  { foreground: "#163341", background: "#FFFFFF", minimum: 4.5, shouldPass: true, label: "secondary text on white" },
-  { foreground: "#FFFFFF", background: "#2D4754", minimum: 4.5, shouldPass: true, label: "white text on Dusk 90" },
-  { foreground: "#091A23", background: "#FF4438", minimum: 4.5, shouldPass: true, label: "normal text on Hyper" },
-  { foreground: "#FFFFFF", background: "#FF4438", minimum: 4.5, shouldPass: false, label: "white normal text on Hyper" },
-  { foreground: "#FFFFFF", background: "#EB352A", minimum: 4.5, shouldPass: false, label: "white normal text on Deep Hyper" },
-  { foreground: "#8A99A0", background: "#FFFFFF", minimum: 4.5, shouldPass: false, label: "muted text on white" },
-  { foreground: "#F0F4F5", background: "#0A1A23", minimum: 4.5, shouldPass: true, label: "dark mode primary text on dark bg" },
-  { foreground: "#C8D1D5", background: "#0A1A23", minimum: 4.5, shouldPass: true, label: "dark mode secondary text on dark bg" },
-];
+const fs = require("fs");
+const path = require("path");
+
+const registryPath = path.join(__dirname, "..", "references", "contrast-pairs.json");
+const hexPattern = /^#[0-9A-Fa-f]{6}$/;
+
+function readRegistry(filePath) {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (error) {
+    throw new Error(`Unable to read contrast registry at ${filePath}: ${error.message}`);
+  }
+}
+
+function validatePair(pair, index) {
+  const prefix = `contrast pair ${index + 1}`;
+
+  if (!pair || typeof pair !== "object" || Array.isArray(pair)) {
+    throw new Error(`${prefix} must be an object`);
+  }
+
+  for (const field of ["label", "foreground", "background", "source"]) {
+    if (typeof pair[field] !== "string" || pair[field].trim() === "") {
+      throw new Error(`${prefix} must include a non-empty ${field} string`);
+    }
+  }
+
+  for (const field of ["foreground", "background"]) {
+    if (!hexPattern.test(pair[field])) {
+      throw new Error(`${prefix} has invalid ${field} value ${pair[field]}; expected #RRGGBB`);
+    }
+  }
+
+  if (typeof pair.minimum !== "number" || !Number.isFinite(pair.minimum)) {
+    throw new Error(`${prefix} must include a finite minimum number`);
+  }
+
+  if (typeof pair.shouldPass !== "boolean") {
+    throw new Error(`${prefix} must include a shouldPass boolean`);
+  }
+}
 
 function luminance(hex) {
   const channels = hex
@@ -29,15 +59,24 @@ function contrast(foreground, background) {
   return (lighter + 0.05) / (darker + 0.05);
 }
 
+const pairs = readRegistry(registryPath);
+
+if (!Array.isArray(pairs)) {
+  throw new Error("Contrast registry must be a JSON array");
+}
+
 let failures = 0;
 
-for (const { foreground, background, minimum, shouldPass, label } of pairs) {
+for (const [index, pair] of pairs.entries()) {
+  validatePair(pair, index);
+
+  const { foreground, background, minimum, shouldPass, label, source } = pair;
   const ratio = contrast(foreground, background);
   const pass = ratio >= minimum;
   const expected = shouldPass ? pass : !pass;
   const status = expected ? "PASS" : "FAIL";
   const expectation = shouldPass ? `>= ${minimum}:1` : `< ${minimum}:1`;
-  console.log(`${status} ${label}: ${ratio.toFixed(2)}:1 expected ${expectation}`);
+  console.log(`${status} ${label}: ${ratio.toFixed(2)}:1 expected ${expectation} [${source}]`);
 
   if (!expected) failures += 1;
 }

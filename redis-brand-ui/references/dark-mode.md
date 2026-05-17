@@ -11,7 +11,7 @@ The Redis brand portal includes a `Color & type legibility` matrix for light and
 
 ## Dark Mode Color Palette
 
-The dark values below are app/product extension tokens for implementation convenience, not official Redis palette additions. Use them only after checking the specific text/background pairing against the brand legibility matrix and local contrast tests.
+The dark values below are app/product extension tokens for implementation convenience, not official Redis palette additions. Use them only after checking the specific text/background pairing against the brand legibility matrix and `contrast-pairs.json`.
 
 | Token | Light Value | Dark Value | Usage |
 | --- | --- | --- | --- |
