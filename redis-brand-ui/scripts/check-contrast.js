@@ -33,8 +33,8 @@ function validatePair(pair, index) {
     }
   }
 
-  if (typeof pair.minimum !== "number" || !Number.isFinite(pair.minimum)) {
-    throw new Error(`${prefix} must include a finite minimum number`);
+  if (typeof pair.minimum !== "number" || !Number.isFinite(pair.minimum) || pair.minimum <= 0) {
+    throw new Error(`${prefix} must include a positive finite minimum number`);
   }
 
   if (typeof pair.shouldPass !== "boolean") {
