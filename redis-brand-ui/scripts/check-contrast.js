@@ -61,8 +61,8 @@ function contrast(foreground, background) {
 
 const pairs = readRegistry(registryPath);
 
-if (!Array.isArray(pairs)) {
-  throw new Error("Contrast registry must be a JSON array");
+if (!Array.isArray(pairs) || pairs.length === 0) {
+  throw new Error("Contrast registry must be a non-empty JSON array");
 }
 
 let failures = 0;
