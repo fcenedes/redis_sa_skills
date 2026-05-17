@@ -8,7 +8,7 @@ metadata:
 ---
 # Redis Brand UI Guidelines
 
-Actionable rules for implementing the Redis visual identity in frontend applications. Core brand colors, typography roles, and logo guidance derive from the official Redis brand portal ([https://brand.redis.io](https://brand.redis.io)); delivery recipes, status labels, and app dark-mode tokens are implementation guidance and must be treated as product extensions.
+Actionable rules for implementing the Redis visual identity in frontend applications. Core brand colors, typography roles, and logo guidance derive from the official Redis brand portal ([https://brand.redis.io](https://brand.redis.io)); delivery recipes, status labels, app dark-mode tokens, and component treatments are implementation guidance and must be treated as product extensions unless official brand guidance says otherwise.
 
 ## When to Apply
 
@@ -19,6 +19,17 @@ Use these guidelines when:
 - Styling dashboards, admin panels, or developer tools for Redis products
 - Implementing components in React, Next.js, or any web framework
 - Configuring Tailwind CSS, CSS variables, or lightweight component-library themes for Redis projects
+
+## Style Profiles
+
+Choose one stable profile before styling:
+
+- `redis-brand-current-light` for the current light treatment.
+- `redis-brand-current-dark` for the current dark treatment.
+- `redis-brand-future-light` for the optional A+++ light treatment.
+- `redis-brand-future-dark` for the optional A+++ dark treatment.
+
+Do not remove or overwrite current profiles when adding future guidance. See [style profiles](references/style-profiles.md).
 
 ## Core Rules
 
@@ -84,6 +95,8 @@ Use these guidelines when:
 | typography | Google Fonts imports, heading/body styles, font family config |
 | components | Buttons, cards, forms, React examples, lightweight theme object |
 | dark-mode | Dark palette, prefers-color-scheme setup, Tailwind dark variants |
+| [Style profiles](references/style-profiles.md) | Four stable applyable style IDs for current and future light/dark UI |
+| [Source of truth](references/source-of-truth.md) | Official brand sources vs product extension guidance |
 | [Delivery recipes](references/delivery-recipes.md) | Fast Redis demo/app recipes for dashboards, developer tools, docs, traces, and audit views |
 | [Status language](references/status-language.md) | Lightweight labels for live, sampled, modeled, derived, stale, pending, approved, evidence, and failed states |
 | [Logos](references/logos.md) | Logo variants, clear space, sizing, favicon setup |
