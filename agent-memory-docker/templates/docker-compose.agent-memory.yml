@@ -1,0 +1,197 @@
+volumes:
+  agent_memory_redis_data:
+    driver: local
+
+networks:
+  agent-memory-local:
+    driver: bridge
+
+services:
+  redis:
+    image: ${REDIS_IMAGE:-redis:8}
+    ports:
+      - "${REDIS_PORT:-6380}:6379"
+    volumes:
+      - agent_memory_redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      - agent-memory-local
+
+  agent-memory-api:
+    image: redislabs/agent-memory-server:${REDIS_AGENT_MEMORY_VERSION:-latest}
+    env_file:
+      - path: .env.local
+        required: false
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - PORT=8000
+      - DISABLE_AUTH=${DISABLE_AUTH:-true}
+      - AUTH_MODE=${AUTH_MODE:-disabled}
+      - LONG_TERM_MEMORY=${LONG_TERM_MEMORY:-true}
+      - ENABLE_TOPIC_EXTRACTION=${ENABLE_TOPIC_EXTRACTION:-true}
+      - ENABLE_NER=${ENABLE_NER:-true}
+      - GENERATION_MODEL=${GENERATION_MODEL:-gpt-4o-mini}
+      - FAST_MODEL=${FAST_MODEL:-gpt-4o-mini}
+      - SLOW_MODEL=${SLOW_MODEL:-gpt-4o}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-text-embedding-3-small}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - AWS_REGION_NAME=${AWS_REGION_NAME:-}
+      - REGION_NAME=${REGION_NAME:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN:-}
+      - REDISVL_VECTOR_DIMENSIONS=${REDISVL_VECTOR_DIMENSIONS:-1536}
+      - DEFAULT_MCP_USER_ID=${DEFAULT_MCP_USER_ID:-local-user}
+      - DEFAULT_MCP_NAMESPACE=${DEFAULT_MCP_NAMESPACE:-agent-memory-local}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    ports:
+      - "${AMS_API_PORT:-8000}:8000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    command:
+      - agent-memory
+      - api
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --task-backend
+      - asyncio
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/v1/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks:
+      - agent-memory-local
+
+  agent-memory-mcp-sse:
+    image: redislabs/agent-memory-server:${REDIS_AGENT_MEMORY_VERSION:-latest}
+    healthcheck:
+      disable: true
+    env_file:
+      - path: .env.local
+        required: false
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DISABLE_AUTH=${DISABLE_AUTH:-true}
+      - AUTH_MODE=${AUTH_MODE:-disabled}
+      - GENERATION_MODEL=${GENERATION_MODEL:-gpt-4o-mini}
+      - FAST_MODEL=${FAST_MODEL:-gpt-4o-mini}
+      - SLOW_MODEL=${SLOW_MODEL:-gpt-4o}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-text-embedding-3-small}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - AWS_REGION_NAME=${AWS_REGION_NAME:-}
+      - REGION_NAME=${REGION_NAME:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN:-}
+      - REDISVL_VECTOR_DIMENSIONS=${REDISVL_VECTOR_DIMENSIONS:-1536}
+      - DEFAULT_MCP_USER_ID=${DEFAULT_MCP_USER_ID:-local-user}
+      - DEFAULT_MCP_NAMESPACE=${DEFAULT_MCP_NAMESPACE:-agent-memory-local}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    ports:
+      - "${AMS_MCP_SSE_PORT:-9050}:9000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    command:
+      - agent-memory
+      - mcp
+      - --mode
+      - sse
+      - --port
+      - "9000"
+      - --task-backend
+      - asyncio
+    networks:
+      - agent-memory-local
+
+  agent-memory-mcp-http:
+    image: redislabs/agent-memory-server:${REDIS_AGENT_MEMORY_VERSION:-latest}
+    healthcheck:
+      disable: true
+    env_file:
+      - path: .env.local
+        required: false
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DISABLE_AUTH=${DISABLE_AUTH:-true}
+      - AUTH_MODE=${AUTH_MODE:-disabled}
+      - GENERATION_MODEL=${GENERATION_MODEL:-gpt-4o-mini}
+      - FAST_MODEL=${FAST_MODEL:-gpt-4o-mini}
+      - SLOW_MODEL=${SLOW_MODEL:-gpt-4o}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-text-embedding-3-small}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - AWS_REGION_NAME=${AWS_REGION_NAME:-}
+      - REGION_NAME=${REGION_NAME:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN:-}
+      - REDISVL_VECTOR_DIMENSIONS=${REDISVL_VECTOR_DIMENSIONS:-1536}
+      - DEFAULT_MCP_USER_ID=${DEFAULT_MCP_USER_ID:-local-user}
+      - DEFAULT_MCP_NAMESPACE=${DEFAULT_MCP_NAMESPACE:-agent-memory-local}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    ports:
+      - "${AMS_MCP_HTTP_PORT:-9051}:9000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    command:
+      - agent-memory
+      - mcp
+      - --mode
+      - streamable-http
+      - --port
+      - "9000"
+      - --task-backend
+      - asyncio
+    networks:
+      - agent-memory-local
+
+  agent-memory-mcp-stdio:
+    profiles: ["stdio"]
+    image: redislabs/agent-memory-server:${REDIS_AGENT_MEMORY_VERSION:-latest}
+    env_file:
+      - path: .env.local
+        required: false
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DISABLE_AUTH=${DISABLE_AUTH:-true}
+      - AUTH_MODE=${AUTH_MODE:-disabled}
+      - GENERATION_MODEL=${GENERATION_MODEL:-gpt-4o-mini}
+      - FAST_MODEL=${FAST_MODEL:-gpt-4o-mini}
+      - SLOW_MODEL=${SLOW_MODEL:-gpt-4o}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-text-embedding-3-small}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - AWS_REGION_NAME=${AWS_REGION_NAME:-}
+      - REGION_NAME=${REGION_NAME:-}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN:-}
+      - REDISVL_VECTOR_DIMENSIONS=${REDISVL_VECTOR_DIMENSIONS:-1536}
+      - DEFAULT_MCP_USER_ID=${DEFAULT_MCP_USER_ID:-local-user}
+      - DEFAULT_MCP_NAMESPACE=${DEFAULT_MCP_NAMESPACE:-agent-memory-local}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    depends_on:
+      redis:
+        condition: service_healthy
+    command:
+      - agent-memory
+      - mcp
+      - --mode
+      - stdio
+      - --task-backend
+      - asyncio
+    networks:
+      - agent-memory-local

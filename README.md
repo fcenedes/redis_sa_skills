@@ -32,6 +32,12 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 |-------|-------------|
 | [redis-insight-plugin](redis-insight-plugin/SKILL.md) | Build, deploy, and validate Redis Insight Workbench visualization plugins: manifests, activation methods, Parcel/Vite builds, iframe rendering, command parsing, Docker deployment, and `/api/plugins` verification. |
 
+### Agent Memory
+
+| Skill | Description |
+|-------|-------------|
+| [agent-memory-docker](agent-memory-docker/SKILL.md) | Run a portable local Agent Memory Server Docker stack with Redis 8, then connect Codex, Claude Code, and Claude Desktop to the same shared memory. |
+
 ## Recommended External Skills
 
 This repo covers Redis SA, demos, workshops, RedisInsight plugins, troubleshooting, and field-engineering workflows. For general-purpose engineering and Redis development best practices, install these external skills alongside this repo. Do not vendor or copy them into this repository.
@@ -92,6 +98,9 @@ npx skills add fcenedes/redis_sa_skills --skill playwright-cli-agent
 
 # RedisInsight
 npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
+
+# Agent Memory
+npx skills add fcenedes/redis_sa_skills --skill agent-memory-docker
 ```
 
 Or add to your project manually by copying the skill directory into your `.agents/skills/` folder.
@@ -108,6 +117,7 @@ Use playwright-cli-agent to open the local app, reproduce the dashboard bug, and
 Use caveman ultra and summarize this failing test output.
 Use redis-insight-plugin to create an external Parcel Redis Insight plugin for XRANGE.
 Use rtk-cli to inspect this repo and summarize the diff.
+Use agent-memory-docker to create a shared local memory stack and configure Codex, Claude Code, and Claude Desktop.
 ```
 
 ## Suggested Skill Combinations
@@ -119,6 +129,7 @@ Use rtk-cli to inspect this repo and summarize the diff.
 | Customer discovery | `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams` |
 | Demo creation | `redis-demo-builder` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
 | RedisInsight plugin | `redis-insight-plugin` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
+| Shared local agent memory | `agent-memory-docker` + `rtk-cli` |
 | Vector search and RAG | `redis-development` (redis/agent-skills) + `redis-vector-search-rag` + `redis-demo-builder` |
 | Operations | `redis-observability-runbook` + `redis-performance-troubleshooting` |
 | Compact agent workflow | `rtk-cli` + `caveman` |
@@ -149,6 +160,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | playwright-test | 1.0.0 |
 | playwright-cli-agent | 1.0.0 |
 | redis-insight-plugin | 1.0.0 |
+| agent-memory-docker | 1.0.0 |
 
 ## Skill Structure
 

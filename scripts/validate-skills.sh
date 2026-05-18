@@ -105,7 +105,46 @@ else
   ok "no stray TODO/FIXME outside templates/"
 fi
 
-# 6. Summary.
+# 6. Agent Memory Docker portability checks.
+if [[ -d agent-memory-docker ]]; then
+  echo "--- agent-memory-docker portability ---"
+  for file in \
+    agent-memory-docker/templates/docker-compose.agent-memory.yml \
+    agent-memory-docker/templates/env.local.example \
+    agent-memory-docker/scripts/setup_local_agent_memory.sh \
+    agent-memory-docker/scripts/check_local_agent_memory.sh \
+    agent-memory-docker/scripts/configure_agent_memory_clients.py \
+    agent-memory-docker/references/client-configs.md; do
+    if [[ -f "$file" ]]; then
+      ok "agent-memory-docker: found $file"
+    else
+      fail "agent-memory-docker: missing $file"
+    fi
+  done
+
+  for script in agent-memory-docker/scripts/*; do
+    [[ -f "$script" ]] || continue
+    if [[ -x "$script" ]]; then
+      ok "agent-memory-docker: executable $script"
+    else
+      fail "agent-memory-docker: script is not executable: $script"
+    fi
+  done
+
+  if grep -RIn 'redis/redis-stack\|redis-stack-server' agent-memory-docker >/dev/null 2>&1; then
+    fail "agent-memory-docker: must use Redis 8, not Redis Stack"
+  else
+    ok "agent-memory-docker: no Redis Stack references"
+  fi
+
+  if grep -RIn '/Users/pierre/Documents/Work/MYENV/agent-memory-server\|docker-compose.local.yml' agent-memory-docker >/dev/null 2>&1; then
+    fail "agent-memory-docker: contains source repo path or repo-local compose filename"
+  else
+    ok "agent-memory-docker: no source repo dependency"
+  fi
+fi
+
+# 7. Summary.
 echo
 echo "================================"
 echo "Validation summary"
