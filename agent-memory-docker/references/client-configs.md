@@ -16,6 +16,12 @@ Restart Codex Desktop.
 
 Codex may display `Authentification non prise en charge` / `Authentication not supported` for this local server. That is expected for this auth-disabled local setup: Codex probes OAuth discovery endpoints, Agent Memory Server returns 404 for those endpoints, and Codex can still list and call MCP tools. Treat it as non-blocking when tool calls work.
 
+To make memory usage default in new Codex sessions, install the policy block into `~/.codex/AGENTS.md`:
+
+```bash
+python3 agent-memory-docker/scripts/configure_agent_memory_clients.py --memory-policy
+```
+
 ## Claude Code
 
 Use the streamable HTTP endpoint:
@@ -57,6 +63,8 @@ Edit `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS 
 ```
 
 Restart Claude Desktop after editing. Claude Desktop uses stdio here because local JSON config is for local MCP servers; HTTP/remote connector setup through Claude web cannot reach `localhost`.
+
+If Claude Desktop does not follow the MCP tool instructions by default, copy the block from `references/memory-policy.md` into Claude Desktop's custom instructions. The JSON config only connects the tools; model behavior still depends on instructions.
 
 ## Claude Web and Remote Connectors
 

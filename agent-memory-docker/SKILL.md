@@ -25,12 +25,13 @@ docker compose -f docker-compose.agent-memory.yml --env-file .env.local up -d re
 5. Run `scripts/check_local_agent_memory.sh` to verify REST, SSE, and streamable HTTP.
 6. Configure clients with `scripts/configure_agent_memory_clients.py`; read `references/client-configs.md` for exact snippets.
 7. If Codex shows `Authentification non prise en charge`, verify a tool call or `scripts/check_local_agent_memory.sh`; the label is non-blocking for local no-auth MCP.
+8. Install default usage policy with `scripts/configure_agent_memory_clients.py --memory-policy`; read `references/memory-policy.md` for the policy text.
 
 ## Quick Commands
 
 ```bash
 bash agent-memory-docker/scripts/setup_local_agent_memory.sh --target "$HOME/.agent-memory-server" --start
-python3 agent-memory-docker/scripts/configure_agent_memory_clients.py --all --compose-dir "$HOME/.agent-memory-server"
+python3 agent-memory-docker/scripts/configure_agent_memory_clients.py --all --memory-policy --compose-dir "$HOME/.agent-memory-server"
 ```
 
 Restart Codex Desktop and Claude Desktop after client config changes. In Claude Code, run `claude mcp list` and confirm `agent-memory` is connected.
@@ -64,3 +65,4 @@ Restart Codex Desktop and Claude Desktop after client config changes. In Claude 
 - [ ] Codex has `[mcp_servers.agent_memory]`.
 - [ ] Claude Code shows `agent-memory` connected.
 - [ ] Claude Desktop has `mcpServers.agent-memory` and has been restarted.
+- [ ] Codex/Claude Code global instructions include the shared memory policy.

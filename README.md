@@ -118,6 +118,7 @@ Use caveman ultra and summarize this failing test output.
 Use redis-insight-plugin to create an external Parcel Redis Insight plugin for XRANGE.
 Use rtk-cli to inspect this repo and summarize the diff.
 Use agent-memory-docker to create a shared local memory stack and configure Codex, Claude Code, and Claude Desktop.
+Use agent-memory-docker to install the default shared-memory policy for every new Codex and Claude Code session.
 ```
 
 ## Suggested Skill Combinations

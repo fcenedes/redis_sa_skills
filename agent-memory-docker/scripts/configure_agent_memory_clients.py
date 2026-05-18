@@ -12,6 +12,8 @@ from pathlib import Path
 
 
 MCP_URL = "http://localhost:9051/mcp"
+POLICY_BEGIN = "<!-- BEGIN agent-memory-default-policy -->"
+POLICY_END = "<!-- END agent-memory-default-policy -->"
 
 
 def backup(path: Path) -> None:
@@ -108,12 +110,59 @@ def configure_claude_desktop(compose_dir: Path) -> None:
     print(f"Configured Claude Desktop: {config}")
 
 
+def load_memory_policy() -> str:
+    reference = Path(__file__).resolve().parents[1] / "references" / "memory-policy.md"
+    text = reference.read_text()
+    start = text.index(POLICY_BEGIN)
+    end = text.index(POLICY_END) + len(POLICY_END)
+    return text[start:end].strip() + "\n"
+
+
+def upsert_marked_block(text: str, block: str) -> str:
+    start = text.find(POLICY_BEGIN)
+    end = text.find(POLICY_END)
+
+    if start != -1 and end != -1 and end >= start:
+        end += len(POLICY_END)
+        prefix = text[:start].rstrip()
+        suffix = text[end:].lstrip()
+        parts = [part for part in (prefix, block.strip(), suffix) if part]
+        return "\n\n".join(parts) + "\n"
+
+    if text.strip():
+        return text.rstrip() + "\n\n" + block.strip() + "\n"
+    return block.strip() + "\n"
+
+
+def install_policy(path: Path, block: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    text = path.read_text() if path.exists() else ""
+    new_text = upsert_marked_block(text, block)
+    if new_text == text:
+        print(f"Memory policy already present: {path}")
+        return
+    backup(path)
+    path.write_text(new_text)
+    print(f"Installed memory policy: {path}")
+
+
+def configure_memory_policy() -> None:
+    block = load_memory_policy()
+    install_policy(Path.home() / ".codex" / "AGENTS.md", block)
+    install_policy(Path.home() / ".claude" / "CLAUDE.md", block)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--all", action="store_true", help="Configure all supported clients")
     parser.add_argument("--codex", action="store_true", help="Configure Codex Desktop")
     parser.add_argument("--claude-code", action="store_true", help="Configure Claude Code")
     parser.add_argument("--claude-desktop", action="store_true", help="Configure Claude Desktop")
+    parser.add_argument(
+        "--memory-policy",
+        action="store_true",
+        help="Install default shared-memory usage instructions for Codex and Claude Code",
+    )
     parser.add_argument("--url", default=MCP_URL, help="Streamable HTTP MCP URL")
     parser.add_argument(
         "--compose-dir",
@@ -122,9 +171,17 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    selected = args.all or args.codex or args.claude_code or args.claude_desktop
+    selected = (
+        args.all
+        or args.codex
+        or args.claude_code
+        or args.claude_desktop
+        or args.memory_policy
+    )
     if not selected:
-        parser.error("Choose --all, --codex, --claude-code, or --claude-desktop")
+        parser.error(
+            "Choose --all, --codex, --claude-code, --claude-desktop, or --memory-policy"
+        )
 
     compose_dir = Path(args.compose_dir).expanduser().resolve()
 
@@ -134,6 +191,8 @@ def main() -> int:
         configure_claude_code(args.url)
     if args.all or args.claude_desktop:
         configure_claude_desktop(compose_dir)
+    if args.memory_policy:
+        configure_memory_policy()
 
     return 0
 

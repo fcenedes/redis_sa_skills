@@ -114,7 +114,8 @@ if [[ -d agent-memory-docker ]]; then
     agent-memory-docker/scripts/setup_local_agent_memory.sh \
     agent-memory-docker/scripts/check_local_agent_memory.sh \
     agent-memory-docker/scripts/configure_agent_memory_clients.py \
-    agent-memory-docker/references/client-configs.md; do
+    agent-memory-docker/references/client-configs.md \
+    agent-memory-docker/references/memory-policy.md; do
     if [[ -f "$file" ]]; then
       ok "agent-memory-docker: found $file"
     else
