@@ -65,4 +65,4 @@ Restart Codex Desktop and Claude Desktop after client config changes. In Claude 
 - [ ] Codex has `[mcp_servers.agent_memory]`.
 - [ ] Claude Code shows `agent-memory` connected.
 - [ ] Claude Desktop has `mcpServers.agent-memory` and has been restarted.
-- [ ] Codex/Claude Code global instructions include the shared memory policy.
+- [ ] Codex/Claude Code global instructions include the shared memory policy and project isolation rules.
