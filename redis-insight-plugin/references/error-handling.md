@@ -38,6 +38,8 @@ Rules:
 - Always check the data shape before rendering.
 - Always wrap render logic in `try/catch`.
 - Render an empty state and an error state — never a blank iframe.
+- Make empty/error copy match the active visualization mode. A heatmap parse failure should say `Cannot render heatmap`, not `Cannot render map`.
+- Remove unreachable fallback branches after parser state is narrowed. Dead defensive checks hide the true state model.
 
 ## React ErrorBoundary
 

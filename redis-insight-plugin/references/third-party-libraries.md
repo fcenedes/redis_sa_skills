@@ -45,6 +45,18 @@ points.forEach(p => cluster.addLayer(L.marker([p.lat, p.lon])));
 map.addLayer(cluster);
 ```
 
+If cluster icon colors depend on React state, avoid stale closures in `iconCreateFunction`. Store live thresholds or color settings in refs, or recreate the cluster group when those dependencies change, then call `refreshClusters()` after updates.
+
+Validate bounds before fitting:
+
+```ts
+if (bounds.isValid()) {
+  map.fitBounds(bounds);
+}
+```
+
+Build marker popups with DOM nodes and `textContent` (or escaped React output). Do not interpolate Redis keys, members, or field values into raw HTML.
+
 ### Heatmap
 
 `leaflet.heat` is small and well-known:

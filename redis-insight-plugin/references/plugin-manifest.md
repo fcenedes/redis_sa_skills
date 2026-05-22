@@ -63,6 +63,18 @@ export default {
 };
 ```
 
+## Matching and Defaults
+
+When several visualizations share commands, make their defaults mutually exclusive by command shape, not just by command name. For example, a geodata map can be the default for coordinate-producing `GEOSEARCH` / `GEORADIUS` rows, while an inspector can be available for the same commands but default only for non-coordinate, scalar, or store-style results.
+
+Rules for matcher definitions:
+
+- Match whole command tokens. Do not let `GEOSEARCH` match `GEOSEARCHSTORE`.
+- Keep `matchCommands` broad only when `matchQuery` narrows the result shape safely.
+- Use `noneRegex` for exclusion only after checking how the platform normalizes command text.
+- Keep regexes bounded and linear. Avoid broad repeated token alternatives plus a trailing `[\s\S]{0,N}` window.
+- Test overlapping visualizations so only one `default: true` candidate remains for each command shape.
+
 ## Icons
 
 Optional but supported:

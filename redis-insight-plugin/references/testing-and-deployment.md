@@ -114,3 +114,14 @@ Use [templates/playwright-plugin-smoke.spec.ts](../templates/playwright-plugin-s
 6. Asserts the iframe is present and renders expected content.
 
 Selectors will drift between Insight versions. Treat the template as a starting point and adjust for the version under test.
+
+## Internal PR Verification Scope
+
+For RedisInsight monorepo plugin changes, keep verification proportional to the changed surface:
+
+- Parser or command-shape fix: run the parser spec or package test file first, then the plugin package test command.
+- Manifest or matcher fix: run the matcher/plugin utility spec that exercises `matchCommands`, `matchQuery`, `anyRegex`, `noneRegex`, and `default` selection.
+- React/Leaflet fix: run the component spec for that visualization plus the package typecheck.
+- Code hygiene fix: run the closest affected spec plus typecheck, especially when moving types/constants or centralizing helpers.
+- Shared utility change under `ui/src/`: add the focused utility spec and a changed-file lint/typecheck check.
+- Before final commit on a PR batch, run the package tests, package typecheck, and `git diff --check`. Run a full RedisInsight build only when build configuration, package exports, bundling, or shared application wiring changed.

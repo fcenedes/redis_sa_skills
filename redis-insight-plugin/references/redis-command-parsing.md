@@ -100,13 +100,27 @@ export function parseXRange(data: any[]): { id: string; fields: Record<string, s
 const UNIT_TO_METERS = { m: 1, km: 1000, mi: 1609.344, ft: 0.3048 };
 ```
 
+Also handle `GEOSEARCH BYBOX width height unit`. Redis returns `WITHDIST` values in the original command unit, so the parser must preserve the raw unit before any internal normalization to kilometers or meters.
+
+For BYBOX drawing, remember that longitude degrees are latitude-dependent:
+
+```ts
+const latRadians = centerLat * Math.PI / 180;
+const lonScale = Math.max(Math.cos(latRadians), 1e-6);
+const lonDelta = widthKm / (111.32 * lonScale);
+```
+
 ## Defensive Parsing Rules
 
 - Always start with `if (!Array.isArray(data)) return [];`.
 - Never assume nested array length — destructure with `const [a, b, ...rest] = ...`.
+- Preserve argument positions when tokenizing commands. Empty quoted strings (`""`, `''`) should become empty-string tokens, not disappear.
 - Treat numeric fields as strings; convert with `Number(...)` and validate with `Number.isFinite(...)`.
+- Reject blank numeric strings before conversion; `Number('')` is `0`.
 - Drop malformed entries silently; surface the count (`"3 of 25 entries skipped"`) in the UI rather than crashing.
 - Never throw inside a parser — return an empty array and let the activation function render an empty/error state.
+- Avoid `Math.max(...largeArray)` or other spreading of full result sets. Use `reduce` or loops for large responses.
+- When parsing `FT.*` or hybrid command strings, tokenize first and honor command grammar. Do not strip `PARAMS`, `SEARCH`, or `FILTER` just because those words appear inside a key, member, index name, or quoted query.
 
 ## Response Shape Caveats
 
@@ -114,3 +128,4 @@ const UNIT_TO_METERS = { m: 1, km: 1000, mi: 1609.344, ft: 0.3048 };
 - **`WITH...` flags** change the response shape mid-flight — never key off command name alone.
 - **Empty results** are `[]`, but on some commands a missing key returns `null`. Treat both as empty.
 - **Customer modules** (RedisJSON, RedisTimeSeries, RedisSearch) return their own shapes — only support what your `matchCommands` declares.
+- **Redis 8 / module responses** can be array-like, aggregate-like, or object/map-style. Handle array-specific branches before generic object branches because arrays are objects in JavaScript.
