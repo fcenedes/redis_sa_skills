@@ -10,7 +10,7 @@ Use this skill when working with shared `agent_memory` MCP memory and the task
 involves durable memory capture, consolidation, deduplication, taxonomy
 organization, or dream review/apply.
 
-## Required MCP Workflow
+## End-to-end MCP Workflow
 
 1. `create_dream_session_summary`
 2. `run_memory_dream`
@@ -19,6 +19,9 @@ organization, or dream review/apply.
 5. `review_memory_dream_candidates`
 6. `apply_memory_dream_candidates`
 7. browse via `get_memory_category_tree`
+
+By default, stop after review unless the user or request explicitly calls for
+applying accepted candidates.
 
 ## Policy
 
