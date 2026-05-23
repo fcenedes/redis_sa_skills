@@ -17,8 +17,12 @@ Sources to re-check when updating this file:
 
 ## Short Version
 
-Use Claude for judgment, Codex for execution inside a repo, and Qwen for bounded
-local worker tasks.
+Use Claude-side routing for judgment, Codex for execution inside a repo, and
+Qwen for bounded local worker tasks.
+
+Claude choices are external routing choices for humans or Claude-side
+coordinators. Codex coordinators must not spawn, call, or delegate directly to
+Claude; use Codex/local alternatives or ask the user to route work to Claude.
 
 For role contracts, use [specialist-roles](specialist-roles.md). For command
 invocations, use [command-patterns](command-patterns.md).
@@ -27,33 +31,38 @@ invocations, use [command-patterns](command-patterns.md).
 
 | Task | Best first choice | Why |
 |------|-------------------|-----|
-| Architecture, plan, design review | Claude Opus | Best for ambiguous tradeoffs, cross-cutting reasoning, and deciding what should be done. |
-| Normal feature implementation | Codex medium or Claude Sonnet | Use Codex when repo and tool execution matter; use Sonnet for interactive coding with good judgment. |
+| Architecture, plan, design review | Claude Opus or Codex xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex xhigh or ask the user to route to Claude. |
+| Normal feature implementation | Codex medium or Claude Sonnet | Use Codex when repo and tool execution matter; use Sonnet only by human/Claude-side routing. |
 | Large multi-file implementation | Codex high | Better persistence and repo execution without always paying max reasoning cost. |
-| Hard debugging or subtle regression | Claude Opus or Codex high/xhigh | Use Opus for diagnosis; use Codex high/xhigh when deep inspect/edit/run loops are required. |
-| Security-sensitive review | Claude Opus plus Codex high verification | Use two-model review; do not trust one pass. |
-| Mechanical refactor | Qwen local or Claude Haiku | Cheap and fast when file ownership is bounded. |
-| Test generation | Qwen local, Codex medium, or Claude Haiku | Good worker task, but coordinator reviews usefulness. |
-| Boilerplate, docs, rename, grep-driven edits | Qwen local or Haiku | Low-risk and easy to verify. |
+| Hard debugging or subtle regression | Claude Opus or Codex high/xhigh | Use Opus only by human/Claude-side routing; use Codex high/xhigh for deep inspect/edit/run loops. |
+| Security-sensitive review | Claude Opus plus Codex high verification | Use two-model review when a human or Claude-side coordinator routes the Claude pass. |
+| Mechanical refactor | Qwen local, Codex low/medium, or Claude Haiku | Cheap and fast when file ownership is bounded; Claude Haiku is human/Claude-side routing only. |
+| Test generation | Qwen local, Codex medium, or Claude Haiku | Good worker task; Claude Haiku is human/Claude-side routing only and coordinator reviews usefulness. |
+| Boilerplate, docs, rename, grep-driven edits | Qwen local, Codex low, or Claude Haiku | Low-risk and easy to verify; Claude Haiku is human/Claude-side routing only. |
 | Frontend prototype | Codex high | Stronger at producing, running, and verifying actual UI. |
 | Final integration, commit, push | Codex medium/high | Strong local repo and tool workflow. |
-| Final strategic review | Claude Opus | Good last-pass reviewer for coherence and missed risks. |
+| Final strategic review | Claude Opus or Codex xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex xhigh. |
 
 ## Role Mapping
 
+Same boundary: Claude entries are not Codex delegation targets.
+
 | Need | Role | Default Execution |
 |------|------|-------------------|
-| Split ambiguous work | Coordinator | Claude Opus or Codex xhigh |
-| Make requirements executable | Spec Writer | Claude Opus/Sonnet |
+| Split ambiguous work | Coordinator | Codex xhigh, or Claude Opus by human/Claude-side routing |
+| Make requirements executable | Spec Writer | Codex high/xhigh, or Claude Opus/Sonnet by human/Claude-side routing |
 | Edit repo files | Implementor | Codex medium/high |
-| Check completion | Verifier | Codex high or Claude Sonnet |
-| Challenge claims | Auditor | Claude Opus or Codex xhigh |
-| Review PR/diff | PR Reviewer | Codex review or Claude Opus |
+| Check completion | Verifier | Codex high, or Claude Sonnet by human/Claude-side routing |
+| Challenge claims | Auditor | Codex xhigh, or Claude Opus by human/Claude-side routing |
+| Review PR/diff | PR Reviewer | Codex review, or Claude Opus by human/Claude-side routing |
 | Drive PR loops | PR Shepherd | Codex medium/high |
 | Build product UI | UI Designer | Codex high |
 | Cheap bounded patch | Qwen Worker | Qwen local/Ollama |
 
 ## Claude
+
+This section is guidance for Claude-side coordinators or humans deciding to run
+Claude. It is not permission for Codex to delegate directly to Claude.
 
 | Model | Use for | Avoid for |
 |-------|---------|-----------|
@@ -61,7 +70,7 @@ invocations, use [command-patterns](command-patterns.md).
 | Sonnet | Most coding, refactors, tests, known bugs, implementation from a plan. | Very cheap repetitive tasks. |
 | Haiku | Renames, summaries, small docs, regex/log explanations, simple boilerplate. | Architecture, broad repo edits, subtle bugs. |
 
-Practical pattern: Opus plans, Sonnet executes.
+Practical pattern on the Claude side: Opus plans, Sonnet executes.
 
 ## Codex Reasoning
 
@@ -94,7 +103,7 @@ Avoid:
 - Broad architecture.
 - Cross-repo reasoning.
 - Edits touching shared config or lockfiles.
-- Security-sensitive work without Claude or Codex review.
+- Security-sensitive work without senior Claude-side or Codex review.
 
 Best Qwen prompt style:
 
@@ -109,7 +118,7 @@ Report blockers.
 
 ## Default Team Setup
 
-- Claude Opus: write or review the plan.
+- Claude Opus: write or review the plan when routed by a human or Claude-side coordinator.
 - Codex high: implement and run gates.
 - Qwen local: parallel bounded worker for tests, docs, and mechanical patches.
-- Claude Opus or Codex xhigh: final review only when risk is high.
+- Claude Opus by human/Claude-side routing, or Codex xhigh: final review only when risk is high.

@@ -1,6 +1,6 @@
 ---
 name: agent-delegation-routing
-description: Use when a coordinator agent needs to delegate coding work to external worker agents such as Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, or other command-line models.
+description: Use when a coordinator agent needs to route coding work to Codex CLI, Claude-side coordinators, local Qwen/Ollama, LM Studio, or other command-line workers.
 license: Apache-2.0
 metadata:
   author: fcenedes
@@ -14,22 +14,21 @@ scope, command shape, verification, and diff review. Use
 `agent-memory-coordination` as well when prompts, ownership, or outcomes must be
 shared across parallel agents or future sessions.
 
-Short version: use Claude for judgment, Codex for execution inside a repo, and
-Qwen for bounded local worker tasks.
+Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex must not delegate directly to Claude; Claude entries are external choices for Claude-side coordinators or humans.
 
 Load references only when needed:
 
 - Need model choice: read [routing-table](references/routing-table.md).
 - Need role contracts: read [specialist-roles](references/specialist-roles.md).
-- Need exact commands or workflow shape: read [command-patterns](references/command-patterns.md) or [delegation-playbooks](references/delegation-playbooks.md).
+- Need commands or workflows: read [command-patterns](references/command-patterns.md) or [delegation-playbooks](references/delegation-playbooks.md).
 
 ## Routing Matrix
 
-- Judgment: Claude Opus, Codex high/xhigh, or equivalent senior model.
+- Judgment: Codex high/xhigh, or Claude Opus only by human/Claude-side routing.
 - Repo execution: Codex CLI medium/high/xhigh, based on risk.
-- Normal implementation: Codex medium or Claude Sonnet from a clear plan.
-- Cheap bounded work: local Qwen/Ollama, LM Studio, Claude Haiku, or fast models.
-- Final high-risk review: Claude Opus plus Codex high/xhigh verification.
+- Normal implementation: Codex medium, or Claude Sonnet only by human/Claude-side routing.
+- Cheap bounded work: local Qwen/Ollama, LM Studio, Claude Haiku by human/Claude-side routing, or fast models.
+- Final high-risk review: Claude Opus by human/Claude-side routing plus Codex high/xhigh verification.
 
 ## Role Selection
 
@@ -127,6 +126,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 
 ## DO NOT
 
+- Do not make Codex spawn or delegate directly to Claude; route through the user or a Claude-side coordinator.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
 - Do not omit requested model, requested reasoning effort, or routing reason.
 - Do not silently let workers inherit the coordinator model or reasoning level.

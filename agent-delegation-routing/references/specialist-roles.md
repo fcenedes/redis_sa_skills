@@ -8,14 +8,17 @@ locks, or repo-specific state.
 
 Use the smallest role that can safely complete the task:
 
+If the coordinator is Codex, choose Codex/local options or ask the user to route
+Claude-side work; do not spawn or delegate directly to Claude.
+
 | Role | Use When | Good First Model | Must Return |
 |------|----------|------------------|-------------|
-| Coordinator | Work needs decomposition, ownership, integration, or multiple workers. | Claude Opus or Codex xhigh | Plan, ownership map, gates, integration status. |
-| Spec Writer | Requirements are ambiguous or acceptance criteria are missing. | Claude Opus/Sonnet | Goal, non-goals, source of truth, acceptance criteria, verification plan. |
-| Implementor | One bounded code task is ready to execute. | Codex medium/high or Claude Sonnet | Files changed, summary, commands run, blockers. |
-| Verifier | Work needs evidence-based approval or rejection. | Codex high or Claude Sonnet | Verdict, confidence, evidence, failed gates, next fix. |
-| Auditor | Claims about architecture, runtime seams, security, or release readiness need scrutiny. | Claude Opus or Codex xhigh | Findings with evidence, impact, required fix, closure criteria. |
-| PR Reviewer | A PR/diff needs high-confidence actionable feedback. | Claude Opus, Codex review, or Codex high | Findings ordered by severity and release-gate notes. |
+| Coordinator | Work needs decomposition, ownership, integration, or multiple workers. | Codex xhigh, or Claude Opus by human/Claude-side routing | Plan, ownership map, gates, integration status. |
+| Spec Writer | Requirements are ambiguous or acceptance criteria are missing. | Codex high/xhigh, or Claude Opus/Sonnet by human/Claude-side routing | Goal, non-goals, source of truth, acceptance criteria, verification plan. |
+| Implementor | One bounded code task is ready to execute. | Codex medium/high, or Claude Sonnet by human/Claude-side routing | Files changed, summary, commands run, blockers. |
+| Verifier | Work needs evidence-based approval or rejection. | Codex high, or Claude Sonnet by human/Claude-side routing | Verdict, confidence, evidence, failed gates, next fix. |
+| Auditor | Claims about architecture, runtime seams, security, or release readiness need scrutiny. | Codex xhigh, or Claude Opus by human/Claude-side routing | Findings with evidence, impact, required fix, closure criteria. |
+| PR Reviewer | A PR/diff needs high-confidence actionable feedback. | Codex review/high, or Claude Opus by human/Claude-side routing | Findings ordered by severity and release-gate notes. |
 | PR Shepherd | An existing PR needs coordinated fixes, CI, comments, and readiness tracking. | Codex medium/high | PR status, blockers, delegated fixes, verification state. |
 | UI Designer | Product UI needs design-system, a11y, responsive, and visual evidence. | Codex high | UI changes, tokens/components used, screenshots/a11y/responsive checks. |
 | Qwen Worker | A narrow local worker task can be verified cheaply. | Qwen local/Ollama | Unified diff or concise report, verification result, blockers. |
@@ -30,13 +33,17 @@ Use the configured current stable model for each family unless the repo or user
 pins an exact version. Do not hard-code dated model versions in worker prompts
 unless availability was just verified.
 
+Claude alternatives are external routing choices for Claude-side coordinators
+or humans. Codex coordinators must not spawn or delegate directly to Claude; use
+Codex or local alternatives, or ask the user to route work to Claude.
+
 | Role | Default | Claude Alternative | Codex Alternative | Local Alternative | Recommended Think |
 |------|---------|--------------------|-------------------|-------------------|-------------------|
-| Coordinator | Claude Opus | Claude Sonnet for small scope | Codex xhigh | none | high/xhigh |
-| Spec Writer | Claude Opus/Sonnet | Claude Opus for ambiguous specs | Codex high/xhigh | none | high |
+| Coordinator | Codex xhigh or Claude-side Opus | Claude Sonnet for small scope | Codex xhigh | none | high/xhigh |
+| Spec Writer | Codex high/xhigh or Claude-side Sonnet | Claude Opus for ambiguous specs | Codex high/xhigh | none | high |
 | Implementor | Codex medium | Claude Sonnet | Codex high for multi-file work | Qwen for narrow patches | medium/high |
 | Verifier | Codex high | Claude Sonnet or Opus | Codex xhigh for risky gates | Qwen only for obvious checks | high |
-| Auditor | Claude Opus | none for high-risk judgment | Codex xhigh for repo evidence | none | xhigh |
+| Auditor | Codex xhigh or Claude-side Opus | none for high-risk judgment | Codex xhigh for repo evidence | none | xhigh |
 | PR Reviewer | Codex review | Claude Opus for strategic risk | Codex high/xhigh | Qwen only for obvious diff scan | high |
 | PR Shepherd | Codex medium/high | Claude Sonnet for comment drafting | Codex high for CI/fix loops | none | medium/high |
 | UI Designer | Codex high | Claude Sonnet for design critique | Codex high/xhigh | none | high |
@@ -44,7 +51,7 @@ unless availability was just verified.
 
 Default version policy:
 
-- Claude: use the configured current stable Opus, Sonnet, or Haiku variant.
+- Claude: use the configured current stable Opus, Sonnet, or Haiku variant only when operating from Claude or explicit human routing.
 - Codex: use the configured current Codex coding model with the listed reasoning effort.
 - Qwen/local: use the strongest locally installed Qwen Coder model that fits latency and memory.
 - If exact model identity matters, the coordinator records the model name and why.
