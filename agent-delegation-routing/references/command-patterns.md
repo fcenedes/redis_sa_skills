@@ -21,7 +21,7 @@ bypass reason.
 ## Codex Non-Interactive Worker
 
 ```bash
-rtk proxy codex exec -C /path/to/repo --ask-for-approval never --sandbox workspace-write "<worker prompt>"
+rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "<worker prompt>"
 ```
 
 Use for repo-aware implementation, tests, refactors, frontend verification, and
@@ -56,7 +56,7 @@ Use when you want Codex's repo workflow around a local model.
 ## Long Prompt Files
 
 ```bash
-rtk proxy codex exec -C /path/to/repo --ask-for-approval never --sandbox workspace-write "$(rtk read /tmp/worker-prompt.txt)"
+rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(rtk read /tmp/worker-prompt.txt)"
 rtk proxy ollama run <qwen-model> "$(rtk read /tmp/worker-prompt.txt)"
 ```
 
