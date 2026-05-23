@@ -1,7 +1,10 @@
 ---
 name: agent-memory-dreaming
-description: Use MCP-backed agent-memory dreaming safely: create summaries, run scoped dreams, review/apply candidates, and browse taxonomy without polluting unrelated memory.
+description: "Use MCP-backed agent-memory dreaming safely: create summaries, run scoped dreams, review/apply candidates, and browse taxonomy without polluting unrelated memory."
 license: MIT
+metadata:
+  author: redis
+  version: "1.0.0"
 ---
 
 # Agent Memory Dreaming
@@ -82,3 +85,19 @@ step for accepted candidates.
 After applying categorize candidates, call `get_memory_category_tree` to inspect
 the taxonomy. Use `get_memory_category_memories` to verify representative
 memories are classified under useful themes.
+
+## DO NOT
+
+- Do not apply dream candidates without explicit review.
+- Do not run broad dreams when a project, namespace, user, or session scope exists.
+- Do not store or apply secrets, credentials, private raw logs, temporary errors, guesses, or contradicted facts.
+- Do not treat dream candidates as validated facts until their evidence and scope are checked.
+- Do not pollute shared namespaces with customer, project, or session-specific memories.
+
+## Checklist
+
+1. Scope, namespace, and `user_id` are explicit.
+2. Candidate evidence, confidence, action, and category path are inspected.
+3. Only durable, secret-free, well-scoped candidates are accepted.
+4. Rejected candidates are left unapplied.
+5. Applied taxonomy changes are verified with category browsing.

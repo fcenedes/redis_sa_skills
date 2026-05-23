@@ -16,6 +16,7 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 | Skill | Description |
 |-------|-------------|
 | [redis-brand-ui](redis-brand-ui/SKILL.md) | Apply Redis official brand guidelines to frontend UI implementations. Covers colors, typography, components, dark mode, and HeroUI/NextUI theme configuration. |
+| [redis-product-ui](redis-product-ui/SKILL.md) | Build Redis product, dashboard, admin, RedisInsight-like, developer-tool, prototype, and demo UIs using Redis UI Storybook-derived application patterns, tokens, component states, and layouts. |
 | [redis-presentation-decks](redis-presentation-decks/SKILL.md) | Create Redis-focused Reveal.js presentation decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. |
 | [redis-excalidraw-diagrams](redis-excalidraw-diagrams/SKILL.md) | Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Query Engine, Streams, replication, clustering, observability, and Redis Cloud systems. |
 
@@ -38,6 +39,7 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 |-------|-------------|
 | [agent-memory-docker](agent-memory-docker/SKILL.md) | Run a portable local Agent Memory Server Docker stack with Redis 8, then connect Codex, Claude Code, and Claude Desktop to the same shared memory. |
 | [agent-memory-coordination](agent-memory-coordination/SKILL.md) | Coordinate parallel agents through shared `agent_memory` prompts, strict file ownership, integration passes, and verification gates. |
+| [agent-memory-dreaming](agent-memory-dreaming/SKILL.md) | Safely create summaries, run scoped dreams, review and apply candidates, and browse taxonomy for MCP-backed `agent_memory` without polluting unrelated memory. |
 
 ## Recommended External Skills
 
@@ -90,6 +92,7 @@ npx skills add fcenedes/redis_sa_skills --skill rtk-cli
 
 # Visualization & brand
 npx skills add fcenedes/redis_sa_skills --skill redis-brand-ui
+npx skills add fcenedes/redis_sa_skills --skill redis-product-ui
 npx skills add fcenedes/redis_sa_skills --skill redis-presentation-decks
 npx skills add fcenedes/redis_sa_skills --skill redis-excalidraw-diagrams
 
@@ -103,6 +106,7 @@ npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
 # Agent Memory
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-docker
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-coordination
+npx skills add fcenedes/redis_sa_skills --skill agent-memory-dreaming
 ```
 
 Or add to your project manually by copying the skill directory into your `.agents/skills/` folder.
@@ -113,6 +117,7 @@ After installing a skill, ask your agent for the Redis artifact you need:
 
 ```text
 Use redis-presentation-decks to create a Redis Cloud vector search architecture deck for a technical workshop.
+Use redis-product-ui to build a RedisInsight-like key inspection dashboard with light/dark mode, filters, tables, drawers, and toast feedback.
 Use redis-excalidraw-diagrams to draw a Redis Streams consumer group architecture with commands, acknowledgements, and observability paths.
 Use playwright-test to add E2E coverage for the login flow.
 Use playwright-cli-agent to open the local app, reproduce the dashboard bug, and capture screenshots.
@@ -122,6 +127,7 @@ Use rtk-cli to inspect this repo and summarize the diff.
 Use agent-memory-docker to create a shared local memory stack and configure Codex, Claude Code, and Claude Desktop.
 Use agent-memory-docker to install the default shared-memory policy for every new Codex and Claude Code session.
 Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory prompts with strict file ownership and a final integration gate.
+Use agent-memory-dreaming to review candidate memories for the redis-sa-agent-memory namespace before applying them.
 ```
 
 ## Suggested Skill Combinations
@@ -132,6 +138,7 @@ Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory 
 | Redis app development | `redis-development` (redis/agent-skills) + `redis-performance-troubleshooting` |
 | Customer discovery | `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams` |
 | Demo creation | `redis-demo-builder` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
+| Product UI demo | `redis-product-ui` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
 | RedisInsight plugin | `redis-insight-plugin` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
 | Shared local agent memory | `agent-memory-docker` + `rtk-cli` |
 | Parallel agent coordination | `agent-memory-coordination` + Superpowers + `rtk-cli` |
@@ -160,6 +167,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | caveman | 1.0.0 |
 | rtk-cli | 1.0.0 |
 | redis-brand-ui | 1.0.0 |
+| redis-product-ui | 1.0.0 |
 | redis-presentation-decks | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
 | playwright-test | 1.0.0 |
@@ -167,6 +175,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | redis-insight-plugin | 1.0.0 |
 | agent-memory-docker | 1.0.0 |
 | agent-memory-coordination | 1.0.0 |
+| agent-memory-dreaming | 1.0.0 |
 
 ## Skill Structure
 
