@@ -21,8 +21,7 @@ Load references only when needed:
 
 - Need model choice: read [routing-table](references/routing-table.md).
 - Need role contracts: read [specialist-roles](references/specialist-roles.md).
-- Need exact commands: read [command-patterns](references/command-patterns.md).
-- Need workflow shape: read [delegation-playbooks](references/delegation-playbooks.md).
+- Need exact commands or workflow shape: read [command-patterns](references/command-patterns.md) or [delegation-playbooks](references/delegation-playbooks.md).
 
 ## Routing Matrix
 
@@ -45,10 +44,8 @@ Pick the smallest role that preserves quality:
 - PR Shepherd: move an existing PR toward merge readiness without merging.
 - UI Designer: deliver product UI with visual, accessibility, and responsive evidence.
 - Qwen Worker: perform narrow local patch or analysis tasks.
-
-For role-specific prompt contracts, read
-[specialist-roles](references/specialist-roles.md). Do not create a specialist
-role when a simple worker prompt is enough.
+For role contracts, read [specialist-roles](references/specialist-roles.md).
+Do not create a specialist role when a simple worker prompt is enough.
 
 Dispatch check: ambiguous work starts with Coordinator or Spec Writer; repo
 edits go to Implementor; final approval goes to Verifier or Auditor; cheap
@@ -74,8 +71,8 @@ Every delegated task must be self-contained:
 
 ```text
 Role:
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 Repo:
 Branch:
@@ -94,6 +91,9 @@ Commit allowed: no
 Tell workers to report changed files, commands run, test output summary,
 blockers, and assumptions. Tell workers not to revert, reformat, or commit
 outside the assigned scope.
+
+Do not let workers inherit the coordinator model by omission; if model control
+is unavailable, report `unknown` actual model and why that is acceptable.
 
 ## Command Shapes
 
@@ -128,6 +128,8 @@ failing combined tests, or behavior that crosses worker boundaries.
 ## DO NOT
 
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
+- Do not omit requested model, requested reasoning effort, or routing reason.
+- Do not silently let workers inherit the coordinator model or reasoning level.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
 - Do not pass secrets, tokens, private logs, or credentials in worker prompts.
@@ -139,7 +141,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 ## Checklist
 
 - [ ] Worker type selected for task risk and ambiguity.
-- [ ] Model, reasoning effort, and routing reason recorded.
+- [ ] Requested/actual model, reasoning, inheritance status, and routing reason recorded.
 - [ ] Git status checked; unrelated changes protected.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.
 - [ ] RTK used when available; raw fallback reported when used.

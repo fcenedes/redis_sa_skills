@@ -54,8 +54,11 @@ Default version policy:
 Every delegated task and worker report must record:
 
 ```text
-Model used:
-Reasoning effort used:
+Requested model:
+Requested reasoning effort:
+Actual model:
+Actual reasoning effort:
+Inherited from coordinator: yes/no/unknown
 Routing reason:
 ```
 
@@ -64,6 +67,11 @@ overrides, record the concrete reason: cost, latency, local availability,
 repo-tool need, high-risk review, security sensitivity, or bounded low-risk
 scope. If the actual model or reasoning level is unknown, write `unknown`
 instead of guessing.
+
+Never let a delegated worker inherit the coordinator model or reasoning level by
+omission. If the delegation tool cannot force model or reasoning, record
+`Actual model: unknown`, `Actual reasoning effort: unknown`, and
+`Inherited from coordinator: unknown`, then explain why the risk is acceptable.
 
 ## Worker Status
 
@@ -98,8 +106,8 @@ explicitly asks the coordinator to act as a solo developer.
 
 ```text
 Role: Coordinator
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 Goal:
 Source of truth:
@@ -119,8 +127,8 @@ Use when the task is not implementation-ready.
 
 ```text
 Role: Spec Writer
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 Goal:
 Existing docs/specs:
@@ -144,8 +152,8 @@ Use for bounded code changes.
 
 ```text
 Role: Implementor
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 Repo:
 Branch:
@@ -157,8 +165,11 @@ Constraints:
 Verify with:
 Commit allowed: no
 Output:
-- model used
-- reasoning effort used
+- requested model
+- requested reasoning effort
+- actual model
+- actual reasoning effort
+- inherited from coordinator: yes/no/unknown
 - routing reason
 - files changed
 - summary
@@ -173,8 +184,8 @@ Use after implementation or before claiming completion.
 
 ```text
 Role: Verifier
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 Repo:
 Branch:
@@ -186,8 +197,11 @@ Commands to run:
 Output:
 - verdict: APPROVED / NOT APPROVED / BLOCKED
 - confidence: High / Medium / Low
-- model used
-- reasoning effort used
+- requested model
+- requested reasoning effort
+- actual model
+- actual reasoning effort
+- inherited from coordinator: yes/no/unknown
 - routing reason
 - evidence
 - failed gates
@@ -201,8 +215,8 @@ Use for architecture, runtime seam, security, or release-gate claims.
 
 ```text
 Role: Auditor
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 Scope:
 Claims to verify:
@@ -211,8 +225,11 @@ Evidence to inspect:
 Audit mode: architecture_gate / quality_gate / regression_gate / release_gate / deep_audit
 Output:
 - executive verdict
-- model used
-- reasoning effort used
+- requested model
+- requested reasoning effort
+- actual model
+- actual reasoning effort
+- inherited from coordinator: yes/no/unknown
 - routing reason
 - checks run
 - closed claims
@@ -228,8 +245,8 @@ Use for objective PR review.
 
 ```text
 Role: PR Reviewer
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 PR or diff:
 Review focus:
@@ -248,8 +265,8 @@ Use when a PR exists and needs loop management.
 
 ```text
 Role: PR Shepherd
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 PR:
 Source of truth:
@@ -273,8 +290,8 @@ Use for UI implementation or UI review.
 
 ```text
 Role: UI Designer
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 Repo:
 Design system:
@@ -299,8 +316,8 @@ Use for cheap local bounded tasks. Prefer patch handoff.
 
 ```text
 Role: Qwen Worker
-Model:
-Reasoning effort:
+Requested model:
+Requested reasoning effort:
 Routing reason:
 Repo:
 You own only:
