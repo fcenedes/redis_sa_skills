@@ -37,6 +37,7 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 
 | Skill | Description |
 |-------|-------------|
+| [agent-delegation-routing](agent-delegation-routing/SKILL.md) | Route coding work across Codex, Claude Code, local models, and CLI workers with specialist role presets, RTK-aware handoff, ownership, and verification. |
 | [agent-memory-docker](agent-memory-docker/SKILL.md) | Run a portable local Agent Memory Server Docker stack with Redis 8, then connect Codex, Claude Code, and Claude Desktop to the same shared memory. |
 | [agent-memory-coordination](agent-memory-coordination/SKILL.md) | Coordinate parallel agents through shared `agent_memory` prompts, strict file ownership, integration passes, and verification gates. |
 | [agent-memory-dreaming](agent-memory-dreaming/SKILL.md) | Safely create summaries, run scoped dreams, review and apply candidates, and browse taxonomy for MCP-backed `agent_memory` without polluting unrelated memory. |
@@ -104,6 +105,7 @@ npx skills add fcenedes/redis_sa_skills --skill playwright-cli-agent
 npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
 
 # Agent Memory
+npx skills add fcenedes/redis_sa_skills --skill agent-delegation-routing
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-docker
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-coordination
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-dreaming
@@ -124,6 +126,7 @@ Use playwright-cli-agent to open the local app, reproduce the dashboard bug, and
 Use caveman ultra and summarize this failing test output.
 Use redis-insight-plugin to create an external Parcel Redis Insight plugin for XRANGE.
 Use rtk-cli to inspect this repo and summarize the diff.
+Use agent-delegation-routing to split a multi-agent coding task into coordinator, implementor, verifier, and Qwen worker contracts.
 Use agent-memory-docker to create a shared local memory stack and configure Codex, Claude Code, and Claude Desktop.
 Use agent-memory-docker to install the default shared-memory policy for every new Codex and Claude Code session.
 Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory prompts with strict file ownership and a final integration gate.
@@ -141,7 +144,8 @@ Use agent-memory-dreaming to review candidate memories for the redis-sa-agent-me
 | Product UI demo | `redis-product-ui` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
 | RedisInsight plugin | `redis-insight-plugin` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
 | Shared local agent memory | `agent-memory-docker` + `rtk-cli` |
-| Parallel agent coordination | `agent-memory-coordination` + Superpowers + `rtk-cli` |
+| Delegated agent work | `agent-delegation-routing` + `rtk-cli` |
+| Parallel agent coordination | `agent-memory-coordination` + `agent-delegation-routing` + Superpowers + `rtk-cli` |
 | Vector search and RAG | `redis-development` (redis/agent-skills) + `redis-vector-search-rag` + `redis-demo-builder` |
 | Operations | `redis-observability-runbook` + `redis-performance-troubleshooting` |
 | Compact agent workflow | `rtk-cli` + `caveman` |
@@ -173,6 +177,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | playwright-test | 1.0.0 |
 | playwright-cli-agent | 1.0.0 |
 | redis-insight-plugin | 1.0.0 |
+| agent-delegation-routing | 1.0.0 |
 | agent-memory-docker | 1.0.0 |
 | agent-memory-coordination | 1.1.1 |
 | agent-memory-dreaming | 1.0.0 |
