@@ -42,6 +42,18 @@ codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "
 Use for repo-aware implementation, tests, refactors, frontend verification, and
 integration fixes.
 
+Set Codex reasoning through config when needed:
+
+```bash
+rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -c reasoning.effort=\"high\" "<worker prompt>"
+```
+
+Fallback:
+
+```bash
+codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -c reasoning.effort=\"high\" "<worker prompt>"
+```
+
 ## Codex Review Worker
 
 ```bash
@@ -55,6 +67,19 @@ codex -C /path/to/repo review "<review prompt>"
 ```
 
 Use for focused review when the output should be findings, not edits.
+`-C` is a top-level Codex flag placed before the `review` subcommand.
+
+Review current branch against `main`:
+
+```bash
+rtk proxy codex -C /path/to/repo review --base main "<review prompt>"
+```
+
+Fallback:
+
+```bash
+codex -C /path/to/repo review --base main "<review prompt>"
+```
 
 ## Local Qwen Through Ollama
 

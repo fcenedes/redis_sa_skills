@@ -1,8 +1,8 @@
 # Specialist Role Presets
 
 Use these role presets when a generic worker prompt is not enough. Keep roles
-generic: do not include Augment, Intent, workspace-note APIs, project-specific
-mission locks, or repo-specific state.
+generic: do not include vendor-specific agent APIs, project-specific mission
+locks, or repo-specific state.
 
 ## Selection Rule
 
