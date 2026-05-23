@@ -28,7 +28,7 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 ## Core Rules
 
 - Use Redis UI semantic families: `primary`, `secondary`, `neutral`, `informative`, `success`, `notice`, `attention`, `danger`, and `discovery`.
-- Use `Nunito Sans` for product UI text and `Source Code Pro` for code, commands, keys, IDs, and technical values.
+- Use `Geist` for current product UI text and `Source Code Pro` for code, commands, keys, IDs, and technical values. Use `Nunito Sans` only for legacy Redis UI surfaces or Storybook chrome.
 - Build compact, operator-friendly product screens: sidebars, tables, filters, drawers, modals, banners, toasts, tabs, and forms.
 - Represent every meaningful state: default, hover, active, selected, disabled, loading, empty, valid, invalid, warning, danger, and success.
 - Keep Redis Red from `redis-brand-ui` for brand moments; do not use it as the universal product semantic color.
