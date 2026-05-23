@@ -10,9 +10,23 @@ Use when one agent can safely own the full change.
 1. Coordinator writes a compact task contract.
 2. Implementor edits only owned files.
 3. Implementor runs focused verification.
-4. Coordinator reviews diff and runs the final gate.
+4. Coordinator runs spec-compliance review first.
+5. Coordinator runs code-quality review only after spec compliance passes.
+6. Coordinator runs the final gate.
 
 Best worker: Codex medium/high or Claude Sonnet.
+
+## Review Loop
+
+Use after every non-trivial implementation task.
+
+1. Give the implementor curated task context, not the full plan or chat history.
+2. Require `DONE`, `DONE_WITH_CONCERNS`, `NEEDS_CONTEXT`, or `BLOCKED`.
+3. If status is `NEEDS_CONTEXT`, provide missing context and retry.
+4. If status is `BLOCKED`, change model, context, ownership, or task size.
+5. Run spec-compliance review before code-quality review.
+6. If either reviewer finds issues, the implementor fixes them and the reviewer checks again.
+7. Do not move to the next task while review issues remain open.
 
 ## Two-Model Security Or High-Risk Review
 
@@ -35,6 +49,10 @@ Use when a bounded task keeps failing or stale context is hurting progress.
 
 State must live in repo docs, shared memory, or a ledger, not child-agent chat
 history.
+
+Workers receive only current task context, prior verifier feedback, exact owned
+files, constraints, and verification commands. Do not make workers read a large
+plan when the coordinator can provide the relevant excerpt.
 
 ## PR Shepherding
 

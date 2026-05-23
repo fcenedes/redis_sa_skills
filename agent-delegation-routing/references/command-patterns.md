@@ -5,6 +5,9 @@ for non-interactive delegated agent commands where preserving command behavior
 matters. Use RTK first-class wrappers for noisy repo commands, tests, builds,
 logs, and diffs.
 
+RTK is preferred, not required. If `rtk` is not installed or changes behavior,
+use the raw fallback and report that RTK was unavailable or bypassed.
+
 ## Preflight
 
 ```bash
@@ -15,13 +18,25 @@ rtk proxy command -v ollama
 rtk proxy ollama list
 ```
 
-If `rtk` is unavailable or changes behavior, use the raw command and report the
-bypass reason.
+Fallback:
+
+```bash
+git status --short
+command -v codex
+command -v ollama
+ollama list
+```
 
 ## Codex Non-Interactive Worker
 
 ```bash
 rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "<worker prompt>"
+```
+
+Fallback:
+
+```bash
+codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "<worker prompt>"
 ```
 
 Use for repo-aware implementation, tests, refactors, frontend verification, and
@@ -33,6 +48,12 @@ integration fixes.
 rtk proxy codex -C /path/to/repo review "<review prompt>"
 ```
 
+Fallback:
+
+```bash
+codex -C /path/to/repo review "<review prompt>"
+```
+
 Use for focused review when the output should be findings, not edits.
 
 ## Local Qwen Through Ollama
@@ -40,6 +61,13 @@ Use for focused review when the output should be findings, not edits.
 ```bash
 rtk proxy ollama list
 rtk proxy ollama run <qwen-model> "<worker prompt>"
+```
+
+Fallback:
+
+```bash
+ollama list
+ollama run <qwen-model> "<worker prompt>"
 ```
 
 Use for bounded worker tasks. Prefer unified diff output unless the task is
@@ -51,6 +79,12 @@ analysis-only.
 rtk proxy codex exec --oss --local-provider ollama -m <model> -C /path/to/repo "<worker prompt>"
 ```
 
+Fallback:
+
+```bash
+codex exec --oss --local-provider ollama -m <model> -C /path/to/repo "<worker prompt>"
+```
+
 Use when you want Codex's repo workflow around a local model.
 
 ## Long Prompt Files
@@ -58,6 +92,13 @@ Use when you want Codex's repo workflow around a local model.
 ```bash
 rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(rtk read /tmp/worker-prompt.txt)"
 rtk proxy ollama run <qwen-model> "$(rtk read /tmp/worker-prompt.txt)"
+```
+
+Fallback:
+
+```bash
+codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(cat /tmp/worker-prompt.txt)"
+ollama run <qwen-model> "$(cat /tmp/worker-prompt.txt)"
 ```
 
 If `rtk read` filters content too aggressively for the prompt, use `cat` and
@@ -70,6 +111,15 @@ rtk proxy git apply --check worker.patch
 rtk proxy git apply worker.patch
 rtk git diff --stat
 rtk git diff
+```
+
+Fallback:
+
+```bash
+git apply --check worker.patch
+git apply worker.patch
+git diff --stat
+git diff
 ```
 
 Reject patches that touch files outside ownership, include generated artifacts,

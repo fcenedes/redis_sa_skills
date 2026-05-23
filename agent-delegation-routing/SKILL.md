@@ -50,9 +50,14 @@ For role-specific prompt contracts, read
 [specialist-roles](references/specialist-roles.md). Do not create a specialist
 role when a simple worker prompt is enough.
 
+Dispatch check: ambiguous work starts with Coordinator or Spec Writer; repo
+edits go to Implementor; final approval goes to Verifier or Auditor; cheap
+bounded patches may go to Qwen Worker; security and architecture do not.
+
 ## Before Delegating
 
-Run `rtk git status`, identify unrelated local changes, and choose one
+Use `rtk git status` when RTK is installed; otherwise use `git status --short`
+and report the fallback. Identify unrelated local changes and choose one
 coordination mode:
 
 - Direct edit: the worker may edit only its owned files in the current worktree.
@@ -90,10 +95,9 @@ outside the assigned scope.
 ## Command Shapes
 
 For exact RTK-aware commands, read
-[command-patterns](references/command-patterns.md). Default to `rtk proxy` for
-non-interactive delegated agent commands and RTK first-class wrappers for noisy
-verification output. Use raw commands when the delegated command is interactive,
-streaming, or needs an exact unfiltered transcript.
+[command-patterns](references/command-patterns.md). Prefer RTK for token
+efficiency, but never require it: if `rtk` is unavailable or changes behavior,
+use the raw command and report the fallback.
 
 ## Patch Handoff
 
@@ -105,15 +109,18 @@ rtk proxy git apply --check worker.patch
 rtk proxy git apply worker.patch
 ```
 
+If RTK is unavailable, use `git apply --check worker.patch` and
+`git apply worker.patch`, then report the fallback.
+
 Reject patches that touch files outside ownership, include generated artifacts,
 reformat unrelated code, or skip verification without saying why.
 
 ## Integration
 
 After each worker returns, inspect `rtk git diff --stat` and targeted file diffs.
-Run focused verification first, then the repo quality gate. Use an integrator
-for shared files, adjacent tracks, failing combined tests, or behavior that
-crosses worker boundaries.
+If RTK is unavailable, use `git diff --stat`. Run focused verification first,
+then the repo quality gate. Use an integrator for shared files, adjacent tracks,
+failing combined tests, or behavior that crosses worker boundaries.
 
 ## DO NOT
 
@@ -131,6 +138,7 @@ crosses worker boundaries.
 - [ ] Worker type selected for task risk and ambiguity.
 - [ ] Git status checked; unrelated changes protected.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.
+- [ ] RTK used when available; raw fallback reported when used.
 - [ ] Long-lived or parallel prompts saved with `agent-memory-coordination` when needed.
 - [ ] Worker output reviewed against ownership before applying or keeping changes.
 - [ ] Focused tests and final quality gate completed or skip reasons recorded.

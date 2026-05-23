@@ -20,6 +20,47 @@ Use the smallest role that can safely complete the task:
 | UI Designer | Product UI needs design-system, a11y, responsive, and visual evidence. | Codex high | UI changes, tokens/components used, screenshots/a11y/responsive checks. |
 | Qwen Worker | A narrow local worker task can be verified cheaply. | Qwen local/Ollama | Unified diff or concise report, verification result, blockers. |
 
+The coordinator may override any default when scope, risk, cost, or tool
+availability justifies it. Record the reason when overriding a safer default
+with a cheaper or less capable worker.
+
+## Model Alternatives
+
+Use the configured current stable model for each family unless the repo or user
+pins an exact version. Do not hard-code dated model versions in worker prompts
+unless availability was just verified.
+
+| Role | Default | Claude Alternative | Codex Alternative | Local Alternative | Recommended Think |
+|------|---------|--------------------|-------------------|-------------------|-------------------|
+| Coordinator | Claude Opus | Claude Sonnet for small scope | Codex xhigh | none | high/xhigh |
+| Spec Writer | Claude Opus/Sonnet | Claude Opus for ambiguous specs | Codex high/xhigh | none | high |
+| Implementor | Codex medium | Claude Sonnet | Codex high for multi-file work | Qwen for narrow patches | medium/high |
+| Verifier | Codex high | Claude Sonnet or Opus | Codex xhigh for risky gates | Qwen only for obvious checks | high |
+| Auditor | Claude Opus | none for high-risk judgment | Codex xhigh for repo evidence | none | xhigh |
+| PR Reviewer | Codex review | Claude Opus for strategic risk | Codex high/xhigh | Qwen only for obvious diff scan | high |
+| PR Shepherd | Codex medium/high | Claude Sonnet for comment drafting | Codex high for CI/fix loops | none | medium/high |
+| UI Designer | Codex high | Claude Sonnet for design critique | Codex high/xhigh | none | high |
+| Qwen Worker | Qwen local/Ollama | Claude Haiku | Codex low/medium | Qwen Coder | low/medium |
+
+Default version policy:
+
+- Claude: use the configured current stable Opus, Sonnet, or Haiku variant.
+- Codex: use the configured current Codex coding model with the listed reasoning effort.
+- Qwen/local: use the strongest locally installed Qwen Coder model that fits latency and memory.
+- If exact model identity matters, the coordinator records the model name and why.
+
+## Worker Status
+
+Workers must report exactly one status:
+
+- `DONE`: task complete; proceed to verification.
+- `DONE_WITH_CONCERNS`: task complete but concerns need coordinator review.
+- `NEEDS_CONTEXT`: missing context; coordinator provides it before retry.
+- `BLOCKED`: cannot complete; coordinator changes context, model, scope, or escalates.
+
+Do not force the same worker to retry a `BLOCKED` task without changing
+something material: context, ownership, model capability, or task size.
+
 ## Shared Quality Gates
 
 Apply the gates that fit the repo and task. When the repo has explicit gates,
