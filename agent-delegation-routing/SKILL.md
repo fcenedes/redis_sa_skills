@@ -74,6 +74,9 @@ Every delegated task must be self-contained:
 
 ```text
 Role:
+Model:
+Reasoning effort:
+Routing reason:
 Repo:
 Branch:
 Source of truth:
@@ -136,6 +139,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 ## Checklist
 
 - [ ] Worker type selected for task risk and ambiguity.
+- [ ] Model, reasoning effort, and routing reason recorded.
 - [ ] Git status checked; unrelated changes protected.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.
 - [ ] RTK used when available; raw fallback reported when used.

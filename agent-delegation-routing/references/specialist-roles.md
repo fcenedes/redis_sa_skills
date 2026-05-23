@@ -49,6 +49,22 @@ Default version policy:
 - Qwen/local: use the strongest locally installed Qwen Coder model that fits latency and memory.
 - If exact model identity matters, the coordinator records the model name and why.
 
+## Routing Evidence
+
+Every delegated task and worker report must record:
+
+```text
+Model used:
+Reasoning effort used:
+Routing reason:
+```
+
+Use `Routing reason: default for role` when the role table default is used. For
+overrides, record the concrete reason: cost, latency, local availability,
+repo-tool need, high-risk review, security sensitivity, or bounded low-risk
+scope. If the actual model or reasoning level is unknown, write `unknown`
+instead of guessing.
+
 ## Worker Status
 
 Workers must report exactly one status:
@@ -82,6 +98,9 @@ explicitly asks the coordinator to act as a solo developer.
 
 ```text
 Role: Coordinator
+Model:
+Reasoning effort:
+Routing reason:
 Goal:
 Source of truth:
 Workers available:
@@ -100,6 +119,9 @@ Use when the task is not implementation-ready.
 
 ```text
 Role: Spec Writer
+Model:
+Reasoning effort:
+Routing reason:
 Goal:
 Existing docs/specs:
 Non-goals:
@@ -122,6 +144,9 @@ Use for bounded code changes.
 
 ```text
 Role: Implementor
+Model:
+Reasoning effort:
+Routing reason:
 Repo:
 Branch:
 You own:
@@ -132,6 +157,9 @@ Constraints:
 Verify with:
 Commit allowed: no
 Output:
+- model used
+- reasoning effort used
+- routing reason
 - files changed
 - summary
 - commands run
@@ -145,6 +173,9 @@ Use after implementation or before claiming completion.
 
 ```text
 Role: Verifier
+Model:
+Reasoning effort:
+Routing reason:
 Repo:
 Branch:
 Source of truth:
@@ -155,6 +186,9 @@ Commands to run:
 Output:
 - verdict: APPROVED / NOT APPROVED / BLOCKED
 - confidence: High / Medium / Low
+- model used
+- reasoning effort used
+- routing reason
 - evidence
 - failed gates
 - smallest next fix if not approved
@@ -167,6 +201,9 @@ Use for architecture, runtime seam, security, or release-gate claims.
 
 ```text
 Role: Auditor
+Model:
+Reasoning effort:
+Routing reason:
 Scope:
 Claims to verify:
 Source of truth:
@@ -174,6 +211,9 @@ Evidence to inspect:
 Audit mode: architecture_gate / quality_gate / regression_gate / release_gate / deep_audit
 Output:
 - executive verdict
+- model used
+- reasoning effort used
+- routing reason
 - checks run
 - closed claims
 - open claims
@@ -188,6 +228,9 @@ Use for objective PR review.
 
 ```text
 Role: PR Reviewer
+Model:
+Reasoning effort:
+Routing reason:
 PR or diff:
 Review focus:
 Release gates:
@@ -205,6 +248,9 @@ Use when a PR exists and needs loop management.
 
 ```text
 Role: PR Shepherd
+Model:
+Reasoning effort:
+Routing reason:
 PR:
 Source of truth:
 Merge-ready definition:
@@ -227,6 +273,9 @@ Use for UI implementation or UI review.
 
 ```text
 Role: UI Designer
+Model:
+Reasoning effort:
+Routing reason:
 Repo:
 Design system:
 Screens/components:
@@ -250,6 +299,9 @@ Use for cheap local bounded tasks. Prefer patch handoff.
 
 ```text
 Role: Qwen Worker
+Model:
+Reasoning effort:
+Routing reason:
 Repo:
 You own only:
 Do not edit anything else.
