@@ -9,10 +9,8 @@ metadata:
 
 # Agent Delegation Routing
 
-Route work from a coordinator agent to the right worker agent with explicit
-scope, command shape, verification, and diff review. Use
-`agent-memory-coordination` as well when prompts, ownership, or outcomes must be
-shared across parallel agents or future sessions.
+Route work from a coordinator agent to the right worker agent with explicit scope, command shape, verification, and diff review. Use
+`agent-memory-coordination` when prompts, ownership, or outcomes must be shared across parallel agents or future sessions.
 
 Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex must not delegate directly to Claude; Claude entries are external choices for Claude-side coordinators or humans.
 
@@ -60,9 +58,9 @@ coordination mode:
 - Patch handoff: the worker returns a unified diff; the coordinator applies it.
 - Isolated worktree: risky or parallel work happens outside the main worktree.
 
-For parallel work, assign disjoint file ownership and reserve shared files for
-an integrator. If shared memory is available, record the ownership map and
-worker prompts with `agent-memory-coordination`.
+Parallelization decision is mandatory. If two or more tracks have disjoint files and no ordering dependency, create a parallel batch with owner, worker type, files, and verification per worker.
+Dispatch concurrently when the runtime supports it; otherwise record `parallelizable but serialized` and why. Reserve shared files for an integrator.
+If shared memory is available, record ownership and prompts with `agent-memory-coordination`.
 
 ## Worker Prompt Contract
 
@@ -130,6 +128,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
 - Do not omit requested model, requested reasoning effort, or routing reason.
 - Do not silently let workers inherit the coordinator model or reasoning level.
+- Do not serialize independent worker tracks without recording why.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
 - Do not pass secrets, tokens, private logs, or credentials in worker prompts.
@@ -143,6 +142,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 - [ ] Worker type selected for task risk and ambiguity.
 - [ ] Requested/actual model, reasoning, inheritance status, and routing reason recorded.
 - [ ] Git status checked; unrelated changes protected.
+- [ ] Parallelization decision recorded; independent tracks batched or serialization justified.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.
 - [ ] RTK used when available; raw fallback reported when used.
 - [ ] Long-lived or parallel prompts saved with `agent-memory-coordination` when needed.

@@ -98,6 +98,29 @@ ollama run <qwen-model> "<worker prompt>"
 Use for bounded worker tasks. Prefer unified diff output unless the task is
 analysis-only.
 
+## Parallel Worker Dispatch
+
+Use the host agent's parallel-subagent tool when available. Otherwise use
+separate terminals, tmux panes, or background jobs with one prompt file and one
+log per worker. Do not combine multiple workers in one prompt.
+
+```bash
+rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(rtk read /tmp/worker-a.txt)" > /tmp/worker-a.log 2>&1 &
+rtk proxy ollama run <qwen-model> "$(rtk read /tmp/worker-b.txt)" > /tmp/worker-b.log 2>&1 &
+wait
+```
+
+Fallback:
+
+```bash
+codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(cat /tmp/worker-a.txt)" > /tmp/worker-a.log 2>&1 &
+ollama run <qwen-model> "$(cat /tmp/worker-b.txt)" > /tmp/worker-b.log 2>&1 &
+wait
+```
+
+After every parallel batch, inspect each log, then review ownership with
+`git diff --name-only` before integration.
+
 ## Local Model Through Codex OSS Provider
 
 ```bash

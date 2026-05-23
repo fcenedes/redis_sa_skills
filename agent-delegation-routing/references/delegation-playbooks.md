@@ -17,6 +17,17 @@ Use when one agent can safely own the full change.
 Best worker: Codex medium/high. Claude Sonnet is valid only when a human or
 Claude-side coordinator routes that work.
 
+## Parallel Batch
+
+Use when at least two tracks have disjoint ownership and no ordering dependency.
+
+1. Coordinator states `parallelization decision: parallel batch`.
+2. Assign each worker owned files, forbidden files, model, reasoning, and gate.
+3. Reserve shared files, generated files, lockfiles, and docs indexes for the integrator.
+4. Dispatch workers concurrently when the runtime supports it.
+5. If concurrency is unavailable, state `parallelizable but serialized` and why.
+6. Integrator reviews ownership, combines outputs, and runs the final gate.
+
 ## Review Loop
 
 Use after every non-trivial implementation task.

@@ -123,7 +123,9 @@ Constraints:
 Required gates:
 Output:
 - decomposition
+- parallelization decision: parallel batch / serial / not parallelizable
 - ownership map
+- worker batch with role, model, reasoning, owned files, and gate per worker
 - verification plan
 - integration risks
 ```
