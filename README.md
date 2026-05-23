@@ -174,7 +174,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | playwright-cli-agent | 1.0.0 |
 | redis-insight-plugin | 1.0.0 |
 | agent-memory-docker | 1.0.0 |
-| agent-memory-coordination | 1.0.0 |
+| agent-memory-coordination | 1.1.1 |
 | agent-memory-dreaming | 1.0.0 |
 
 ## Skill Structure
