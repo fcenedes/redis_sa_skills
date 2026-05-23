@@ -1,6 +1,6 @@
 # Redis SA Skills
 
-A collection of agent skills for Redis solutions architecture by [fcenedes](https://github.com/fcenedes).
+A collection of agent skills for Redis solutions architecture built by Solution Architects.
 
 ## Available Skills
 
