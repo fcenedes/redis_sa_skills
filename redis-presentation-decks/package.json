@@ -1,0 +1,15 @@
+{
+  "name": "redis-presentation-decks-skill",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "scaffold": "node scripts/create-presentation.js",
+    "check:charts": "node scripts/check-charts.js",
+    "check:overflow": "node scripts/check-overflow.js"
+  },
+  "dependencies": {
+    "playwright": "^1.59.1"
+  }
+}

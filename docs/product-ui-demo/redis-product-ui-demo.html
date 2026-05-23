@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Redis Product UI Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      font-size: 62.5%;
+      --font-body: "Geist", "Geist Sans", sans-serif;
+      --font-code: "Source Code Pro", monospace;
+      --space-1: .2rem;
+      --space-2: .4rem;
+      --space-3: .8rem;
+      --space-4: 1.2rem;
+      --space-5: 1.6rem;
+      --space-6: 2rem;
+      --space-7: 2.4rem;
+      --space-8: 3.2rem;
+      --radius: .6rem;
+      --shadow: 0 .8rem 2.8rem rgba(1, 17, 42, .08);
+    }
+
+    html[data-theme="light"] {
+      --page: #f8f8f8;
+      --surface: #ffffff;
+      --surface-subtle: #fcfcfc;
+      --surface-raised: #f3f3f3;
+      --border: #d1d3d4;
+      --border-soft: #e9e9e9;
+      --text: #091a23;
+      --muted: #5c707a;
+      --subtle: #8a99a0;
+      --primary-bg: #0070f3;
+      --primary-border: #0060d1;
+      --primary-text: #ffffff;
+      --primary-soft: #eaf6ff;
+      --primary-soft-text: #064ea2;
+      --info-bg: #f0f9ff;
+      --info-text: #0369a1;
+      --success-bg: #f0fdf4;
+      --success-text: #166534;
+      --notice-bg: #f5f3ff;
+      --notice-text: #5b21b6;
+      --attention-bg: #fff8e1;
+      --attention-text: #78350f;
+      --danger-bg: #fff1f1;
+      --danger-text: #b91c1c;
+      --discovery-bg: #FEE1F1;
+      --discovery-text: #AF0961;
+      --focus: #064ea2;
+    }
+
+    html[data-theme="dark"] {
+      --page: #07151c;
+      --surface: #091a23;
+      --surface-subtle: #0d212c;
+      --surface-raised: #163341;
+      --border: #5c707a;
+      --border-soft: #2d4754;
+      --text: #fcfcfc;
+      --muted: #b9c2c6;
+      --subtle: #d9d9d9;
+      --primary-bg: #0070f3;
+      --primary-border: #52a9ff;
+      --primary-text: #ffffff;
+      --primary-soft: #10243e;
+      --primary-soft-text: #afd7ff;
+      --info-bg: #082f49;
+      --info-text: #7dd3fc;
+      --success-bg: #052e16;
+      --success-text: #86efac;
+      --notice-bg: #2e1065;
+      --notice-text: #c4b5fd;
+      --attention-bg: #4a0d03;
+      --attention-text: #fde68a;
+      --danger-bg: #450a0a;
+      --danger-text: #fca5a5;
+      --discovery-bg: #2C0218;
+      --discovery-text: #FA94CA;
+      --focus: #52a9ff;
+      --shadow: none;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--page);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1.4rem;
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    tr:focus-visible {
+      outline: .2rem solid var(--focus);
+      outline-offset: .2rem;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 24rem minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--surface);
+      border-right: .1rem solid var(--border-soft);
+      padding: var(--space-6) var(--space-5);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      height: 3.6rem;
+      margin-bottom: var(--space-7);
+      font-weight: 700;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 3rem;
+      height: 3rem;
+      border-radius: var(--radius);
+      background: var(--primary-bg);
+      border: .1rem solid var(--primary-border);
+      color: var(--primary-text);
+      font-family: var(--font-code);
+      font-weight: 600;
+    }
+
+    .nav-group {
+      margin-bottom: var(--space-7);
+    }
+
+    .nav-label {
+      margin: 0 0 var(--space-3);
+      color: var(--muted);
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 3.6rem;
+      margin-bottom: var(--space-2);
+      padding: 0 var(--space-3);
+      border: .1rem solid transparent;
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .nav-item[aria-current="page"],
+    .nav-item:hover {
+      background: var(--primary-soft);
+      border-color: var(--primary-border);
+      color: var(--primary-soft-text);
+    }
+
+    .main {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr);
+    }
+
+    .topbar,
+    .midbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      background: var(--surface);
+      border-bottom: .1rem solid var(--border-soft);
+      padding: var(--space-4) var(--space-6);
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .title-block p {
+      margin: var(--space-1) 0 0;
+      color: var(--muted);
+    }
+
+    .toolbar,
+    .filters,
+    .button-row,
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .button {
+      min-height: 3.6rem;
+      padding: 0 var(--space-4);
+      border-radius: var(--radius);
+      border: .1rem solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background: var(--surface-subtle);
+    }
+
+    .button.primary {
+      background: var(--primary-bg);
+      border-color: var(--primary-border);
+      color: var(--primary-text);
+    }
+
+    .button.danger {
+      background: var(--danger-bg);
+      border-color: var(--danger-text);
+      color: var(--danger-text);
+    }
+
+    .button.icon {
+      width: 3.6rem;
+      padding: 0;
+    }
+
+    .button[disabled] {
+      cursor: not-allowed;
+      opacity: .55;
+    }
+
+    .search {
+      width: min(42rem, 100%);
+      min-height: 3.6rem;
+      padding: 0 var(--space-4);
+      border: .1rem solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .content {
+      min-width: 0;
+      padding: var(--space-6);
+    }
+
+    .banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+      padding: var(--space-4);
+      border: .1rem solid var(--attention-text);
+      border-radius: var(--radius);
+      background: var(--attention-bg);
+      color: var(--attention-text);
+      font-weight: 700;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+
+    .metric {
+      min-height: 9.6rem;
+      padding: var(--space-5);
+      border: .1rem solid var(--border-soft);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .metric-label {
+      margin: 0 0 var(--space-2);
+      color: var(--muted);
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      margin: 0;
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 34rem;
+      gap: var(--space-5);
+      align-items: start;
+    }
+
+    .panel {
+      overflow: hidden;
+      border: .1rem solid var(--border-soft);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding: var(--space-4) var(--space-5);
+      border-bottom: .1rem solid var(--border-soft);
+    }
+
+    .panel-title {
+      margin: 0;
+      font-size: 1.6rem;
+      line-height: 1.2;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 78rem;
+    }
+
+    th,
+    td {
+      padding: var(--space-3) var(--space-5);
+      border-bottom: .1rem solid var(--border-soft);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      background: var(--surface-subtle);
+      color: var(--muted);
+      font-size: 1.2rem;
+      text-transform: uppercase;
+    }
+
+    tr[aria-selected="true"] {
+      background: var(--primary-soft);
+      color: var(--primary-soft-text);
+    }
+
+    tr:hover {
+      background: var(--surface-subtle);
+    }
+
+    .code {
+      font-family: var(--font-code);
+      font-size: 1.3rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 2.4rem;
+      padding: 0 var(--space-3);
+      border-radius: 999rem;
+      border: .1rem solid currentColor;
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .success {
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+
+    .info {
+      background: var(--info-bg);
+      color: var(--info-text);
+    }
+
+    .notice {
+      background: var(--notice-bg);
+      color: var(--notice-text);
+    }
+
+    .danger-state {
+      background: var(--danger-bg);
+      color: var(--danger-text);
+    }
+
+    .discovery {
+      background: var(--discovery-bg);
+      color: var(--discovery-text);
+    }
+
+    .drawer {
+      position: sticky;
+      top: var(--space-5);
+    }
+
+    .drawer-body {
+      padding: var(--space-5);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-2);
+      margin-bottom: var(--space-5);
+    }
+
+    .tab {
+      min-height: 3rem;
+      border: .1rem solid var(--border);
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .tab[aria-selected="true"] {
+      background: var(--primary-soft);
+      border-color: var(--primary-border);
+      color: var(--primary-soft-text);
+    }
+
+    .kv {
+      display: grid;
+      grid-template-columns: 10rem minmax(0, 1fr);
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: .1rem solid var(--border-soft);
+    }
+
+    .kv dt {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .kv dd {
+      margin: 0;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .state-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .state {
+      padding: var(--space-4);
+      border: .1rem solid var(--border-soft);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .state h3 {
+      margin: 0 0 var(--space-2);
+      font-size: 1.4rem;
+    }
+
+    .state p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+      right: var(--space-5);
+      bottom: var(--space-5);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      width: min(34rem, calc(100vw - 3.2rem));
+      padding: var(--space-4);
+      border: .1rem solid var(--success-text);
+      border-radius: var(--radius);
+      background: var(--success-bg);
+      color: var(--success-text);
+      box-shadow: var(--shadow);
+      font-weight: 700;
+    }
+
+    @media (max-width: 1080px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: .1rem solid var(--border-soft);
+      }
+
+      .workspace,
+      .metrics,
+      .state-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .drawer {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Redis product navigation">
+      <div class="brand">
+        <span class="brand-mark">R</span>
+        <span>Redis Console</span>
+      </div>
+
+      <nav>
+        <section class="nav-group" aria-labelledby="nav-data">
+          <p class="nav-label" id="nav-data">Data</p>
+          <button class="nav-item" aria-current="page"><span>Key browser</span><span class="badge info">Live</span></button>
+          <button class="nav-item"><span>Streams</span><span>14</span></button>
+          <button class="nav-item"><span>Search</span><span>8</span></button>
+        </section>
+
+        <section class="nav-group" aria-labelledby="nav-ops">
+          <p class="nav-label" id="nav-ops">Operations</p>
+          <button class="nav-item"><span>Slow log</span></button>
+          <button class="nav-item"><span>Clients</span></button>
+          <button class="nav-item"><span>Memory</span></button>
+        </section>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="title-block">
+          <h1>Key browser</h1>
+          <p>Production cache · eu-west-1 · sampled 12 seconds ago</p>
+        </div>
+        <div class="toolbar">
+          <button class="button" id="themeToggle" type="button">Dark mode</button>
+          <button class="button icon" type="button" aria-label="Refresh">↻</button>
+          <button class="button primary" type="button">Create key</button>
+        </div>
+      </header>
+
+      <section class="midbar" aria-label="Filters">
+        <input class="search" type="search" value="tenant:42:*" aria-label="Search keys">
+        <div class="filters">
+          <span class="badge info">Hash</span>
+          <span class="badge notice">TTL &lt; 1m</span>
+          <span class="badge discovery">Sampled</span>
+          <button class="button" type="button">Reset</button>
+        </div>
+      </section>
+
+      <section class="content">
+        <div class="banner" role="status">
+          <span>Warning · Replica lag is elevated. Table data may be stale by up to 12 seconds.</span>
+          <button class="button" type="button">View details</button>
+        </div>
+
+        <section class="metrics" aria-label="Summary metrics">
+          <article class="metric">
+            <p class="metric-label">Cache hit</p>
+            <p class="metric-value">98.7%</p>
+          </article>
+          <article class="metric">
+            <p class="metric-label">Keys scanned</p>
+            <p class="metric-value">12k</p>
+          </article>
+          <article class="metric">
+            <p class="metric-label">Median TTL</p>
+            <p class="metric-value">43m</p>
+          </article>
+          <article class="metric">
+            <p class="metric-label">Errors</p>
+            <p class="metric-value">2</p>
+          </article>
+        </section>
+
+        <div class="workspace">
+          <section class="panel" aria-labelledby="keys-title">
+            <div class="panel-head">
+              <h2 class="panel-title" id="keys-title">Keys</h2>
+              <div class="button-row">
+                <button class="button" type="button">Columns</button>
+                <button class="button" type="button">Export</button>
+                <button class="button danger" type="button" disabled>Delete</button>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Key</th>
+                    <th>Type</th>
+                    <th>TTL</th>
+                    <th>Size</th>
+                    <th>State</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr tabindex="0" aria-selected="true">
+                    <td class="code">tenant:42:cart:883</td>
+                    <td>Hash</td>
+                    <td class="code">44s</td>
+                    <td class="code">14.2 KB</td>
+                    <td><span class="badge success">Healthy</span></td>
+                    <td><button class="button" type="button">Inspect</button></td>
+                  </tr>
+                  <tr tabindex="0">
+                    <td class="code">tenant:42:session:992</td>
+                    <td>String</td>
+                    <td class="code">4m</td>
+                    <td class="code">2.8 KB</td>
+                    <td><span class="badge notice">Pending</span></td>
+                    <td><button class="button" type="button">Inspect</button></td>
+                  </tr>
+                  <tr tabindex="0">
+                    <td class="code">tenant:42:recommendations</td>
+                    <td>JSON</td>
+                    <td class="code">none</td>
+                    <td class="code">91 KB</td>
+                    <td><span class="badge danger-state">Failed</span></td>
+                    <td><button class="button" type="button">Retry</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <aside class="panel drawer" aria-labelledby="drawer-title">
+            <div class="panel-head">
+              <h2 class="panel-title" id="drawer-title">Inspector</h2>
+              <span class="badge info">Selected</span>
+            </div>
+            <div class="drawer-body">
+              <div class="tabs" role="tablist" aria-label="Key detail tabs">
+                <button class="tab" role="tab" aria-selected="true">Overview</button>
+                <button class="tab" role="tab">Value</button>
+                <button class="tab" role="tab">TTL</button>
+              </div>
+              <dl>
+                <div class="kv">
+                  <dt>Key</dt>
+                  <dd class="code">tenant:42:cart:883</dd>
+                </div>
+                <div class="kv">
+                  <dt>Source</dt>
+                  <dd>Live primary</dd>
+                </div>
+                <div class="kv">
+                  <dt>Derived</dt>
+                  <dd>Memory estimate sampled from replica</dd>
+                </div>
+                <div class="kv">
+                  <dt>Command</dt>
+                  <dd class="code">HGETALL tenant:42:cart:883</dd>
+                </div>
+              </dl>
+              <div class="button-row" style="margin-top: 1.6rem;">
+                <button class="button primary" type="button">Refresh</button>
+                <button class="button" type="button">Copy key</button>
+                <button class="button danger" type="button">Expire</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <section class="state-grid" aria-label="State examples">
+          <article class="state">
+            <h3>Empty</h3>
+            <p>No keys match the active filters.</p>
+          </article>
+          <article class="state">
+            <h3>Loading</h3>
+            <p>Reserving table space while shard metadata loads.</p>
+          </article>
+          <article class="state">
+            <h3>Error</h3>
+            <p>Connection failed. Retry is available.</p>
+          </article>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" role="status">
+    <span class="badge success">Success</span>
+    <span>TTL updated for <span class="code">tenant:42:cart:883</span></span>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const toggle = document.querySelector("#themeToggle");
+
+    toggle.addEventListener("click", () => {
+      const next = root.dataset.theme === "light" ? "dark" : "light";
+      root.dataset.theme = next;
+      toggle.textContent = next === "light" ? "Dark mode" : "Light mode";
+    });
+  </script>
+</body>
+</html>
