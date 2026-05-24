@@ -20,7 +20,7 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 ## Workflow
 
 1. Identify the surface: product shell, dashboard, table, inspector, form, wizard, plugin, or demo.
-2. Pick product tokens from [tokens](references/tokens.md), including light and dark mode.
+2. Pick the correct theme family from [tokens](references/tokens.md): `light`/`dark` for RedisInsight components, `light2`/`dark2` for other Redis products.
 3. Use component guidance from [components](references/components.md).
 4. Choose a layout pattern from [layout patterns](references/layout-patterns.md).
 5. Verify the result with [quality checklist](references/quality-checklist.md).
@@ -28,6 +28,7 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 ## Core Rules
 
 - Use Redis UI semantic families: `primary`, `secondary`, `neutral`, `informative`, `success`, `notice`, `attention`, `danger`, and `discovery`.
+- Use `light`/`dark` only for RedisInsight component fidelity; use `light2`/`dark2` for Redis Cloud, product dashboards, admin tools, and new product demos.
 - Use `Geist` for current product UI text and `Source Code Pro` for code, commands, keys, IDs, and technical values. Use `Nunito Sans` only for legacy Redis UI surfaces or Storybook chrome.
 - Build compact, operator-friendly product screens: sidebars, tables, filters, drawers, modals, banners, toasts, tabs, and forms.
 - Represent every meaningful state: default, hover, active, selected, disabled, loading, empty, valid, invalid, warning, danger, and success.
@@ -47,7 +48,7 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 ## Checklist
 
 1. Surface type and density are appropriate for product use.
-2. Light and dark tokens come from `references/tokens.md`.
+2. Theme family is correct: RedisInsight uses `light`/`dark`; other Redis products use `light2`/`dark2`.
 3. Typography uses product UI fonts unless brand/marketing guidance overrides it.
 4. Component states are complete and distinguish status from brand accent.
 5. Tables, filters, navigation, drawers, modals, and feedback patterns follow the references.
