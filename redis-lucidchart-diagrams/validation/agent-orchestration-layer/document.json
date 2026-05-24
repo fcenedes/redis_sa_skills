@@ -1,0 +1,946 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "id": "page_agent_orchestration",
+      "title": "Redis Agent Orchestration Layer",
+      "shapes": [
+        {
+          "id": "title",
+          "type": "text",
+          "boundingBox": {
+            "x": 60,
+            "y": 34,
+            "w": 880,
+            "h": 46
+          },
+          "text": "<p><b>Redis as the live context layer for agent orchestration</b></p>",
+          "zIndex": 20
+        },
+        {
+          "id": "subtitle",
+          "type": "text",
+          "boundingBox": {
+            "x": 62,
+            "y": 82,
+            "w": 940,
+            "h": 42
+          },
+          "text": "<p>Coordination needs live task state, durable evidence, retrieval, and auditable handoffs.</p>",
+          "zIndex": 20
+        },
+        {
+          "id": "lane_context",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 40,
+            "y": 140,
+            "w": 300,
+            "h": 580
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#D5DCE0",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 10,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Context inputs</b></p>",
+          "zIndex": 0
+        },
+        {
+          "id": "lane_redis",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 378,
+            "y": 140,
+            "w": 392,
+            "h": 580
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFF6F4"
+            },
+            "stroke": {
+              "color": "#FF4438",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 10,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Redis context layer</b></p>",
+          "zIndex": 0
+        },
+        {
+          "id": "lane_agents",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 814,
+            "y": 140,
+            "w": 406,
+            "h": 580
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFFFFF"
+            },
+            "stroke": {
+              "color": "#D5DCE0",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 10,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Agents and review</b></p>",
+          "zIndex": 0
+        },
+        {
+          "id": "static_context",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 78,
+            "y": 214,
+            "w": 225,
+            "h": 88
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F5F7F8"
+            },
+            "stroke": {
+              "color": "#B8C4CB",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Static context</b></p><p>Repo docs<br/>plans<br/>constraints</p>",
+          "customData": [
+            {
+              "key": "role",
+              "value": "source_context"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "durable_context",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 78,
+            "y": 346,
+            "w": 225,
+            "h": 96
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EAF1FF"
+            },
+            "stroke": {
+              "color": "#4B6FB3",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#10233F"
+          },
+          "text": "<p><b>Durable context</b></p><p>Validated decisions<br/>past outcomes<br/>prompts</p>",
+          "customData": [
+            {
+              "key": "role",
+              "value": "memory_context"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "intended_context",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 78,
+            "y": 486,
+            "w": 225,
+            "h": 96
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FFF4D6"
+            },
+            "stroke": {
+              "color": "#B7791F",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#432B05"
+          },
+          "text": "<p><b>Intent context</b></p><p>Goal<br/>risk<br/>done criteria</p>",
+          "customData": [
+            {
+              "key": "role",
+              "value": "intent_context"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "redis_context",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 430,
+            "y": 214,
+            "w": 292,
+            "h": 160
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#FF4438"
+            },
+            "stroke": {
+              "color": "#A31B14",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 16,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Redis Context Layer</b></p><p>HASH / JSON<br/>task state<br/>owner</p><p>STREAMS<br/>events<br/>handoffs</p>",
+          "customData": [
+            {
+              "key": "redis",
+              "value": "live_context_layer"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "queue",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 424,
+            "y": 426,
+            "w": 132,
+            "h": 96
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E7F7EF"
+            },
+            "stroke": {
+              "color": "#2E8B57",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#0D3B24"
+          },
+          "text": "<p><b>Queue</b></p><p>LIST / ZSET<br/>next action</p>",
+          "customData": [
+            {
+              "key": "redis",
+              "value": "work_queue"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "search",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 596,
+            "y": 426,
+            "w": 132,
+            "h": 96
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#EAF1FF"
+            },
+            "stroke": {
+              "color": "#4B6FB3",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#10233F"
+          },
+          "text": "<p><b>Search</b></p><p>similar decisions<br/>past evidence</p>",
+          "customData": [
+            {
+              "key": "redis",
+              "value": "search_retrieval"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "evidence",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 426,
+            "y": 566,
+            "w": 304,
+            "h": 108
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#091A23"
+            },
+            "stroke": {
+              "color": "#596873",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 10,
+            "textColor": "#FFFFFF"
+          },
+          "text": "<p>HSET task:10 state running</p><p>XADD ctx:events * status DONE</p><p>FT.SEARCH idx:context @topic:{routing}</p>",
+          "customData": [
+            {
+              "key": "redis",
+              "value": "evidence_commands"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "coordinator",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 842,
+            "y": 222,
+            "w": 160,
+            "h": 96
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F5F7F8"
+            },
+            "stroke": {
+              "color": "#B8C4CB",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Coordinator</b></p><p>decides<br/>routes<br/>records</p>",
+          "customData": [
+            {
+              "key": "agent_role",
+              "value": "coordinator"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "codex_worker",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1034,
+            "y": 184,
+            "w": 146,
+            "h": 76
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F5F7F8"
+            },
+            "stroke": {
+              "color": "#B8C4CB",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Codex worker</b></p><p>repo execution</p>",
+          "customData": [
+            {
+              "key": "agent_role",
+              "value": "implementation_worker"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "local_worker",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1034,
+            "y": 320,
+            "w": 146,
+            "h": 76
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F5F7F8"
+            },
+            "stroke": {
+              "color": "#B8C4CB",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Local worker</b></p><p>bounded patch</p>",
+          "customData": [
+            {
+              "key": "agent_role",
+              "value": "local_worker"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "verifier",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 1034,
+            "y": 456,
+            "w": 146,
+            "h": 76
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#F5F7F8"
+            },
+            "stroke": {
+              "color": "#B8C4CB",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#091A23"
+          },
+          "text": "<p><b>Verifier</b></p><p>evidence<br/>quality gate</p>",
+          "customData": [
+            {
+              "key": "agent_role",
+              "value": "verifier_auditor"
+            }
+          ],
+          "zIndex": 10
+        },
+        {
+          "id": "outcome",
+          "type": "rectangle",
+          "boundingBox": {
+            "x": 842,
+            "y": 590,
+            "w": 338,
+            "h": 84
+          },
+          "style": {
+            "fill": {
+              "type": "color",
+              "color": "#E7F7EF"
+            },
+            "stroke": {
+              "color": "#2E8B57",
+              "width": 2,
+              "style": "solid"
+            },
+            "rounding": 12,
+            "textColor": "#0D3B24"
+          },
+          "text": "<p><b>Auditable orchestration</b></p><p>who owns what, what is running, what is done, and what happens next</p>",
+          "customData": [
+            {
+              "key": "result",
+              "value": "auditable_next_action"
+            }
+          ],
+          "zIndex": 10
+        }
+      ],
+      "lines": [
+        {
+          "id": "line_static_to_redis",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "static_context",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "redis_context",
+            "position": {
+              "x": 0,
+              "y": 0.25
+            }
+          },
+          "stroke": {
+            "color": "#596873",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 350,
+              "y": 258
+            },
+            {
+              "x": 350,
+              "y": 254
+            }
+          ]
+        },
+        {
+          "id": "line_durable_to_redis",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "durable_context",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "redis_context",
+            "position": {
+              "x": 0,
+              "y": 0.55
+            }
+          },
+          "stroke": {
+            "color": "#596873",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 360,
+              "y": 394
+            },
+            {
+              "x": 360,
+              "y": 302
+            }
+          ]
+        },
+        {
+          "id": "line_intent_to_queue",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "intended_context",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "queue",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#596873",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 358,
+              "y": 534
+            },
+            {
+              "x": 358,
+              "y": 474
+            }
+          ]
+        },
+        {
+          "id": "line_redis_to_coordinator",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "redis_context",
+            "position": {
+              "x": 1,
+              "y": 0.35
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "coordinator",
+            "position": {
+              "x": 0,
+              "y": 0.35
+            }
+          },
+          "stroke": {
+            "color": "#A31B14",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 796,
+              "y": 270
+            },
+            {
+              "x": 796,
+              "y": 256
+            }
+          ]
+        },
+        {
+          "id": "line_queue_to_coordinator",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "queue",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "coordinator",
+            "position": {
+              "x": 0,
+              "y": 0.75
+            }
+          },
+          "stroke": {
+            "color": "#2E8B57",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 790,
+              "y": 474
+            },
+            {
+              "x": 790,
+              "y": 294
+            }
+          ]
+        },
+        {
+          "id": "line_search_to_coordinator",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "search",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "coordinator",
+            "position": {
+              "x": 0,
+              "y": 0.6
+            }
+          },
+          "stroke": {
+            "color": "#4B6FB3",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 802,
+              "y": 474
+            },
+            {
+              "x": 802,
+              "y": 280
+            }
+          ]
+        },
+        {
+          "id": "line_coordinator_to_codex",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "coordinator",
+            "position": {
+              "x": 1,
+              "y": 0.25
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "codex_worker",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#596873",
+            "width": 2,
+            "style": "solid"
+          },
+          "text": [
+            {
+              "text": "explicit model",
+              "position": 0.55,
+              "side": "top"
+            }
+          ],
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 1016,
+              "y": 246
+            }
+          ]
+        },
+        {
+          "id": "line_coordinator_to_local",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "coordinator",
+            "position": {
+              "x": 1,
+              "y": 0.55
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "local_worker",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#596873",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 1016,
+              "y": 275
+            },
+            {
+              "x": 1016,
+              "y": 358
+            }
+          ]
+        },
+        {
+          "id": "line_worker_to_verifier",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "codex_worker",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "verifier",
+            "position": {
+              "x": 0.5,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#596873",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 1110,
+              "y": 282
+            },
+            {
+              "x": 1200,
+              "y": 282
+            },
+            {
+              "x": 1200,
+              "y": 444
+            },
+            {
+              "x": 1107,
+              "y": 444
+            }
+          ]
+        },
+        {
+          "id": "line_local_to_verifier",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "local_worker",
+            "position": {
+              "x": 0.5,
+              "y": 1
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "verifier",
+            "position": {
+              "x": 0.5,
+              "y": 0
+            }
+          },
+          "stroke": {
+            "color": "#596873",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 1107,
+              "y": 418
+            }
+          ]
+        },
+        {
+          "id": "line_verifier_to_evidence",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "verifier",
+            "position": {
+              "x": 0,
+              "y": 0.7
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "evidence",
+            "position": {
+              "x": 1,
+              "y": 0.55
+            }
+          },
+          "stroke": {
+            "color": "#596873",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 1008,
+              "y": 510
+            },
+            {
+              "x": 1008,
+              "y": 620
+            }
+          ]
+        },
+        {
+          "id": "line_evidence_to_outcome",
+          "lineType": "elbow",
+          "endpoint1": {
+            "type": "shapeEndpoint",
+            "style": "none",
+            "shapeId": "evidence",
+            "position": {
+              "x": 1,
+              "y": 0.5
+            }
+          },
+          "endpoint2": {
+            "type": "shapeEndpoint",
+            "style": "arrow",
+            "shapeId": "outcome",
+            "position": {
+              "x": 0,
+              "y": 0.5
+            }
+          },
+          "stroke": {
+            "color": "#2E8B57",
+            "width": 2,
+            "style": "solid"
+          },
+          "zIndex": 5,
+          "elbowControlPoints": [
+            {
+              "x": 786,
+              "y": 620
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "documentSettings": {
+    "units": "px"
+  }
+}
