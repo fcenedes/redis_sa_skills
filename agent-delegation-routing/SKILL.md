@@ -88,7 +88,7 @@ Tell workers to report changed files, commands run, test output summary,
 blockers, and assumptions. Tell workers not to revert, reformat, or commit
 outside the assigned scope.
 
-Do not use inherited-model subagents for bounded work. If model control is unavailable, use CLI/local workers with explicit model settings, do the work directly, or report no lower-cost worker is available.
+Do not use inherited-model subagents for bounded work in Codex or Claude Code. If model control is unavailable, use CLI/local workers with explicit model settings, do the work directly, or report no lower-cost worker is available.
 
 ## Command Shapes
 
@@ -126,7 +126,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
 - Do not omit requested model, requested reasoning effort, or routing reason.
 - Do not silently let workers inherit the coordinator model or reasoning level.
-- Do not call a worker through a tool that can only inherit the coordinator model for low/medium-risk work.
+- Do not call Codex or Claude Code subagents that can only inherit the coordinator model for low/medium-risk work.
 - Do not serialize independent worker tracks without recording why.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
