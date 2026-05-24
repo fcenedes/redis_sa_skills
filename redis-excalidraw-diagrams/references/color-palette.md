@@ -8,11 +8,11 @@ Colors encode semantic ownership and behavior.
 
 | Semantic Purpose | Fill | Stroke | Use For |
 | --- | --- | --- | --- |
-| Redis primary | `#FFE8E6` | `#FF4438` | Redis databases, shards, Query Engine, Streams, Redis-owned services |
+| Redis primary | `#FFE8E6` | `#FF4438` | Redis databases, shards, Redis Search, Streams, Redis-owned services |
 | Redis emphasis | `#FF4438` | `#8A221C` | Hero Redis node, active path, critical command or write path |
 | Application | `#E8F1F5` | `#163341` | App services, API gateways, workers, clients |
 | Data object | `#F5F7F8` | `#2D4754` | Keys, hashes, JSON documents, stream entries, vector records |
-| Query/search | `#E8F7F1` | `#0B6B45` | Redis Query Engine, vector indexes, filters, search results |
+| Search/query | `#E8F7F1` | `#0B6B45` | Redis Search, vector indexes, filters, search results |
 | Stream/event | `#FFF2CC` | `#B7791F` | Streams timelines, consumer groups, event logs, pending entries |
 | Replication/cluster | `#E9EDFF` | `#3446A3` | Replicas, shards, hash slots, failover, cross-node traffic |
 | Cloud/network | `#F0ECFF` | `#6E49CB` | Redis Cloud, regions, VPCs, private endpoints, Active-Active |

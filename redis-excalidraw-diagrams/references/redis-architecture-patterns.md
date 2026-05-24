@@ -7,7 +7,7 @@ Use this reference when designing Redis technical diagrams. Verify details again
 | Topic | Source |
 | --- | --- |
 | Redis data types and Streams | `https://redis.io/docs/latest/develop/data-types/streams/` |
-| Redis Query Engine and vector search concepts | `https://redis.io/docs/latest/develop/ai/search-and-query/vectors/` |
+| Redis Search and vector search concepts | `https://redis.io/docs/latest/develop/ai/search-and-query/vectors/` |
 | Vector search queries | `https://redis.io/docs/latest/develop/ai/search-and-query/query/vector-search/` |
 | Redis replication | `https://redis.io/docs/latest/operate/oss_and_stack/management/replication/` |
 | Redis Cluster scaling | `https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/` |
@@ -23,7 +23,7 @@ Use this reference when designing Redis technical diagrams. Verify details again
 | Cache-aside | Decision diamond plus cycle | `GET`, cache miss, source-of-record fetch, `SET` with TTL |
 | Write-through/write-behind | Assembly line | app write, queue/buffer, Redis update, backing store update |
 | Vector search/RAG | Query pipeline plus evidence blocks | `FT.CREATE`, vector field config, KNN query, top-k results |
-| Redis Query Engine | Filter funnel plus index block | schema fields, `FT.SEARCH`, tags/numeric/text filters |
+| Redis Search | Filter funnel plus index block | schema fields, `FT.SEARCH`, tags/numeric/text filters |
 | Streams | Timeline with consumer swimlanes | `XADD`, entry IDs, `XREADGROUP`, `XACK`, pending entries |
 | Pub/Sub | Fan-out | channel, publisher, subscribers, delivery caveat if relevant |
 | Replication | Primary-to-replica fan-out | replication offset, partial resync, asynchronous acknowledgement |

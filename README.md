@@ -18,7 +18,8 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 | [redis-brand-ui](redis-brand-ui/SKILL.md) | Apply Redis official brand guidelines to frontend UI implementations. Covers colors, typography, components, dark mode, and HeroUI/NextUI theme configuration. |
 | [redis-product-ui](redis-product-ui/SKILL.md) | Build Redis product, dashboard, admin, RedisInsight-like, developer-tool, prototype, and demo UIs using Redis UI Storybook-derived application patterns, tokens, component states, and layouts. |
 | [redis-presentation-decks](redis-presentation-decks/SKILL.md) | Create Redis-focused Reveal.js presentation decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. |
-| [redis-excalidraw-diagrams](redis-excalidraw-diagrams/SKILL.md) | Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Query Engine, Streams, replication, clustering, observability, and Redis Cloud systems. |
+| [redis-excalidraw-diagrams](redis-excalidraw-diagrams/SKILL.md) | Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Search, Streams, replication, clustering, observability, and Redis Cloud systems. |
+| [redis-lucidchart-diagrams](redis-lucidchart-diagrams/SKILL.md) | Create Redis-focused Lucidchart architecture diagrams, Lucid Standard Import sources, customer workshop visuals, and editable SA handoff files. |
 
 ### Testing & Browser Automation
 
@@ -65,7 +66,7 @@ Codex: Open `/plugins` → Search "Superpowers" → Install Plugin
 
 ### Redis Official Skills
 
-Redis maintains an official agent skills repository at [redis/agent-skills](https://github.com/redis/agent-skills). Use `redis-development` for Redis data modeling, data structures, key naming, TTL strategy, Redis Query Engine, RedisVL, vector search, semantic caching, Streams, Pub/Sub, clustering, replication, connection handling, security, observability, and performance optimization.
+Redis maintains an official agent skills repository at [redis/agent-skills](https://github.com/redis/agent-skills). Use `redis-development` for Redis data modeling, data structures, key naming, TTL strategy, Redis Search, RedisVL, vector search, semantic caching, Streams, Pub/Sub, clustering, replication, connection handling, security, observability, and performance optimization.
 
 ```bash
 npx skills add redis/agent-skills
@@ -95,6 +96,7 @@ npx skills add fcenedes/redis_sa_skills --skill redis-brand-ui
 npx skills add fcenedes/redis_sa_skills --skill redis-product-ui
 npx skills add fcenedes/redis_sa_skills --skill redis-presentation-decks
 npx skills add fcenedes/redis_sa_skills --skill redis-excalidraw-diagrams
+npx skills add fcenedes/redis_sa_skills --skill redis-lucidchart-diagrams
 
 # Testing & browser automation
 npx skills add fcenedes/redis_sa_skills --skill playwright-test
@@ -119,6 +121,7 @@ After installing a skill, ask your agent for the Redis artifact you need:
 Use redis-presentation-decks to create a Redis Cloud vector search architecture deck for a technical workshop.
 Use redis-product-ui to build a RedisInsight-like key inspection dashboard with light/dark mode, filters, tables, drawers, and toast feedback.
 Use redis-excalidraw-diagrams to draw a Redis Streams consumer group architecture with commands, acknowledgements, and observability paths.
+Use redis-lucidchart-diagrams to create a Lucidchart-editable Redis agent orchestration layer using Standard Import source.
 Use playwright-test to add E2E coverage for the login flow.
 Use playwright-cli-agent to open the local app, reproduce the dashboard bug, and capture screenshots.
 Use caveman ultra and summarize this failing test output.
@@ -136,7 +139,7 @@ Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory 
 |----------|--------|
 | General disciplined coding | Superpowers + `rtk-cli` + `caveman` |
 | Redis app development | `redis-development` (redis/agent-skills) + `redis-performance-troubleshooting` |
-| Customer discovery | `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams` |
+| Customer discovery | `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams` or `redis-lucidchart-diagrams` |
 | Demo creation | `redis-demo-builder` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
 | Product UI demo | `redis-product-ui` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
 | RedisInsight plugin | `redis-insight-plugin` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
@@ -171,6 +174,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | redis-product-ui | 1.0.0 |
 | redis-presentation-decks | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
+| redis-lucidchart-diagrams | 1.0.0 |
 | playwright-test | 1.0.0 |
 | playwright-cli-agent | 1.0.0 |
 | redis-insight-plugin | 1.0.0 |
