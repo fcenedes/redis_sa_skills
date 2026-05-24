@@ -20,6 +20,7 @@ When model choice is unclear, consult `agent-delegation-routing/references/routi
 Every plan must contain:
 
 - **Source of truth:** repo docs, issue, PR, user request, or tracker that wins over memory/chat.
+- **Plan persistence:** write the plan to files and post it to `agent_memory`; do not only answer in chat.
 - **Skill stack:** required skills for the whole plan and for each task. Use epic-level skills when epics exist.
 - **Plan granularity:** small requests may be task-only; multi-area or multi-goal work uses epics containing tasks.
 - **Tasks:** each task has owned files, forbidden files, worker role, model, reasoning effort, verification, audit, and done evidence.
@@ -58,6 +59,12 @@ Design every plan to minimize token use without losing evidence:
 - Do not paste raw logs, full diffs, generated files, or large docs into plans; cite paths and summarize only relevant lines.
 - Pick the smallest sufficient model and reasoning effort; token economy includes avoiding unnecessary high/xhigh.
 - Archive stale planning docs and trackers after delivery so future agents read less irrelevant context.
+
+## Plan Files
+
+Write every delegated plan to repo-local files and `agent_memory` unless the user explicitly asks for chat-only output. Default path: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`. Small plans use `plan.md`, `tracker.md`, and `coordinator-prompt.md`; large plans use `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
+
+Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. If `agent_memory` is unavailable, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response.
 
 ## Task Status Tracking
 
@@ -111,6 +118,7 @@ The task contract must be convertible into a worker prompt without adding hidden
 ## DO NOT
 
 - Do not write generic plans that omit ownership, skills, model, reasoning, or verification.
+- Do not leave delegated plans only in chat; write plan files, post memory records, and create a coordinator prompt.
 - Do not invent epics for a small task-only request.
 - Do not skip the search for parallelizable tasks.
 - Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
@@ -130,6 +138,7 @@ The task contract must be convertible into a worker prompt without adding hidden
 ## Checklist
 
 - [ ] Source of truth and non-goals are explicit.
+- [ ] Plan is written to files and posted to `agent_memory`; large plans are split per epic and include `coordinator-prompt.md`.
 - [ ] Plan granularity is justified: task-only for small work, epics for multi-area work.
 - [ ] Whole-plan and task skill stacks are listed; epic skill stacks are listed when epics exist.
 - [ ] Token economy choices are explicit: RTK/fallback, caveman mode, reference loading, concise evidence, prompt reuse.
