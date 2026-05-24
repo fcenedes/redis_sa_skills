@@ -41,7 +41,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - If memory write fails: record `Memory persistence: unavailable` in plan/tracker/final response.
 - If `agent_memory` is unavailable: state the degradation, recommend installing/configuring shared memory, and continue with file/tracker fallback.
 - If file write fails: record `File persistence: unavailable` in memory/final response.
-- Chat response: summarize file paths and memory namespace/backend; do not paste full large plan.
+- Chat response: summarize file paths and memory namespace/backend; include `coordinator-prompt.md` text when reasonably sized; do not paste full large plan.
 
 ## Required Skill Stack
 
