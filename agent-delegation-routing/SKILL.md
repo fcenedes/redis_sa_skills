@@ -9,8 +9,7 @@ metadata:
 
 # Agent Delegation Routing
 
-Route work from a coordinator agent to the right worker agent with explicit scope, command shape, verification, and diff review. Use
-`agent-memory-coordination` when prompts, ownership, or outcomes must be shared across parallel agents or future sessions.
+Route work to the right worker with explicit scope, command shape, verification, and diff review. Use `agent-memory-coordination` for shared prompts, ownership, or outcomes.
 
 Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex must not delegate directly to Claude; Claude entries are external choices for Claude-side coordinators or humans.
 
@@ -89,8 +88,7 @@ Tell workers to report changed files, commands run, test output summary,
 blockers, and assumptions. Tell workers not to revert, reformat, or commit
 outside the assigned scope.
 
-Do not let workers inherit the coordinator model by omission; if model control
-is unavailable, report `unknown` actual model and why that is acceptable.
+Do not use inherited-model subagents for bounded work. If model control is unavailable, use CLI/local workers with explicit model settings, do the work directly, or report no lower-cost worker is available.
 
 ## Command Shapes
 
@@ -128,6 +126,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
 - Do not omit requested model, requested reasoning effort, or routing reason.
 - Do not silently let workers inherit the coordinator model or reasoning level.
+- Do not call a worker through a tool that can only inherit the coordinator model for low/medium-risk work.
 - Do not serialize independent worker tracks without recording why.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
@@ -141,6 +140,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 
 - [ ] Worker type selected for task risk and ambiguity.
 - [ ] Requested/actual model, reasoning, inheritance status, and routing reason recorded.
+- [ ] Worker dispatch path can set model/reasoning, or inherited execution is explicitly rejected.
 - [ ] Git status checked; unrelated changes protected.
 - [ ] Parallelization decision recorded; independent tracks batched or serialization justified.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.
