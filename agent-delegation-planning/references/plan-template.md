@@ -9,12 +9,39 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 
 - Repo:
 - Branch:
+- Plan directory:
+- Plan files:
+  - overview:
+  - epic files:
+  - tracker:
+  - coordinator prompt:
+- Memory persistence:
+  - backend:
+  - namespace:
+  - user_id:
+  - records:
+  - status:
 - Source of truth:
 - Known local changes:
 - Goal:
 - Non-goals:
 - Assumptions:
 - Open questions:
+
+## Persistence Rule
+
+- Default directory: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`
+- Small plan: write `plan.md`, `tracker.md`, and `coordinator-prompt.md`.
+- Large plan: write `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
+- Memory records:
+  - plan overview
+  - epic summaries when epics exist
+  - task ownership/status records
+  - coordinator prompt
+- If memory write fails: record `Memory persistence: unavailable` in plan/tracker/final response.
+- If `agent_memory` is unavailable: state the degradation, recommend installing/configuring shared memory, and continue with file/tracker fallback.
+- If file write fails: record `File persistence: unavailable` in memory/final response.
+- Chat response: summarize file paths and memory namespace/backend; do not paste full large plan.
 
 ## Required Skill Stack
 
@@ -310,8 +337,11 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 
 - Search memory namespace/user:
 - Save to memory:
+  - plan overview
+  - epic summaries
   - task status transitions
   - ownership map
+  - coordinator prompt
   - prompts when reused
   - durable outcomes
 - Tracker file fallback:
@@ -341,6 +371,42 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Cross-agent audit preference:
 - Cross-agent audit fallback:
 - Required evidence before completion:
+```
+
+## Coordinator Prompt
+
+Write this into `coordinator-prompt.md` and provide it in the final response when useful:
+
+```text
+Role: Coordinator
+Plan directory:
+Source of truth:
+Read first:
+- <overview or plan file>
+- <tracker file>
+- <epic file(s)>
+Required skills:
+- agent-delegation-planning
+- agent-delegation-routing
+- agent-memory-coordination
+- rtk-cli
+- caveman
+Task:
+Execute the plan by dispatching tasks with explicit ownership, model/reasoning, tracking, verification, audit, and documentation cleanup.
+Rules:
+- Update task status in agent_memory and tracker on every transition.
+- Prefer parallel batches where ownership and dependencies allow.
+- Use the smallest sufficient model/reasoning for each task.
+- Require Playwright evidence for UI/browser work.
+- Do not mark done without verification evidence.
+- Do not mark audited without Auditor verdict.
+- Do not commit unless the user explicitly asks.
+Output:
+- current status by task
+- blockers
+- verification evidence
+- audit verdicts
+- files changed
 ```
 
 ## Cross-Agent Audit Handoff
