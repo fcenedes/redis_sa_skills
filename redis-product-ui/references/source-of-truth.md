@@ -12,6 +12,8 @@ Use three levels of authority:
 
 - Say "Storybook-derived" for values extracted from the public Redis UI build.
 - Say "official Redis brand" only when `brand.redis.io` confirms it.
+- Treat Storybook `light`/`dark` as RedisInsight component themes.
+- Treat Storybook `light2`/`dark2` as the theme pair for other Redis product UIs.
 - When brand and product guidance differ, choose by surface:
   - marketing/docs hero: `redis-brand-ui`
   - product shell/dashboard/plugin/admin UI: `redis-product-ui`
