@@ -40,7 +40,6 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 | [agent-delegation-routing](agent-delegation-routing/SKILL.md) | Route coding work across Codex, Claude Code, local models, and CLI workers with specialist role presets, RTK-aware handoff, ownership, and verification. |
 | [agent-memory-docker](agent-memory-docker/SKILL.md) | Run a portable local Agent Memory Server Docker stack with Redis 8, then connect Codex, Claude Code, and Claude Desktop to the same shared memory. |
 | [agent-memory-coordination](agent-memory-coordination/SKILL.md) | Coordinate parallel agents through shared `agent_memory` prompts, strict file ownership, integration passes, and verification gates. |
-| [agent-memory-dreaming](agent-memory-dreaming/SKILL.md) | Safely create summaries, run scoped dreams, review and apply candidates, and browse taxonomy for MCP-backed `agent_memory` without polluting unrelated memory. |
 
 ## Recommended External Skills
 
@@ -108,7 +107,6 @@ npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
 npx skills add fcenedes/redis_sa_skills --skill agent-delegation-routing
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-docker
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-coordination
-npx skills add fcenedes/redis_sa_skills --skill agent-memory-dreaming
 ```
 
 Or add to your project manually by copying the skill directory into your `.agents/skills/` folder.
@@ -130,7 +128,6 @@ Use agent-delegation-routing to split a multi-agent coding task into coordinator
 Use agent-memory-docker to create a shared local memory stack and configure Codex, Claude Code, and Claude Desktop.
 Use agent-memory-docker to install the default shared-memory policy for every new Codex and Claude Code session.
 Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory prompts with strict file ownership and a final integration gate.
-Use agent-memory-dreaming to review candidate memories for the redis-sa-agent-memory namespace before applying them.
 ```
 
 ## Suggested Skill Combinations
@@ -180,7 +177,6 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | agent-delegation-routing | 1.0.0 |
 | agent-memory-docker | 1.0.0 |
 | agent-memory-coordination | 1.1.1 |
-| agent-memory-dreaming | 1.0.0 |
 
 ## Skill Structure
 

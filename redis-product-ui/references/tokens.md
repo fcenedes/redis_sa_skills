@@ -2,6 +2,15 @@
 
 Product UI tokens are derived from the public Redis UI Storybook build.
 
+## Theme Selection
+
+Redis UI Storybook exposes two theme pairs with different product intent:
+
+- Use `light` and `dark` for RedisInsight components and RedisInsight-like surfaces.
+- Use `light2` and `dark2` for other Redis products, Redis Cloud-style dashboards, admin tools, and new product demos.
+- Do not mix `light` with `dark2`, or `light2` with `dark`, in the same UI.
+- If the product surface is ambiguous, default to `light2`/`dark2` unless the request explicitly targets RedisInsight.
+
 ## Typography
 
 ```css
@@ -23,9 +32,10 @@ Use `Geist` for current Redis UI product components. Use `Source Code Pro` for R
 
 Use the product spacing scale: `0`, `0.1rem`, `0.2rem`, `0.4rem`, `0.8rem`, `1.2rem`, `1.6rem`, `2rem`, `2.4rem`, `3.2rem`, `4rem`, `4.4rem`, `4.8rem`, `6.4rem`.
 
-## Current Light-2 Palette
+## Redis Product Light2/Dark2 Palette
 
-The current live Storybook default uses `light-2` with these raw families:
+Use `light2` and `dark2` for non-RedisInsight Redis product surfaces. The raw
+families are:
 
 | Family | Scale |
 | --- | --- |
@@ -39,9 +49,12 @@ The current live Storybook default uses `light-2` with these raw families:
 | danger | `#fff1f1`, `#fee2e2`, `#fecaca`, `#fca5a5`, `#f87171`, `#ef4444`, `#dc2626`, `#b91c1c`, `#991b1b`, `#7f1d1d`, `#450a0a` |
 | discovery | `#FEE1F1`, `#FCCAE4`, `#FA94CA`, `#F75FAF`, `#F42995`, `#D90B78`, `#AF0961`, `#830748`, `#570430`, `#2C0218`, `#13010B` |
 
-Use `light-2` and `dark-2` for new demos unless a legacy Redis UI surface is requested. In `dark-2`, the raw families are the same, but semantic mappings use dark backgrounds such as `secondary990` (`#07151c`) and light text such as `secondary50` (`#fcfcfc`).
+In `dark2`, the raw families are the same, but semantic mappings use dark backgrounds such as `secondary990` (`#07151c`) and light text such as `secondary50` (`#fcfcfc`).
 
-## Legacy Light Palette
+## RedisInsight Light Palette
+
+Use this palette with the Storybook `light` theme when targeting RedisInsight
+components or RedisInsight-like surfaces.
 
 | Family | Scale |
 | --- | --- |
@@ -55,7 +68,10 @@ Use `light-2` and `dark-2` for new demos unless a legacy Redis UI surface is req
 | danger | `#fcebec`, `#f5c3c5`, `#ea878a`, `#dc373c`, `#b02c30`, `#6e1c1e`, `#2c0b0c` |
 | discovery | `#FEE1F1`, `#FCCAE4`, `#FA94CA`, `#F75FAF`, `#F42995`, `#D90B78`, `#AF0961`, `#830748`, `#570430`, `#2C0218`, `#13010B` |
 
-## Dark Palette
+## RedisInsight Dark Palette
+
+Use this palette with the Storybook `dark` theme when targeting RedisInsight
+components or RedisInsight-like surfaces.
 
 | Family | Scale |
 | --- | --- |

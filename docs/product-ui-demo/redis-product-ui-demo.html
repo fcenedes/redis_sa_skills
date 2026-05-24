@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light2">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,7 @@
       --shadow: 0 .8rem 2.8rem rgba(1, 17, 42, .08);
     }
 
-    html[data-theme="light"] {
+    html[data-theme="light2"] {
       --page: #f8f8f8;
       --surface: #ffffff;
       --surface-subtle: #fcfcfc;
@@ -54,7 +54,7 @@
       --focus: #064ea2;
     }
 
-    html[data-theme="dark"] {
+    html[data-theme="dark2"] {
       --page: #07151c;
       --surface: #091a23;
       --surface-subtle: #0d212c;
@@ -726,9 +726,9 @@
     const toggle = document.querySelector("#themeToggle");
 
     toggle.addEventListener("click", () => {
-      const next = root.dataset.theme === "light" ? "dark" : "light";
+      const next = root.dataset.theme === "light2" ? "dark2" : "light2";
       root.dataset.theme = next;
-      toggle.textContent = next === "light" ? "Dark mode" : "Light mode";
+      toggle.textContent = next === "light2" ? "Dark mode" : "Light mode";
     });
   </script>
 </body>
