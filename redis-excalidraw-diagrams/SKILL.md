@@ -1,6 +1,6 @@
 ---
 name: redis-excalidraw-diagrams
-description: Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Query Engine, Streams, replication, clustering, observability, and Redis Cloud systems. Use when a user asks for a Redis technical diagram, architecture visual, workflow sketch, or .excalidraw file that must be accurate, branded, and visually validated.
+description: Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Search, Streams, replication, clustering, observability, and Redis Cloud systems. Use when a user asks for a Redis technical diagram, architecture visual, workflow sketch, or .excalidraw file that must be accurate, branded, and visually validated.
 license: MIT
 metadata:
   author: redis
@@ -27,7 +27,7 @@ Create `.excalidraw` JSON diagrams that explain Redis systems through structure,
 For technical diagrams, include concrete evidence artifacts when relevant:
 
 - Redis commands such as `GET`, `SET`, `XADD`, `XREADGROUP`, `FT.CREATE`, `FT.SEARCH`, `HSET`, `JSON.SET`, `CLUSTER SLOTS`, or `INFO`.
-- Real schema or query fragments for Redis Query Engine and vector search, including index type, field aliases, `DIM`, `DISTANCE_METRIC`, and KNN or range syntax.
+- Real schema or query fragments for Redis Search and vector search, including index type, field aliases, `DIM`, `DISTANCE_METRIC`, and KNN or range syntax.
 - Stream entry IDs, consumer groups, pending entries, acknowledgements, trimming, or idempotent message-processing details when diagramming Streams.
 - Replication details such as primary/replica roles, replication offset, partial resynchronization, asynchronous acknowledgements, or Sentinel/Cluster failover boundaries.
 - Cluster details such as 16,384 hash slots, shard ownership, replicas, client redirection, resharding, and consistency caveats.
@@ -44,6 +44,7 @@ Use [Redis architecture patterns](references/redis-architecture-patterns.md) for
 - Keep Redis Red for primary Redis-owned components and critical emphasis, not as decoration everywhere.
 - Use dark evidence blocks for command snippets, JSON payloads, metrics examples, and config fragments.
 - Use `fontFamily: 3`, `roughness: 0`, `opacity: 100`, and readable text sizes for professional technical diagrams.
+- Break long labels into short lines before rendering; do not rely on Excalidraw text width to keep text inside boxes.
 - Route arrows around elements. Do not let arrows cross through labels, code blocks, or component shapes.
 
 ## Render And Validate
