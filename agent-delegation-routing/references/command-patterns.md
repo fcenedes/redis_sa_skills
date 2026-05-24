@@ -27,6 +27,25 @@ command -v ollama
 ollama list
 ```
 
+## Model Control Gate
+
+Before dispatching a worker, confirm the chosen path can set or reasonably
+select the requested model and reasoning. If a host subagent tool only inherits
+the coordinator model, including Claude Code Task/subagents, do not use it for
+bounded low/medium-risk work.
+
+Acceptable bounded-worker paths:
+
+- `codex exec` with `-m` and/or `-c reasoning.effort=<level>` when available.
+- `ollama run <qwen-model>` or another explicit local model.
+- A human/Claude-side route explicitly selected outside Codex or outside an inherited Claude Code subagent path.
+
+If none is available, write:
+
+```text
+No lower-cost worker available; not spawning inherited-model subagent.
+```
+
 ## Codex Non-Interactive Worker
 
 ```bash

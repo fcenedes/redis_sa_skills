@@ -80,6 +80,12 @@ omission. If the delegation tool cannot force model or reasoning, record
 `Actual model: unknown`, `Actual reasoning effort: unknown`, and
 `Inherited from coordinator: unknown`, then explain why the risk is acceptable.
 
+For bounded low/medium-risk work, inherited coordinator execution is not
+acceptable in Codex or Claude Code. Use Codex CLI with explicit config,
+Qwen/Ollama/local worker, or do the task directly. If none is available, report
+`No lower-cost worker available` instead of spawning a subagent that inherits
+the senior model.
+
 ## Worker Status
 
 Workers must report exactly one status:
