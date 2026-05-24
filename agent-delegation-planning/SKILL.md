@@ -64,7 +64,7 @@ Design every plan to minimize token use without losing evidence:
 
 Write every delegated plan to repo-local files and `agent_memory` unless the user explicitly asks for chat-only output. Default path: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`. Small plans use `plan.md`, `tracker.md`, and `coordinator-prompt.md`; large plans use `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
 
-Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. If `agent_memory` is unavailable, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response.
+Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. If `agent_memory` is unavailable, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. Include the `coordinator-prompt.md` text in the final response when it is reasonably sized; otherwise provide the path and say it was too large to paste.
 
 ## Task Status Tracking
 
