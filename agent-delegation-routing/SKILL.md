@@ -9,7 +9,7 @@ metadata:
 
 # Agent Delegation Routing
 
-Route work to the right worker with explicit scope, command shape, verification, and diff review. Use `agent-memory-coordination` for shared prompts, ownership, or outcomes.
+Route work to the right worker with explicit scope, command shape, verification, and diff review. Use `agent-delegation-planning` before routing multi-task work. Use `agent-memory-coordination` for shared prompts, ownership, or outcomes.
 
 Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex must not delegate directly to Claude; Claude entries are external choices for Claude-side coordinators or humans.
 
@@ -18,6 +18,7 @@ Load references only when needed:
 - Need model choice: read [routing-table](references/routing-table.md).
 - Need role contracts: read [specialist-roles](references/specialist-roles.md).
 - Need commands or workflows: read [command-patterns](references/command-patterns.md) or [delegation-playbooks](references/delegation-playbooks.md).
+- Need an executable epic/task plan: use `agent-delegation-planning` first.
 
 ## Routing Matrix
 
@@ -48,6 +49,8 @@ edits go to Implementor; final approval goes to Verifier or Auditor; cheap
 bounded patches may go to Qwen Worker; security and architecture do not.
 
 ## Before Delegating
+
+If the request spans multiple epics, tasks, files, or workers, require an executable plan first. Do not dispatch from a generic checklist. The plan must name source of truth, epics, tasks, required skills, ownership, model/reasoning, parallelization, integration, and verification gates.
 
 Use `rtk git status` when RTK is installed; otherwise use `git status --short`
 and report the fallback. Identify unrelated local changes and choose one
@@ -139,6 +142,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 ## Checklist
 
 - [ ] Worker type selected for task risk and ambiguity.
+- [ ] Multi-task work has an executable epic/task plan from `agent-delegation-planning`.
 - [ ] Requested/actual model, reasoning, inheritance status, and routing reason recorded.
 - [ ] Worker dispatch path can set model/reasoning, or inherited execution is explicitly rejected.
 - [ ] Git status checked; unrelated changes protected.
