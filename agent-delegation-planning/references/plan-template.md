@@ -33,6 +33,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Default directory: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`
 - Small plan: write `plan.md`, `tracker.md`, and `coordinator-prompt.md`.
 - Large plan: write `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
+- Epic trigger: 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, multiple delivery surfaces, multiple crates/packages, or CI/live-system tracks require epic files. Convert user-provided batches/phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are authoritative.
 - Memory records:
   - plan overview
   - epic summaries when epics exist
@@ -84,6 +85,15 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 
 - Shape: task-only / epics
 - Reason:
+- Epic triggers checked:
+  - batches:
+  - workers:
+  - ownership areas:
+  - phases:
+  - delivery surfaces:
+  - crates/packages:
+  - CI/live-system tracks:
+- If batches/phases exist, mapping to epics/tasks:
 - If task-only, why epics would be overkill:
 
 ## Task Tracking
@@ -143,6 +153,9 @@ Use this section for a small request where epics would add noise.
 - Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Worker role:
 - Preferred worker:
+- Routing reason:
+- Repo:
+- Branch:
 - Requested model:
 - Requested reasoning effort:
 - Actual model: unknown until execution
@@ -152,9 +165,14 @@ Use this section for a small request where epics would add noise.
 - Escalation trigger:
 - Owned files:
 - Forbidden files:
+- Other agents active:
 - Inputs:
+- Target API / snippet:
+- Compatibility constraints:
+- Example test shape:
 - Steps:
 - Verify with:
+- Output format:
 - Playwright evidence if UI/browser work:
   - Skill:
   - URL/dev server:
@@ -214,6 +232,9 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Worker role:
 - Preferred worker:
+- Routing reason:
+- Repo:
+- Branch:
 - Requested model:
 - Requested reasoning effort:
 - Actual model: unknown until execution
@@ -223,9 +244,14 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Escalation trigger:
 - Owned files:
 - Forbidden files:
+- Other agents active:
 - Inputs:
+- Target API / snippet:
+- Compatibility constraints:
+- Example test shape:
 - Steps:
 - Verify with:
+- Output format:
 - Playwright evidence if UI/browser work:
   - Skill:
   - URL/dev server:
@@ -265,12 +291,16 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Worker role: Auditor
 - Preferred worker: cross-agent when available; otherwise independent Codex Auditor
 - Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
+- Routing reason:
+- Repo:
+- Branch:
 - Requested model:
 - Requested reasoning effort:
 - Actual model: unknown until execution
 - Actual reasoning effort: unknown until execution
 - Inherited from coordinator: unknown until execution
 - Why this is sufficient:
+- Other agents active:
 - Inputs:
   - source of truth:
   - changed files:
@@ -283,6 +313,11 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
   - runtime/security risk where applicable
 - Verdict: APPROVED / NOT APPROVED / BLOCKED
 - Findings format: file/line, gate, issue, required fix, residual risk
+- Output format:
+  - verdict:
+  - findings:
+  - verification evidence:
+  - residual risk:
 - Tracking:
   - Memory record:
   - Tracker row:
@@ -304,6 +339,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 
 - Max parallel:
 - Decision: parallel batch / serial because <reason> / not parallelizable because <reason>
+- Batch files: none / routing summaries only. They must reference task IDs from `epic-<id>.md` and must not replace task contracts.
 - Parallel batch 1:
   - `<task id>`: owner, worker, files, verification
   - `<task id>`: owner, worker, files, verification
