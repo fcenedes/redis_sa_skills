@@ -32,6 +32,16 @@ Use `Geist` for current Redis UI product components. Use `Source Code Pro` for R
 
 Use the product spacing scale: `0`, `0.1rem`, `0.2rem`, `0.4rem`, `0.8rem`, `1.2rem`, `1.6rem`, `2rem`, `2.4rem`, `3.2rem`, `4rem`, `4.4rem`, `4.8rem`, `6.4rem`.
 
+## Core Sizes
+
+Use rem-based product tokens so UIs scale from the `62.5%` root size.
+
+- Font sizes observed in product tokens: `0.8rem`, `1rem`, `1.2rem`, `1.3rem`, `1.4rem`, `1.5rem`, `1.6rem`, `1.8rem`, `2rem`, `2.2rem`, `2.4rem`, `2.6rem`, `2.7rem`, `2.8rem`, `3.2rem`, `4rem`, `4.4rem`, `5.2rem`.
+- Font weights: `400`, `500`, `600`.
+- Icon sizes: `0.8rem`, `1.2rem`, `1.6rem`, `2rem`, `2.4rem`, `3rem`, plus text-relative `1em` and `1.25em`.
+- Focus indicator: 2px outline with 2px offset/margin; use active theme primary color and verify contrast.
+- Product shadows are subtle neutral overlays. Use them for overlays, drawers, popovers, and sticky bars; avoid decorative elevation on every section.
+
 ## Redis Product Light2/Dark2 Palette
 
 Use `light2` and `dark2` for non-RedisInsight Redis product surfaces. The raw
