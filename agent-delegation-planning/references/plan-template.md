@@ -41,7 +41,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - If memory write fails: record `Memory persistence: unavailable` in plan/tracker/final response.
 - If `agent_memory` is unavailable: state the degradation, recommend installing/configuring shared memory, and continue with file/tracker fallback.
 - If file write fails: record `File persistence: unavailable` in memory/final response.
-- Chat response: summarize file paths and memory namespace/backend; include `coordinator-prompt.md` text when reasonably sized; do not paste full large plan.
+- Chat response: summarize file paths and memory namespace/backend, then paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer. If omitted, write `Coordinator prompt not pasted because: <reason>. Path: <path>`.
 
 ## Required Skill Stack
 
@@ -53,6 +53,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Repo/task-specific:
   - `<skill>`: `<why needed>`
   - `playwright-cli-agent` or `playwright-test`: required for UI/frontend/demo/browser validation
+- Prompt requirement: every coordinator, worker, auditor, integrator, and handoff prompt includes `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 
 ## Model Budget Rule
 
@@ -139,6 +140,7 @@ Use this section for a small request where epics would add noise.
   - context allowed:
   - context forbidden:
   - expected concise output:
+- Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Worker role:
 - Preferred worker:
 - Requested model:
@@ -209,6 +211,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
   - context allowed:
   - context forbidden:
   - expected concise output:
+- Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Worker role:
 - Preferred worker:
 - Requested model:
@@ -261,6 +264,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
   - `agent-delegation-routing`: pick Auditor model/reasoning
 - Worker role: Auditor
 - Preferred worker: cross-agent when available; otherwise independent Codex Auditor
+- Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Requested model:
 - Requested reasoning effort:
 - Actual model: unknown until execution
@@ -375,7 +379,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 
 ## Coordinator Prompt
 
-Write this into `coordinator-prompt.md` and provide it in the final response when useful:
+Write this into `coordinator-prompt.md`. Paste the same text in the final response unless it is over 120 lines or the user explicitly asked not to include it:
 
 ```text
 Role: Coordinator
@@ -385,6 +389,8 @@ Read first:
 - <overview or plan file>
 - <tracker file>
 - <epic file(s)>
+Use if available:
+- $agent-delegation-routing before dispatching, to confirm role, model/reasoning, ownership, command shape, and fallback.
 Required skills:
 - agent-delegation-planning
 - agent-delegation-routing
@@ -409,6 +415,32 @@ Output:
 - files changed
 ```
 
+## Final Response Contract
+
+Use this shape after writing plan files:
+
+````text
+Plan written and ready to execute.
+Files:
+- <plan files>
+Memory:
+- backend: <backend or unavailable>
+- namespace: <namespace>
+- user: <user_id>
+- write: <available/unavailable/degraded>
+
+Coordinator prompt:
+```text
+<exact coordinator-prompt.md content>
+```
+````
+
+If the prompt is omitted, replace the `Coordinator prompt` block with:
+
+```text
+Coordinator prompt not pasted because: <reason>. Path: <path>
+```
+
 ## Cross-Agent Audit Handoff
 
 Use the matching handoff. Codex must not spawn Claude directly; route Claude-side audits through the user or a Claude-side coordinator.
@@ -417,6 +449,7 @@ Use the matching handoff. Codex must not spawn Claude directly; route Claude-sid
 
 ```text
 Please route this audit to Claude-side Auditor.
+Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.
 Delivery:
 Source of truth:
 Changed files:
@@ -440,6 +473,7 @@ Do not implement. Do not commit.
 
 ```text
 Run Codex Auditor for this Claude-side delivery.
+Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.
 Delivery:
 Source of truth:
 Changed files:
@@ -463,6 +497,7 @@ Do not implement. Do not commit.
 
 ```text
 Run Codex Auditor for this local/Qwen patch.
+Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.
 Patch or changed files:
 Owned scope:
 Forbidden scope:

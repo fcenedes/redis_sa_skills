@@ -64,7 +64,7 @@ Design every plan to minimize token use without losing evidence:
 
 Write every delegated plan to repo-local files and `agent_memory` unless the user explicitly asks for chat-only output. Default path: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`. Small plans use `plan.md`, `tracker.md`, and `coordinator-prompt.md`; large plans use `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
 
-Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. If `agent_memory` is unavailable, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. Include the `coordinator-prompt.md` text in the final response when it is reasonably sized; otherwise provide the path and say it was too large to paste.
+Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. If `agent_memory` is unavailable, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. The final response must paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer; if omitted, state `Coordinator prompt not pasted because: <reason>. Path: <path>`.
 
 ## Task Status Tracking
 
@@ -115,10 +115,14 @@ Each task must include: ID, epic or `none`, objective, required skills, worker r
 
 The task contract must be convertible into a worker prompt without adding hidden context.
 
+Every coordinator, worker, auditor, integrator, and handoff prompt must include this instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
+
 ## DO NOT
 
 - Do not write generic plans that omit ownership, skills, model, reasoning, or verification.
 - Do not leave delegated plans only in chat; write plan files, post memory records, and create a coordinator prompt.
+- Do not list `coordinator-prompt.md` without pasting it when it is within the 120-line final-response limit.
+- Do not generate a delegation prompt that omits the `$agent-delegation-routing` recommendation when that skill may be available.
 - Do not invent epics for a small task-only request.
 - Do not skip the search for parallelizable tasks.
 - Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
@@ -139,11 +143,13 @@ The task contract must be convertible into a worker prompt without adding hidden
 
 - [ ] Source of truth and non-goals are explicit.
 - [ ] Plan is written to files and posted to `agent_memory`; large plans are split per epic and include `coordinator-prompt.md`.
+- [ ] Final response includes the coordinator prompt text or an explicit not-pasted reason and path.
 - [ ] Plan granularity is justified: task-only for small work, epics for multi-area work.
 - [ ] Whole-plan and task skill stacks are listed; epic skill stacks are listed when epics exist.
 - [ ] Token economy choices are explicit: RTK/fallback, caveman mode, reference loading, concise evidence, prompt reuse.
 - [ ] Every epic, when used, contains executable tasks.
 - [ ] Every task has owner, forbidden files, worker role, model, reasoning, and why sufficient.
+- [ ] Every generated prompt recommends `$agent-delegation-routing` when available.
 - [ ] High/xhigh tasks have an escalation/risk reason.
 - [ ] Parallelization was actively considered; independent tasks are batched or serialization is justified.
 - [ ] Every delivery has an Auditor task; cross-agent audit preference or fallback is recorded.
