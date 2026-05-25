@@ -4,7 +4,7 @@ description: Use when writing an execution plan that will be delegated to coding
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: "1.0.0"
+  version: "1.0.2"
 ---
 # Agent Delegation Planning
 
@@ -23,7 +23,7 @@ Every plan must contain:
 - **Plan persistence:** write the plan to files and post it to `agent_memory`; do not only answer in chat.
 - **Skill stack:** required skills for the whole plan and for each task. Use epic-level skills when epics exist.
 - **Plan granularity:** small requests may be task-only; multi-area or multi-goal work uses epics containing tasks.
-- **Tasks:** each task has owned files, forbidden files, worker role, model, reasoning effort, verification, audit, and done evidence.
+- **Tasks:** each task has routing reason, repo/branch, owned files, forbidden files, worker role, model, reasoning effort, verification, audit, output format, and done evidence.
 - **Parallelization:** actively seek parallel batches; use serial only for real dependencies, shared files, or runtime limits.
 - **Integration:** shared files, integrator owner, conflict risks, and final gates.
 - **Audit:** every delivery has an Auditor task before completion.
@@ -64,6 +64,8 @@ Design every plan to minimize token use without losing evidence:
 
 Write every delegated plan to repo-local files and `agent_memory` unless the user explicitly asks for chat-only output. Default path: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`. Small plans use `plan.md`, `tracker.md`, and `coordinator-prompt.md`; large plans use `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
 
+If the request has 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, or multiple delivery surfaces, it must use epic files. Convert user-provided batches or phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are the authoritative task contracts.
+
 Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. If `agent_memory` is unavailable, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. The final response must paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer; if omitted, state `Coordinator prompt not pasted because: <reason>. Path: <path>`.
 
 ## Task Status Tracking
@@ -87,7 +89,7 @@ Default lower when bounded and easy to verify. Escalate only for ambiguity, risk
 
 ## Granularity
 
-Use task-only plans for one small request, one ownership area, or a few tightly related tasks. Do not invent epics. Use epic plans for multiple goals, ownership areas, workers, phases, or delivery surfaces. Task-only plans still need skills, model/reasoning, ownership, parallelization, verification, tracking, and audit.
+Use task-only plans for one small request, one ownership area, or a few tightly related tasks. Do not invent epics. Use epic plans for multiple goals, ownership areas, workers, phases, batches, crates/packages, CI/live-system tracks, or delivery surfaces. Task-only plans still need skills, model/reasoning, ownership, parallelization, verification, tracking, and audit.
 
 ## Parallelization
 
@@ -111,7 +113,9 @@ Each epic must include: ID, objective, source of truth, non-goals, required skil
 
 ## Task Contract
 
-Each task must include: ID, epic or `none`, objective, required skills, worker role, preferred worker, requested/actual model, requested/actual reasoning, inheritance status, why sufficient, escalation trigger, owned files, forbidden files, inputs, steps, verify with, audit, tracking, done evidence, and `Commit allowed: no`.
+Each task must include: ID, epic or `none`, objective, required skills, routing reason, repo, branch, worker role, preferred worker, requested/actual model, requested/actual reasoning, inheritance status, why sufficient, escalation trigger, owned files, forbidden files, other agents active, inputs, steps, verify with, output format, audit, tracking, done evidence, and `Commit allowed: no`.
+
+Implementation tasks that create or change public APIs, schemas, data contracts, validators, compiler mappings, tests, CLI/user behavior, or integration boundaries must include a minimal `Target API / snippet`, `Compatibility constraints`, and `Example test shape`. Snippets are directional contracts, not full implementations, unless the user provided exact code.
 
 The task contract must be convertible into a worker prompt without adding hidden context.
 
@@ -123,6 +127,8 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not leave delegated plans only in chat; write plan files, post memory records, and create a coordinator prompt.
 - Do not list `coordinator-prompt.md` without pasting it when it is within the 120-line final-response limit.
 - Do not generate a delegation prompt that omits the `$agent-delegation-routing` recommendation when that skill may be available.
+- Do not replace required `epic-<id>.md` task contracts with batch files, phase files, or routing summaries.
+- Do not assign implementation work with only prose when an API, schema, mapping, validator, test, or command contract needs a minimal snippet.
 - Do not invent epics for a small task-only request.
 - Do not skip the search for parallelizable tasks.
 - Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
@@ -145,10 +151,12 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] Plan is written to files and posted to `agent_memory`; large plans are split per epic and include `coordinator-prompt.md`.
 - [ ] Final response includes the coordinator prompt text or an explicit not-pasted reason and path.
 - [ ] Plan granularity is justified: task-only for small work, epics for multi-area work.
+- [ ] Any batches/phases are mapped to epics/tasks; batch summaries do not replace `epic-<id>.md` files.
 - [ ] Whole-plan and task skill stacks are listed; epic skill stacks are listed when epics exist.
 - [ ] Token economy choices are explicit: RTK/fallback, caveman mode, reference loading, concise evidence, prompt reuse.
 - [ ] Every epic, when used, contains executable tasks.
-- [ ] Every task has owner, forbidden files, worker role, model, reasoning, and why sufficient.
+- [ ] Every task has routing reason, repo/branch, owner, forbidden files, worker role, model, reasoning, output format, and why sufficient.
+- [ ] Implementation tasks include target snippets, compatibility constraints, and example test shape when the contract would otherwise be ambiguous.
 - [ ] Every generated prompt recommends `$agent-delegation-routing` when available.
 - [ ] High/xhigh tasks have an escalation/risk reason.
 - [ ] Parallelization was actively considered; independent tasks are batched or serialization is justified.
