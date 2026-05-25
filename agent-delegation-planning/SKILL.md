@@ -4,7 +4,7 @@ description: Use when writing an execution plan that will be delegated to coding
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: "1.0.2"
+  version: "1.0.0"
 ---
 # Agent Delegation Planning
 
@@ -68,6 +68,8 @@ If the request has 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, 
 
 Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. If `agent_memory` is unavailable, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. The final response must paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer; if omitted, state `Coordinator prompt not pasted because: <reason>. Path: <path>`.
 
+For large plans, create explicit integrator and auditor task contracts. Use `epic-integration.md` and `epic-audit.md`, or first-class `*.INTEGRATE` and `*.AUDIT` task sections, when integration/audit own shared files, final gates, or nontrivial review.
+
 ## Task Status Tracking
 
 Use `agent_memory` to track each task with task ID, epic or task-only, owner, status, evidence, next action, and update time. Status values are `planning`, `running`, `blocked`, `failed`, `done`, and `audited`. Write `planning` before dispatch, `running` when work starts, `done` only after verification, and `audited` only after audit.
@@ -87,6 +89,15 @@ Pick the smallest sufficient model and reasoning effort for each task:
 
 Default lower when bounded and easy to verify. Escalate only for ambiguity, risk, cross-cutting behavior, or hard debugging. Record the reason for every high/xhigh task.
 
+Separate routing fields:
+
+- **Preferred worker/provider:** agent or tool family only, such as Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, human-routed Claude-side Auditor, or no preference.
+- **Fallback worker/provider:** viable alternative or `none available`.
+- **Requested model/model class:** provider-specific model or model class, separate from worker/provider.
+- **Requested reasoning effort:** low, medium, high, or xhigh, separate from worker/provider.
+
+Do not write values like `Codex high` in `Preferred worker/provider`; that mixes provider and reasoning. Do not make Codex the only route unless repo tooling, user instruction, or environment constraints require it. For each role, record at least one non-Codex option or explain why no alternative is viable.
+
 ## Granularity
 
 Use task-only plans for one small request, one ownership area, or a few tightly related tasks. Do not invent epics. Use epic plans for multiple goals, ownership areas, workers, phases, batches, crates/packages, CI/live-system tracks, or delivery surfaces. Task-only plans still need skills, model/reasoning, ownership, parallelization, verification, tracking, and audit.
@@ -97,7 +108,7 @@ Always look for parallelism before writing serial steps. Batch tasks with disjoi
 
 ## Delivery Audit
 
-Every delivery must include a separate Auditor task with owner, model/reasoning, inputs, gates, verdict, and evidence. Prefer cross-agent audit when available: Codex delivery uses human-routed Claude-side Auditor; Claude or local/Qwen delivery uses Codex Auditor. Codex must not spawn Claude directly; if cross-agent audit is unavailable, use independent Codex high/xhigh Auditor and record the fallback.
+Every delivery must include a separate Auditor task with owner, model/reasoning, inputs, gates, verdict, and evidence. Prefer cross-agent audit when available: Codex delivery uses human-routed Claude-side Auditor; Claude or local/Qwen delivery uses Codex Auditor. Codex must not spawn Claude directly; if cross-agent audit is unavailable, use an independent Auditor on an available provider with sufficient reasoning and record the fallback.
 
 ## UI Verification
 
@@ -109,15 +120,15 @@ End every non-trivial delivery with a cleanup task. Keep documentation that desc
 
 ## Epic Contract
 
-Each epic must include: ID, objective, source of truth, non-goals, required skills, owned/forbidden areas, dependencies, parallelizable-with, acceptance criteria, tasks, and verification gate.
+Each epic must include: ID, objective, source of truth, non-goals, required skills, owned/forbidden areas, dependencies, parallelizable-with, acceptance criteria, tasks, exact verification gate commands, and enough detail to dispatch without reading the original chat.
 
 ## Task Contract
 
-Each task must include: ID, epic or `none`, objective, required skills, routing reason, repo, branch, worker role, preferred worker, requested/actual model, requested/actual reasoning, inheritance status, why sufficient, escalation trigger, owned files, forbidden files, other agents active, inputs, steps, verify with, output format, audit, tracking, done evidence, and `Commit allowed: no`.
+Each task must include: ID, epic or `none`, objective, required skills, routing reason, repo, branch, worker role, preferred worker/provider, fallback worker/provider, requested/actual model, requested/actual reasoning, inheritance status, why sufficient, escalation trigger, owned files, forbidden files, other agents active, inputs, exact steps, exact verify commands, output format, audit, tracking, done evidence, and `Commit allowed: no`.
 
 Implementation tasks that create or change public APIs, schemas, data contracts, validators, compiler mappings, tests, CLI/user behavior, or integration boundaries must include a minimal `Target API / snippet`, `Compatibility constraints`, and `Example test shape`. Snippets are directional contracts, not full implementations, unless the user provided exact code.
 
-The task contract must be convertible into a worker prompt without adding hidden context.
+The task contract must be convertible into a worker prompt without adding hidden context. References to `plan.md` may supplement context, but they must not replace exact steps, verification commands, ownership, snippets, or output contract in the task file.
 
 Every coordinator, worker, auditor, integrator, and handoff prompt must include this instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 
@@ -129,6 +140,9 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not generate a delegation prompt that omits the `$agent-delegation-routing` recommendation when that skill may be available.
 - Do not replace required `epic-<id>.md` task contracts with batch files, phase files, or routing summaries.
 - Do not assign implementation work with only prose when an API, schema, mapping, validator, test, or command contract needs a minimal snippet.
+- Do not write `Preferred worker/provider: Codex high`; provider, model, and reasoning effort are separate fields.
+- Do not make all roles Codex-only unless the user explicitly asks or no other provider is viable; record alternatives or the reason they are unavailable.
+- Do not put only `commands in plan.md` or `steps in plan.md` in an epic/task file when that file is meant to dispatch a worker.
 - Do not invent epics for a small task-only request.
 - Do not skip the search for parallelizable tasks.
 - Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
@@ -156,6 +170,8 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] Token economy choices are explicit: RTK/fallback, caveman mode, reference loading, concise evidence, prompt reuse.
 - [ ] Every epic, when used, contains executable tasks.
 - [ ] Every task has routing reason, repo/branch, owner, forbidden files, worker role, model, reasoning, output format, and why sufficient.
+- [ ] Worker/provider, requested model, and requested reasoning are separate; every role has a fallback or a stated reason none exists.
+- [ ] Epic/task files include exact steps and verification commands, not only pointers to another file.
 - [ ] Implementation tasks include target snippets, compatibility constraints, and example test shape when the contract would otherwise be ambiguous.
 - [ ] Every generated prompt recommends `$agent-delegation-routing` when available.
 - [ ] High/xhigh tasks have an escalation/risk reason.
