@@ -32,7 +32,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 
 - Default directory: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`
 - Small plan: write `plan.md`, `tracker.md`, and `coordinator-prompt.md`.
-- Large plan: write `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
+- Large plan: write `00-overview.md`, one `epic-<id>.md` per epic, explicit integrator/auditor task contracts when nontrivial, `tracker.md`, and `coordinator-prompt.md`.
 - Epic trigger: 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, multiple delivery surfaces, multiple crates/packages, or CI/live-system tracks require epic files. Convert user-provided batches/phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are authoritative.
 - Memory records:
   - plan overview
@@ -56,10 +56,16 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - `playwright-cli-agent` or `playwright-test`: required for UI/frontend/demo/browser validation
 - Prompt requirement: every coordinator, worker, auditor, integrator, and handoff prompt includes `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 
-## Model Budget Rule
+## Routing And Model Budget Rule
 
-- Default bounded implementation: Codex medium or equivalent.
-- Cheap mechanical tasks: local/Qwen/Codex low when available and verifiable.
+- Preferred worker/provider is the agent or tool family only: Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, human-routed Claude-side Auditor, or no preference.
+- Fallback worker/provider is a viable alternative or `none available`.
+- Requested model/model class is separate from worker/provider.
+- Requested reasoning effort is separate from worker/provider.
+- Never write `Preferred worker/provider: Codex high`; use `Preferred worker/provider: Codex CLI` plus `Requested reasoning effort: high`.
+- Do not make all roles Codex-only unless the user explicitly asks or no other provider is viable.
+- Default bounded implementation: Codex CLI medium, Claude Code Sonnet-class medium, or equivalent.
+- Cheap mechanical tasks: local/Qwen/Ollama, Claude Haiku-class, Codex low, or equivalent when available and verifiable.
 - High effort only for multi-file, UI, integration, or nontrivial debugging.
 - Xhigh only for architecture ambiguity, subtle regressions, security logic, or final high-risk verification.
 - If unsure, consult `agent-delegation-routing/references/routing-table.md`.
@@ -121,7 +127,7 @@ Task ID:
 Epic or task-only:
 Owner:
 Status: planning / running / blocked / failed / done / audited
-Requested model:
+Requested model/model class:
 Requested reasoning:
 Actual model:
 Actual reasoning:
@@ -152,11 +158,12 @@ Use this section for a small request where epics would add noise.
   - expected concise output:
 - Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Worker role:
-- Preferred worker:
+- Preferred worker/provider:
+- Fallback worker/provider:
 - Routing reason:
 - Repo:
 - Branch:
-- Requested model:
+- Requested model/model class:
 - Requested reasoning effort:
 - Actual model: unknown until execution
 - Actual reasoning effort: unknown until execution
@@ -170,8 +177,8 @@ Use this section for a small request where epics would add noise.
 - Target API / snippet:
 - Compatibility constraints:
 - Example test shape:
-- Steps:
-- Verify with:
+- Steps: exact steps here; references to another file may supplement, not replace them
+- Verify with: exact commands here; references to another file may supplement, not replace them
 - Output format:
 - Playwright evidence if UI/browser work:
   - Skill:
@@ -231,11 +238,12 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
   - expected concise output:
 - Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Worker role:
-- Preferred worker:
+- Preferred worker/provider:
+- Fallback worker/provider:
 - Routing reason:
 - Repo:
 - Branch:
-- Requested model:
+- Requested model/model class:
 - Requested reasoning effort:
 - Actual model: unknown until execution
 - Actual reasoning effort: unknown until execution
@@ -249,8 +257,8 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Target API / snippet:
 - Compatibility constraints:
 - Example test shape:
-- Steps:
-- Verify with:
+- Steps: exact steps here; references to another file may supplement, not replace them
+- Verify with: exact commands here; references to another file may supplement, not replace them
 - Output format:
 - Playwright evidence if UI/browser work:
   - Skill:
@@ -289,12 +297,13 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
   - `caveman`: concise findings without dropping evidence
   - `agent-delegation-routing`: pick Auditor model/reasoning
 - Worker role: Auditor
-- Preferred worker: cross-agent when available; otherwise independent Codex Auditor
+- Preferred worker/provider: cross-agent auditor when available
+- Fallback worker/provider: independent Auditor in available coding agent
 - Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Routing reason:
 - Repo:
 - Branch:
-- Requested model:
+- Requested model/model class:
 - Requested reasoning effort:
 - Actual model: unknown until execution
 - Actual reasoning effort: unknown until execution
@@ -340,6 +349,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Max parallel:
 - Decision: parallel batch / serial because <reason> / not parallelizable because <reason>
 - Batch files: none / routing summaries only. They must reference task IDs from `epic-<id>.md` and must not replace task contracts.
+- Batch note for coordinator: batches are scheduling only; `epic-<id>.md` files are authoritative task contracts.
 - Parallel batch 1:
   - `<task id>`: owner, worker, files, verification
   - `<task id>`: owner, worker, files, verification
@@ -355,11 +365,16 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 
 ## Integration
 
+- Integrator task contract: `epic-integration.md` / `<epic>.INTEGRATE` / not needed because `<reason>`
 - Integrator role:
+- Preferred worker/provider:
+- Fallback worker/provider:
+- Requested model/model class:
+- Requested reasoning effort:
 - Shared files:
 - Conflict risks:
 - Merge order:
-- Focused verification:
+- Focused verification commands:
 - Final quality gate:
 
 ## Documentation Cleanup
@@ -399,7 +414,9 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Auditor task:
   - Task ID:
   - Owner:
-  - Requested model:
+  - Preferred worker/provider:
+  - Fallback worker/provider:
+  - Requested model/model class:
   - Requested reasoning:
   - Inputs:
   - Gates:
@@ -438,7 +455,10 @@ Execute the plan by dispatching tasks with explicit ownership, model/reasoning, 
 Rules:
 - Update task status in agent_memory and tracker on every transition.
 - Prefer parallel batches where ownership and dependencies allow.
+- Treat batches as scheduling only; epic/task files are authoritative contracts.
 - Use the smallest sufficient model/reasoning for each task.
+- Do not let workers inherit the coordinator model/reasoning by default.
+- Keep worker/provider, requested model, and reasoning effort as separate fields.
 - Require Playwright evidence for UI/browser work.
 - Do not mark done without verification evidence.
 - Do not mark audited without Auditor verdict.
@@ -559,20 +579,20 @@ Use lower effort when verification is cheap:
 
 | Task | Sufficient routing |
 |---|---|
-| Rename one symbol in two files | Codex low/medium or Qwen local; grep + tests |
-| Add docs table from known facts | Codex low or local worker; markdown lint if available |
-| Add focused unit tests | Codex medium or Qwen local; run target test |
-| Implement one bounded feature | Codex medium; run focused + repo gate |
-| Multi-file UI with screenshots | Codex high; browser/playwright evidence |
-| Security-sensitive auth change | Codex high/xhigh plus independent review |
-| Final architecture challenge | Codex xhigh or human-routed senior reviewer |
+| Rename one symbol in two files | Qwen/local, Claude Haiku-class, or Codex low/medium; grep + tests |
+| Add docs table from known facts | Qwen/local, Claude Haiku-class, or Codex low; markdown lint if available |
+| Add focused unit tests | Qwen/local, Codex medium, or Claude Sonnet-class medium; run target test |
+| Implement one bounded feature | Codex medium or Claude Sonnet-class medium; run focused + repo gate |
+| Multi-file UI with screenshots | Codex high or Claude Sonnet/Opus-class with Playwright/browser evidence |
+| Security-sensitive auth change | Senior-model high/xhigh plus independent cross-agent review |
+| Final architecture challenge | Senior-model xhigh or human-routed senior reviewer |
 ```
 
 ## Audit Examples
 
 | Delivery | Preferred audit |
 |---|---|
-| Mostly Codex implementation | Human-routed Claude-side Auditor if available; otherwise independent Codex high/xhigh Auditor |
-| Mostly Claude implementation | Codex Auditor |
-| Mostly Qwen/local patch | Codex Auditor |
-| Docs-only low-risk task | Codex low/medium Auditor or human review when available |
+| Mostly Codex implementation | Human-routed Claude-side Auditor if available; otherwise independent available high/xhigh Auditor |
+| Mostly Claude implementation | Codex Auditor when available; otherwise independent non-author Auditor |
+| Mostly Qwen/local patch | Codex or Claude Auditor |
+| Docs-only low-risk task | Low/medium Auditor on any available provider or human review |
