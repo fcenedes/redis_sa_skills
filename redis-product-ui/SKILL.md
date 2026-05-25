@@ -4,7 +4,7 @@ description: Use when building Redis product, dashboard, admin, RedisInsight-lik
 license: MIT
 metadata:
   author: redis
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 # Redis Product UI
 
@@ -21,9 +21,11 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 
 1. Identify the surface: product shell, dashboard, table, inspector, form, wizard, plugin, or demo.
 2. Pick the correct theme family from [tokens](references/tokens.md): `light`/`dark` for RedisInsight components, `light2`/`dark2` for other Redis products.
-3. Use component guidance from [components](references/components.md).
-4. Choose a layout pattern from [layout patterns](references/layout-patterns.md).
-5. Verify the result with [quality checklist](references/quality-checklist.md).
+3. Use component guidance from [components](references/components.md) and [component inventory](references/component-inventory.md).
+4. For data grids, use [table patterns](references/table-patterns.md); for metrics, use [chart patterns](references/chart-patterns.md).
+5. For React/package or standalone demo work, use [implementation patterns](references/implementation-patterns.md).
+6. Choose a layout pattern from [layout patterns](references/layout-patterns.md).
+7. Verify the result with [quality checklist](references/quality-checklist.md).
 
 ## Core Rules
 
@@ -34,6 +36,8 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 - Represent every meaningful state: default, hover, active, selected, disabled, loading, empty, valid, invalid, warning, danger, and success.
 - Keep Redis Red from `redis-brand-ui` for brand moments; do not use it as the universal product semantic color.
 - Prefer tables and inspection panels over decorative card grids for operational views.
+- Use Redis UI package/components when they are already available in the target repo; otherwise emulate the public Storybook behavior with local CSS and no private source dependency.
+- Use ellipsis, wrapping rules, and tooltip/overflow behavior for long Redis keys, IDs, labels, and chip lists.
 
 ## DO NOT
 
@@ -44,6 +48,8 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 - Do not omit dark mode when the user asks for Redis UI product fidelity.
 - Do not invent arbitrary spacing, control heights, or layout dimensions when the product token scale applies.
 - Do not vendor Storybook bundles, generated screenshots, or copied external source.
+- Do not reference private source repositories in generated skill docs or demo guidance.
+- Do not use pagination and virtualization together; for very large tables prefer virtualization and avoid custom expanded panels that break row measurement.
 
 ## Checklist
 
@@ -52,5 +58,6 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 3. Typography uses product UI fonts unless brand/marketing guidance overrides it.
 4. Component states are complete and distinguish status from brand accent.
 5. Tables, filters, navigation, drawers, modals, and feedback patterns follow the references.
-6. Accessibility, contrast, focus, and keyboard behavior are checked.
-7. Brand conflicts are resolved with `redis-brand-ui` and documented.
+6. Charts, if present, have labeled axes, tooltips, empty/loading/error states, and theme-safe colors.
+7. Accessibility, contrast, focus, keyboard behavior, screen-reader announcements, and overflow behavior are checked.
+8. Brand conflicts are resolved with `redis-brand-ui` and documented.
