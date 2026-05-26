@@ -127,7 +127,7 @@ Use redis-lucidchart-diagrams to create a Lucidchart-editable Redis agent orches
 Use playwright-test to add E2E coverage for the login flow.
 Use playwright-cli-agent to open the local app, reproduce the dashboard bug, and capture screenshots.
 Use caveman ultra and summarize this failing test output.
-Use redis-insight-plugin to create an external Parcel Redis Insight plugin for XRANGE.
+Use redis-insight-plugin with redis-product-ui to create an external Parcel Redis Insight plugin for XRANGE using RedisInsight light/dark product styling.
 Use rtk-cli to inspect this repo and summarize the diff.
 Use agent-delegation-planning to write an executable delegated plan with required skills, token budget, task tracking, audit, Playwright UI gates, ownership, and verification.
 Use agent-delegation-routing to split a multi-agent coding task into coordinator, implementor, verifier, and Qwen worker contracts.
@@ -145,7 +145,7 @@ Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory 
 | Customer discovery | `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams` or `redis-lucidchart-diagrams` |
 | Demo creation | `redis-demo-builder` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
 | Product UI demo | `redis-product-ui` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
-| RedisInsight plugin | `redis-insight-plugin` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
+| RedisInsight plugin | `redis-insight-plugin` + `redis-product-ui` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
 | Shared local agent memory | `agent-memory-docker` + `rtk-cli` |
 | Delegated agent work | `agent-delegation-planning` + `agent-delegation-routing` + `agent-memory-coordination` + `rtk-cli` + `caveman` |
 | Parallel agent coordination | `agent-memory-coordination` + `agent-delegation-routing` + Superpowers + `rtk-cli` |

@@ -10,6 +10,8 @@ metadata:
 
 Build, deploy, and validate Redis Insight Workbench visualization plugins. Plugins render inside an iframe in Workbench and visualize the result of a Redis command. Trigger this skill for plugin manifests, `package.json` `visualizations`, `activationMethod` functions, `redisinsight-plugin-sdk` usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, `/api/plugins` verification, and Playwright plugin tests.
 
+Use `redis-product-ui` for every visual plugin UI. RedisInsight plugins use the RedisInsight product theme pair: `light` / `dark`, not `light2` / `dark2`.
+
 Official source-of-truth references:
 
 - https://github.com/redis/RedisInsight/tree/main/docs/plugins
@@ -94,6 +96,19 @@ Every activation function must:
 
 See [references/error-handling.md](references/error-handling.md).
 
+## RedisInsight Product UI Contract
+
+Every plugin UI must follow RedisInsight product styling:
+
+- Load `redis-product-ui` when creating or changing plugin UI.
+- Use RedisInsight `light` / `dark` product themes from `redis-product-ui`.
+- For standalone external plugins, emulate the RedisInsight product tokens with local CSS variables; do not import RedisInsight monorepo internals or `@redis-ui/*`.
+- Detect iframe theme through `theme_LIGHT` / `theme_DARK` body classes or SDK theme helpers.
+- Use compact product components: table, toolbar, segmented states, empty/error/loading panels, badges, and inspector-style details.
+- Keep Redis brand red for brand moments only; do not use it as the default plugin CTA, heading, error, or status color.
+
+See [references/redisinsight-product-ui.md](references/redisinsight-product-ui.md) and use [templates/external-styles.scss](templates/external-styles.scss) as the baseline `src/styles/styles.scss`.
+
 ## Mandatory Phased Workflow
 
 Build every new plugin in three phases. Do not skip phases — the failure mode in each phase tells you exactly what is wrong.
@@ -164,6 +179,8 @@ The response must include the plugin `name` and its visualizations. See [referen
 - DO NOT use Vite for standalone external plugins. Use Parcel.
 - DO NOT import from `uiSrc/`, `@redis-ui/*`, or any RedisInsight monorepo internal in a standalone plugin.
 - DO NOT externalize React in a standalone plugin bundle. Bundle React and ReactDOM.
+- DO NOT style plugin UI with ad hoc inline brand colors. Use RedisInsight product UI variables/classes.
+- DO NOT use `light2` / `dark2` for RedisInsight plugins; those are for other Redis product UIs.
 - DO NOT skip `/api/plugins` verification after deploying.
 - DO NOT ship `process.env.*` references in the bundle. Replace at build time.
 - DO NOT assume one Redis response shape — `XRANGE`, `GEOSEARCH WITH...`, and `GEORADIUS` return very different structures. See [references/redis-command-parsing.md](references/redis-command-parsing.md).
@@ -174,6 +191,7 @@ The response must include the plugin `name` and its visualizations. See [referen
 - `package.json` declares `main`, `styles`, and `visualizations` with required fields.
 - Every `activationMethod` matches a default-exported function.
 - Phases 1, 2, 3 each rendered successfully before moving on.
+- RedisInsight product UI applied with `redis-product-ui`, `light` / `dark` theme handling, and local CSS variables for standalone plugins.
 - Review hardening pass completed for manifest matching, command parsing, visualization state, and scoped tests.
 - Bundle verified: `dist/index.js`, `dist/styles.css`, no `process.env`.
 - Plugin deployed to `~/.redis-insight/plugins/<name>/` (or via the Docker workaround).
@@ -192,6 +210,7 @@ The response must include the plugin `name` and its visualizations. See [referen
 | [internal-vite-plugin.md](references/internal-vite-plugin.md) | Building inside the RedisInsight monorepo with Vite. |
 | [plugin-manifest.md](references/plugin-manifest.md) | Writing or stripping `package.json` manifests. |
 | [iterative-development.md](references/iterative-development.md) | Phase 1/2/3 templates and pipeline. |
+| [redisinsight-product-ui.md](references/redisinsight-product-ui.md) | Applying RedisInsight product UI inside plugin iframes. |
 | [review-hardening.md](references/review-hardening.md) | Pre-review checklist for matcher, parser, Leaflet state, and scoped regression tests. |
 | [testing-and-deployment.md](references/testing-and-deployment.md) | Deploy paths, Docker workaround, `/api/plugins`, Playwright. |
 | [redis-command-parsing.md](references/redis-command-parsing.md) | Parsing `GEOSEARCH` / `GEORADIUS` / `XRANGE` responses. |

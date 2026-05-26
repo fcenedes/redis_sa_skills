@@ -69,7 +69,7 @@ function renderExampleView(props) {
     // Render here. Show empty state when data is empty.
   } catch (err) {
     console.error('[EXAMPLE_PLUGIN] render failed', err);
-    root.innerHTML = '<pre style="color:red">Plugin failed. See console.</pre>';
+    root.innerHTML = '<div class="ri-plugin-error">Plugin failed. See console.</div>';
   }
 }
 
@@ -144,6 +144,8 @@ See [third-party-libraries.md](third-party-libraries.md).
 ## Interactive UI Patterns
 
 - Keep heavy UI inside the iframe; do not assume access to the host page.
+- Apply `redis-product-ui` with RedisInsight `light` / `dark` themes for visual plugin work.
+- Standalone plugins emulate product tokens locally with `src/styles/styles.scss`; copy `templates/external-styles.scss` as the baseline.
 - Use `document.body.classList.contains('theme_DARK')` to switch palettes.
 - Persist user settings via SDK state, falling back to `localStorage` keyed under your plugin id.
 - Avoid global CSS resets that fight Insight's iframe styles.

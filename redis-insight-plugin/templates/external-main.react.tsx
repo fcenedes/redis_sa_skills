@@ -29,7 +29,7 @@ class ErrorBoundary extends React.Component<
   render() {
     if (this.state.error) {
       return (
-        <div className="plugin-error">
+        <div className="ri-plugin-error">
           <p>Plugin failed to render. See console.</p>
           <pre>{String(this.state.error.message)}</pre>
         </div>
@@ -41,22 +41,24 @@ class ErrorBoundary extends React.Component<
 
 function ExampleApp({ command, data }: { command: string; data: unknown }) {
   return (
-    <div className="example-plugin" style={{ padding: 16, fontFamily: 'sans-serif', color: '#091A23' }}>
-      <h2 style={{ color: '#FF4438', margin: '0 0 8px' }}>Example Plugin</h2>
-      <p style={{ margin: '0 0 4px' }}><b>Command:</b> {command || '(unknown)'}</p>
-      <p style={{ margin: '0 0 12px' }}><b>Status:</b> ok</p>
-      <pre
-        style={{
-          background: '#091A23',
-          color: '#fff',
-          padding: 12,
-          borderRadius: 5,
-          overflow: 'auto',
-        }}
-      >
-        {JSON.stringify(data ?? null, null, 2)}
-      </pre>
-    </div>
+    <section className="ri-plugin-shell">
+      <div className="ri-plugin-panel">
+        <header className="ri-plugin-header">
+          <div>
+            <h2 className="ri-plugin-title">Example Plugin</h2>
+            <p className="ri-plugin-subtitle">React render proof inside RedisInsight.</p>
+          </div>
+          <span className="ri-plugin-badge ri-plugin-badge--success">Active</span>
+        </header>
+        <div className="ri-plugin-content">
+          <div className="ri-plugin-row">
+            <span className="ri-plugin-meta">Command</span>
+            <code className="ri-plugin-command" title={command}>{command || '(unknown)'}</code>
+          </div>
+          <pre className="ri-plugin-code">{JSON.stringify(data ?? null, null, 2)}</pre>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -79,7 +81,7 @@ export function renderExampleView(props: RedisInsightProps): void {
   } catch (err) {
     console.error(PREFIX, 'render failed', err);
     host.innerHTML =
-      '<pre style="color:red;padding:12px;">Plugin failed. See console.</pre>';
+      '<div class="ri-plugin-error">Plugin failed. See console.</div>';
   }
 }
 
