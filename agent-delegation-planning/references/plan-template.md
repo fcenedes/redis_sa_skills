@@ -66,6 +66,8 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Do not make all roles Codex-only unless the user explicitly asks or no other provider is viable.
 - Default bounded implementation: Codex CLI medium, Claude Code Sonnet-class medium, or equivalent.
 - Cheap mechanical tasks: local/Qwen/Ollama, Claude Haiku-class, Codex low, or equivalent when available and verifiable.
+- Documentation execution: low/medium only by default; if docs carry public command, route, release, live-proof, security, or architecture risk, add a separate high Spec Writer/Auditor task.
+- Inherited senior-model/high-reasoning subagents are forbidden for docs-only execution.
 - High effort only for multi-file, UI, integration, or nontrivial debugging.
 - Xhigh only for architecture ambiguity, subtle regressions, security logic, or final high-risk verification.
 - If unsure, consult `agent-delegation-routing/references/routing-table.md`.
@@ -459,6 +461,7 @@ Rules:
 - Use the smallest sufficient model/reasoning for each task.
 - Do not let workers inherit the coordinator model/reasoning by default.
 - Keep worker/provider, requested model, and reasoning effort as separate fields.
+- Docs workers must be low/medium unless a separate high reviewer/spec task names the risk.
 - Require Playwright evidence for UI/browser work.
 - Do not mark done without verification evidence.
 - Do not mark audited without Auditor verdict.
@@ -581,6 +584,7 @@ Use lower effort when verification is cheap:
 |---|---|
 | Rename one symbol in two files | Qwen/local, Claude Haiku-class, or Codex low/medium; grep + tests |
 | Add docs table from known facts | Qwen/local, Claude Haiku-class, or Codex low; markdown lint if available |
+| Edit public docs with release/contract wording | Docs worker low/medium plus separate high Spec Writer/Auditor for the risky claim |
 | Add focused unit tests | Qwen/local, Codex medium, or Claude Sonnet-class medium; run target test |
 | Implement one bounded feature | Codex medium or Claude Sonnet-class medium; run focused + repo gate |
 | Multi-file UI with screenshots | Codex high or Claude Sonnet/Opus-class with Playwright/browser evidence |

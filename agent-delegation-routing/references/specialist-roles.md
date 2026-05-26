@@ -21,6 +21,7 @@ Claude-side work; do not spawn or delegate directly to Claude.
 | PR Reviewer | A PR/diff needs high-confidence actionable feedback. | Codex review/high, or Claude Opus by human/Claude-side routing | Findings ordered by severity and release-gate notes. |
 | PR Shepherd | An existing PR needs coordinated fixes, CI, comments, and readiness tracking. | Codex medium/high | PR status, blockers, delegated fixes, verification state. |
 | UI Designer | Product UI needs design-system, a11y, responsive, and visual evidence. | Codex high | UI changes, tokens/components used, screenshots/a11y/responsive checks. |
+| Docs Worker | Documentation-only edits with bounded source of truth. | Qwen local, Codex low/medium, or Claude Haiku by human/Claude-side routing | Changed docs, commands/checks run, assumptions, blockers. |
 | Qwen Worker | A narrow local worker task can be verified cheaply. | Qwen local/Ollama | Unified diff or concise report, verification result, blockers. |
 
 The coordinator may override any default when scope, risk, cost, or tool
@@ -47,6 +48,7 @@ Codex or local alternatives, or ask the user to route work to Claude.
 | PR Reviewer | Codex review | Claude Opus for strategic risk | Codex high/xhigh | Qwen only for obvious diff scan | high |
 | PR Shepherd | Codex medium/high | Claude Sonnet for comment drafting | Codex high for CI/fix loops | none | medium/high |
 | UI Designer | Codex high | Claude Sonnet for design critique | Codex high/xhigh | none | high |
+| Docs Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium for public docs contracts | Qwen Coder | low/medium |
 | Qwen Worker | Qwen local/Ollama | Claude Haiku | Codex low/medium | Qwen Coder | low/medium |
 
 Default version policy:
@@ -85,6 +87,12 @@ acceptable in Codex or Claude Code. Use Codex CLI with explicit config,
 Qwen/Ollama/local worker, or do the task directly. If none is available, report
 `No lower-cost worker available` instead of spawning a subagent that inherits
 the senior model.
+
+Docs-only execution must not inherit a senior coordinator model. Use low/medium
+or local workers for the edit. If public command wording, route inventory,
+release posture, live-proof semantics, security claims, or architecture
+boundaries are risky, split the work: low/medium Docs Worker edits, then high
+Spec Writer/Auditor reviews the contract or claim.
 
 ## Worker Status
 

@@ -38,7 +38,7 @@ invocations, use [command-patterns](command-patterns.md).
 | Security-sensitive review | Claude Opus plus Codex high verification | Use two-model review when a human or Claude-side coordinator routes the Claude pass. |
 | Mechanical refactor | Qwen local, Codex low/medium, or Claude Haiku | Cheap and fast when file ownership is bounded; Claude Haiku is human/Claude-side routing only. |
 | Test generation | Qwen local, Codex medium, or Claude Haiku | Good worker task; Claude Haiku is human/Claude-side routing only and coordinator reviews usefulness. |
-| Boilerplate, docs, rename, grep-driven edits | Qwen local, Codex low, or Claude Haiku | Low-risk and easy to verify; Claude Haiku is human/Claude-side routing only. |
+| Boilerplate, docs, rename, grep-driven edits | Qwen local, Codex low/medium, or Claude Haiku | Low-risk and easy to verify; Claude Haiku is human/Claude-side routing only. Use high only for a separate public-contract/release/security review. |
 | Frontend prototype | Codex high | Stronger at producing, running, and verifying actual UI. |
 | Final integration, commit, push | Codex medium/high | Strong local repo and tool workflow. |
 | Final strategic review | Claude Opus or Codex xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex xhigh. |
@@ -83,6 +83,12 @@ Practical pattern on the Claude side: Opus plans, Sonnet executes.
 
 Do not default every task to xhigh. Higher effort can improve quality on hard
 tasks, but costs time and tokens and can over-elaborate.
+
+Docs rule: docs execution defaults to low/medium. Public command wording, route
+inventories, release posture, and live-proof semantics may justify a high
+Spec Writer or Auditor pass, but not inherited high-reasoning docs workers. If
+the dispatch path can only inherit a senior coordinator model, do the docs edit
+directly or use a lower-cost CLI/local worker.
 
 ## Qwen Local
 

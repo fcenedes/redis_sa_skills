@@ -26,6 +26,7 @@ Load references only when needed:
 - Repo execution: Codex CLI medium/high/xhigh, based on risk.
 - Normal implementation: Codex medium, or Claude Sonnet only by human/Claude-side routing.
 - Cheap bounded work: local Qwen/Ollama, LM Studio, Claude Haiku by human/Claude-side routing, or fast models.
+- Documentation execution: low/medium only by default; high is for named public-contract, release-claim, security, or architecture ambiguity and is usually an audit/spec role, not a docs worker.
 - Final high-risk review: Claude Opus by human/Claude-side routing plus Codex high/xhigh verification.
 
 ## Role Selection
@@ -93,6 +94,8 @@ outside the assigned scope.
 
 Do not use inherited-model subagents for bounded work in Codex or Claude Code. If model control is unavailable, use CLI/local workers with explicit model settings, do the work directly, or report no lower-cost worker is available.
 
+Documentation tasks have a stricter cost rule: do not spawn inherited senior-model/high-reasoning subagents for docs-only execution. Use low/medium reasoning, a local/Qwen worker, a lower-cost CLI worker, or do the docs edit directly. Escalate only a separate Spec Writer/Auditor when the docs decide or certify a public contract, release posture, security claim, or architecture boundary.
+
 ## Command Shapes
 
 For exact RTK-aware commands, read
@@ -130,6 +133,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 - Do not omit requested model, requested reasoning effort, or routing reason.
 - Do not silently let workers inherit the coordinator model or reasoning level.
 - Do not call Codex or Claude Code subagents that can only inherit the coordinator model for low/medium-risk work.
+- Do not use inherited senior-model/high-reasoning workers for docs-only execution; split high-risk review from low/medium docs editing.
 - Do not serialize independent worker tracks without recording why.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
@@ -145,6 +149,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 - [ ] Multi-task work has an executable epic/task plan from `agent-delegation-planning`.
 - [ ] Requested/actual model, reasoning, inheritance status, and routing reason recorded.
 - [ ] Worker dispatch path can set model/reasoning, or inherited execution is explicitly rejected.
+- [ ] Docs-only workers use low/medium reasoning, or a named high-risk contract/release/security reason is recorded for a separate reviewer.
 - [ ] Git status checked; unrelated changes protected.
 - [ ] Parallelization decision recorded; independent tracks batched or serialization justified.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.
