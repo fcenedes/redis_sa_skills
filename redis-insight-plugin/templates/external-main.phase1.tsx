@@ -30,14 +30,24 @@ export function renderExampleView(props: ActivationProps): void {
   const dataJson = JSON.stringify(props?.data ?? null, null, 2);
 
   root.innerHTML = `
-    <div style="padding:16px;font-family:sans-serif;color:#091A23;">
-      <h2 style="color:#FF4438;margin:0 0 8px;">PLUGIN WORKS</h2>
-      <p style="margin:0 0 4px;"><b>Command:</b> ${escapeHtml(command)}</p>
-      <p style="margin:0 0 12px;"><b>Status:</b> ok</p>
-      <pre style="background:#091A23;color:#fff;padding:12px;border-radius:5px;overflow:auto;">
-${escapeHtml(dataJson)}
-      </pre>
-    </div>
+    <section class="ri-plugin-shell">
+      <div class="ri-plugin-panel">
+        <header class="ri-plugin-header">
+          <div>
+            <h2 class="ri-plugin-title">Example Plugin</h2>
+            <p class="ri-plugin-subtitle">Vanilla wiring proof inside RedisInsight.</p>
+          </div>
+          <span class="ri-plugin-badge ri-plugin-badge--success">Active</span>
+        </header>
+        <div class="ri-plugin-content">
+          <div class="ri-plugin-row">
+            <span class="ri-plugin-meta">Command</span>
+            <code class="ri-plugin-command" title="${escapeHtml(command)}">${escapeHtml(command || '(unknown)')}</code>
+          </div>
+          <pre class="ri-plugin-code">${escapeHtml(dataJson)}</pre>
+        </div>
+      </div>
+    </section>
   `;
 }
 

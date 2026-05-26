@@ -6,6 +6,8 @@ Build every Redis Insight plugin in three phases. The phases exist because each 
 
 Goal: prove activation, props, and iframe rendering work. No React, no third-party libraries.
 
+Use the RedisInsight product UI baseline from `templates/external-styles.scss`; Phase 1 can be vanilla DOM without falling back to inline brand colors.
+
 ```ts
 // src/main.tsx (or main.js)
 const PREFIX = '[EXAMPLE_PLUGIN]';
@@ -18,14 +20,18 @@ export function renderExampleView(props: any) {
     return;
   }
   root.innerHTML = `
-    <div style="padding:16px;font-family:sans-serif;">
-      <h2 style="color:#FF4438;">PLUGIN WORKS</h2>
-      <p><b>Command:</b> ${escape(String(props?.command ?? ''))}</p>
-      <p><b>Status:</b> ok</p>
-      <pre style="background:#091A23;color:#fff;padding:8px;overflow:auto;">
-${escape(JSON.stringify(props?.data, null, 2))}
-      </pre>
-    </div>
+    <section class="ri-plugin-shell">
+      <div class="ri-plugin-panel">
+        <header class="ri-plugin-header">
+          <h2 class="ri-plugin-title">Plugin works</h2>
+          <span class="ri-plugin-badge ri-plugin-badge--success">Active</span>
+        </header>
+        <div class="ri-plugin-content">
+          <code class="ri-plugin-command">${escape(String(props?.command ?? ''))}</code>
+          <pre class="ri-plugin-code">${escape(JSON.stringify(props?.data, null, 2))}</pre>
+        </div>
+      </div>
+    </section>
   `;
 }
 
@@ -58,12 +64,18 @@ const PREFIX = '[EXAMPLE_PLUGIN]';
 
 function ExampleApp({ command, data }: { command: string; data: unknown }) {
   return (
-    <div className="example-plugin">
-      <h2>Example Plugin</h2>
-      <p><b>Command:</b> {command}</p>
-      <p><b>Status:</b> ok</p>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>
+    <section className="ri-plugin-shell">
+      <div className="ri-plugin-panel">
+        <header className="ri-plugin-header">
+          <h2 className="ri-plugin-title">Example Plugin</h2>
+          <span className="ri-plugin-badge ri-plugin-badge--success">Active</span>
+        </header>
+        <div className="ri-plugin-content">
+          <code className="ri-plugin-command">{command}</code>
+          <pre className="ri-plugin-code">{JSON.stringify(data, null, 2)}</pre>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -76,7 +88,7 @@ export function renderExampleView(props: any) {
     root.render(<ExampleApp command={String(props?.command ?? '')} data={props?.data} />);
   } catch (err) {
     console.error(PREFIX, 'render failed', err);
-    host.innerHTML = '<pre style="color:red">Plugin failed. See console.</pre>';
+    host.innerHTML = '<div class="ri-plugin-error">Plugin failed. See console.</div>';
   }
 }
 

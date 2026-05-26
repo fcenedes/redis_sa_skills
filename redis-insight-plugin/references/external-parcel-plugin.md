@@ -102,6 +102,8 @@ After `yarn build`:
 
 If your plugin has no styles, you can omit the `styles` manifest field and the SCSS source — but most plugins need styles.
 
+For RedisInsight product UI fidelity, copy `templates/external-styles.scss` to `src/styles/styles.scss`. Keep plugin styles scoped under `.ri-plugin-*` classes and use `theme_LIGHT` / `theme_DARK` body classes for light/dark mode.
+
 ## Verification
 
 ```bash
