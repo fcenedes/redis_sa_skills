@@ -89,6 +89,8 @@ Pick the smallest sufficient model and reasoning effort for each task:
 
 Default lower when bounded and easy to verify. Escalate only for ambiguity, risk, cross-cutting behavior, or hard debugging. Record the reason for every high/xhigh task.
 
+Documentation execution defaults to low/medium. If docs touch public command wording, route inventories, release posture, live-proof semantics, security claims, or architecture boundaries, keep the docs edit low/medium and add a separate high Spec Writer/Auditor task for the risky claim. Do not use inherited senior-model/high-reasoning subagents for docs-only editing.
+
 Separate routing fields:
 
 - **Preferred worker/provider:** agent or tool family only, such as Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, human-routed Claude-side Auditor, or no preference.
@@ -147,6 +149,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not skip the search for parallelizable tasks.
 - Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
 - Do not default to the coordinator's model or reasoning for worker tasks.
+- Do not route docs-only workers to inherited senior/high execution; use low/medium or split high-risk review into a separate auditor/spec task.
 - Do not use high/xhigh without a concrete risk or ambiguity reason.
 - Do not finish a delivery without an Auditor task and audit evidence.
 - Do not make Codex directly delegate to Claude for audit; route through the user or use a Codex fallback.
@@ -171,6 +174,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] Every epic, when used, contains executable tasks.
 - [ ] Every task has routing reason, repo/branch, owner, forbidden files, worker role, model, reasoning, output format, and why sufficient.
 - [ ] Worker/provider, requested model, and requested reasoning are separate; every role has a fallback or a stated reason none exists.
+- [ ] Documentation workers are low/medium by default; any high reasoning is a separate reviewer/spec task with a named risk.
 - [ ] Epic/task files include exact steps and verification commands, not only pointers to another file.
 - [ ] Implementation tasks include target snippets, compatibility constraints, and example test shape when the contract would otherwise be ambiguous.
 - [ ] Every generated prompt recommends `$agent-delegation-routing` when available.
