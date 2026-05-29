@@ -39,6 +39,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - epic summaries when epics exist
   - task ownership/status records
   - coordinator prompt
+- Before declaring memory write unavailable, discover lazy-loaded memory tools for create/add/write/save/upsert/edit/update/set operations.
 - If memory write fails: record `Memory persistence: unavailable` in plan/tracker/final response.
 - If `agent_memory` is unavailable: state the degradation, recommend installing/configuring shared memory, and continue with file/tracker fallback.
 - If file write fails: record `File persistence: unavailable` in memory/final response.
@@ -49,8 +50,9 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Whole plan:
   - `rtk-cli`: inspect git, diffs, tests, logs, and build output.
   - `caveman`: default compressed prose for prompts, reports, audits, handoffs, and summaries without changing technical identifiers.
+  - `agent-capability-ledger`: reconcile done/partial/missing/blocked/superseded capability rows before follow-up/readiness/cross-tranche work.
   - `agent-delegation-routing`: route tasks to workers with explicit model/reasoning.
-  - `agent-memory-coordination`: track task status, prompts, ownership, and durable outcomes when shared memory is available.
+  - `agent-memory-coordination`: discover memory read/write tools, track task status, prompts, ownership, and durable outcomes when shared memory is available.
 - Repo/task-specific:
   - `<skill>`: `<why needed>`
   - `playwright-cli-agent` or `playwright-test`: required for UI/frontend/demo/browser validation
@@ -68,6 +70,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Cheap mechanical tasks: local/Qwen/Ollama, Claude Haiku-class, Codex low, or equivalent when available and verifiable.
 - Documentation execution: low/medium only by default; if docs carry public command, route, release, live-proof, security, or architecture risk, add a separate high Spec Writer/Auditor task.
 - Inherited senior-model/high-reasoning subagents are forbidden for docs-only execution.
+- If the worker path cannot control model/reasoning for low/medium work, use direct execution, explicit CLI/local worker, or record `No lower-cost worker available`; do not spawn an inherited senior worker.
 - High effort only for multi-file, UI, integration, or nontrivial debugging.
 - Xhigh only for architecture ambiguity, subtle regressions, security logic, or final high-risk verification.
 - If unsure, consult `agent-delegation-routing/references/routing-table.md`.
@@ -109,6 +112,11 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Memory backend:
 - Namespace:
 - User ID:
+- Memory write discovery:
+  - attempted:
+  - write tools found:
+  - write tool used:
+  - write confirmed:
 - Tracker file:
 - Tracker policy:
   - update memory on every status transition
@@ -121,6 +129,20 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - `failed`: write when implementation or verification fails
   - `done`: write after task verification evidence exists
   - `audited`: write after Auditor verdict exists
+
+## Capability Ledger Gate
+
+- Ledger path:
+- Reconciliation required: yes/no and why
+- Existing rows checked:
+- Already satisfied:
+- Partial:
+- Missing:
+- Blocked:
+- Superseded:
+- New scope since last delivery:
+- Delta rows that become tasks:
+- Rows excluded from tasks because already done/superseded:
 
 ### Task Status Record
 
@@ -350,6 +372,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 
 - Max parallel:
 - Decision: parallel batch / serial because <reason> / not parallelizable because <reason>
+- Actual execution mode: parallel workers / direct serial / parallelizable but serialized because <tool/runtime limitation>
 - Batch files: none / routing summaries only. They must reference task IDs from `epic-<id>.md` and must not replace task contracts.
 - Batch note for coordinator: batches are scheduling only; `epic-<id>.md` files are authoritative task contracts.
 - Parallel batch 1:
@@ -447,6 +470,7 @@ Read first:
 Use if available:
 - $agent-delegation-routing before dispatching, to confirm role, model/reasoning, ownership, command shape, and fallback.
 Required skills:
+- agent-capability-ledger
 - agent-delegation-planning
 - agent-delegation-routing
 - agent-memory-coordination
@@ -457,6 +481,7 @@ Execute the plan by dispatching tasks with explicit ownership, model/reasoning, 
 Rules:
 - Update task status in agent_memory and tracker on every transition.
 - Prefer parallel batches where ownership and dependencies allow.
+- Do not call work parallel unless separate workers or execution streams actually ran.
 - Treat batches as scheduling only; epic/task files are authoritative contracts.
 - Use the smallest sufficient model/reasoning for each task.
 - Do not let workers inherit the coordinator model/reasoning by default.
