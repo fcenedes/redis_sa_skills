@@ -31,7 +31,7 @@ invocations, use [command-patterns](command-patterns.md).
 
 | Task | Best first choice | Why |
 |------|-------------------|-----|
-| Architecture, plan, design review | Claude Opus or Codex xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex xhigh or ask the user to route to Claude. |
+| Architecture, plan, design review | Claude Opus or Codex high/xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only for major ambiguity or high-risk decisions. |
 | Normal feature implementation | Codex medium or Claude Sonnet | Use Codex when repo and tool execution matter; use Sonnet only by human/Claude-side routing. |
 | Large multi-file implementation | Codex high | Better persistence and repo execution without always paying max reasoning cost. |
 | Hard debugging or subtle regression | Claude Opus or Codex high/xhigh | Use Opus only by human/Claude-side routing; use Codex high/xhigh for deep inspect/edit/run loops. |
@@ -41,7 +41,7 @@ invocations, use [command-patterns](command-patterns.md).
 | Boilerplate, docs, rename, grep-driven edits | Qwen local, Codex low/medium, or Claude Haiku | Low-risk and easy to verify; Claude Haiku is human/Claude-side routing only. Use high only for a separate public-contract/release/security review. |
 | Frontend prototype | Codex high | Stronger at producing, running, and verifying actual UI. |
 | Final integration, commit, push | Codex medium/high | Strong local repo and tool workflow. |
-| Final strategic review | Claude Opus or Codex xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex xhigh. |
+| Final strategic review | Claude Opus or Codex high/xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only when risk is high. |
 
 ## Role Mapping
 
@@ -49,14 +49,16 @@ Same boundary: Claude entries are not Codex delegation targets.
 
 | Need | Role | Default Execution |
 |------|------|-------------------|
-| Split ambiguous work | Coordinator | Codex xhigh, or Claude Opus by human/Claude-side routing |
-| Make requirements executable | Spec Writer | Codex high/xhigh, or Claude Opus/Sonnet by human/Claude-side routing |
+| Split ambiguous work | Coordinator | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing |
+| Make requirements executable | Spec Writer | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing |
 | Edit repo files | Implementor | Codex medium/high |
 | Check completion | Verifier | Codex high, or Claude Sonnet by human/Claude-side routing |
-| Challenge claims | Auditor | Codex xhigh, or Claude Opus by human/Claude-side routing |
+| Challenge claims | Auditor | Codex high/xhigh, or Claude Opus by human/Claude-side routing |
 | Review PR/diff | PR Reviewer | Codex review, or Claude Opus by human/Claude-side routing |
 | Drive PR loops | PR Shepherd | Codex medium/high |
 | Build product UI | UI Designer | Codex high |
+| Reconcile delivered/missing capability rows | Capability Ledger Maintainer | Qwen local, Codex low/medium, or Claude Haiku/Sonnet by human/Claude-side routing |
+| Audit readiness or ledger claims | Capability Auditor | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing |
 | Cheap bounded patch | Qwen Worker | Qwen local/Ollama |
 
 ## Claude
@@ -81,8 +83,10 @@ Practical pattern on the Claude side: Opus plans, Sonnet executes.
 | high | Multi-file features, frontend work, integration, nontrivial debugging. |
 | xhigh | Hard repo archaeology, subtle bugs, security logic, major migrations, final deep verification. |
 
-Do not default every task to xhigh. Higher effort can improve quality on hard
-tasks, but costs time and tokens and can over-elaborate.
+Do not default every task, coordinator, spec writer, or auditor to xhigh. Higher
+effort can improve quality on hard tasks, but costs time and tokens and can
+over-elaborate. Use xhigh only for named high-risk ambiguity, subtle regression,
+security logic, major migration, or final deep verification.
 
 Docs rule: docs execution defaults to low/medium. Public command wording, route
 inventories, release posture, and live-proof semantics may justify a high
@@ -125,6 +129,6 @@ Report blockers.
 ## Default Team Setup
 
 - Claude Opus: write or review the plan when routed by a human or Claude-side coordinator.
-- Codex high: implement and run gates.
+- Codex medium/high: implement and run gates based on risk.
 - Qwen local: parallel bounded worker for tests, docs, and mechanical patches.
 - Claude Opus by human/Claude-side routing, or Codex xhigh: final review only when risk is high.

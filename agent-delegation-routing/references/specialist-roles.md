@@ -13,15 +13,17 @@ Claude-side work; do not spawn or delegate directly to Claude.
 
 | Role | Use When | Good First Model | Must Return |
 |------|----------|------------------|-------------|
-| Coordinator | Work needs decomposition, ownership, integration, or multiple workers. | Codex xhigh, or Claude Opus by human/Claude-side routing | Plan, ownership map, gates, integration status. |
-| Spec Writer | Requirements are ambiguous or acceptance criteria are missing. | Codex high/xhigh, or Claude Opus/Sonnet by human/Claude-side routing | Goal, non-goals, source of truth, acceptance criteria, verification plan. |
+| Coordinator | Work needs decomposition, ownership, integration, or multiple workers. | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing | Plan, ownership map, gates, integration status. |
+| Spec Writer | Requirements are ambiguous or acceptance criteria are missing. | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing | Goal, non-goals, source of truth, acceptance criteria, verification plan. |
 | Implementor | One bounded code task is ready to execute. | Codex medium/high, or Claude Sonnet by human/Claude-side routing | Files changed, summary, commands run, blockers. |
 | Verifier | Work needs evidence-based approval or rejection. | Codex high, or Claude Sonnet by human/Claude-side routing | Verdict, confidence, evidence, failed gates, next fix. |
-| Auditor | Claims about architecture, runtime seams, security, or release readiness need scrutiny. | Codex xhigh, or Claude Opus by human/Claude-side routing | Findings with evidence, impact, required fix, closure criteria. |
+| Auditor | Claims about architecture, runtime seams, security, or release readiness need scrutiny. | Codex high/xhigh, or Claude Opus by human/Claude-side routing | Findings with evidence, impact, required fix, closure criteria. |
 | PR Reviewer | A PR/diff needs high-confidence actionable feedback. | Codex review/high, or Claude Opus by human/Claude-side routing | Findings ordered by severity and release-gate notes. |
 | PR Shepherd | An existing PR needs coordinated fixes, CI, comments, and readiness tracking. | Codex medium/high | PR status, blockers, delegated fixes, verification state. |
 | UI Designer | Product UI needs design-system, a11y, responsive, and visual evidence. | Codex high | UI changes, tokens/components used, screenshots/a11y/responsive checks. |
 | Docs Worker | Documentation-only edits with bounded source of truth. | Qwen local, Codex low/medium, or Claude Haiku by human/Claude-side routing | Changed docs, commands/checks run, assumptions, blockers. |
+| Capability Ledger Maintainer | Evidence-backed ledger updates and delta classification. | Qwen local, Codex low/medium, or Claude Haiku by human/Claude-side routing | Ledger rows changed, evidence paths, commands, residual gaps. |
+| Capability Auditor | Ledger/readiness claims need independent evidence review. | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing | Verdict, unsupported claims, missing proof, corrected status. |
 | Qwen Worker | A narrow local worker task can be verified cheaply. | Qwen local/Ollama | Unified diff or concise report, verification result, blockers. |
 
 The coordinator may override any default when scope, risk, cost, or tool
@@ -40,15 +42,17 @@ Codex or local alternatives, or ask the user to route work to Claude.
 
 | Role | Default | Claude Alternative | Codex Alternative | Local Alternative | Recommended Think |
 |------|---------|--------------------|-------------------|-------------------|-------------------|
-| Coordinator | Codex xhigh or Claude-side Opus | Claude Sonnet for small scope | Codex xhigh | none | high/xhigh |
-| Spec Writer | Codex high/xhigh or Claude-side Sonnet | Claude Opus for ambiguous specs | Codex high/xhigh | none | high |
+| Coordinator | Codex medium/high or Claude-side Sonnet | Claude Opus for high-risk ambiguity | Codex high only for broad/risky plans | none | medium/high |
+| Spec Writer | Codex medium/high or Claude-side Sonnet | Claude Opus for ambiguous specs | Codex high only for broad/risky specs | none | medium/high |
 | Implementor | Codex medium | Claude Sonnet | Codex high for multi-file work | Qwen for narrow patches | medium/high |
 | Verifier | Codex high | Claude Sonnet or Opus | Codex xhigh for risky gates | Qwen only for obvious checks | high |
-| Auditor | Codex xhigh or Claude-side Opus | none for high-risk judgment | Codex xhigh for repo evidence | none | xhigh |
+| Auditor | Codex high/xhigh or Claude-side Opus | none for high-risk judgment | Codex high for repo evidence, xhigh only for high-risk ambiguity | none | high/xhigh |
 | PR Reviewer | Codex review | Claude Opus for strategic risk | Codex high/xhigh | Qwen only for obvious diff scan | high |
 | PR Shepherd | Codex medium/high | Claude Sonnet for comment drafting | Codex high for CI/fix loops | none | medium/high |
 | UI Designer | Codex high | Claude Sonnet for design critique | Codex high/xhigh | none | high |
 | Docs Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium for public docs contracts | Qwen Coder | low/medium |
+| Capability Ledger Maintainer | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium for complex evidence | Qwen Coder | low/medium |
+| Capability Auditor | Codex medium/high or Claude-side Sonnet | Claude Opus for high-risk readiness | Codex high for cross-repo evidence | none | medium/high |
 | Qwen Worker | Qwen local/Ollama | Claude Haiku | Codex low/medium | Qwen Coder | low/medium |
 
 Default version policy:
@@ -57,6 +61,13 @@ Default version policy:
 - Codex: use the configured current Codex coding model with the listed reasoning effort.
 - Qwen/local: use the strongest locally installed Qwen Coder model that fits latency and memory.
 - If exact model identity matters, the coordinator records the model name and why.
+
+## Cost Guardrails
+
+Do not default Coordinator or Spec Writer to xhigh. Use xhigh only for major
+architecture ambiguity, subtle regressions, security logic, or final high-risk
+verification. Routine decomposition, ledger maintenance, README edits, bounded
+docs, and mechanical checks use low/medium unless a named risk requires more.
 
 ## Routing Evidence
 

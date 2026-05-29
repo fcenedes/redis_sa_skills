@@ -9,7 +9,7 @@ metadata:
 
 # Agent Delegation Routing
 
-Route work to the right worker with explicit scope, command shape, verification, and diff review. Use `agent-delegation-planning` before routing multi-task work. Use `agent-memory-coordination` for shared prompts, ownership, or outcomes.
+Route work to the right worker with explicit scope, command shape, verification, and diff review. After a file-backed plan exists, use this skill to execute or dispatch that plan. Use `agent-capability-ledger` before routing follow-up/readiness work that may duplicate delivered scope. Use `agent-delegation-planning` before routing multi-task work. Use `agent-memory-coordination` for shared prompts, ownership, or outcomes.
 
 Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex must not delegate directly to Claude; Claude entries are external choices for Claude-side coordinators or humans.
 
@@ -19,6 +19,7 @@ Load references only when needed:
 - Need role contracts: read [specialist-roles](references/specialist-roles.md).
 - Need commands or workflows: read [command-patterns](references/command-patterns.md) or [delegation-playbooks](references/delegation-playbooks.md).
 - Need an executable epic/task plan: use `agent-delegation-planning` first.
+- Need delivered/missing/superseded scope: use `agent-capability-ledger` first.
 
 ## Routing Matrix
 
@@ -41,17 +42,20 @@ Pick the smallest role that preserves quality:
 - PR Reviewer: leave high-confidence review findings only.
 - PR Shepherd: move an existing PR toward merge readiness without merging.
 - UI Designer: deliver product UI with visual, accessibility, and responsive evidence.
+- Capability Ledger Maintainer: update ledger rows from repo evidence, usually low/medium.
+- Capability Auditor: verify ledger claims against evidence, medium/high only when cross-repo or high-risk.
 - Qwen Worker: perform narrow local patch or analysis tasks.
 For role contracts, read [specialist-roles](references/specialist-roles.md).
 Do not create a specialist role when a simple worker prompt is enough.
 
 Dispatch check: ambiguous work starts with Coordinator or Spec Writer; repo
 edits go to Implementor; final approval goes to Verifier or Auditor; cheap
-bounded patches may go to Qwen Worker; security and architecture do not.
+bounded patches may go to Qwen Worker; ledger updates go to Capability Ledger
+Maintainer; security, architecture, and high-risk readiness claims do not.
 
 ## Before Delegating
 
-If the request spans multiple epics, tasks, files, or workers, require an executable plan first. Do not dispatch from a generic checklist. The plan must name source of truth, epics, tasks, required skills, ownership, model/reasoning, parallelization, integration, and verification gates.
+If the request spans multiple epics, tasks, files, or workers, require an executable plan first. If the request follows prior deliveries, readiness work, or asks what remains, require a capability ledger reconciliation before the plan. Do not dispatch from a generic checklist. The plan must name source of truth, epics, tasks, required skills, ownership, model/reasoning, parallelization, integration, and verification gates.
 
 Use `rtk git status` when RTK is installed; otherwise use `git status --short`
 and report the fallback. Identify unrelated local changes and choose one
@@ -73,6 +77,9 @@ Every delegated task must be self-contained:
 Role:
 Requested model:
 Requested reasoning effort:
+Actual model: unknown until completion
+Actual reasoning effort: unknown until completion
+Inherited from coordinator: unknown until completion
 Routing reason:
 Repo:
 Branch:
@@ -95,6 +102,20 @@ outside the assigned scope.
 Do not use inherited-model subagents for bounded work in Codex or Claude Code. If model control is unavailable, use CLI/local workers with explicit model settings, do the work directly, or report no lower-cost worker is available.
 
 Documentation tasks have a stricter cost rule: do not spawn inherited senior-model/high-reasoning subagents for docs-only execution. Use low/medium reasoning, a local/Qwen worker, a lower-cost CLI worker, or do the docs edit directly. Escalate only a separate Spec Writer/Auditor when the docs decide or certify a public contract, release posture, security claim, or architecture boundary.
+
+Ledger maintenance is usually low/medium: grep evidence, update rows, and record
+commands. Use high only for Capability Auditor work involving cross-repo
+evidence, conflicting sources of truth, high-risk readiness, security, or
+architecture claims.
+
+## Execution From A Plan
+
+When a coordinator prompt points to `agent-delegation-planning` files, use those
+files as the execution contract. Before starting, map every task to one of:
+`dispatch now`, `run directly`, `parallelizable but serialized`, `blocked`, or
+`not applicable`. Update memory/tracker status before dispatch and after worker
+completion. If a runtime cannot dispatch parallel workers, say so explicitly and
+do not describe the run as parallel.
 
 ## Command Shapes
 
@@ -130,11 +151,15 @@ failing combined tests, or behavior that crosses worker boundaries.
 
 - Do not make Codex spawn or delegate directly to Claude; route through the user or a Claude-side coordinator.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
+- Do not route follow-up/readiness work before checking whether a capability ledger is required.
+- Do not dispatch from a chat-only summary when an executable file-backed plan exists.
 - Do not omit requested model, requested reasoning effort, or routing reason.
+- Do not omit actual model, actual reasoning, or inheritance status from worker reports; write `unknown` if not knowable.
 - Do not silently let workers inherit the coordinator model or reasoning level.
 - Do not call Codex or Claude Code subagents that can only inherit the coordinator model for low/medium-risk work.
 - Do not use inherited senior-model/high-reasoning workers for docs-only execution; split high-risk review from low/medium docs editing.
 - Do not serialize independent worker tracks without recording why.
+- Do not claim a batch was parallel unless separate workers or execution streams actually ran.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
 - Do not pass secrets, tokens, private logs, or credentials in worker prompts.
@@ -146,12 +171,15 @@ failing combined tests, or behavior that crosses worker boundaries.
 ## Checklist
 
 - [ ] Worker type selected for task risk and ambiguity.
+- [ ] Capability ledger checked before follow-up/readiness work, or not applicable recorded.
 - [ ] Multi-task work has an executable epic/task plan from `agent-delegation-planning`.
+- [ ] Each plan task is mapped to dispatch/direct/serialized/blocked/not-applicable before execution.
 - [ ] Requested/actual model, reasoning, inheritance status, and routing reason recorded.
 - [ ] Worker dispatch path can set model/reasoning, or inherited execution is explicitly rejected.
 - [ ] Docs-only workers use low/medium reasoning, or a named high-risk contract/release/security reason is recorded for a separate reviewer.
 - [ ] Git status checked; unrelated changes protected.
 - [ ] Parallelization decision recorded; independent tracks batched or serialization justified.
+- [ ] Parallel claims match actual execution streams, not just planned batches.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.
 - [ ] RTK used when available; raw fallback reported when used.
 - [ ] Long-lived or parallel prompts saved with `agent-memory-coordination` when needed.

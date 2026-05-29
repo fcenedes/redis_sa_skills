@@ -10,7 +10,7 @@ metadata:
 
 Write plans that are directly executable by delegated agents. A good plan is not a narrative checklist; it is an ownership, routing, skill, and verification contract.
 
-Use `agent-delegation-routing` after the plan exists. Use `agent-memory-coordination` when prompts, ownership, or durable outcomes must be shared across workers.
+Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-repo, or "what remains" plans. Use `agent-delegation-routing` after the plan exists. Use `agent-memory-coordination` when prompts, ownership, or durable outcomes must be shared across workers.
 
 Load [plan-template](references/plan-template.md) for full plans, multi-task work, or when exact fields matter.
 When model choice is unclear, consult `agent-delegation-routing/references/routing-table.md` instead of inventing routing policy.
@@ -20,6 +20,7 @@ When model choice is unclear, consult `agent-delegation-routing/references/routi
 Every plan must contain:
 
 - **Source of truth:** repo docs, issue, PR, user request, or tracker that wins over memory/chat.
+- **Capability reconciliation:** for follow-up/readiness/multi-tranche work, classify existing capabilities before creating delta tasks.
 - **Plan persistence:** write the plan to files and post it to `agent_memory`; do not only answer in chat.
 - **Skill stack:** required skills for the whole plan and for each task. Use epic-level skills when epics exist.
 - **Plan granularity:** small requests may be task-only; multi-area or multi-goal work uses epics containing tasks.
@@ -28,6 +29,7 @@ Every plan must contain:
 - **Integration:** shared files, integrator owner, conflict risks, and final gates.
 - **Audit:** every delivery has an Auditor task before completion.
 - **Tracking:** every task has status tracked in `agent_memory` and, when needed, a repo tracker file.
+- **Execution record:** plan files, tracker, and final report say what actually ran, what was parallelized, what was serialized, and why.
 - **Token economy:** minimize context, logs, repeated prompts, and model overuse at every stage.
 - **Documentation cleanup:** after delivery, keep docs aligned with what shipped and archive obsolete planning noise.
 - **Memory:** what to search, write, or avoid writing in `agent_memory`.
@@ -38,6 +40,7 @@ Always identify skills needed before execution:
 
 - `rtk-cli`: noisy command output, git status, diffs, tests, logs, builds.
 - `caveman`: default compressed prose for plans, prompts, reports, audits, handoffs, and summaries.
+- `agent-capability-ledger`: required before follow-up, readiness, cross-tranche, cross-repo, "what remains", or "did we already do this?" planning.
 - `agent-delegation-routing`: worker role, model/reasoning, command shape, patch handoff.
 - `agent-memory-coordination`: parallel workers, reusable prompts, ownership maps, durable outcomes.
 - `playwright-cli-agent` or `playwright-test`: mandatory for UI, frontend, dashboard, demo, browser, responsive, or visual validation tasks.
@@ -66,9 +69,15 @@ Write every delegated plan to repo-local files and `agent_memory` unless the use
 
 If the request has 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, or multiple delivery surfaces, it must use epic files. Convert user-provided batches or phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are the authoritative task contracts.
 
-Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. If `agent_memory` is unavailable, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. The final response must paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer; if omitted, state `Coordinator prompt not pasted because: <reason>. Path: <path>`.
+Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. Before recording `Memory persistence: unavailable`, use `agent-memory-coordination` to discover lazy-loaded memory write tools for create/add/write/save/upsert/edit/update/set operations. If `agent_memory` is unavailable after discovery, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. The final response must paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer; if omitted, state `Coordinator prompt not pasted because: <reason>. Path: <path>`.
 
 For large plans, create explicit integrator and auditor task contracts. Use `epic-integration.md` and `epic-audit.md`, or first-class `*.INTEGRATE` and `*.AUDIT` task sections, when integration/audit own shared files, final gates, or nontrivial review.
+
+## Capability Ledger Gate
+
+Before writing a follow-up, readiness, cross-tranche, cross-repo, or "what remains" plan, use `agent-capability-ledger` to find or create a repo-local ledger. Classify capabilities as `done`, `partial`, `missing`, `blocked`, or `superseded`, with proof class, evidence path, verification command, residual gap, and next delta task. Generate new tasks only from `partial`, `missing`, `blocked`, stale-proof, or newly requested rows. Treat `done` rows as context and `superseded` rows as archive notes.
+
+If no ledger exists, create a baseline ledger from repo docs, trackers, tests, commits, and relevant memory before planning. If memory disagrees with the ledger, repo evidence wins. If both ledger and evidence are missing, ask the user or create an explicit discovery task instead of inventing completed scope.
 
 ## Task Status Tracking
 
@@ -89,6 +98,8 @@ Pick the smallest sufficient model and reasoning effort for each task:
 
 Default lower when bounded and easy to verify. Escalate only for ambiguity, risk, cross-cutting behavior, or hard debugging. Record the reason for every high/xhigh task.
 
+For Codex, Claude Code, Qwen/Ollama, LM Studio, or any other worker, record requested model/reasoning before dispatch and actual model/reasoning after completion when knowable. If the worker path cannot control model/reasoning and the task is low/medium-risk, use direct execution, explicit CLI/local worker, or record `No lower-cost worker available`; do not spawn an inherited senior worker.
+
 Documentation execution defaults to low/medium. If docs touch public command wording, route inventories, release posture, live-proof semantics, security claims, or architecture boundaries, keep the docs edit low/medium and add a separate high Spec Writer/Auditor task for the risky claim. Do not use inherited senior-model/high-reasoning subagents for docs-only editing.
 
 Separate routing fields:
@@ -107,6 +118,8 @@ Use task-only plans for one small request, one ownership area, or a few tightly 
 ## Parallelization
 
 Always look for parallelism before writing serial steps. Batch tasks with disjoint writes, read-only analysis, independent tests, UI validation, audits, or doc cleanup when no ordering dependency exists. Record `max_parallel`, `parallel batch`, `serial because <reason>`, `not parallelizable because <reason>`, or `parallelizable but serialized because <runtime limit>`.
+
+If execution starts from the plan, the coordinator must either dispatch independent tasks concurrently or record `parallelizable but serialized` with the concrete tool/runtime limitation. Do not call work parallel merely because it was grouped into a batch; parallel means separate workers or execution streams were actually used.
 
 ## Delivery Audit
 
@@ -137,7 +150,11 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 ## DO NOT
 
 - Do not write generic plans that omit ownership, skills, model, reasoning, or verification.
+- Do not write follow-up/readiness plans before reconciling a capability ledger when the work has prior deliveries.
+- Do not execute from chat, memory, or a generic checklist when a file-backed plan is required.
 - Do not leave delegated plans only in chat; write plan files, post memory records, and create a coordinator prompt.
+- Do not record `Memory persistence: unavailable` before lazy-loaded memory write tool discovery has been attempted.
+- Do not leave execution evidence only in chat; update memory when available and the tracker/final report always.
 - Do not list `coordinator-prompt.md` without pasting it when it is within the 120-line final-response limit.
 - Do not generate a delegation prompt that omits the `$agent-delegation-routing` recommendation when that skill may be available.
 - Do not replace required `epic-<id>.md` task contracts with batch files, phase files, or routing summaries.
@@ -147,8 +164,10 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not put only `commands in plan.md` or `steps in plan.md` in an epic/task file when that file is meant to dispatch a worker.
 - Do not invent epics for a small task-only request.
 - Do not skip the search for parallelizable tasks.
+- Do not claim parallel execution when independent tasks were merely listed together but run serially by the same coordinator.
 - Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
 - Do not default to the coordinator's model or reasoning for worker tasks.
+- Do not spawn inherited-model Codex/Claude subagents for low/medium work when explicit CLI/local/direct execution is available.
 - Do not route docs-only workers to inherited senior/high execution; use low/medium or split high-risk review into a separate auditor/spec task.
 - Do not use high/xhigh without a concrete risk or ambiguity reason.
 - Do not finish a delivery without an Auditor task and audit evidence.
@@ -165,12 +184,15 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 ## Checklist
 
 - [ ] Source of truth and non-goals are explicit.
+- [ ] Capability ledger was reconciled for follow-up/readiness/multi-tranche work, or not applicable is justified.
 - [ ] Plan is written to files and posted to `agent_memory`; large plans are split per epic and include `coordinator-prompt.md`.
+- [ ] Memory write capability was discovered before any degraded memory status was recorded.
 - [ ] Final response includes the coordinator prompt text or an explicit not-pasted reason and path.
 - [ ] Plan granularity is justified: task-only for small work, epics for multi-area work.
 - [ ] Any batches/phases are mapped to epics/tasks; batch summaries do not replace `epic-<id>.md` files.
 - [ ] Whole-plan and task skill stacks are listed; epic skill stacks are listed when epics exist.
 - [ ] Token economy choices are explicit: RTK/fallback, caveman mode, reference loading, concise evidence, prompt reuse.
+- [ ] Execution record fields are present: actual dispatch mode, actual/unknown model, actual/unknown reasoning, and serialized/parallelized reason.
 - [ ] Every epic, when used, contains executable tasks.
 - [ ] Every task has routing reason, repo/branch, owner, forbidden files, worker role, model, reasoning, output format, and why sufficient.
 - [ ] Worker/provider, requested model, and requested reasoning are separate; every role has a fallback or a stated reason none exists.
@@ -180,6 +202,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] Every generated prompt recommends `$agent-delegation-routing` when available.
 - [ ] High/xhigh tasks have an escalation/risk reason.
 - [ ] Parallelization was actively considered; independent tasks are batched or serialization is justified.
+- [ ] Claimed parallel work used separate workers/execution streams, or the plan says `parallelizable but serialized`.
 - [ ] Every delivery has an Auditor task; cross-agent audit preference or fallback is recorded.
 - [ ] UI/frontend/demo tasks include mandatory Playwright verification or a blocked/skip reason.
 - [ ] Task statuses are tracked in `agent_memory`; tracker-file fallback/problem log is defined.
