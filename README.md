@@ -34,7 +34,7 @@ A collection of agent skills for Redis solutions architecture by [fcenedes](http
 |-------|-------------|
 | [redis-insight-plugin](redis-insight-plugin/SKILL.md) | Build, deploy, and validate Redis Insight Workbench visualization plugins: manifests, activation methods, Parcel/Vite builds, iframe rendering, command parsing, Docker deployment, and `/api/plugins` verification. |
 
-### Agent Memory
+### Agent Coordination & Memory
 
 | Skill | Description |
 |-------|-------------|
@@ -107,7 +107,7 @@ npx skills add fcenedes/redis_sa_skills --skill playwright-cli-agent
 # RedisInsight
 npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
 
-# Agent Memory
+# Agent coordination & memory
 npx skills add fcenedes/redis_sa_skills --skill agent-delegation-routing
 npx skills add fcenedes/redis_sa_skills --skill agent-delegation-planning
 npx skills add fcenedes/redis_sa_skills --skill agent-capability-ledger
