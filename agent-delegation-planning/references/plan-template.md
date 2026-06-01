@@ -13,6 +13,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Plan files:
   - overview:
   - epic files:
+  - packet index / packet files, if used:
   - tracker:
   - coordinator prompt:
 - Memory persistence:
@@ -34,6 +35,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Small plan: write `plan.md`, `tracker.md`, and `coordinator-prompt.md`.
 - Large plan: write `00-overview.md`, one `epic-<id>.md` per epic, explicit integrator/auditor task contracts when nontrivial, `tracker.md`, and `coordinator-prompt.md`.
 - Epic trigger: 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, multiple delivery surfaces, multiple crates/packages, or CI/live-system tracks require epic files. Convert user-provided batches/phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are authoritative.
+- Packet mode: optional for highly parallel file-owned work. It supplements epics/tasks with a packet index, dependency waves, and packet contracts; it does not replace epic/task contracts.
 - Memory records:
   - plan overview
   - epic summaries when epics exist
@@ -106,6 +108,35 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - CI/live-system tracks:
 - If batches/phases exist, mapping to epics/tasks:
 - If task-only, why epics would be overkill:
+
+## Packet Mode Decision
+
+- Packet mode: yes/no
+- Reason:
+- Packet reference: `agent-delegation-planning/references/packet-mode.md`
+- Packet index path:
+- Packet file/section paths:
+- Dependency waves:
+  - wave 1:
+  - wave 2:
+  - wave n:
+- Packet contract fields required:
+  - `id`
+  - `status`
+  - `depends_on`
+  - `owner`
+  - `repo`
+  - `branch`
+  - `allowed_files`
+  - `forbidden_files`
+  - routing reason
+  - requested/actual model and reasoning fields
+  - inheritance status
+  - exact verify command
+  - output contract
+- Minimal context rule: packet workers receive only the packet index and assigned packet unless extra context is named here.
+- Boundary review: changed files must be a subset of `allowed_files`; forbidden files untouched; dependencies complete.
+- Repair packet policy: use narrow `R#` repair packets for audit findings or failed verification.
 
 ## Task Tracking
 
@@ -373,6 +404,8 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Max parallel:
 - Decision: parallel batch / serial because <reason> / not parallelizable because <reason>
 - Actual execution mode: parallel workers / direct serial / parallelizable but serialized because <tool/runtime limitation>
+- Packet mode: not used / used via <packet index path>
+- Dependency waves:
 - Batch files: none / routing summaries only. They must reference task IDs from `epic-<id>.md` and must not replace task contracts.
 - Batch note for coordinator: batches are scheduling only; `epic-<id>.md` files are authoritative task contracts.
 - Parallel batch 1:
@@ -483,6 +516,8 @@ Rules:
 - Prefer parallel batches where ownership and dependencies allow.
 - Do not call work parallel unless separate workers or execution streams actually ran.
 - Treat batches as scheduling only; epic/task files are authoritative contracts.
+- If packet mode is used, dispatch from the packet index and assigned packet file, not from broad chat context.
+- Do not start later dependency waves until packet dependencies are done or explicitly unblocked.
 - Use the smallest sufficient model/reasoning for each task.
 - Do not let workers inherit the coordinator model/reasoning by default.
 - Keep worker/provider, requested model, and reasoning effort as separate fields.

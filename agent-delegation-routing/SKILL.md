@@ -20,6 +20,7 @@ Load references only when needed:
 - Need commands or workflows: read [command-patterns](references/command-patterns.md) or [delegation-playbooks](references/delegation-playbooks.md).
 - Need an executable epic/task plan: use `agent-delegation-planning` first.
 - Need delivered/missing/superseded scope: use `agent-capability-ledger` first.
+- Need file-owned packet dispatch: use Packet Dispatch below; if `agent-delegation-planning` is also installed, optionally load its `references/packet-mode.md`.
 
 ## Routing Matrix
 
@@ -44,6 +45,8 @@ Pick the smallest role that preserves quality:
 - UI Designer: deliver product UI with visual, accessibility, and responsive evidence.
 - Capability Ledger Maintainer: update ledger rows from repo evidence, usually low/medium.
 - Capability Auditor: verify ledger claims against evidence, medium/high only when cross-repo or high-risk.
+- Packet Worker: execute one packet with strict `allowed_files` and `forbidden_files`.
+- Packet Reviewer: check dependency order, file boundaries, verification, and repair-packet need.
 - Qwen Worker: perform narrow local patch or analysis tasks.
 For role contracts, read [specialist-roles](references/specialist-roles.md).
 Do not create a specialist role when a simple worker prompt is enough.
@@ -68,6 +71,21 @@ coordination mode:
 Parallelization decision is mandatory. If two or more tracks have disjoint files and no ordering dependency, create a parallel batch with owner, worker type, files, and verification per worker.
 Dispatch concurrently when the runtime supports it; otherwise record `parallelizable but serialized` and why. Reserve shared files for an integrator.
 If shared memory is available, record ownership and prompts with `agent-memory-coordination`.
+
+## Packet Dispatch
+
+When a plan uses packet mode, dispatch from the packet index and assigned packet
+file. Confirm the packet has `depends_on`, `allowed_files`, `forbidden_files`,
+exact verification, requested model/reasoning, and output contract before
+starting. Do not start a packet whose dependencies are incomplete unless the
+coordinator explicitly unblocks it.
+
+Packet workers receive the packet index and assigned packet by default, then
+edit only `allowed_files`. If the task needs another file, the worker stops with
+`NEEDS_CONTEXT`; it must not expand scope silently. Packet review order is:
+dependency status, changed files subset of `allowed_files`, forbidden files
+untouched, acceptance criteria, verification evidence, then integration impact.
+For failures, prefer a narrow `R#` repair packet with exact files and re-checks.
 
 ## Worker Prompt Contract
 
@@ -153,6 +171,9 @@ failing combined tests, or behavior that crosses worker boundaries.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
 - Do not route follow-up/readiness work before checking whether a capability ledger is required.
 - Do not dispatch from a chat-only summary when an executable file-backed plan exists.
+- Do not route a packet worker without `allowed_files`, `forbidden_files`, dependencies, and exact verification.
+- Do not let packet workers edit outside their packet or touch packet docs unless those docs are in `allowed_files`.
+- Do not mark a packet done when boundary violations, missing dependencies, or skipped verification are unresolved.
 - Do not omit requested model, requested reasoning effort, or routing reason.
 - Do not omit actual model, actual reasoning, or inheritance status from worker reports; write `unknown` if not knowable.
 - Do not silently let workers inherit the coordinator model or reasoning level.
@@ -173,6 +194,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 - [ ] Worker type selected for task risk and ambiguity.
 - [ ] Capability ledger checked before follow-up/readiness work, or not applicable recorded.
 - [ ] Multi-task work has an executable epic/task plan from `agent-delegation-planning`.
+- [ ] Packet-mode work has a packet index; every packet has dependency, allowlist, denylist, verification, and output contract.
 - [ ] Each plan task is mapped to dispatch/direct/serialized/blocked/not-applicable before execution.
 - [ ] Requested/actual model, reasoning, inheritance status, and routing reason recorded.
 - [ ] Worker dispatch path can set model/reasoning, or inherited execution is explicitly rejected.
@@ -184,4 +206,5 @@ failing combined tests, or behavior that crosses worker boundaries.
 - [ ] RTK used when available; raw fallback reported when used.
 - [ ] Long-lived or parallel prompts saved with `agent-memory-coordination` when needed.
 - [ ] Worker output reviewed against ownership before applying or keeping changes.
+- [ ] Packet output, when used, passed boundary-first review before behavior review.
 - [ ] Focused tests and final quality gate completed or skip reasons recorded.

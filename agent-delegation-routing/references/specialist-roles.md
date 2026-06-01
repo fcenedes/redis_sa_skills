@@ -24,6 +24,8 @@ Claude-side work; do not spawn or delegate directly to Claude.
 | Docs Worker | Documentation-only edits with bounded source of truth. | Qwen local, Codex low/medium, or Claude Haiku by human/Claude-side routing | Changed docs, commands/checks run, assumptions, blockers. |
 | Capability Ledger Maintainer | Evidence-backed ledger updates and delta classification. | Qwen local, Codex low/medium, or Claude Haiku by human/Claude-side routing | Ledger rows changed, evidence paths, commands, residual gaps. |
 | Capability Auditor | Ledger/readiness claims need independent evidence review. | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing | Verdict, unsupported claims, missing proof, corrected status. |
+| Packet Worker | One file-owned packet is ready with dependencies and verification. | Codex low/medium, Qwen local, or Claude Haiku/Sonnet by human/Claude-side routing | Packet status, files changed, commands, blockers. |
+| Packet Reviewer | A packet needs boundary-first review before integration. | Codex medium/high, or Claude Sonnet by human/Claude-side routing | Boundary verdict, failed gates, repair-packet recommendation. |
 | Qwen Worker | A narrow local worker task can be verified cheaply. | Qwen local/Ollama | Unified diff or concise report, verification result, blockers. |
 
 The coordinator may override any default when scope, risk, cost, or tool
@@ -53,6 +55,8 @@ Codex or local alternatives, or ask the user to route work to Claude.
 | Docs Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium for public docs contracts | Qwen Coder | low/medium |
 | Capability Ledger Maintainer | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium for complex evidence | Qwen Coder | low/medium |
 | Capability Auditor | Codex medium/high or Claude-side Sonnet | Claude Opus for high-risk readiness | Codex high for cross-repo evidence | none | medium/high |
+| Packet Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium/high only when packet risk requires it | Qwen Coder | low/medium |
+| Packet Reviewer | Codex medium/high | Claude Sonnet by human/Claude-side routing | Codex high for risky boundaries | Qwen only for obvious allowlist checks | medium/high |
 | Qwen Worker | Qwen local/Ollama | Claude Haiku | Codex low/medium | Qwen Coder | low/medium |
 
 Default version policy:

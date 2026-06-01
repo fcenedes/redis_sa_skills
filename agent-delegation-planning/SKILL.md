@@ -13,6 +13,7 @@ Write plans that are directly executable by delegated agents. A good plan is not
 Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-repo, or "what remains" plans. Use `agent-delegation-routing` after the plan exists. Use `agent-memory-coordination` when prompts, ownership, or durable outcomes must be shared across workers.
 
 Load [plan-template](references/plan-template.md) for full plans, multi-task work, or when exact fields matter.
+Load [packet-mode](references/packet-mode.md) when highly parallel work needs file-owned packet contracts, dependency waves, or repair packets.
 When model choice is unclear, consult `agent-delegation-routing/references/routing-table.md` instead of inventing routing policy.
 
 ## Required Shape
@@ -26,6 +27,7 @@ Every plan must contain:
 - **Plan granularity:** small requests may be task-only; multi-area or multi-goal work uses epics containing tasks.
 - **Tasks:** each task has routing reason, repo/branch, owned files, forbidden files, worker role, model, reasoning effort, verification, audit, output format, and done evidence.
 - **Parallelization:** actively seek parallel batches; use serial only for real dependencies, shared files, or runtime limits.
+- **Packet mode when useful:** highly parallel work may use file-owned packets with an index, `allowed_files`, `forbidden_files`, dependency waves, and repair packets.
 - **Integration:** shared files, integrator owner, conflict risks, and final gates.
 - **Audit:** every delivery has an Auditor task before completion.
 - **Tracking:** every task has status tracked in `agent_memory` and, when needed, a repo tracker file.
@@ -72,6 +74,22 @@ If the request has 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, 
 Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. Before recording `Memory persistence: unavailable`, use `agent-memory-coordination` to discover lazy-loaded memory write tools for create/add/write/save/upsert/edit/update/set operations. If `agent_memory` is unavailable after discovery, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. The final response must paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer; if omitted, state `Coordinator prompt not pasted because: <reason>. Path: <path>`.
 
 For large plans, create explicit integrator and auditor task contracts. Use `epic-integration.md` and `epic-audit.md`, or first-class `*.INTEGRATE` and `*.AUDIT` task sections, when integration/audit own shared files, final gates, or nontrivial review.
+
+## Packet Mode
+
+Use packet mode only as an optional execution shape for highly parallel,
+file-owned work. Packets are dispatch contracts inside or alongside epics; they
+do not replace source-of-truth docs, capability ledgers, task contracts, memory
+status, model/reasoning fields, verification, or audit.
+
+Packet plans must include a packet index, dependency waves, one packet file or
+section per worker, `allowed_files`, `forbidden_files`, owner/status, exact
+verification, and an output contract. Workers get the packet index and assigned
+packet by default; add more context only when the packet requires it. Review
+boundary compliance before behavior: changed files must be a subset of
+`allowed_files`, forbidden files must be untouched, and dependencies must be
+complete before later waves start. Use narrow `R#` repair packets for failed
+audit findings instead of reopening broad tasks.
 
 ## Capability Ledger Gate
 
@@ -158,6 +176,10 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not list `coordinator-prompt.md` without pasting it when it is within the 120-line final-response limit.
 - Do not generate a delegation prompt that omits the `$agent-delegation-routing` recommendation when that skill may be available.
 - Do not replace required `epic-<id>.md` task contracts with batch files, phase files, or routing summaries.
+- Do not call a conceptual batch a packet unless it has file ownership, `allowed_files`, `forbidden_files`, dependencies, verification, and status.
+- Do not start a packet before its dependencies are done or explicitly unblocked by the coordinator.
+- Do not give packet workers broad context by default; use the packet index and assigned packet unless extra files are necessary.
+- Do not repair packet failures by widening scope; create a narrow `R#` repair packet with exact files and re-checks.
 - Do not assign implementation work with only prose when an API, schema, mapping, validator, test, or command contract needs a minimal snippet.
 - Do not write `Preferred worker/provider: Codex high`; provider, model, and reasoning effort are separate fields.
 - Do not make all roles Codex-only unless the user explicitly asks or no other provider is viable; record alternatives or the reason they are unavailable.
@@ -190,6 +212,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] Final response includes the coordinator prompt text or an explicit not-pasted reason and path.
 - [ ] Plan granularity is justified: task-only for small work, epics for multi-area work.
 - [ ] Any batches/phases are mapped to epics/tasks; batch summaries do not replace `epic-<id>.md` files.
+- [ ] Packet mode is used only when it improves parallel file-owned execution; packet index, `allowed_files`, `forbidden_files`, dependency waves, and repair policy are present.
 - [ ] Whole-plan and task skill stacks are listed; epic skill stacks are listed when epics exist.
 - [ ] Token economy choices are explicit: RTK/fallback, caveman mode, reference loading, concise evidence, prompt reuse.
 - [ ] Execution record fields are present: actual dispatch mode, actual/unknown model, actual/unknown reasoning, and serialized/parallelized reason.
