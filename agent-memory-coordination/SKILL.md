@@ -98,6 +98,12 @@ delta task when writing ledger-related memories. Use [examples](references/examp
 for copy-ready worker prompts, gate results, coordination packets, and bootstrap
 packets.
 
+For packet-mode plans, memory records should point to the packet index and
+assigned packet path. Include packet ID, dependency wave, status, owner,
+`allowed_files` summary, evidence path, next action, and whether dependencies
+are complete. Do not store full packet files in memory when a repo path and
+compact status are enough.
+
 ## Cross-Agent Memory Bootstrap
 
 If `agent_memory` returns no relevant memories but repo coordination docs or a
@@ -117,6 +123,11 @@ for the integrator, give each worker a disjoint write set, and tell workers they
 are not alone. Inspect each worker diff against ownership, reject unrelated
 churn, run focused tests, run the integration pass, then run the full quality
 gate before committing or pushing.
+
+For packet-mode dispatch, record the packet index, packet file, dependency wave,
+and ownership in memory before workers start. Move packet records through
+`planning`, `running`, `blocked`, `failed`, `done`, and `audited`; write
+`done` only after verification and `audited` only after boundary-first review.
 
 ## Integration Pass
 
@@ -151,6 +162,8 @@ branch when applicable, and remaining unrelated untracked files.
 ## DO NOT
 
 - Do not dispatch workers before checking shared memory for saved prompts.
+- Do not dispatch packet workers without recording packet path, owner, status, dependencies, and allowed file scope when memory writes are available.
+- Do not store full packet docs in memory when the repo packet path and compact status are sufficient.
 - Do not report "no memories" without backend, namespace, `user_id`, and fallback status.
 - Do not claim `agent_memory` write is unavailable before discovering lazy-loaded memory tools for create/add/write/save/upsert/edit/update/set operations.
 - Do not confuse a read-only memory surface with the full memory backend until tool discovery has been attempted.
@@ -174,6 +187,7 @@ branch when applicable, and remaining unrelated untracked files.
 - [ ] Backend, namespace, `user_id`, search variants, fallback, and seed status reported.
 - [ ] Lazy-loaded memory write tools were searched before write-unavailable status was recorded.
 - [ ] Memory writes were confirmed, or write-unavailable degraded mode was recorded.
+- [ ] Packet-mode records, when used, point to packet files and include dependency/status/evidence fields.
 - [ ] Repo docs and capability ledgers checked when memory is empty; memory seeded when backend writes are available.
 - [ ] Unrelated local changes protected; worker ownership is disjoint; shared files reserved for integration.
 - [ ] Workers received self-contained prompts, verification commands, and final report requirements.

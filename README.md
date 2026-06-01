@@ -89,6 +89,15 @@ Do not duplicate external skills into this repository.
 Install skills using the Agent Skills CLI:
 
 ```bash
+# Install everything in this repo
+npx skills add fcenedes/redis_sa_skills --all
+
+# Agent delegation core in one command
+npx skills add fcenedes/redis_sa_skills --skill agent-capability-ledger agent-delegation-planning agent-delegation-routing
+
+# Full agent coordination suite in one command
+npx skills add fcenedes/redis_sa_skills --skill agent-capability-ledger agent-delegation-planning agent-delegation-routing agent-memory-coordination agent-memory-docker
+
 # Token efficiency
 npx skills add fcenedes/redis_sa_skills --skill caveman
 npx skills add fcenedes/redis_sa_skills --skill rtk-cli

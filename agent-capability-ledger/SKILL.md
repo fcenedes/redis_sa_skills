@@ -95,6 +95,19 @@ After classification, write a delta plan:
 For large work, group delta rows into epics by ownership and proof path. Do not
 group by old batch names if they hide actual capability boundaries.
 
+## Repair Packets
+
+When a ledger row is `partial`, `blocked`, or fails audit because of a narrow
+gap, the next delta task may be a repair packet. Repair packets are smaller than
+the original task: they name the failed evidence, exact residual gap,
+`allowed_files`, `forbidden_files`, re-check command, and closure condition.
+When `agent-delegation-planning` is installed, use its packet-mode reference for
+the full packet shape.
+
+Do not mark the capability `done` when a repair packet is opened. Keep the row
+`partial` or `blocked` until the repair packet is verified and audited, then
+record the packet path and evidence as the ledger proof.
+
 ## Memory Sync
 
 Search memory before updating a ledger, but do not let memory replace evidence.
@@ -121,6 +134,7 @@ search. Treat it as an optional acceleration layer:
 - Do not mark capabilities done without evidence path and verification command.
 - Do not mark docs-only proof as runtime readiness when the capability requires live, browser, integration, or full-runtime proof.
 - Do not generate tasks for rows already `done` unless new scope changed them.
+- Do not treat a repair packet as proof until its re-check and audit evidence exist.
 - Do not overwrite or delete older ledger rows to hide history; mark them `superseded` and point to the replacement.
 - Do not let skipped live or browser proof count as passed proof.
 - Do not bundle unrelated capabilities into one row.
@@ -135,5 +149,6 @@ search. Treat it as an optional acceleration layer:
 - [ ] Every capability has status, proof class, evidence path, command, date, residual gap, and next delta task.
 - [ ] Done and superseded rows are not turned into implementation tasks.
 - [ ] Delta tasks come only from missing, partial, blocked, stale-proof, or newly requested rows.
+- [ ] Narrow residual gaps are represented as repair packets when packet mode is useful.
 - [ ] Memory was updated when available, or degraded mode was reported.
 - [ ] Optional Redis Array mirror is clearly marked as mirror/cache, not source of truth.
