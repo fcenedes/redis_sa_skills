@@ -149,6 +149,8 @@ Requested reasoning effort:
 Routing reason:
 Goal:
 Source of truth:
+Anchor files read:
+Active residual:
 Workers available:
 Constraints:
 Required gates:
@@ -163,6 +165,7 @@ Output:
 - blocker disposition: fixed directly / repair delegated / decision needed / environment blocked
 - verification plan
 - integration risks
+- rigid status block when anchoring applies
 ```
 
 ## Spec Writer Contract
@@ -175,13 +178,18 @@ Requested model:
 Requested reasoning effort:
 Routing reason:
 Goal:
+Anchor files read:
+Active residual:
 Existing docs/specs:
 Non-goals:
 Architecture boundaries:
 Output:
+- STATUS: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
 - goal
 - scope
 - non-goals
+- anchor files read
+- active residual
 - source of truth
 - acceptance criteria
 - quality gates
@@ -201,6 +209,8 @@ Requested reasoning effort:
 Routing reason:
 Repo:
 Branch:
+Anchor files read:
+Active residual:
 You own:
 Do not touch:
 Task:
@@ -209,12 +219,15 @@ Constraints:
 Verify with:
 Commit allowed: no
 Output:
+- STATUS: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
 - requested model
 - requested reasoning effort
 - actual model
 - actual reasoning effort
 - inherited from coordinator: yes/no/unknown
 - routing reason
+- anchor files read
+- active residual
 - files changed
 - summary
 - commands run
@@ -234,11 +247,14 @@ Routing reason:
 Repo:
 Branch:
 Source of truth:
+Anchor files read:
+Active residual:
 Changed files or diff:
 Acceptance criteria:
 Quality gates:
 Commands to run:
 Output:
+- STATUS: APPROVED / NOT APPROVED / BLOCKED
 - verdict: APPROVED / NOT APPROVED / BLOCKED
 - confidence: High / Medium / Low
 - requested model
@@ -247,6 +263,8 @@ Output:
 - actual reasoning effort
 - inherited from coordinator: yes/no/unknown
 - routing reason
+- anchor files read
+- active residual
 - evidence
 - failed gates
 - smallest next fix if not approved
@@ -265,9 +283,12 @@ Routing reason:
 Scope:
 Claims to verify:
 Source of truth:
+Anchor files read:
+Active residual:
 Evidence to inspect:
 Audit mode: architecture_gate / quality_gate / regression_gate / release_gate / deep_audit
 Output:
+- STATUS: APPROVED / NOT APPROVED / BLOCKED
 - executive verdict
 - requested model
 - requested reasoning effort
@@ -275,6 +296,8 @@ Output:
 - actual reasoning effort
 - inherited from coordinator: yes/no/unknown
 - routing reason
+- anchor files read
+- active residual
 - checks run
 - closed claims
 - open claims
@@ -294,10 +317,15 @@ Requested model:
 Requested reasoning effort:
 Routing reason:
 PR or diff:
+Anchor files read:
+Active residual:
 Review focus:
 Release gates:
 Output:
+- STATUS: APPROVED / NEEDS_CHANGES / BLOCKED
 - verdict: Approved / Needs Changes / Request Changes
+- anchor files read
+- active residual
 - high-confidence findings only
 - file/line when available
 - release-gate notes
@@ -315,11 +343,16 @@ Requested reasoning effort:
 Routing reason:
 PR:
 Source of truth:
+Anchor files read:
+Active residual:
 Merge-ready definition:
 Available workers:
 Commit allowed: no
 Push allowed: no
 Output:
+- STATUS: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
+- anchor files read
+- active residual
 - CI status
 - mergeability
 - unresolved comments
@@ -339,6 +372,8 @@ Requested model:
 Requested reasoning effort:
 Routing reason:
 Repo:
+Anchor files read:
+Active residual:
 Design system:
 Screens/components:
 Task:
@@ -347,6 +382,9 @@ Responsive targets:
 Verify with:
 Commit allowed: no
 Output:
+- STATUS: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
+- anchor files read
+- active residual
 - screens/components changed
 - tokens/components reused
 - keyboard/focus/contrast evidence
@@ -365,6 +403,8 @@ Requested model:
 Requested reasoning effort:
 Routing reason:
 Repo:
+Anchor files read:
+Active residual:
 You own only:
 Do not edit anything else.
 Task:
@@ -373,4 +413,12 @@ Return a unified diff only unless asked for analysis.
 Do not commit.
 Run or state this verification:
 Report blockers.
+Output:
+- STATUS: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
+- files changed
+- anchor files read
+- active residual
+- commands run
+- verification result
+- blockers
 ```

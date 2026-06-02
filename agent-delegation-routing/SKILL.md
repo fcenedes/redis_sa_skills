@@ -17,6 +17,7 @@ Load references only when needed:
 
 - Need model choice: read [routing-table](references/routing-table.md).
 - Need role contracts: read [specialist-roles](references/specialist-roles.md).
+- Need anchored or resumed plan dispatch, `charter.md`, `00-index.md`, `components.md`, `decisions.md`, resume ritual, or rigid worker reports: read [anchoring](../agent-delegation-planning/references/anchoring.md).
 - Need commands or workflows: read [command-patterns](references/command-patterns.md) or [delegation-playbooks](references/delegation-playbooks.md).
 - Need an executable epic/task plan: use `agent-delegation-planning` first.
 - Need delivered/missing/superseded scope: use `agent-capability-ledger` first.
@@ -59,6 +60,8 @@ Maintainer; security, architecture, and high-risk readiness claims do not.
 ## Before Delegating
 
 If the request spans multiple epics, tasks, files, or workers, require an executable plan first. If the request follows prior deliveries, readiness work, or asks what remains, require a capability ledger reconciliation before the plan. Do not dispatch from a generic checklist. The plan must name source of truth, epics, tasks, required skills, ownership, model/reasoning, parallelization, integration, and verification gates.
+
+When anchoring is present, read `charter.md` and `00-index.md` before every coordinator turn and before every dispatch; read `components.md` before interpreting local terms; read `decisions.md` before reopening closed scope or changing approach.
 
 Before interpreting project-specific architecture, product, runtime, provider,
 workflow, registry, worker, audit, replay, orchestration, component, or
@@ -119,11 +122,22 @@ Source of truth:
 You own:
 Do not touch:
 Other agents active: yes/no
+When anchoring applies:
+Anchor files read:
+Active residual:
 Task:
 Constraints:
 Quality gates:
 Verify with:
 Output format:
+STATUS: DONE | DONE_WITH_CONCERNS | NEEDS_CONTEXT | BLOCKED
+FILES_CHANGED:
+VERIFICATION_RUN:
+VERIFICATION_RESULT:
+BLOCKERS:
+BLOCKER_DISPOSITION:
+ASSUMPTIONS:
+NEXT_ACTION:
 Commit allowed: no
 ```
 
@@ -148,6 +162,8 @@ files as the execution contract. Before starting, map every task to one of:
 `not applicable`. Update memory/tracker status before dispatch and after worker
 completion. If a runtime cannot dispatch parallel workers, say so explicitly and
 do not describe the run as parallel.
+
+For anchored or resumed plans, re-read `charter.md` and `00-index.md` before every coordinator turn and dispatch, `components.md` before interpreting local terms, and `decisions.md` before reopening closed scope or changing approach.
 
 If an Auditor, Verifier, or worker reports a gap, classify it as `bounded fix`,
 `repair task`, `repair packet`, `decision needed`, or `environment blocked`.
@@ -196,6 +212,9 @@ the active plan and do not change architecture, public contracts, or ownership.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
 - Do not interpret local terms from generic model knowledge when repo source-of-truth definitions exist.
 - Do not dispatch ambiguous local terminology without a discovery task or exact user question.
+- Do not dispatch anchored or resumed work without reloading the anchor files first.
+- Do not accept prose-only worker reports when a rigid report is required.
+- Do not change approach or reopen closed scope without checking `decisions.md`.
 - Do not give final/advisory answers without re-reading the active objective, tracker, ledger, audit verdict, and newest user request.
 - Do not route follow-up/readiness work before checking whether a capability ledger is required.
 - Do not dispatch from a chat-only summary when an executable file-backed plan exists.
@@ -224,6 +243,7 @@ the active plan and do not change architecture, public contracts, or ownership.
 
 - [ ] Worker type selected for task risk and ambiguity.
 - [ ] Capability ledger checked before follow-up/readiness work, or not applicable recorded.
+- [ ] Anchoring files were re-read before dispatch when anchoring or resume ritual applies.
 - [ ] Local terminology was grounded in repo source-of-truth docs, or ambiguity was blocked/discovered.
 - [ ] Multi-task work has an executable epic/task plan from `agent-delegation-planning`.
 - [ ] Packet-mode work has a packet index; every packet has dependency, allowlist, denylist, verification, and output contract.
@@ -234,6 +254,7 @@ the active plan and do not change architecture, public contracts, or ownership.
 - [ ] Git status checked; unrelated changes protected.
 - [ ] Parallelization decision recorded; independent tracks batched or serialization justified.
 - [ ] Parallel claims match actual execution streams, not just planned batches.
+- [ ] Rigid worker report fields were captured when required, including status, files changed, verification, blockers, disposition, assumptions, and next action.
 - [ ] Reported blockers classified as direct fix, repair task/packet, decision needed, or environment blocked.
 - [ ] Final/advisory answer is anchored to the active residual, not broadened scope.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.

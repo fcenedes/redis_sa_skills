@@ -17,9 +17,13 @@ coordination cache, and chat as fallback only.
 ## Namespace Strategy
 
 Use the narrowest useful namespace so agents do not retrieve unrelated memories:
-project (`redis-protected-retrieval`), engagement (`acme-engagement`), repository
-(`repo-redis-sa-skills`), or broad user preference (`global`, `user-defaults`).
+project (`project-foo`), engagement (`engagement-acme`), repository
+(`repo-my-repo`), or broad user preference (`global`, `user-defaults`).
 Use broad namespaces only for stable cross-project conventions.
+When anchored plan files exist, keep memory records pointed at the local plan
+anchors instead of re-describing the full plan. Prefer pointers to
+`charter.md`, `00-index.md`, `components.md`, `decisions.md`, tracker files,
+ledger rows, and the latest audit or verifier report.
 
 ## Required Memory Lookup
 
@@ -77,7 +81,8 @@ and say that memory writes are unavailable after tool discovery.
 Use this hierarchy for repo-backed coordination:
 
 1. Versioned repo docs, trackers, plans, and capability ledgers are the source of truth.
-2. `agent_memory` is a synchronization cache for prompts, summaries, task state, and ledger row pointers.
+2. `agent_memory` is a synchronization cache and pointer index for prompts,
+   summaries, task state, and ledger row references.
 3. Chat is fallback only.
 
 When memory conflicts with repo docs, follow repo docs and update or replace the
@@ -90,6 +95,8 @@ rows, or verification commands.
 Memory must not define project-specific terminology when repo source-of-truth
 docs exist. Use memory as a pointer to the relevant local docs, trackers,
 ledger rows, or plan files; use the repo files to interpret the term.
+When anchored plan files exist, memory records should point to those anchored
+files rather than copying their contents or becoming a parallel source of truth.
 
 ## Writing Memories
 
@@ -101,6 +108,9 @@ capability ID, ledger path, status, evidence path, validation date, and next
 delta task when writing ledger-related memories. Use [examples](references/examples.md)
 for copy-ready worker prompts, gate results, coordination packets, and bootstrap
 packets.
+When anchored plan files exist, store compact pointers to `charter.md`,
+`00-index.md`, `components.md`, `decisions.md`, tracker files, ledger rows, and
+the latest audit instead of storing the full anchor documents.
 
 For blockers, record disposition: `coordinator direct fix`, `repair task`,
 `repair packet`, `decision needed`, or `environment blocked`. If the blocker is
@@ -121,6 +131,10 @@ coordination docs and ledger, treat the repo files as source of truth, seed the
 available memory backend with a coordination summary if writes are supported,
 then continue review or implementation. Ask the user only when memory and repo
 source files are both missing.
+When anchored plan files exist, perform the resume ritual and re-anchor before
+dispatching after session resume, context compaction, a new coordinator turn,
+audit findings, or scope changes. Re-anchor means re-reading the anchored files
+and restating the active residual before any new worker prompt is generated.
 
 For Claude Code, use the copy-ready bootstrap report and repo-backed seed
 template in [examples](references/examples.md).
@@ -132,6 +146,9 @@ for the integrator, give each worker a disjoint write set, and tell workers they
 are not alone. Inspect each worker diff against ownership, reject unrelated
 churn, run focused tests, run the integration pass, then run the full quality
 gate before committing or pushing.
+If anchored plan files exist, re-anchor before dispatching so workers receive
+the current charter, status board, component map, decisions, tracker state, and
+latest audit context rather than a memory-only summary.
 
 For packet-mode dispatch, record the packet index, packet file, dependency wave,
 and ownership in memory before workers start. Move packet records through
@@ -167,6 +184,9 @@ were found, read capability, write-discovery result, write tool used, whether
 memory was seeded, fallback used, worker ownership, changed files, focused
 tests, full gate result, live proof result or skip reason, commit SHA and pushed
 branch when applicable, and remaining unrelated untracked files.
+If anchored plan files exist, also note that the final report was re-anchored to
+those files before the report was written and that memory was treated as a
+cache/pointer index only.
 
 ## DO NOT
 
@@ -182,6 +202,7 @@ branch when applicable, and remaining unrelated untracked files.
 - Do not let workers commit unless explicitly assigned.
 - Do not block on missing memory when repo coordination docs exist.
 - Do not treat memory as more authoritative than versioned repo docs.
+- Do not seed or dispatch from memory alone when anchored plan files exist.
 - Do not use memory or chat to define local architecture/product terms when repo source-of-truth definitions exist.
 - Do not let stale memory override a capability ledger row or verification evidence.
 - Do not overwrite unrelated user changes.
@@ -192,6 +213,8 @@ branch when applicable, and remaining unrelated untracked files.
 - Do not create duplicate memories before checking for an existing equivalent.
 - Do not append a new semantic truth when an older semantic memory should be updated.
 - Do not dispatch from stale memory without checking repo source docs, trackers, plans, and ledgers.
+- Do not store full anchor files when paths and compact summaries are sufficient.
+- Do not skip the resume ritual when anchored plan files exist.
 
 ## Checklist
 
@@ -201,6 +224,7 @@ branch when applicable, and remaining unrelated untracked files.
 - [ ] Packet-mode records, when used, point to packet files and include dependency/status/evidence fields.
 - [ ] Blocker records include disposition and current-delivery repair path when the coordinator can solve them.
 - [ ] Repo docs and capability ledgers checked when memory is empty; memory seeded when backend writes are available.
+- [ ] Anchored plan files, when present, were re-read and re-anchored before dispatch, audit follow-up, and final reporting.
 - [ ] Local terms retrieved from memory point back to repo source docs before being applied.
 - [ ] Unrelated local changes protected; worker ownership is disjoint; shared files reserved for integration.
 - [ ] Workers received self-contained prompts, verification commands, and final report requirements.

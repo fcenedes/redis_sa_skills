@@ -36,6 +36,11 @@ Use this order for repo-backed work:
 If memory conflicts with the ledger, follow the ledger and update memory when
 writes are available. If the ledger conflicts with current repo evidence,
 correct the ledger before planning new work.
+When anchored plan files exist, treat the plan anchors as the local context for
+the ledger: `charter.md` states the goal, non-goals, source of truth, and
+success criteria; `00-index.md` is the status board; `components.md` maps local
+terms back to source docs; and `decisions.md` explains why choices were made
+and what supersedes earlier scope.
 
 ## Ledger-First Rule
 
@@ -45,12 +50,14 @@ remains" plan:
 1. Find the existing ledger. Prefer `docs/capability-ledger.md` or
    `docs/capability-ledgers/<domain>.md`. If none exists, create a baseline
    ledger before planning.
-2. Read source docs, trackers, tests, commits, and relevant memory records.
-3. Classify each capability as `done`, `partial`, `missing`, `blocked`, or
+2. If anchored plan files exist, read `charter.md`, `00-index.md`, relevant
+   `components.md` entries, and `decisions.md` before creating delta work.
+3. Read source docs, trackers, tests, commits, and relevant memory records.
+4. Classify each capability as `done`, `partial`, `missing`, `blocked`, or
    `superseded`.
-4. Record proof class, evidence path, verification command, last validated date,
+5. Record proof class, evidence path, verification command, last validated date,
    supersession, residual gap, and next delta task.
-5. Generate delegated tasks only from `missing`, `partial`, `blocked`,
+6. Generate delegated tasks only from `missing`, `partial`, `blocked`,
    stale-proof, or newly requested rows.
 
 ## Status Rules
@@ -94,6 +101,9 @@ After classification, write a delta plan:
 - `missing` rows become implementation tasks.
 - `blocked` rows become unblock tasks or user questions.
 - stale proof rows become verification tasks before implementation tasks.
+When anchored plan files exist, use the charter, status board, component map,
+and decision log to confirm that the delta plan still matches active scope
+before you generate tasks from ledger rows.
 
 For large work, group delta rows into epics by ownership and proof path. Do not
 group by old batch names if they hide actual capability boundaries.
@@ -134,6 +144,7 @@ search. Treat it as an optional acceleration layer:
 - Do not write a broad new plan before reconciling the ledger.
 - Do not create a baseline ledger by guessing from chat alone; use repo evidence or mark rows `missing`/`blocked`.
 - Do not treat memory, chat, or previous assistant claims as proof.
+- Do not generate delta tasks from ledger rows without checking the charter, status board, and decisions when anchored plan files are present.
 - Do not classify or plan local capabilities from generic terminology when repo definitions exist.
 - Do not mark capabilities done without evidence path and verification command.
 - Do not mark docs-only proof as runtime readiness when the capability requires live, browser, integration, or full-runtime proof.
@@ -142,6 +153,7 @@ search. Treat it as an optional acceleration layer:
 - Do not overwrite or delete older ledger rows to hide history; mark them `superseded` and point to the replacement.
 - Do not let skipped live or browser proof count as passed proof.
 - Do not bundle unrelated capabilities into one row.
+- Do not use a ledger to reopen closed scope without a decision record in `decisions.md` when anchored plan files are present.
 - Do not store secrets, credentials, raw logs, tokens, or private dumps in memory.
 - Do not make Redis Array mandatory for ledger use.
 - Do not include project-specific seed packets in this generic skill.
@@ -149,6 +161,7 @@ search. Treat it as an optional acceleration layer:
 ## Checklist
 
 - [ ] Existing ledger found, or baseline ledger created.
+- [ ] If anchored plan files exist, `charter.md`, `00-index.md`, relevant `components.md` entries, and `decisions.md` were checked before delta tasks were generated.
 - [ ] Repo docs, trackers, tests, commits, and memory were checked.
 - [ ] Every capability has status, proof class, evidence path, command, date, residual gap, and next delta task.
 - [ ] Project-specific capability terms cite local source definitions.
