@@ -69,6 +69,7 @@ Do not mark skipped live, browser, or integration proof as passed.
 Every row must answer:
 
 - What capability or requirement is being tracked?
+- Which local source defines the terms used in the capability name?
 - What is the current status?
 - What proof class supports the status?
 - Where is the evidence?
@@ -80,6 +81,8 @@ Every row must answer:
 Use stable IDs such as `AUTH.JWT.001`, `UI.FILTERS.002`, or
 `PLAN.COMPILER.V0`. Keep one capability per row. Split rows that mix unrelated
 ownership, runtime paths, proof types, or acceptance criteria.
+If a capability name uses project-specific architecture or product terms, cite
+the repo source that defines those terms before generating delta tasks.
 
 ## Planning From The Ledger
 
@@ -131,6 +134,7 @@ search. Treat it as an optional acceleration layer:
 - Do not write a broad new plan before reconciling the ledger.
 - Do not create a baseline ledger by guessing from chat alone; use repo evidence or mark rows `missing`/`blocked`.
 - Do not treat memory, chat, or previous assistant claims as proof.
+- Do not classify or plan local capabilities from generic terminology when repo definitions exist.
 - Do not mark capabilities done without evidence path and verification command.
 - Do not mark docs-only proof as runtime readiness when the capability requires live, browser, integration, or full-runtime proof.
 - Do not generate tasks for rows already `done` unless new scope changed them.
@@ -147,6 +151,7 @@ search. Treat it as an optional acceleration layer:
 - [ ] Existing ledger found, or baseline ledger created.
 - [ ] Repo docs, trackers, tests, commits, and memory were checked.
 - [ ] Every capability has status, proof class, evidence path, command, date, residual gap, and next delta task.
+- [ ] Project-specific capability terms cite local source definitions.
 - [ ] Done and superseded rows are not turned into implementation tasks.
 - [ ] Delta tasks come only from missing, partial, blocked, stale-proof, or newly requested rows.
 - [ ] Narrow residual gaps are represented as repair packets when packet mode is useful.

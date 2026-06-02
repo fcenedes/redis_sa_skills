@@ -21,6 +21,7 @@ When model choice is unclear, consult `agent-delegation-routing/references/routi
 Every plan must contain:
 
 - **Source of truth:** repo docs, issue, PR, user request, or tracker that wins over memory/chat.
+- **Local terminology:** project-specific terms are interpreted from repo source-of-truth docs, not generic model knowledge or memory.
 - **Capability reconciliation:** for follow-up/readiness/multi-tranche work, classify existing capabilities before creating delta tasks.
 - **Plan persistence:** write the plan to files and post it to `agent_memory`; do not only answer in chat.
 - **Skill stack:** required skills for the whole plan and for each task. Use epic-level skills when epics exist.
@@ -29,9 +30,11 @@ Every plan must contain:
 - **Parallelization:** actively seek parallel batches; use serial only for real dependencies, shared files, or runtime limits.
 - **Packet mode when useful:** highly parallel work may use file-owned packets with an index, `allowed_files`, `forbidden_files`, dependency waves, and repair packets.
 - **Integration:** shared files, integrator owner, conflict risks, and final gates.
+- **Coordinator unblock rule:** bounded blockers that do not require architecture, strategy, product, security, or public-contract decisions are fixed directly or via an immediate repair task/packet.
 - **Audit:** every delivery has an Auditor task before completion.
 - **Tracking:** every task has status tracked in `agent_memory` and, when needed, a repo tracker file.
 - **Execution record:** plan files, tracker, and final report say what actually ran, what was parallelized, what was serialized, and why.
+- **Goal retention:** final, advisory, and audit answers re-read the active objective, tracker, ledger, latest audit verdict, and newest user request.
 - **Token economy:** minimize context, logs, repeated prompts, and model overuse at every stage.
 - **Documentation cleanup:** after delivery, keep docs aligned with what shipped and archive obsolete planning noise.
 - **Memory:** what to search, write, or avoid writing in `agent_memory`.
@@ -97,6 +100,24 @@ Before writing a follow-up, readiness, cross-tranche, cross-repo, or "what remai
 
 If no ledger exists, create a baseline ledger from repo docs, trackers, tests, commits, and relevant memory before planning. If memory disagrees with the ledger, repo evidence wins. If both ledger and evidence are missing, ask the user or create an explicit discovery task instead of inventing completed scope.
 
+## Local Context Retention
+
+Before interpreting project-specific architecture, product, runtime, provider,
+workflow, registry, worker, audit, replay, orchestration, component, or
+authority terms, read the local source-of-truth docs first. Do not infer local
+meaning from generic software usage, memory, previous chats, or model knowledge
+when repo definitions exist.
+
+Plans should list local terminology sources such as README, specs, component
+docs, lockfiles, trackers, capability ledgers, or active plan files. If a term
+is ambiguous, record checked sources, working interpretation, risk if wrong,
+and whether the next action is user input or a discovery task.
+
+Before final, advisory, or audit answers, re-read the active plan objective,
+tracker current status, capability ledger rows, latest audit verdict, and newest
+user request. Answer only the active residual; do not broaden the goal, reopen
+closed scope, or generalize beyond the bounded task.
+
 ## Task Status Tracking
 
 Use `agent_memory` to track each task with task ID, epic or task-only, owner, status, evidence, next action, and update time. Status values are `planning`, `running`, `blocked`, `failed`, `done`, and `audited`. Write `planning` before dispatch, `running` when work starts, `done` only after verification, and `audited` only after audit.
@@ -139,9 +160,24 @@ Always look for parallelism before writing serial steps. Batch tasks with disjoi
 
 If execution starts from the plan, the coordinator must either dispatch independent tasks concurrently or record `parallelizable but serialized` with the concrete tool/runtime limitation. Do not call work parallel merely because it was grouped into a batch; parallel means separate workers or execution streams were actually used.
 
+## Coordinator Blocker Handling
+
+During execution, the coordinator owns bounded unblockers inside the active
+plan. If a blocker can be solved without an architecture, strategic, product,
+security, public-contract, ownership, access, or scope decision, the coordinator
+must fix it directly when it is in coordinator/integrator scope, or create and
+dispatch an immediate repair task or `R#` repair packet. Verify the fix and keep
+the current delivery moving.
+
+Escalate only when the blocker needs a human/strategic decision, expands scope,
+changes architecture or public contracts, conflicts with ownership, requires
+secrets/access/live systems that are unavailable, or cannot be verified. Record
+the disposition as `fixed directly`, `repair delegated`, `blocked for decision`,
+or `blocked for environment`.
+
 ## Delivery Audit
 
-Every delivery must include a separate Auditor task with owner, model/reasoning, inputs, gates, verdict, and evidence. Prefer cross-agent audit when available: Codex delivery uses human-routed Claude-side Auditor; Claude or local/Qwen delivery uses Codex Auditor. Codex must not spawn Claude directly; if cross-agent audit is unavailable, use an independent Auditor on an available provider with sufficient reasoning and record the fallback.
+Every delivery must include a separate Auditor task with owner, model/reasoning, inputs, gates, verdict, and evidence. The Auditor identifies gaps, blockers, required fixes, and closure criteria; the coordinator then fixes bounded blockers directly or delegates repair immediately. Prefer cross-agent audit when available: Codex delivery uses human-routed Claude-side Auditor; Claude or local/Qwen delivery uses Codex Auditor. Codex must not spawn Claude directly; if cross-agent audit is unavailable, use an independent Auditor on an available provider with sufficient reasoning and record the fallback.
 
 ## UI Verification
 
@@ -168,6 +204,9 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 ## DO NOT
 
 - Do not write generic plans that omit ownership, skills, model, reasoning, or verification.
+- Do not interpret local architecture or product terms from generic knowledge when repo definitions exist.
+- Do not proceed on ambiguous local terminology without checked sources, working interpretation, risk, and user/discovery disposition.
+- Do not answer final/advisory/audit questions without re-anchoring on the active objective, tracker, ledger, latest audit verdict, and newest user request.
 - Do not write follow-up/readiness plans before reconciling a capability ledger when the work has prior deliveries.
 - Do not execute from chat, memory, or a generic checklist when a file-backed plan is required.
 - Do not leave delegated plans only in chat; write plan files, post memory records, and create a coordinator prompt.
@@ -187,6 +226,9 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not invent epics for a small task-only request.
 - Do not skip the search for parallelizable tasks.
 - Do not claim parallel execution when independent tasks were merely listed together but run serially by the same coordinator.
+- Do not defer a bounded, verifiable blocker to a future delegation when the coordinator can fix it directly or dispatch an immediate repair task.
+- Do not escalate mechanical, local, or integration-scope unblockers as if they required architecture or strategic decisions.
+- Do not let auditor findings remain generic; every finding needs required fix, closure criteria, and suggested disposition.
 - Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
 - Do not default to the coordinator's model or reasoning for worker tasks.
 - Do not spawn inherited-model Codex/Claude subagents for low/medium work when explicit CLI/local/direct execution is available.
@@ -206,6 +248,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 ## Checklist
 
 - [ ] Source of truth and non-goals are explicit.
+- [ ] Local terminology sources are listed; ambiguous terms have checked sources, interpretation, risk, and disposition.
 - [ ] Capability ledger was reconciled for follow-up/readiness/multi-tranche work, or not applicable is justified.
 - [ ] Plan is written to files and posted to `agent_memory`; large plans are split per epic and include `coordinator-prompt.md`.
 - [ ] Memory write capability was discovered before any degraded memory status was recorded.
@@ -216,6 +259,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] Whole-plan and task skill stacks are listed; epic skill stacks are listed when epics exist.
 - [ ] Token economy choices are explicit: RTK/fallback, caveman mode, reference loading, concise evidence, prompt reuse.
 - [ ] Execution record fields are present: actual dispatch mode, actual/unknown model, actual/unknown reasoning, and serialized/parallelized reason.
+- [ ] Goal-retention rule is present for final/advisory/audit answers.
 - [ ] Every epic, when used, contains executable tasks.
 - [ ] Every task has routing reason, repo/branch, owner, forbidden files, worker role, model, reasoning, output format, and why sufficient.
 - [ ] Worker/provider, requested model, and requested reasoning are separate; every role has a fallback or a stated reason none exists.
@@ -226,6 +270,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] High/xhigh tasks have an escalation/risk reason.
 - [ ] Parallelization was actively considered; independent tasks are batched or serialization is justified.
 - [ ] Claimed parallel work used separate workers/execution streams, or the plan says `parallelizable but serialized`.
+- [ ] Coordinator blocker policy is explicit: bounded blockers are fixed directly or repaired immediately; true decisions are escalated.
 - [ ] Every delivery has an Auditor task; cross-agent audit preference or fallback is recorded.
 - [ ] UI/frontend/demo tasks include mandatory Playwright verification or a blocked/skip reason.
 - [ ] Task statuses are tracked in `agent_memory`; tracker-file fallback/problem log is defined.

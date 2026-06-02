@@ -137,8 +137,10 @@ coverage target is greater than 85%.
 
 ## Coordinator Contract
 
-Use for planning and integration. Do not edit code directly unless the user
-explicitly asks the coordinator to act as a solo developer.
+Use for planning and integration. Do not take over primary implementation scope,
+but do resolve bounded unblockers inside the active plan when no architecture,
+strategy, product, security, public-contract, ownership, access, or scope
+decision is needed.
 
 ```text
 Role: Coordinator
@@ -150,11 +152,15 @@ Source of truth:
 Workers available:
 Constraints:
 Required gates:
+Blocker policy:
+- bounded blocker: fix directly in coordinator/integrator scope or dispatch immediate repair task/packet
+- decision blocker: escalate with exact question and source evidence
 Output:
 - decomposition
 - parallelization decision: parallel batch / serial / not parallelizable
 - ownership map
 - worker batch with role, model, reasoning, owned files, and gate per worker
+- blocker disposition: fixed directly / repair delegated / decision needed / environment blocked
 - verification plan
 - integration risks
 ```
@@ -273,6 +279,7 @@ Output:
 - closed claims
 - open claims
 - findings with evidence, impact, required fix, closure criteria
+- blocker disposition recommendation: coordinator direct fix / repair task / repair packet / decision needed / environment blocked
 - recommended order
 Do not implement fixes.
 ```
