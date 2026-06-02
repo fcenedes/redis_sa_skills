@@ -23,6 +23,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - records:
   - status:
 - Source of truth:
+- Local terminology sources:
 - Known local changes:
 - Goal:
 - Non-goals:
@@ -174,6 +175,28 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - New scope since last delivery:
 - Delta rows that become tasks:
 - Rows excluded from tasks because already done/superseded:
+
+## Local Context Retention
+
+- Local terminology sources:
+  - README/specs/component docs:
+  - trackers/capability ledgers:
+  - lockfiles/configs:
+  - active plan/audit docs:
+- Terms that must use local definitions:
+- Ambiguous terms:
+  - term:
+  - checked sources:
+  - working interpretation:
+  - risk if wrong:
+  - disposition: user question / discovery task / safe to continue because
+- Goal-retention check before final/advisory/audit answers:
+  - active objective:
+  - tracker current status:
+  - capability ledger rows:
+  - latest audit verdict:
+  - newest user request:
+  - active residual:
 
 ### Task Status Record
 
@@ -434,6 +457,10 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Merge order:
 - Focused verification commands:
 - Final quality gate:
+- Coordinator blocker policy:
+  - bounded blocker: fix directly in coordinator/integrator scope or dispatch immediate repair task/packet
+  - decision blocker: escalate with exact question, source evidence, and why the coordinator cannot solve it
+  - disposition values: fixed directly / repair delegated / blocked for decision / blocked for environment
 
 ## Documentation Cleanup
 
@@ -513,11 +540,16 @@ Task:
 Execute the plan by dispatching tasks with explicit ownership, model/reasoning, tracking, verification, audit, and documentation cleanup.
 Rules:
 - Update task status in agent_memory and tracker on every transition.
+- Interpret project-specific terms from repo source-of-truth docs, not generic model knowledge, memory, or prior chat.
+- If local terminology is ambiguous, stop for a discovery task or exact user question.
+- Before final/advisory/audit answers, re-read the active objective, tracker, ledger, latest audit verdict, and newest user request; answer only the active residual.
 - Prefer parallel batches where ownership and dependencies allow.
 - Do not call work parallel unless separate workers or execution streams actually ran.
 - Treat batches as scheduling only; epic/task files are authoritative contracts.
 - If packet mode is used, dispatch from the packet index and assigned packet file, not from broad chat context.
 - Do not start later dependency waves until packet dependencies are done or explicitly unblocked.
+- Fix bounded blockers directly or dispatch immediate repair tasks/packets; do not defer coordinator-solvable blockers to future delegation.
+- Escalate only architecture, strategy, product, security, public-contract, ownership, access, scope, or unverifiable blockers.
 - Use the smallest sufficient model/reasoning for each task.
 - Do not let workers inherit the coordinator model/reasoning by default.
 - Keep worker/provider, requested model, and reasoning effort as separate fields.

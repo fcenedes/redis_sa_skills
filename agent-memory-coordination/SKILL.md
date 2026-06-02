@@ -87,6 +87,10 @@ When a capability ledger exists, memory records should point to ledger rows and
 summarize current status. They must not supersede versioned evidence, tracker
 rows, or verification commands.
 
+Memory must not define project-specific terminology when repo source-of-truth
+docs exist. Use memory as a pointer to the relevant local docs, trackers,
+ledger rows, or plan files; use the repo files to interpret the term.
+
 ## Writing Memories
 
 Store durable coordination material only: reusable worker or integrator prompts,
@@ -97,6 +101,11 @@ capability ID, ledger path, status, evidence path, validation date, and next
 delta task when writing ledger-related memories. Use [examples](references/examples.md)
 for copy-ready worker prompts, gate results, coordination packets, and bootstrap
 packets.
+
+For blockers, record disposition: `coordinator direct fix`, `repair task`,
+`repair packet`, `decision needed`, or `environment blocked`. If the blocker is
+bounded and verifiable inside the active plan, the coordinator should fix or
+delegate the repair in the current delivery instead of saving it as future work.
 
 For packet-mode plans, memory records should point to the packet index and
 assigned packet path. Include packet ID, dependency wave, status, owner,
@@ -173,9 +182,11 @@ branch when applicable, and remaining unrelated untracked files.
 - Do not let workers commit unless explicitly assigned.
 - Do not block on missing memory when repo coordination docs exist.
 - Do not treat memory as more authoritative than versioned repo docs.
+- Do not use memory or chat to define local architecture/product terms when repo source-of-truth definitions exist.
 - Do not let stale memory override a capability ledger row or verification evidence.
 - Do not overwrite unrelated user changes.
 - Do not claim a live proof passed when it skipped.
+- Do not store a bounded, coordinator-solvable blocker as future work without a repair task/packet or direct-fix disposition.
 - Do not store secrets, credentials, tokens, raw logs, temporary IDs, or guesses.
 - Do not use memory from a broad namespace when a project-specific namespace exists.
 - Do not create duplicate memories before checking for an existing equivalent.
@@ -188,7 +199,9 @@ branch when applicable, and remaining unrelated untracked files.
 - [ ] Lazy-loaded memory write tools were searched before write-unavailable status was recorded.
 - [ ] Memory writes were confirmed, or write-unavailable degraded mode was recorded.
 - [ ] Packet-mode records, when used, point to packet files and include dependency/status/evidence fields.
+- [ ] Blocker records include disposition and current-delivery repair path when the coordinator can solve them.
 - [ ] Repo docs and capability ledgers checked when memory is empty; memory seeded when backend writes are available.
+- [ ] Local terms retrieved from memory point back to repo source docs before being applied.
 - [ ] Unrelated local changes protected; worker ownership is disjoint; shared files reserved for integration.
 - [ ] Workers received self-contained prompts, verification commands, and final report requirements.
 - [ ] Worker diffs, integration pass, focused tests, and full gate completed.

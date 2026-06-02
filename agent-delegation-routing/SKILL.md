@@ -60,6 +60,13 @@ Maintainer; security, architecture, and high-risk readiness claims do not.
 
 If the request spans multiple epics, tasks, files, or workers, require an executable plan first. If the request follows prior deliveries, readiness work, or asks what remains, require a capability ledger reconciliation before the plan. Do not dispatch from a generic checklist. The plan must name source of truth, epics, tasks, required skills, ownership, model/reasoning, parallelization, integration, and verification gates.
 
+Before interpreting project-specific architecture, product, runtime, provider,
+workflow, registry, worker, audit, replay, orchestration, component, or
+authority terms, use the local repo definitions from source-of-truth docs. Do
+not route work from memory, prior chat, or generic model knowledge when local
+definitions exist. If a term is ambiguous, pause dispatch for a discovery task
+or exact user question.
+
 Use `rtk git status` when RTK is installed; otherwise use `git status --short`
 and report the fallback. Identify unrelated local changes and choose one
 coordination mode:
@@ -71,6 +78,13 @@ coordination mode:
 Parallelization decision is mandatory. If two or more tracks have disjoint files and no ordering dependency, create a parallel batch with owner, worker type, files, and verification per worker.
 Dispatch concurrently when the runtime supports it; otherwise record `parallelizable but serialized` and why. Reserve shared files for an integrator.
 If shared memory is available, record ownership and prompts with `agent-memory-coordination`.
+
+Coordinator blocker rule: when execution reveals a bounded blocker that can be
+solved within the active plan without architecture, strategy, product, security,
+public-contract, ownership, access, or scope decisions, resolve it now. Fix it
+directly if it is coordinator/integrator scope, or dispatch an immediate repair
+task or `R#` repair packet. Escalate only true decisions, unavailable
+environment/access, ownership conflicts, scope expansion, or unverifiable work.
 
 ## Packet Dispatch
 
@@ -135,6 +149,15 @@ files as the execution contract. Before starting, map every task to one of:
 completion. If a runtime cannot dispatch parallel workers, say so explicitly and
 do not describe the run as parallel.
 
+If an Auditor, Verifier, or worker reports a gap, classify it as `bounded fix`,
+`repair task`, `repair packet`, `decision needed`, or `environment blocked`.
+Bounded fixes and repair tasks stay in the current delivery; do not postpone
+them to a later delegation merely because they were found during audit.
+
+Before final or advisory answers, re-read the active objective, tracker status,
+capability ledger rows, latest audit verdict, and newest user request. Answer
+the active residual only; do not broaden the goal or reopen closed scope.
+
 ## Command Shapes
 
 For exact RTK-aware commands, read
@@ -164,11 +187,16 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 If RTK is unavailable, use `git diff --stat`. Run focused verification first,
 then the repo quality gate. Use an integrator for shared files, adjacent tracks,
 failing combined tests, or behavior that crosses worker boundaries.
+The integrator/coordinator may make bounded integration fixes when they preserve
+the active plan and do not change architecture, public contracts, or ownership.
 
 ## DO NOT
 
 - Do not make Codex spawn or delegate directly to Claude; route through the user or a Claude-side coordinator.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
+- Do not interpret local terms from generic model knowledge when repo source-of-truth definitions exist.
+- Do not dispatch ambiguous local terminology without a discovery task or exact user question.
+- Do not give final/advisory answers without re-reading the active objective, tracker, ledger, audit verdict, and newest user request.
 - Do not route follow-up/readiness work before checking whether a capability ledger is required.
 - Do not dispatch from a chat-only summary when an executable file-backed plan exists.
 - Do not route a packet worker without `allowed_files`, `forbidden_files`, dependencies, and exact verification.
@@ -181,6 +209,9 @@ failing combined tests, or behavior that crosses worker boundaries.
 - Do not use inherited senior-model/high-reasoning workers for docs-only execution; split high-risk review from low/medium docs editing.
 - Do not serialize independent worker tracks without recording why.
 - Do not claim a batch was parallel unless separate workers or execution streams actually ran.
+- Do not defer bounded coordinator-solvable blockers to a future delegation.
+- Do not ask for architecture or strategic decisions for mechanical/local blockers that can be verified inside the active plan.
+- Do not accept auditor findings that lack required fix, closure criteria, and suggested disposition.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
 - Do not pass secrets, tokens, private logs, or credentials in worker prompts.
@@ -193,6 +224,7 @@ failing combined tests, or behavior that crosses worker boundaries.
 
 - [ ] Worker type selected for task risk and ambiguity.
 - [ ] Capability ledger checked before follow-up/readiness work, or not applicable recorded.
+- [ ] Local terminology was grounded in repo source-of-truth docs, or ambiguity was blocked/discovered.
 - [ ] Multi-task work has an executable epic/task plan from `agent-delegation-planning`.
 - [ ] Packet-mode work has a packet index; every packet has dependency, allowlist, denylist, verification, and output contract.
 - [ ] Each plan task is mapped to dispatch/direct/serialized/blocked/not-applicable before execution.
@@ -202,6 +234,8 @@ failing combined tests, or behavior that crosses worker boundaries.
 - [ ] Git status checked; unrelated changes protected.
 - [ ] Parallelization decision recorded; independent tracks batched or serialization justified.
 - [ ] Parallel claims match actual execution streams, not just planned batches.
+- [ ] Reported blockers classified as direct fix, repair task/packet, decision needed, or environment blocked.
+- [ ] Final/advisory answer is anchored to the active residual, not broadened scope.
 - [ ] Ownership, source of truth, constraints, and verification are explicit.
 - [ ] RTK used when available; raw fallback reported when used.
 - [ ] Long-lived or parallel prompts saved with `agent-memory-coordination` when needed.
