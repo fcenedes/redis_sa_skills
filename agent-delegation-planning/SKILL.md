@@ -14,6 +14,7 @@ Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-
 
 Load [plan-template](references/plan-template.md) for full plans, multi-task work, or when exact fields matter.
 Load [packet-mode](references/packet-mode.md) when highly parallel work needs file-owned packet contracts, dependency waves, or repair packets.
+Load [anchoring](references/anchoring.md) for delegated, long-running, resumed, post-compaction, follow-up, readiness, or multi-agent plans that need `charter.md`, `00-index.md`, `components.md`, `decisions.md`, resume ritual, or rigid worker reports.
 When model choice is unclear, consult `agent-delegation-routing/references/routing-table.md` instead of inventing routing policy.
 
 ## Required Shape
@@ -23,7 +24,8 @@ Every plan must contain:
 - **Source of truth:** repo docs, issue, PR, user request, or tracker that wins over memory/chat.
 - **Local terminology:** project-specific terms are interpreted from repo source-of-truth docs, not generic model knowledge or memory.
 - **Capability reconciliation:** for follow-up/readiness/multi-tranche work, classify existing capabilities before creating delta tasks.
-- **Plan persistence:** write the plan to files and post it to `agent_memory`; do not only answer in chat.
+- **Plan persistence:** write the plan to files and post it to `agent_memory` when available; if memory writes are unavailable after discovery, use the tracker/file fallback and report degraded mode. Do not only answer in chat.
+- **Anchoring artifacts:** multi-agent, long-running, follow-up, readiness, or resumable plans create `charter.md`, `00-index.md`, `components.md`, and `decisions.md`, or record why each is not needed.
 - **Skill stack:** required skills for the whole plan and for each task. Use epic-level skills when epics exist.
 - **Plan granularity:** small requests may be task-only; multi-area or multi-goal work uses epics containing tasks.
 - **Tasks:** each task has routing reason, repo/branch, owned files, forbidden files, worker role, model, reasoning effort, verification, audit, output format, and done evidence.
@@ -70,7 +72,8 @@ Design every plan to minimize token use without losing evidence:
 
 ## Plan Files
 
-Write every delegated plan to repo-local files and `agent_memory` unless the user explicitly asks for chat-only output. Default path: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`. Small plans use `plan.md`, `tracker.md`, and `coordinator-prompt.md`; large plans use `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
+Write every delegated plan to repo-local files, and post compact records to `agent_memory` when memory writes are available. If memory writes are unavailable after discovery, keep the repo tracker/file path as the durable fallback and report degraded mode. Default path: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`. Small plans use `plan.md`, `tracker.md`, and `coordinator-prompt.md`; large plans use `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
+For multi-agent, long-running, follow-up, readiness, or resumable plans, also write `charter.md`, `00-index.md`, `components.md`, and `decisions.md` in the plan directory. These anchor files are the first files read on resume, after compaction, before dispatch, after audit findings, and before final/advisory answers.
 
 If the request has 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, or multiple delivery surfaces, it must use epic files. Convert user-provided batches or phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are the authoritative task contracts.
 
@@ -113,6 +116,8 @@ docs, lockfiles, trackers, capability ledgers, or active plan files. If a term
 is ambiguous, record checked sources, working interpretation, risk if wrong,
 and whether the next action is user input or a discovery task.
 
+On session resume, post-compaction, a new coordinator turn, before dispatch, after audit findings, and before scope changes, run the resume ritual from `references/anchoring.md`: reload `charter.md`, `00-index.md` or tracker, relevant ledger rows, latest audit/verifier verdict, and newest user request, then restate the active residual before acting.
+
 Before final, advisory, or audit answers, re-read the active plan objective,
 tracker current status, capability ledger rows, latest audit verdict, and newest
 user request. Answer only the active residual; do not broaden the goal, reopen
@@ -120,7 +125,7 @@ closed scope, or generalize beyond the bounded task.
 
 ## Task Status Tracking
 
-Use `agent_memory` to track each task with task ID, epic or task-only, owner, status, evidence, next action, and update time. Status values are `planning`, `running`, `blocked`, `failed`, `done`, and `audited`. Write `planning` before dispatch, `running` when work starts, `done` only after verification, and `audited` only after audit.
+Use `agent_memory` when available to track each task with task ID, epic or task-only, owner, status, evidence, next action, and update time. If memory writes are unavailable after discovery, use the repo tracker for the same fields. Status values are `planning`, `running`, `blocked`, `failed`, `done`, and `audited`. Write `planning` before dispatch, `running` when work starts, `done` only after verification, and `audited` only after audit.
 
 Also maintain a tracker file when `agent_memory` is unavailable, agents may not share the same backend, or a problem must be preserved in repo-local context. Prefer an existing tracker; otherwise propose `docs/agent-tracking/<plan-id>.md` and confirm whether to commit it.
 
@@ -210,6 +215,9 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not write follow-up/readiness plans before reconciling a capability ledger when the work has prior deliveries.
 - Do not execute from chat, memory, or a generic checklist when a file-backed plan is required.
 - Do not leave delegated plans only in chat; write plan files, post memory records, and create a coordinator prompt.
+- Do not create a multi-agent, long-running, follow-up, readiness, or resumable plan without `charter.md` and `00-index.md`.
+- Do not continue after resume, compaction, audit findings, or scope change without the resume ritual.
+- Do not accept worker reports that omit the rigid status block from `references/anchoring.md` when anchoring is required.
 - Do not record `Memory persistence: unavailable` before lazy-loaded memory write tool discovery has been attempted.
 - Do not leave execution evidence only in chat; update memory when available and the tracker/final report always.
 - Do not list `coordinator-prompt.md` without pasting it when it is within the 120-line final-response limit.
@@ -250,7 +258,10 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] Source of truth and non-goals are explicit.
 - [ ] Local terminology sources are listed; ambiguous terms have checked sources, interpretation, risk, and disposition.
 - [ ] Capability ledger was reconciled for follow-up/readiness/multi-tranche work, or not applicable is justified.
-- [ ] Plan is written to files and posted to `agent_memory`; large plans are split per epic and include `coordinator-prompt.md`.
+- [ ] Plan is written to files and posted to `agent_memory` when available; degraded tracker/file fallback is recorded otherwise. Large plans are split per epic and include `coordinator-prompt.md`.
+- [ ] Required anchor files exist: `charter.md`, `00-index.md`, `components.md`, `decisions.md`, or omissions are justified.
+- [ ] Resume ritual is included in coordinator and worker prompts for resumable work.
+- [ ] Worker output contract uses the rigid report block when anchoring is required.
 - [ ] Memory write capability was discovered before any degraded memory status was recorded.
 - [ ] Final response includes the coordinator prompt text or an explicit not-pasted reason and path.
 - [ ] Plan granularity is justified: task-only for small work, epics for multi-area work.

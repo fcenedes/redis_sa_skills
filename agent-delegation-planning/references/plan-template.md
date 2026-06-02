@@ -14,6 +14,10 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - overview:
   - epic files:
   - packet index / packet files, if used:
+  - charter:
+  - status board:
+  - components map:
+  - decision log:
   - tracker:
   - coordinator prompt:
 - Memory persistence:
@@ -35,6 +39,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Default directory: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`
 - Small plan: write `plan.md`, `tracker.md`, and `coordinator-prompt.md`.
 - Large plan: write `00-overview.md`, one `epic-<id>.md` per epic, explicit integrator/auditor task contracts when nontrivial, `tracker.md`, and `coordinator-prompt.md`.
+- Anchored plan: for multi-agent, long-running, follow-up, readiness, or resumable work, also write `charter.md`, `00-index.md`, `components.md`, and `decisions.md`.
 - Epic trigger: 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, multiple delivery surfaces, multiple crates/packages, or CI/live-system tracks require epic files. Convert user-provided batches/phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are authoritative.
 - Packet mode: optional for highly parallel file-owned work. It supplements epics/tasks with a packet index, dependency waves, and packet contracts; it does not replace epic/task contracts.
 - Memory records:
@@ -197,6 +202,14 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - latest audit verdict:
   - newest user request:
   - active residual:
+- Resume ritual triggers:
+  - session resume:
+  - context compaction:
+  - new coordinator turn:
+  - before dispatch:
+  - after audit findings:
+  - before scope change:
+- Rigid worker report required: yes/no and why
 
 ### Task Status Record
 
@@ -529,6 +542,10 @@ Read first:
 - <epic file(s)>
 Use if available:
 - $agent-delegation-routing before dispatching, to confirm role, model/reasoning, ownership, command shape, and fallback.
+Read `charter.md` and `00-index.md` before every coordinator turn and before dispatch.
+Read `components.md` before interpreting local architecture/product terms.
+Read `decisions.md` before reopening closed scope or changing approach.
+Require the rigid worker report block from `agent-delegation-planning/references/anchoring.md`.
 Required skills:
 - agent-capability-ledger
 - agent-delegation-planning

@@ -5,14 +5,14 @@ Use these examples as copy-ready shapes for shared `agent_memory` coordination.
 ## Semantic Worker Prompt
 
 ```text
-namespace: redis-protected-retrieval
-user_id: pierre
+namespace: repo-example-service
+user_id: <user_id>
 memory_type: semantic
 topics: worker-prompt, track-auth
-entities: redis-protected-retrieval, auth worker
+entities: example service, auth worker
 
 You are the auth-hardening worker.
-Repo: /Users/pierre/Documents/Work/redis-protected-retrieval
+Repo: /path/to/example-service
 You own: src/auth/**, tests/auth/**, config/auth.yaml
 Do not edit: files outside your ownership.
 Other workers are active; do not revert or reformat files you do not own.
@@ -24,14 +24,14 @@ Do not commit. Report files changed, test output, and blockers.
 ## Episodic Gate Result
 
 ```text
-namespace: redis-protected-retrieval
-user_id: pierre
+namespace: repo-example-service
+user_id: <user_id>
 memory_type: episodic
 topics: gate-result, 2026-05-21
-entities: redis-protected-retrieval, integration gate
+entities: example service, integration gate
 
 2026-05-21: Integration gate passed for auth and retrieval tracks.
-Live Redis proof skipped because PILOT_REDIS_URL was unset; this is not a passed proof.
+Live service proof skipped because EXAMPLE_SERVICE_URL was unset; this is not a passed proof.
 Unit and integration tests passed with pytest -q.
 ```
 
