@@ -4,7 +4,7 @@ description: Use when writing an execution plan that will be delegated to coding
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 # Agent Delegation Planning
 
@@ -32,14 +32,45 @@ Every plan must contain:
 - **Parallelization:** actively seek parallel batches; use serial only for real dependencies, shared files, or runtime limits.
 - **Packet mode when useful:** highly parallel work may use file-owned packets with an index, `allowed_files`, `forbidden_files`, dependency waves, and repair packets.
 - **Integration:** shared files, integrator owner, conflict risks, and final gates.
+- **Autonomy mode:** every plan declares `autonomous`, `checkpoint`, or `manual`. Default `autonomous`: dispatch all waves to completion, run validation inline, and return to the user only on a true decision-blocker or when all tasks reach `audited`. Use `checkpoint` only when the user asks to approve between waves; `manual` only when the user wants to fire each step.
 - **Coordinator unblock rule:** bounded blockers that do not require architecture, strategy, product, security, or public-contract decisions are fixed directly or via an immediate repair task/packet.
-- **Audit:** every delivery has an Auditor task before completion.
+- **Audit:** every delivery has an Auditor task before completion, run inline on an available runtime by default.
 - **Tracking:** every task has status tracked in `agent_memory` and, when needed, a repo tracker file.
 - **Execution record:** plan files, tracker, and final report say what actually ran, what was parallelized, what was serialized, and why.
 - **Goal retention:** final, advisory, and audit answers re-read the active objective, tracker, ledger, latest audit verdict, and newest user request.
 - **Token economy:** minimize context, logs, repeated prompts, and model overuse at every stage.
 - **Documentation cleanup:** after delivery, keep docs aligned with what shipped and archive obsolete planning noise.
 - **Memory:** what to search, write, or avoid writing in `agent_memory`.
+
+## Execution Autonomy
+
+Plans default to run-to-completion. The coordinator dispatches every wave,
+verifies, audits inline, and keeps going until all tasks reach `audited` or a
+true decision-blocker is hit. Do not return to the user between waves, after each
+task, or to request permission to continue.
+
+A true stop is only: an architecture, strategy, product, security,
+public-contract, ownership, scope, or access decision; an unavailable
+environment/secret/live system; or work that cannot be verified. Everything else
+is handled in-flight: bounded blockers are fixed directly or via an immediate
+repair task/packet, and ambiguous local terminology becomes a discovery task with
+a recorded working interpretation, not a pause for a user question, unless the
+ambiguity itself blocks a true decision.
+
+Validation is part of the plan, not a handoff. The Auditor/Verifier runs inline
+on an available runtime as the final wave of the same execution. Cross-agent
+audit is allowed when an explicit bridge, tool, or CLI exists and the prompt is
+scoped to owned files, evidence, no secrets, and no push. If no safe bridge is
+available, use an independent in-runtime auditor or a user-routed handoff for
+high-risk public-contract, security, or architecture claims.
+
+Commit policy: when the user has authorized the work, the coordinator may commit
+on the working branch as tasks reach `audited`. Pushing and any change to the
+default branch stay gated on explicit user approval. Record commit SHAs in the
+final report.
+
+When `Autonomy: checkpoint` or `manual` is set, follow that instead: checkpoint
+returns once per wave boundary; manual returns after each task.
 
 ## Mandatory Skill Stack
 
@@ -77,7 +108,9 @@ For multi-agent, long-running, follow-up, readiness, or resumable plans, also wr
 
 If the request has 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, or multiple delivery surfaces, it must use epic files. Convert user-provided batches or phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are the authoritative task contracts.
 
-Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. Before recording `Memory persistence: unavailable`, use `agent-memory-coordination` to discover lazy-loaded memory write tools for create/add/write/save/upsert/edit/update/set operations. If `agent_memory` is unavailable after discovery, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response. The final response must paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer; if omitted, state `Coordinator prompt not pasted because: <reason>. Path: <path>`.
+Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. Before recording `Memory persistence: unavailable`, use `agent-memory-coordination` to discover lazy-loaded memory write tools for create/add/write/save/upsert/edit/update/set operations. If `agent_memory` is unavailable after discovery, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response.
+
+When `Autonomy: autonomous` (the default), do not stop at the plan: write the files, then immediately begin executing the coordinator prompt in the same turn and run to completion. The final response reports executed work — files changed, task statuses, verification and audit evidence, commit SHAs — not a prompt for the user to fire. Only when `Autonomy: checkpoint` or `manual`, or the user explicitly asked for a plan-only deliverable, paste a fenced `Coordinator prompt` block from `coordinator-prompt.md` when it is 120 lines or fewer (else state `Coordinator prompt not pasted because: <reason>. Path: <path>`) and wait.
 
 For large plans, create explicit integrator and auditor task contracts. Use `epic-integration.md` and `epic-audit.md`, or first-class `*.INTEGRATE` and `*.AUDIT` task sections, when integration/audit own shared files, final gates, or nontrivial review.
 
@@ -113,8 +146,10 @@ when repo definitions exist.
 
 Plans should list local terminology sources such as README, specs, component
 docs, lockfiles, trackers, capability ledgers, or active plan files. If a term
-is ambiguous, record checked sources, working interpretation, risk if wrong,
-and whether the next action is user input or a discovery task.
+is ambiguous, record checked sources, working interpretation, and risk if wrong,
+then create a discovery task and continue on the working interpretation where
+safe. Pause for a user question only when the ambiguity blocks a true decision
+(architecture, product, security, public contract, scope, or access).
 
 On session resume, post-compaction, a new coordinator turn, before dispatch, after audit findings, and before scope changes, run the resume ritual from `references/anchoring.md`: reload `charter.md`, `00-index.md` or tracker, relevant ledger rows, latest audit/verifier verdict, and newest user request, then restate the active residual before acting.
 
@@ -148,7 +183,7 @@ Documentation execution defaults to low/medium. If docs touch public command wor
 
 Separate routing fields:
 
-- **Preferred worker/provider:** agent or tool family only, such as Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, human-routed Claude-side Auditor, or no preference.
+- **Preferred worker/provider:** agent or tool family only, such as Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, Claude-side Auditor via explicit bridge/tool or human-routed handoff, or no preference.
 - **Fallback worker/provider:** viable alternative or `none available`.
 - **Requested model/model class:** provider-specific model or model class, separate from worker/provider.
 - **Requested reasoning effort:** low, medium, high, or xhigh, separate from worker/provider.
@@ -182,7 +217,7 @@ or `blocked for environment`.
 
 ## Delivery Audit
 
-Every delivery must include a separate Auditor task with owner, model/reasoning, inputs, gates, verdict, and evidence. The Auditor identifies gaps, blockers, required fixes, and closure criteria; the coordinator then fixes bounded blockers directly or delegates repair immediately. Prefer cross-agent audit when available: Codex delivery uses human-routed Claude-side Auditor; Claude or local/Qwen delivery uses Codex Auditor. Codex must not spawn Claude directly; if cross-agent audit is unavailable, use an independent Auditor on an available provider with sufficient reasoning and record the fallback.
+Every delivery must include a separate Auditor task with owner, model/reasoning, inputs, gates, verdict, and evidence. The Auditor identifies gaps, blockers, required fixes, and closure criteria; the coordinator then fixes bounded blockers directly or delegates repair immediately. Prefer cross-agent audit when an explicit bridge, tool, or CLI is available and scoped: Codex delivery may request a Claude-side Auditor through that bridge, and Claude or local/Qwen delivery may request a Codex Auditor. If no safe bridge is available, use an independent Auditor on an available provider or a user-routed handoff for high-risk claims, and record the fallback.
 
 ## UI Verification
 
@@ -198,7 +233,7 @@ Each epic must include: ID, objective, source of truth, non-goals, required skil
 
 ## Task Contract
 
-Each task must include: ID, epic or `none`, objective, required skills, routing reason, repo, branch, worker role, preferred worker/provider, fallback worker/provider, requested/actual model, requested/actual reasoning, inheritance status, why sufficient, escalation trigger, owned files, forbidden files, other agents active, inputs, exact steps, exact verify commands, output format, audit, tracking, done evidence, and `Commit allowed: no`.
+Each task must include: ID, epic or `none`, objective, required skills, routing reason, repo, branch, worker role, preferred worker/provider, fallback worker/provider, requested/actual model, requested/actual reasoning, inheritance status, why sufficient, escalation trigger, owned files, forbidden files, other agents active, inputs, exact steps, exact verify commands, output format, audit, tracking, done evidence, and a `Commit allowed` value. Workers default to `Commit allowed: no` (the coordinator/integrator owns commits). Under `Autonomy: autonomous` the coordinator may commit audited work on the working branch; pushing and default-branch changes stay gated on explicit user approval.
 
 Implementation tasks that create or change public APIs, schemas, data contracts, validators, compiler mappings, tests, CLI/user behavior, or integration boundaries must include a minimal `Target API / snippet`, `Compatibility constraints`, and `Example test shape`. Snippets are directional contracts, not full implementations, unless the user provided exact code.
 
@@ -210,7 +245,9 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 
 - Do not write generic plans that omit ownership, skills, model, reasoning, or verification.
 - Do not interpret local architecture or product terms from generic knowledge when repo definitions exist.
-- Do not proceed on ambiguous local terminology without checked sources, working interpretation, risk, and user/discovery disposition.
+- Do not proceed on ambiguous local terminology without checked sources, working interpretation, and risk; default to a discovery task and continue where safe rather than pausing for the user.
+- Do not stop an `autonomous` plan between waves, after each task, or to ask permission to continue; run to `audited` and return only on a true decision-blocker.
+- Do not route validation/audit back to the user by default; run an auditor inline, use explicit cross-agent bridges when available and scoped, and reserve user-routed handoff for unavailable bridges or high-risk claims.
 - Do not answer final/advisory/audit questions without re-anchoring on the active objective, tracker, ledger, latest audit verdict, and newest user request.
 - Do not write follow-up/readiness plans before reconciling a capability ledger when the work has prior deliveries.
 - Do not execute from chat, memory, or a generic checklist when a file-backed plan is required.
@@ -220,7 +257,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not accept worker reports that omit the rigid status block from `references/anchoring.md` when anchoring is required.
 - Do not record `Memory persistence: unavailable` before lazy-loaded memory write tool discovery has been attempted.
 - Do not leave execution evidence only in chat; update memory when available and the tracker/final report always.
-- Do not list `coordinator-prompt.md` without pasting it when it is within the 120-line final-response limit.
+- Do not hand the user a coordinator prompt to fire when `Autonomy: autonomous`; execute it yourself and report results. Paste the prompt instead of executing only for `checkpoint`/`manual` or an explicit plan-only request, and then only when it is within the 120-line limit.
 - Do not generate a delegation prompt that omits the `$agent-delegation-routing` recommendation when that skill may be available.
 - Do not replace required `epic-<id>.md` task contracts with batch files, phase files, or routing summaries.
 - Do not call a conceptual batch a packet unless it has file ownership, `allowed_files`, `forbidden_files`, dependencies, verification, and status.
@@ -243,7 +280,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not route docs-only workers to inherited senior/high execution; use low/medium or split high-risk review into a separate auditor/spec task.
 - Do not use high/xhigh without a concrete risk or ambiguity reason.
 - Do not finish a delivery without an Auditor task and audit evidence.
-- Do not make Codex directly delegate to Claude for audit; route through the user or use a Codex fallback.
+- Do not make Codex use an uncontrolled Claude handoff for audit; require an explicit bridge/tool/CLI with scoped prompt, or use an independent available auditor or user-routed fallback.
 - Do not lose task status: if memory is unavailable or questionable, write a tracker file.
 - Do not mark `done` or `audited` without evidence.
 - Do not mark UI work verified without Playwright evidence or an explicit blocked/skip reason.
@@ -263,7 +300,8 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - [ ] Resume ritual is included in coordinator and worker prompts for resumable work.
 - [ ] Worker output contract uses the rigid report block when anchoring is required.
 - [ ] Memory write capability was discovered before any degraded memory status was recorded.
-- [ ] Final response includes the coordinator prompt text or an explicit not-pasted reason and path.
+- [ ] Autonomy mode is declared; `autonomous` plans execute to `audited` and report results instead of pasting a prompt for the user to fire.
+- [ ] Final response includes the coordinator prompt text only for `checkpoint`/`manual`/plan-only; otherwise it reports executed work, evidence, and commit SHAs.
 - [ ] Plan granularity is justified: task-only for small work, epics for multi-area work.
 - [ ] Any batches/phases are mapped to epics/tasks; batch summaries do not replace `epic-<id>.md` files.
 - [ ] Packet mode is used only when it improves parallel file-owned execution; packet index, `allowed_files`, `forbidden_files`, dependency waves, and repair policy are present.
