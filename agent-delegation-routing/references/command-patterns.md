@@ -65,6 +65,9 @@ Inherited from coordinator: unknown
 
 If no safe bridge exists, use an independent available Auditor or a user-routed
 handoff for high-risk public-contract, security, architecture, or release claims.
+If the independent audit path fails, hangs, or has to be terminated, record the
+failed command/tool path and write `Audit independence: self-evidence only`. Do
+not describe local validation or same-agent review as an independent audit.
 
 ## Codex Non-Interactive Worker
 
