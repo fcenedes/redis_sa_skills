@@ -31,8 +31,9 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Known local changes:
 - Goal:
 - Non-goals:
-- Autonomy: autonomous | checkpoint | manual  (default autonomous: run all waves to `audited`, validate inline, return only on a true decision-blocker)
-- Commit policy: coordinator commits audited work on the working branch under autonomous; push and default-branch changes gated on user approval
+- Execution: start-now | plan-only  (default inferred from request verb: build/fix/do/run/execute -> start-now; plan/design/spec/propose -> plan-only)
+- Autonomy: autonomous | checkpoint | manual  (default autonomous: once execution starts, run all waves to `audited`, validate inline, return only on a true decision-blocker)
+- Commit policy: allowed | not allowed  (default not allowed; autonomy never grants commit permission; push and default-branch changes gated on explicit user approval)
 - Assumptions:
 - Open questions:
 
@@ -53,7 +54,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - If memory write fails: record `Memory persistence: unavailable` in plan/tracker/final response.
 - If `agent_memory` is unavailable: state the degradation, recommend installing/configuring shared memory, and continue with file/tracker fallback.
 - If file write fails: record `File persistence: unavailable` in memory/final response.
-- Chat response: for `Autonomy: autonomous`, execute the coordinator prompt and report results, evidence, audit verdict, and commits instead of pasting a prompt to fire. For `checkpoint`, `manual`, or explicit plan-only requests, summarize file paths and memory namespace/backend, then paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer. If omitted, write `Coordinator prompt not pasted because: <reason>. Path: <path>`.
+- Chat response: for `Execution: start-now`, execute the coordinator prompt and report results, evidence, audit verdict, and commits only when `Commit policy: allowed`. For `Execution: plan-only` or explicit plan-only requests, summarize file paths and memory namespace/backend, then paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer. If omitted, write `Coordinator prompt not pasted because: <reason>. Path: <path>`.
 
 ## Required Skill Stack
 
@@ -211,6 +212,9 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - before dispatch:
   - after audit findings:
   - before scope change:
+- Scope expansion decision:
+  - required when owned files, epics, task scope, or verification scope expands beyond the initial plan
+  - record in `decisions.md`: original boundary, expanded boundary, reason, evidence, revisit trigger
 - Rigid worker report required: yes/no and why
 
 ### Task Status Record
@@ -225,6 +229,9 @@ Requested reasoning:
 Actual model:
 Actual reasoning:
 Inherited from coordinator: yes/no/unknown
+Execution mode:
+Autonomy mode:
+Commit policy:
 Evidence:
 Next action:
 Memory backend:
@@ -296,7 +303,7 @@ Use this section for a small request where epics would add noise.
   - Tracker row:
   - Initial status: planning
 - Done evidence:
-- Commit allowed: no (worker default; coordinator commits audited work on the working branch under `Autonomy: autonomous`)
+- Commit allowed: no (worker default; coordinator commits audited work only when the plan says `Commit policy: allowed`)
 
 ## Epics
 
@@ -532,7 +539,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 
 ## Coordinator Prompt
 
-Write this into `coordinator-prompt.md`. For `Autonomy: autonomous`, execute it in the same turn and report results. Paste the same text in the final response only for `checkpoint`, `manual`, or explicit plan-only requests, unless it is over 120 lines or the user explicitly asked not to include it:
+Write this into `coordinator-prompt.md`. For `Execution: start-now`, execute it in the same turn and report results. Paste the same text in the final response only for `Execution: plan-only` or explicit plan-only requests, unless it is over 120 lines or the user explicitly asked not to include it:
 
 ```text
 Role: Coordinator
@@ -555,9 +562,11 @@ Required skills:
 - agent-memory-coordination
 - rtk-cli
 - caveman
-Autonomy: autonomous (run all waves to `audited` before returning) unless this prompt says checkpoint or manual
+Execution: start-now | plan-only (start-now begins dispatch after plan files are written; plan-only writes the prompt and waits)
+Autonomy: autonomous | checkpoint | manual (once execution starts, autonomous runs all waves to `audited` before returning)
+Commit policy: allowed | not allowed (default not allowed; commit only when this says allowed)
 Task:
-Execute the plan to completion by dispatching every wave with explicit ownership, model/reasoning, tracking, verification, inline audit, and documentation cleanup. Do not return to the user between waves, after each task, or to ask permission to continue. Return only when all tasks reach `audited` or a true decision-blocker is hit.
+If `Execution: start-now`, execute the plan by dispatching waves with explicit ownership, model/reasoning, tracking, verification, inline audit, and documentation cleanup. If `Execution: plan-only`, return the prompt and do not begin dispatch. Once execution starts with `Autonomy: autonomous`, do not return to the user between waves, after each task, or to ask permission to continue. Return only when all tasks reach `audited` or a true decision-blocker is hit.
 Rules:
 - Update task status in agent_memory and tracker on every transition.
 - Interpret project-specific terms from repo source-of-truth docs, not generic model knowledge, memory, or prior chat.
@@ -578,7 +587,7 @@ Rules:
 - Do not mark done without verification evidence.
 - Do not mark audited without Auditor verdict.
 - Run the Auditor/Verifier inline on an available runtime. Cross-agent audit may use an explicit bridge/tool/CLI when scoped to owned files, evidence, no secrets, and no push; route through the user only when no safe bridge exists or the claim is high-risk public-contract, security, or architecture.
-- Commit audited work on the working branch as you go; do not push or change the default branch without explicit user approval. Record commit SHAs.
+- Commit audited work on the working branch only when `Commit policy: allowed`; do not push or change the default branch without explicit user approval. Record commit SHAs.
 Output:
 - current status by task
 - blockers
@@ -589,8 +598,8 @@ Output:
 
 ## Final Response Contract
 
-`Autonomy: autonomous` (default) — after writing plan files, execute the
-coordinator prompt in the same turn and report results, not a prompt to fire:
+`Execution: start-now` — after writing plan files, execute the coordinator prompt
+in the same turn and report results, not a prompt to fire:
 
 ````text
 Plan executed.
@@ -600,12 +609,13 @@ Tasks: <id>: <status (done/audited)> — evidence <path/cmd>
 Files changed: <paths or diffstat>
 Verification: <commands + results>
 Audit: <verdict + evidence>
-Commits: <SHAs on branch <name>> (push: <done|gated on approval>)
+Commits: <SHAs on branch <name> when Commit policy allowed; otherwise none> (push: gated on approval)
 Residual / blockers: <true decision-blockers or none>
 ````
 
-`Autonomy: checkpoint`, `manual`, or an explicit plan-only request — write files,
-then hand off the prompt and wait:
+`Execution: plan-only` or an explicit plan-only request — write files, then hand
+off the prompt and wait. `Autonomy` still describes how execution should continue
+after a later start:
 
 ````text
 Plan written and ready to execute.
@@ -709,7 +719,7 @@ Return:
 Do not implement. Do not commit.
 ```
 
-If cross-agent audit is unavailable, record the fallback and run an independent available Auditor with sufficient reasoning.
+If cross-agent audit is unavailable, record the fallback and run an independent available Auditor with sufficient reasoning. If the independent audit path fails or hangs, record `Audit independence: self-evidence only` with the failed command or tool path; do not claim independent audit.
 
 ## Anti-Overkill Examples
 

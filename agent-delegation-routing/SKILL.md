@@ -4,7 +4,7 @@ description: Use when a coordinator agent needs to route coding work to Codex CL
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # Agent Delegation Routing
@@ -71,10 +71,12 @@ definitions exist. If a term is ambiguous, create a discovery task and continue
 dispatching on a recorded working interpretation where safe; pause for a user
 question only when the ambiguity blocks a true decision.
 
-When the plan is `Autonomy: autonomous` (the default), dispatch every wave to
-completion, run validation inline, and return only on a true decision-blocker or
-when all tasks reach `audited`. Do not return between waves or to ask permission
-to continue.
+`Execution: start-now` means begin dispatch after plan files are written.
+`Execution: plan-only` means write the plan and coordinator prompt, then wait for
+a later start. Once execution starts, `Autonomy: autonomous` means dispatch every
+wave to completion, run validation inline, and return only on a true
+decision-blocker or when all tasks reach `audited`. Do not return between waves
+or to ask permission to continue.
 
 Use `rtk git status` when RTK is installed; otherwise use `git status --short`
 and report the fallback. Identify unrelated local changes and choose one
@@ -169,6 +171,11 @@ files as the execution contract. Before starting, map every task to one of:
 completion. If a runtime cannot dispatch parallel workers, say so explicitly and
 do not describe the run as parallel.
 
+Do not treat `Autonomy: autonomous` as permission to start execution or commit.
+Start execution only when `Execution: start-now` or a user/coordinator starts the
+plan. Commit only when the plan declares `Commit policy: allowed`; workers still
+default to `Commit allowed: no`.
+
 For anchored or resumed plans, re-read `charter.md` and `00-index.md` before every coordinator turn and dispatch, `components.md` before interpreting local terms, and `decisions.md` before reopening closed scope or changing approach.
 
 If an Auditor, Verifier, or worker reports a gap, classify it as `bounded fix`,
@@ -239,6 +246,7 @@ the active plan and do not change architecture, public contracts, or ownership.
 - Do not accept auditor findings that lack required fix, closure criteria, and suggested disposition.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
+- Do not commit because autonomy is enabled; require explicit `Commit policy: allowed`.
 - Do not pass secrets, tokens, private logs, or credentials in worker prompts.
 - Do not apply local-model patches without `git apply --check` and diff review.
 - Do not wrap interactive agent sessions with RTK; use RTK for non-interactive commands and verification output.
