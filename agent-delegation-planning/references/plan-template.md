@@ -31,6 +31,8 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Known local changes:
 - Goal:
 - Non-goals:
+- Autonomy: autonomous | checkpoint | manual  (default autonomous: run all waves to `audited`, validate inline, return only on a true decision-blocker)
+- Commit policy: coordinator commits audited work on the working branch under autonomous; push and default-branch changes gated on user approval
 - Assumptions:
 - Open questions:
 
@@ -51,7 +53,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - If memory write fails: record `Memory persistence: unavailable` in plan/tracker/final response.
 - If `agent_memory` is unavailable: state the degradation, recommend installing/configuring shared memory, and continue with file/tracker fallback.
 - If file write fails: record `File persistence: unavailable` in memory/final response.
-- Chat response: summarize file paths and memory namespace/backend, then paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer. If omitted, write `Coordinator prompt not pasted because: <reason>. Path: <path>`.
+- Chat response: for `Autonomy: autonomous`, execute the coordinator prompt and report results, evidence, audit verdict, and commits instead of pasting a prompt to fire. For `checkpoint`, `manual`, or explicit plan-only requests, summarize file paths and memory namespace/backend, then paste a fenced `Coordinator prompt` block copied from `coordinator-prompt.md` when it is 120 lines or fewer. If omitted, write `Coordinator prompt not pasted because: <reason>. Path: <path>`.
 
 ## Required Skill Stack
 
@@ -68,7 +70,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 
 ## Routing And Model Budget Rule
 
-- Preferred worker/provider is the agent or tool family only: Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, human-routed Claude-side Auditor, or no preference.
+- Preferred worker/provider is the agent or tool family only: Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, Claude-side Auditor via explicit bridge/tool or human-routed handoff, or no preference.
 - Fallback worker/provider is a viable alternative or `none available`.
 - Requested model/model class is separate from worker/provider.
 - Requested reasoning effort is separate from worker/provider.
@@ -194,7 +196,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - checked sources:
   - working interpretation:
   - risk if wrong:
-  - disposition: user question / discovery task / safe to continue because
+  - disposition: discovery task + continue on working interpretation (default) / user question only if it blocks a true decision
 - Goal-retention check before final/advisory/audit answers:
   - active objective:
   - tracker current status:
@@ -294,7 +296,7 @@ Use this section for a small request where epics would add noise.
   - Tracker row:
   - Initial status: planning
 - Done evidence:
-- Commit allowed: no
+- Commit allowed: no (worker default; coordinator commits audited work on the working branch under `Autonomy: autonomous`)
 
 ## Epics
 
@@ -388,7 +390,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
   - `caveman`: concise findings without dropping evidence
   - `agent-delegation-routing`: pick Auditor model/reasoning
 - Worker role: Auditor
-- Preferred worker/provider: cross-agent auditor when available
+- Preferred worker/provider: cross-agent auditor when an explicit bridge/tool or handoff is available
 - Fallback worker/provider: independent Auditor in available coding agent
 - Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 - Routing reason:
@@ -530,7 +532,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 
 ## Coordinator Prompt
 
-Write this into `coordinator-prompt.md`. Paste the same text in the final response unless it is over 120 lines or the user explicitly asked not to include it:
+Write this into `coordinator-prompt.md`. For `Autonomy: autonomous`, execute it in the same turn and report results. Paste the same text in the final response only for `checkpoint`, `manual`, or explicit plan-only requests, unless it is over 120 lines or the user explicitly asked not to include it:
 
 ```text
 Role: Coordinator
@@ -553,12 +555,13 @@ Required skills:
 - agent-memory-coordination
 - rtk-cli
 - caveman
+Autonomy: autonomous (run all waves to `audited` before returning) unless this prompt says checkpoint or manual
 Task:
-Execute the plan by dispatching tasks with explicit ownership, model/reasoning, tracking, verification, audit, and documentation cleanup.
+Execute the plan to completion by dispatching every wave with explicit ownership, model/reasoning, tracking, verification, inline audit, and documentation cleanup. Do not return to the user between waves, after each task, or to ask permission to continue. Return only when all tasks reach `audited` or a true decision-blocker is hit.
 Rules:
 - Update task status in agent_memory and tracker on every transition.
 - Interpret project-specific terms from repo source-of-truth docs, not generic model knowledge, memory, or prior chat.
-- If local terminology is ambiguous, stop for a discovery task or exact user question.
+- If local terminology is ambiguous, create a discovery task and continue on a recorded working interpretation where safe; ask the user only when the ambiguity blocks a true decision.
 - Before final/advisory/audit answers, re-read the active objective, tracker, ledger, latest audit verdict, and newest user request; answer only the active residual.
 - Prefer parallel batches where ownership and dependencies allow.
 - Do not call work parallel unless separate workers or execution streams actually ran.
@@ -574,7 +577,8 @@ Rules:
 - Require Playwright evidence for UI/browser work.
 - Do not mark done without verification evidence.
 - Do not mark audited without Auditor verdict.
-- Do not commit unless the user explicitly asks.
+- Run the Auditor/Verifier inline on an available runtime. Cross-agent audit may use an explicit bridge/tool/CLI when scoped to owned files, evidence, no secrets, and no push; route through the user only when no safe bridge exists or the claim is high-risk public-contract, security, or architecture.
+- Commit audited work on the working branch as you go; do not push or change the default branch without explicit user approval. Record commit SHAs.
 Output:
 - current status by task
 - blockers
@@ -585,7 +589,23 @@ Output:
 
 ## Final Response Contract
 
-Use this shape after writing plan files:
+`Autonomy: autonomous` (default) — after writing plan files, execute the
+coordinator prompt in the same turn and report results, not a prompt to fire:
+
+````text
+Plan executed.
+Files (plan): <plan files>
+Memory: backend <…> / namespace <…> / user <…> / write <available|unavailable|degraded>
+Tasks: <id>: <status (done/audited)> — evidence <path/cmd>
+Files changed: <paths or diffstat>
+Verification: <commands + results>
+Audit: <verdict + evidence>
+Commits: <SHAs on branch <name>> (push: <done|gated on approval>)
+Residual / blockers: <true decision-blockers or none>
+````
+
+`Autonomy: checkpoint`, `manual`, or an explicit plan-only request — write files,
+then hand off the prompt and wait:
 
 ````text
 Plan written and ready to execute.
@@ -611,12 +631,18 @@ Coordinator prompt not pasted because: <reason>. Path: <path>
 
 ## Cross-Agent Audit Handoff
 
-Use the matching handoff. Codex must not spawn Claude directly; route Claude-side audits through the user or a Claude-side coordinator.
+By default, run the Auditor/Verifier inline on an available runtime as the final
+wave so the run completes without a round-trip. Cross-agent audit is allowed
+when an explicit bridge, tool, or CLI exists and the audit prompt is scoped to
+owned files, verification evidence, no secrets, no implementation, no commit, and
+no push. If no safe bridge exists, use an independent available auditor or a
+user-routed handoff for high-risk public-contract, security, or architecture
+claims.
 
 ### Codex Delivery To Claude-Side Auditor
 
 ```text
-Please route this audit to Claude-side Auditor.
+Run or route this audit to a Claude-side Auditor through an explicit bridge/tool/CLI, or use user-routed handoff when no bridge is available.
 Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.
 Delivery:
 Source of truth:
@@ -683,7 +709,7 @@ Return:
 Do not implement. Do not commit.
 ```
 
-If cross-agent audit is unavailable, record the fallback and run an independent Codex Auditor.
+If cross-agent audit is unavailable, record the fallback and run an independent available Auditor with sufficient reasoning.
 
 ## Anti-Overkill Examples
 
@@ -698,14 +724,14 @@ Use lower effort when verification is cheap:
 | Implement one bounded feature | Codex medium or Claude Sonnet-class medium; run focused + repo gate |
 | Multi-file UI with screenshots | Codex high or Claude Sonnet/Opus-class with Playwright/browser evidence |
 | Security-sensitive auth change | Senior-model high/xhigh plus independent cross-agent review |
-| Final architecture challenge | Senior-model xhigh or human-routed senior reviewer |
+| Final architecture challenge | Senior-model xhigh or explicit-bridge/user-routed senior reviewer |
 ```
 
 ## Audit Examples
 
 | Delivery | Preferred audit |
 |---|---|
-| Mostly Codex implementation | Human-routed Claude-side Auditor if available; otherwise independent available high/xhigh Auditor |
-| Mostly Claude implementation | Codex Auditor when available; otherwise independent non-author Auditor |
+| Mostly Codex implementation | Claude-side Auditor via explicit bridge/tool or user-routed handoff if available; otherwise independent available high/xhigh Auditor |
+| Mostly Claude implementation | Codex Auditor via explicit bridge/tool if available; otherwise independent non-author Auditor |
 | Mostly Qwen/local patch | Codex or Claude Auditor |
 | Docs-only low-risk task | Low/medium Auditor on any available provider or human review |

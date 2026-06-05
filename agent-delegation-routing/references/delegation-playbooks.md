@@ -14,8 +14,8 @@ Use when one agent can safely own the full change.
 5. Coordinator runs code-quality review only after spec compliance passes.
 6. Coordinator runs the final gate.
 
-Best worker: Codex medium/high. Claude Sonnet is valid only when a human or
-Claude-side coordinator routes that work.
+Best worker: Codex medium/high. Claude Sonnet is valid only when an explicit
+bridge/tool, a human, or a Claude-side coordinator routes that work.
 
 ## Parallel Batch
 
@@ -44,7 +44,7 @@ Use after every non-trivial implementation task.
 
 Use when one pass is not enough.
 
-1. Claude Opus by human/Claude-side routing, or an equivalent senior model,
+1. Claude Opus through an explicit bridge/tool or human/Claude-side routing, or an equivalent senior model,
    reviews architecture and threat assumptions.
 2. Codex high/xhigh inspects repo evidence and runs verification.
 3. Coordinator compares findings and resolves contradictions with code evidence.

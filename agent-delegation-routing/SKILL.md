@@ -4,14 +4,14 @@ description: Use when a coordinator agent needs to route coding work to Codex CL
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Agent Delegation Routing
 
 Route work to the right worker with explicit scope, command shape, verification, and diff review. After a file-backed plan exists, use this skill to execute or dispatch that plan. Use `agent-capability-ledger` before routing follow-up/readiness work that may duplicate delivered scope. Use `agent-delegation-planning` before routing multi-task work. Use `agent-memory-coordination` for shared prompts, ownership, or outcomes.
 
-Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex must not delegate directly to Claude; Claude entries are external choices for Claude-side coordinators or humans.
+Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex may request Claude-side audit only through an explicit bridge, tool, or CLI with a scoped no-secrets/no-push prompt; otherwise Claude entries are external choices for Claude-side coordinators or humans.
 
 Load references only when needed:
 
@@ -25,12 +25,12 @@ Load references only when needed:
 
 ## Routing Matrix
 
-- Judgment: Codex high/xhigh, or Claude Opus only by human/Claude-side routing.
+- Judgment: Codex high/xhigh, or Claude Opus through an explicit bridge/tool or human/Claude-side routing.
 - Repo execution: Codex CLI medium/high/xhigh, based on risk.
-- Normal implementation: Codex medium, or Claude Sonnet only by human/Claude-side routing.
-- Cheap bounded work: local Qwen/Ollama, LM Studio, Claude Haiku by human/Claude-side routing, or fast models.
+- Normal implementation: Codex medium, or Claude Sonnet through an explicit bridge/tool or human/Claude-side routing.
+- Cheap bounded work: local Qwen/Ollama, LM Studio, Claude Haiku through an explicit bridge/tool or human/Claude-side routing, or fast models.
 - Documentation execution: low/medium only by default; high is for named public-contract, release-claim, security, or architecture ambiguity and is usually an audit/spec role, not a docs worker.
-- Final high-risk review: Claude Opus by human/Claude-side routing plus Codex high/xhigh verification.
+- Final high-risk review: Claude Opus through an explicit bridge/tool or human/Claude-side routing plus Codex high/xhigh verification.
 
 ## Role Selection
 
@@ -67,8 +67,14 @@ Before interpreting project-specific architecture, product, runtime, provider,
 workflow, registry, worker, audit, replay, orchestration, component, or
 authority terms, use the local repo definitions from source-of-truth docs. Do
 not route work from memory, prior chat, or generic model knowledge when local
-definitions exist. If a term is ambiguous, pause dispatch for a discovery task
-or exact user question.
+definitions exist. If a term is ambiguous, create a discovery task and continue
+dispatching on a recorded working interpretation where safe; pause for a user
+question only when the ambiguity blocks a true decision.
+
+When the plan is `Autonomy: autonomous` (the default), dispatch every wave to
+completion, run validation inline, and return only on a true decision-blocker or
+when all tasks reach `audited`. Do not return between waves or to ask permission
+to continue.
 
 Use `rtk git status` when RTK is installed; otherwise use `git status --short`
 and report the fallback. Identify unrelated local changes and choose one
@@ -208,7 +214,7 @@ the active plan and do not change architecture, public contracts, or ownership.
 
 ## DO NOT
 
-- Do not make Codex spawn or delegate directly to Claude; route through the user or a Claude-side coordinator.
+- Do not make Codex use an uncontrolled Claude handoff; require an explicit bridge/tool/CLI with scoped prompt, or route through the user or a Claude-side coordinator.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
 - Do not interpret local terms from generic model knowledge when repo source-of-truth definitions exist.
 - Do not dispatch ambiguous local terminology without a discovery task or exact user question.

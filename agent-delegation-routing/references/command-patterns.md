@@ -38,6 +38,8 @@ Acceptable bounded-worker paths:
 
 - `codex exec` with `-m` and/or `-c reasoning.effort=<level>` when available.
 - `ollama run <qwen-model>` or another explicit local model.
+- An explicit cross-agent bridge, tool, or CLI that can run the requested agent
+  family with a scoped prompt and no inherited senior-model ambiguity.
 - A human/Claude-side route explicitly selected outside Codex or outside an inherited Claude Code subagent path.
 
 If none is available, write:
@@ -45,6 +47,24 @@ If none is available, write:
 ```text
 No lower-cost worker available; not spawning inherited-model subagent.
 ```
+
+## Cross-Agent Audit Bridge
+
+Use a cross-agent audit bridge only when an explicit bridge, tool, or CLI exists.
+The prompt must name source of truth, changed files, owned scope, verification
+already run, requested audit gates, and output format. It must also say: no
+secrets, no implementation, no commit, no push, and no default-branch changes.
+
+If the bridge cannot control or report model/reasoning, record:
+
+```text
+Actual model: unknown
+Actual reasoning effort: unknown
+Inherited from coordinator: unknown
+```
+
+If no safe bridge exists, use an independent available Auditor or a user-routed
+handoff for high-risk public-contract, security, architecture, or release claims.
 
 ## Codex Non-Interactive Worker
 

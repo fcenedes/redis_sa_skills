@@ -92,7 +92,7 @@ Blocker dispositions: `fixed directly`, `repair delegated`, `blocked for decisio
 
 - Use local definitions from this file and cited source docs.
 - Do not infer local meanings from generic software usage.
-- If a term is missing, create a discovery task or ask an exact user question.
+- If a term is missing, create a discovery task and continue on a recorded working interpretation where safe; ask the user only when it blocks a true decision.
 ```
 
 ## `decisions.md` Template
