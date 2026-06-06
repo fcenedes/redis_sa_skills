@@ -8,24 +8,25 @@ locks, or repo-specific state.
 
 Use the smallest role that can safely complete the task:
 
-If the coordinator is Codex, choose Codex/local options or ask the user to route
-Claude-side work; do not spawn or delegate directly to Claude.
+If the coordinator is Codex, choose Codex/local options, use an explicit
+Claude-side bridge/tool/CLI for scoped audit requests, or ask the user to route
+Claude-side work. Do not use uncontrolled Claude handoffs.
 
 | Role | Use When | Good First Model | Must Return |
 |------|----------|------------------|-------------|
-| Coordinator | Work needs decomposition, ownership, integration, or multiple workers. | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing | Plan, ownership map, gates, integration status. |
-| Spec Writer | Requirements are ambiguous or acceptance criteria are missing. | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing | Goal, non-goals, source of truth, acceptance criteria, verification plan. |
-| Implementor | One bounded code task is ready to execute. | Codex medium/high, or Claude Sonnet by human/Claude-side routing | Files changed, summary, commands run, blockers. |
-| Verifier | Work needs evidence-based approval or rejection. | Codex high, or Claude Sonnet by human/Claude-side routing | Verdict, confidence, evidence, failed gates, next fix. |
-| Auditor | Claims about architecture, runtime seams, security, or release readiness need scrutiny. | Codex high/xhigh, or Claude Opus by human/Claude-side routing | Findings with evidence, impact, required fix, closure criteria. |
-| PR Reviewer | A PR/diff needs high-confidence actionable feedback. | Codex review/high, or Claude Opus by human/Claude-side routing | Findings ordered by severity and release-gate notes. |
+| Coordinator | Work needs decomposition, ownership, integration, or multiple workers. | Codex medium/high, or Claude Sonnet/Opus via explicit bridge/tool or human/Claude-side routing | Plan, ownership map, gates, integration status. |
+| Spec Writer | Requirements are ambiguous or acceptance criteria are missing. | Codex medium/high, or Claude Sonnet/Opus via explicit bridge/tool or human/Claude-side routing | Goal, non-goals, source of truth, acceptance criteria, verification plan. |
+| Implementor | One bounded code task is ready to execute. | Codex medium/high, or Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Files changed, summary, commands run, blockers. |
+| Verifier | Work needs evidence-based approval or rejection. | Codex high, or Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Verdict, confidence, evidence, failed gates, next fix. |
+| Auditor | Claims about architecture, runtime seams, security, or release readiness need scrutiny. | Codex high/xhigh, or Claude Opus via explicit bridge/tool or human/Claude-side routing | Findings with evidence, impact, required fix, closure criteria. |
+| PR Reviewer | A PR/diff needs high-confidence actionable feedback. | Codex review/high, or Claude Opus via explicit bridge/tool or human/Claude-side routing | Findings ordered by severity and release-gate notes. |
 | PR Shepherd | An existing PR needs coordinated fixes, CI, comments, and readiness tracking. | Codex medium/high | PR status, blockers, delegated fixes, verification state. |
 | UI Designer | Product UI needs design-system, a11y, responsive, and visual evidence. | Codex high | UI changes, tokens/components used, screenshots/a11y/responsive checks. |
-| Docs Worker | Documentation-only edits with bounded source of truth. | Qwen local, Codex low/medium, or Claude Haiku by human/Claude-side routing | Changed docs, commands/checks run, assumptions, blockers. |
-| Capability Ledger Maintainer | Evidence-backed ledger updates and delta classification. | Qwen local, Codex low/medium, or Claude Haiku by human/Claude-side routing | Ledger rows changed, evidence paths, commands, residual gaps. |
-| Capability Auditor | Ledger/readiness claims need independent evidence review. | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing | Verdict, unsupported claims, missing proof, corrected status. |
-| Packet Worker | One file-owned packet is ready with dependencies and verification. | Codex low/medium, Qwen local, or Claude Haiku/Sonnet by human/Claude-side routing | Packet status, files changed, commands, blockers. |
-| Packet Reviewer | A packet needs boundary-first review before integration. | Codex medium/high, or Claude Sonnet by human/Claude-side routing | Boundary verdict, failed gates, repair-packet recommendation. |
+| Docs Worker | Documentation-only edits with bounded source of truth. | Qwen local, Codex low/medium, or Claude Haiku via explicit bridge/tool or human/Claude-side routing | Changed docs, commands/checks run, assumptions, blockers. |
+| Capability Ledger Maintainer | Evidence-backed ledger updates and delta classification. | Qwen local, Codex low/medium, or Claude Haiku via explicit bridge/tool or human/Claude-side routing | Ledger rows changed, evidence paths, commands, residual gaps. |
+| Capability Auditor | Ledger/readiness claims need independent evidence review. | Codex medium/high, or Claude Sonnet/Opus via explicit bridge/tool or human/Claude-side routing | Verdict, unsupported claims, missing proof, corrected status. |
+| Packet Worker | One file-owned packet is ready with dependencies and verification. | Codex low/medium, Qwen local, or Claude Haiku/Sonnet via explicit bridge/tool or human/Claude-side routing | Packet status, files changed, commands, blockers. |
+| Packet Reviewer | A packet needs boundary-first review before integration. | Codex medium/high, or Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Boundary verdict, failed gates, repair-packet recommendation. |
 | Qwen Worker | A narrow local worker task can be verified cheaply. | Qwen local/Ollama | Unified diff or concise report, verification result, blockers. |
 
 The coordinator may override any default when scope, risk, cost, or tool
@@ -38,9 +39,10 @@ Use the configured current stable model for each family unless the repo or user
 pins an exact version. Do not hard-code dated model versions in worker prompts
 unless availability was just verified.
 
-Claude alternatives are external routing choices for Claude-side coordinators
-or humans. Codex coordinators must not spawn or delegate directly to Claude; use
-Codex or local alternatives, or ask the user to route work to Claude.
+Claude alternatives require an explicit bridge/tool/CLI, a Claude-side
+coordinator, or human routing. Codex coordinators must not use uncontrolled
+Claude handoffs; use Codex or local alternatives, a scoped bridge request, or ask
+the user to route work to Claude.
 
 | Role | Default | Claude Alternative | Codex Alternative | Local Alternative | Recommended Think |
 |------|---------|--------------------|-------------------|-------------------|-------------------|
@@ -52,16 +54,16 @@ Codex or local alternatives, or ask the user to route work to Claude.
 | PR Reviewer | Codex review | Claude Opus for strategic risk | Codex high/xhigh | Qwen only for obvious diff scan | high |
 | PR Shepherd | Codex medium/high | Claude Sonnet for comment drafting | Codex high for CI/fix loops | none | medium/high |
 | UI Designer | Codex high | Claude Sonnet for design critique | Codex high/xhigh | none | high |
-| Docs Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium for public docs contracts | Qwen Coder | low/medium |
-| Capability Ledger Maintainer | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium for complex evidence | Qwen Coder | low/medium |
+| Docs Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet via explicit bridge/tool or human/Claude-side routing | Codex medium for public docs contracts | Qwen Coder | low/medium |
+| Capability Ledger Maintainer | Codex low/medium or Qwen local | Claude Haiku/Sonnet via explicit bridge/tool or human/Claude-side routing | Codex medium for complex evidence | Qwen Coder | low/medium |
 | Capability Auditor | Codex medium/high or Claude-side Sonnet | Claude Opus for high-risk readiness | Codex high for cross-repo evidence | none | medium/high |
-| Packet Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet by human/Claude-side routing | Codex medium/high only when packet risk requires it | Qwen Coder | low/medium |
-| Packet Reviewer | Codex medium/high | Claude Sonnet by human/Claude-side routing | Codex high for risky boundaries | Qwen only for obvious allowlist checks | medium/high |
+| Packet Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet via explicit bridge/tool or human/Claude-side routing | Codex medium/high only when packet risk requires it | Qwen Coder | low/medium |
+| Packet Reviewer | Codex medium/high | Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Codex high for risky boundaries | Qwen only for obvious allowlist checks | medium/high |
 | Qwen Worker | Qwen local/Ollama | Claude Haiku | Codex low/medium | Qwen Coder | low/medium |
 
 Default version policy:
 
-- Claude: use the configured current stable Opus, Sonnet, or Haiku variant only when operating from Claude or explicit human routing.
+- Claude: use the configured current stable Opus, Sonnet, or Haiku variant only when operating from Claude, an explicit bridge/tool, or explicit human routing.
 - Codex: use the configured current Codex coding model with the listed reasoning effort.
 - Qwen/local: use the strongest locally installed Qwen Coder model that fits latency and memory.
 - If exact model identity matters, the coordinator records the model name and why.

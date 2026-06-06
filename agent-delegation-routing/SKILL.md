@@ -4,14 +4,14 @@ description: Use when a coordinator agent needs to route coding work to Codex CL
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.0.0
+  version: 1.1.1
 ---
 
 # Agent Delegation Routing
 
 Route work to the right worker with explicit scope, command shape, verification, and diff review. After a file-backed plan exists, use this skill to execute or dispatch that plan. Use `agent-capability-ledger` before routing follow-up/readiness work that may duplicate delivered scope. Use `agent-delegation-planning` before routing multi-task work. Use `agent-memory-coordination` for shared prompts, ownership, or outcomes.
 
-Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex must not delegate directly to Claude; Claude entries are external choices for Claude-side coordinators or humans.
+Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex may request Claude-side audit only through an explicit bridge, tool, or CLI with a scoped no-secrets/no-push prompt; otherwise Claude entries are external choices for Claude-side coordinators or humans.
 
 Load references only when needed:
 
@@ -25,12 +25,12 @@ Load references only when needed:
 
 ## Routing Matrix
 
-- Judgment: Codex high/xhigh, or Claude Opus only by human/Claude-side routing.
+- Judgment: Codex high/xhigh, or Claude Opus through an explicit bridge/tool or human/Claude-side routing.
 - Repo execution: Codex CLI medium/high/xhigh, based on risk.
-- Normal implementation: Codex medium, or Claude Sonnet only by human/Claude-side routing.
-- Cheap bounded work: local Qwen/Ollama, LM Studio, Claude Haiku by human/Claude-side routing, or fast models.
+- Normal implementation: Codex medium, or Claude Sonnet through an explicit bridge/tool or human/Claude-side routing.
+- Cheap bounded work: local Qwen/Ollama, LM Studio, Claude Haiku through an explicit bridge/tool or human/Claude-side routing, or fast models.
 - Documentation execution: low/medium only by default; high is for named public-contract, release-claim, security, or architecture ambiguity and is usually an audit/spec role, not a docs worker.
-- Final high-risk review: Claude Opus by human/Claude-side routing plus Codex high/xhigh verification.
+- Final high-risk review: Claude Opus through an explicit bridge/tool or human/Claude-side routing plus Codex high/xhigh verification.
 
 ## Role Selection
 
@@ -67,8 +67,16 @@ Before interpreting project-specific architecture, product, runtime, provider,
 workflow, registry, worker, audit, replay, orchestration, component, or
 authority terms, use the local repo definitions from source-of-truth docs. Do
 not route work from memory, prior chat, or generic model knowledge when local
-definitions exist. If a term is ambiguous, pause dispatch for a discovery task
-or exact user question.
+definitions exist. If a term is ambiguous, create a discovery task and continue
+dispatching on a recorded working interpretation where safe; pause for a user
+question only when the ambiguity blocks a true decision.
+
+`Execution: start-now` means begin dispatch after plan files are written.
+`Execution: plan-only` means write the plan and coordinator prompt, then wait for
+a later start. Once execution starts, `Autonomy: autonomous` means dispatch every
+wave to completion, run validation inline, and return only on a true
+decision-blocker or when all tasks reach `audited`. Do not return between waves
+or to ask permission to continue.
 
 Use `rtk git status` when RTK is installed; otherwise use `git status --short`
 and report the fallback. Identify unrelated local changes and choose one
@@ -163,6 +171,11 @@ files as the execution contract. Before starting, map every task to one of:
 completion. If a runtime cannot dispatch parallel workers, say so explicitly and
 do not describe the run as parallel.
 
+Do not treat `Autonomy: autonomous` as permission to start execution or commit.
+Start execution only when `Execution: start-now` or a user/coordinator starts the
+plan. Commit only when the plan declares `Commit policy: allowed`; workers still
+default to `Commit allowed: no`.
+
 For anchored or resumed plans, re-read `charter.md` and `00-index.md` before every coordinator turn and dispatch, `components.md` before interpreting local terms, and `decisions.md` before reopening closed scope or changing approach.
 
 If an Auditor, Verifier, or worker reports a gap, classify it as `bounded fix`,
@@ -208,7 +221,7 @@ the active plan and do not change architecture, public contracts, or ownership.
 
 ## DO NOT
 
-- Do not make Codex spawn or delegate directly to Claude; route through the user or a Claude-side coordinator.
+- Do not make Codex use an uncontrolled Claude handoff; require an explicit bridge/tool/CLI with scoped prompt, or route through the user or a Claude-side coordinator.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
 - Do not interpret local terms from generic model knowledge when repo source-of-truth definitions exist.
 - Do not dispatch ambiguous local terminology without a discovery task or exact user question.
@@ -233,6 +246,7 @@ the active plan and do not change architecture, public contracts, or ownership.
 - Do not accept auditor findings that lack required fix, closure criteria, and suggested disposition.
 - Do not give two workers the same owned file unless an integrator owns the merge.
 - Do not let workers commit or push unless explicitly assigned.
+- Do not commit because autonomy is enabled; require explicit `Commit policy: allowed`.
 - Do not pass secrets, tokens, private logs, or credentials in worker prompts.
 - Do not apply local-model patches without `git apply --check` and diff review.
 - Do not wrap interactive agent sessions with RTK; use RTK for non-interactive commands and verification output.
