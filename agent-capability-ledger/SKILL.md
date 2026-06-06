@@ -4,7 +4,7 @@ description: Use when tracking what has been delivered, proven, skipped, superse
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Agent Capability Ledger
@@ -15,8 +15,9 @@ forget residual gaps, or treat memory/chat summaries as proof.
 Use this skill before follow-up plans, readiness claims, cross-tranche work,
 multi-repo coordination, audits, "what remains?" questions, or "did we already
 do this?" checks. Use `agent-delegation-planning` after the ledger identifies
-delta work. Use `agent-memory-coordination` to mirror ledger status into shared
-memory when available.
+delta work. Use `agent-plan-lifecycle` when audited plan work must be promoted,
+closed, or archived. Use `agent-memory-coordination` to mirror ledger status
+into shared memory when available.
 
 Load references only when needed:
 
@@ -149,6 +150,8 @@ search. Treat it as an optional acceleration layer:
 - Do not mark capabilities done without evidence path and verification command.
 - Do not mark docs-only proof as runtime readiness when the capability requires live, browser, integration, or full-runtime proof.
 - Do not generate tasks for rows already `done` unless new scope changed them.
+- Do not mark an audited plan promoted until relevant ledger rows or explicit
+  `not applicable` reasons are recorded.
 - Do not treat a repair packet as proof until its re-check and audit evidence exist.
 - Do not overwrite or delete older ledger rows to hide history; mark them `superseded` and point to the replacement.
 - Do not let skipped live or browser proof count as passed proof.
@@ -168,5 +171,6 @@ search. Treat it as an optional acceleration layer:
 - [ ] Done and superseded rows are not turned into implementation tasks.
 - [ ] Delta tasks come only from missing, partial, blocked, stale-proof, or newly requested rows.
 - [ ] Narrow residual gaps are represented as repair packets when packet mode is useful.
+- [ ] Promotion updated ledger rows or recorded why no ledger update applies.
 - [ ] Memory was updated when available, or degraded mode was reported.
 - [ ] Optional Redis Array mirror is clearly marked as mirror/cache, not source of truth.

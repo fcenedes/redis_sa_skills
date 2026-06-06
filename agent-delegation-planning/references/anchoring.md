@@ -7,7 +7,7 @@ Use this reference for delegated, multi-agent, follow-up, readiness, or long-run
 Create these files in the plan directory unless the plan is a small task-only request where the coordinator explicitly records `Anchoring files: not needed because <reason>`.
 
 - `charter.md`: one-screen north star for goal, non-goals, source of truth, success criteria, and active residual.
-- `00-index.md`: status board for tasks, packets, owners, blockers, evidence, and next action.
+- `00-index.md`: status board for plan lifecycle state, tasks, packets, owners, blockers, evidence, promotion/archive state, and next action.
 - `components.md`: local component and terminology map.
 - `decisions.md`: append-only decision log explaining why choices were made.
 
@@ -68,15 +68,24 @@ Branch:
 # Status Board: <plan title>
 
 Plan ID:
+Plan state: planned | running | verified | audited | promoted | archived | blocked | failed | superseded
 Charter:
 Tracker:
 Capability ledger:
+Change delta:
+Latest verification:
 Latest audit:
+Promotion record:
+Archive record:
+Last updated:
+Active residual:
+Next coordinator action:
 
 | Work Item | Status | Owner | Allowed Files | Blocker / Disposition | Evidence | Next Action |
 |---|---|---|---|---|---|---|
 
-Status values: `planning`, `running`, `blocked`, `failed`, `done`, and `audited`.
+Plan states: `planned`, `running`, `verified`, `audited`, `promoted`, `archived`, `blocked`, `failed`, and `superseded`.
+Task states: `planning`, `running`, `blocked`, `failed`, `done`, and `audited`.
 Blocker dispositions: `fixed directly`, `repair delegated`, `blocked for decision`, `blocked for environment`.
 ```
 
@@ -155,3 +164,4 @@ Before accepting worker output, the coordinator checks:
 - Do not make workers read broad context when anchor files and assigned task/packet are enough.
 - Do not let `decisions.md` become a status tracker; status belongs in `00-index.md` or tracker.
 - Do not let `components.md` replace source docs; it is a map with citations.
+- Do not mark audited work archived until promotion into ledger/spec/docs/memory has been recorded or explicitly deferred.

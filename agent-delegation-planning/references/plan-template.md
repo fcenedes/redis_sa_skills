@@ -27,6 +27,8 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - records:
   - status:
 - Source of truth:
+- Spec/change source:
+- Change delta:
 - Local terminology sources:
 - Known local changes:
 - Goal:
@@ -34,6 +36,7 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Execution: start-now | plan-only  (default inferred from request verb: build/fix/do/run/execute -> start-now; plan/design/spec/propose -> plan-only)
 - Autonomy: autonomous | checkpoint | manual  (default autonomous: once execution starts, run all waves to `audited`, validate inline, return only on a true decision-blocker)
 - Commit policy: allowed | not allowed  (default not allowed; autonomy never grants commit permission; push and default-branch changes gated on explicit user approval)
+- Plan lifecycle state: planned | running | verified | audited | promoted | archived | blocked | failed | superseded
 - Assumptions:
 - Open questions:
 
@@ -43,6 +46,8 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Small plan: write `plan.md`, `tracker.md`, and `coordinator-prompt.md`.
 - Large plan: write `00-overview.md`, one `epic-<id>.md` per epic, explicit integrator/auditor task contracts when nontrivial, `tracker.md`, and `coordinator-prompt.md`.
 - Anchored plan: for multi-agent, long-running, follow-up, readiness, or resumable work, also write `charter.md`, `00-index.md`, `components.md`, and `decisions.md`.
+- Lifecycle tracking: anchored plans use `agent-plan-lifecycle`; `00-index.md` records the plan state separately from task status and promotion/archive status.
+- Change delta: if requirements or source-of-truth behavior are being authored, use `agent-spec-writing` and include a `change-delta.md` or existing spec/change path.
 - Epic trigger: 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, multiple delivery surfaces, multiple crates/packages, or CI/live-system tracks require epic files. Convert user-provided batches/phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are authoritative.
 - Packet mode: optional for highly parallel file-owned work. It supplements epics/tasks with a packet index, dependency waves, and packet contracts; it does not replace epic/task contracts.
 - Memory records:
@@ -62,6 +67,8 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - `rtk-cli`: inspect git, diffs, tests, logs, and build output.
   - `caveman`: default compressed prose for prompts, reports, audits, handoffs, and summaries without changing technical identifiers.
   - `agent-capability-ledger`: reconcile done/partial/missing/blocked/superseded capability rows before follow-up/readiness/cross-tranche work.
+  - `agent-spec-writing`: author requirements, acceptance scenarios, and ADDED/MODIFIED/REMOVED deltas when source-of-truth behavior is changing.
+  - `agent-plan-lifecycle`: maintain plan state, resume status, promotion, closure, and archive records.
   - `agent-delegation-routing`: route tasks to workers with explicit model/reasoning.
   - `agent-memory-coordination`: discover memory read/write tools, track task status, prompts, ownership, and durable outcomes when shared memory is available.
 - Repo/task-specific:
@@ -161,7 +168,8 @@ Use this template for delegated coding plans. Keep every field concrete enough t
 - Tracker policy:
   - update memory on every status transition
   - update tracker file when memory is unavailable, backend mismatch is suspected, or a task is blocked/failed
-- Status values: planning / running / blocked / failed / done / audited
+- Task status values: planning / running / blocked / failed / done / audited
+- Plan lifecycle values: planned / running / verified / audited / promoted / archived / blocked / failed / superseded
 - Lifecycle:
   - `planning`: write before dispatch
   - `running`: write when worker starts
@@ -169,6 +177,9 @@ Use this template for delegated coding plans. Keep every field concrete enough t
   - `failed`: write when implementation or verification fails
   - `done`: write after task verification evidence exists
   - `audited`: write after Auditor verdict exists
+- Promotion gate:
+  - update capability ledger/spec/docs/memory pointers after audit
+  - record promotion evidence before archiving
 
 ## Capability Ledger Gate
 
