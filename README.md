@@ -159,16 +159,14 @@ Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory 
 | Workflow | Skills |
 |----------|--------|
 | General disciplined coding | Superpowers + `rtk-cli` + `caveman` |
-| Redis app development | `redis-development` (redis/agent-skills) + `redis-performance-troubleshooting` |
-| Customer discovery | `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams` or `redis-lucidchart-diagrams` |
-| Demo creation | `redis-demo-builder` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
+| Redis app development | `redis-development` (redis/agent-skills) + `rtk-cli` |
+| Customer discovery | `redis-presentation-decks` + `redis-excalidraw-diagrams` or `redis-lucidchart-diagrams` |
+| Demo creation | `redis-brand-ui` + `redis-product-ui` + `playwright-cli-agent` + `playwright-test` |
 | Product UI demo | `redis-product-ui` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
 | RedisInsight plugin | `redis-insight-plugin` + `redis-product-ui` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
 | Shared local agent memory | `agent-memory-docker` + `rtk-cli` |
 | Delegated agent work | `agent-spec-writing` + `agent-capability-ledger` + `agent-delegation-planning` + `agent-delegation-routing` + `agent-plan-lifecycle` + `agent-memory-coordination` + `rtk-cli` + `caveman` |
 | Parallel agent coordination | `agent-capability-ledger` + `agent-memory-coordination` + `agent-delegation-routing` + `agent-plan-lifecycle` + Superpowers + `rtk-cli` |
-| Vector search and RAG | `redis-development` (redis/agent-skills) + `redis-vector-search-rag` + `redis-demo-builder` |
-| Operations | `redis-observability-runbook` + `redis-performance-troubleshooting` |
 | Compact agent workflow | `rtk-cli` + `caveman` |
 
 ## Roadmap
@@ -192,14 +190,14 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | caveman | 1.0.0 |
 | rtk-cli | 1.0.0 |
 | redis-brand-ui | 1.0.0 |
-| redis-product-ui | 1.0.0 |
+| redis-product-ui | 1.1.0 |
 | redis-presentation-decks | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
 | redis-lucidchart-diagrams | 1.0.0 |
 | playwright-test | 1.0.0 |
 | playwright-cli-agent | 1.0.0 |
 | redis-insight-plugin | 1.0.0 |
-| agent-delegation-routing | 1.0.0 |
+| agent-delegation-routing | 1.1.1 |
 | agent-delegation-planning | 1.1.2 |
 | agent-spec-writing | 1.0.0 |
 | agent-plan-lifecycle | 1.0.0 |
@@ -221,7 +219,9 @@ skill-name/
 
 ## Codex Usage
 
-Codex uses repository-local skills from `.agents/skills/` and [`AGENTS.md`](AGENTS.md) for repo-level instructions. Invoke skills with `$skill-name`:
+Codex can invoke installed skills with `$skill-name`. For local development,
+sync or copy this repo's skill directories into `.agents/skills/`; [`AGENTS.md`](AGENTS.md)
+provides repo-level instructions.
 
 ```text
 $rtk-cli inspect this repo and summarize the diff.
@@ -231,14 +231,19 @@ $redis-insight-plugin create a Redis Insight Workbench plugin for XRANGE.
 $caveman ultra, summarize this failing test output.
 ```
 
-## Contributing
+## Claude Code Usage
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for skill structure rules, supported agents, and validation steps. Quick reference when adding a new skill:
+Claude Code can invoke installed skills with slash commands. For local
+development, copy skills into `.claude/skills/` or symlink them from
+`.agents/skills/` so Codex and Claude share the same installed copies.
 
-1. Create a directory with a descriptive kebab-case name.
-2. Add a `SKILL.md` with valid YAML frontmatter (`name`, `description`, `license`, `metadata.author`, `metadata.version`).
-3. Write instructions in imperative voice — tell agents *what to do*, not just what exists.
-4. Include anti-pattern guardrails (`DO NOT` rules).
-5. Split detailed values into `references/` files; keep `SKILL.md` under ~150 lines.
-6. Update the [Available Skills](#available-skills) table, [Installation](#installation), [Usage Examples](#usage-examples), and [Versioning](#versioning) tables.
-7. Run `bash scripts/validate-skills.sh` and fix any reported issues before opening a PR.
+```text
+/rtk-cli inspect this repo and summarize the diff.
+/playwright-test add E2E coverage for the login flow.
+/playwright-cli-agent reproduce this UI bug in the browser.
+/redis-insight-plugin create a Redis Insight Workbench plugin for XRANGE.
+/agent-delegation-planning write an executable delegated plan for this change.
+```
+
+For authoring rules, supported agents, and validation steps, see
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
