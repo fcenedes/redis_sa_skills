@@ -161,8 +161,8 @@ Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory 
 | General disciplined coding | Superpowers + `rtk-cli` + `caveman` |
 | Redis app development | `redis-development` (redis/agent-skills) + `rtk-cli` |
 | Customer discovery | `redis-presentation-decks` + `redis-excalidraw-diagrams` or `redis-lucidchart-diagrams` |
-| Demo creation | `redis-brand-ui` + `redis-product-ui` + `playwright-cli-agent` + `playwright-test` |
-| Product UI demo | `redis-product-ui` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
+| Demo creation | `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
+| Product UI demo | `redis-product-ui` + `playwright-cli-agent` + `playwright-test` |
 | RedisInsight plugin | `redis-insight-plugin` + `redis-product-ui` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
 | Shared local agent memory | `agent-memory-docker` + `rtk-cli` |
 | Delegated agent work | `agent-spec-writing` + `agent-capability-ledger` + `agent-delegation-planning` + `agent-delegation-routing` + `agent-plan-lifecycle` + `agent-memory-coordination` + `rtk-cli` + `caveman` |
