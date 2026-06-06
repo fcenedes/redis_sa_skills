@@ -4,7 +4,7 @@ description: Use when writing or updating source-of-truth specs, requirements, c
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Agent Spec Writing
@@ -24,44 +24,66 @@ a proposal, source-of-truth update, or handoff-ready delta.
 
 1. Identify the authoritative source: existing specs, repo docs, issues, PRs,
    tests, active plan charter, capability ledger, or OpenSpec files.
-2. If `openspec/` exists, read `openspec/specs/` as current truth and
+2. Detect the repo's existing spec system before writing. Follow its directory
+   layout, naming, metadata, status, README indexes, and validation commands; do
+   not introduce a parallel spec format.
+3. Choose the document family first: requirement delta, architecture or workflow
+   doc, contract, data model, implementation-facing spec, OpenSpec change, or
+   README/index update. Update all affected families when behavior crosses
+   boundaries.
+4. If `openspec/` exists, read `openspec/specs/` as current truth and
    `openspec/changes/<id>/` as change context when a change ID is provided. Do
    not run `openspec apply` or `openspec archive` unless explicitly assigned.
-3. Classify the requested change as `ADDED`, `MODIFIED`, `REMOVED`,
+5. Classify the requested change as `ADDED`, `MODIFIED`, `REMOVED`,
    `SUPERSEDED`, or `DEFERRED`.
-4. Write requirements with acceptance scenarios, constraints, non-goals, and
+6. Write requirements with acceptance scenarios, constraints, non-goals, and
    impacted files or components when knowable.
-5. State unresolved decisions separately from implementation tasks.
-6. Hand off executable implementation work to `agent-delegation-planning`; do not
+7. State assumptions and unresolved decisions separately from implementation
+   tasks.
+8. Hand off executable implementation work to `agent-delegation-planning`; do not
    dispatch workers from the spec.
 
 ## Spec Quality Rules
 
 - Use local terminology from repo source-of-truth docs, not generic model
   knowledge.
+- Match neighboring documents before normalizing style. Preserve local heading
+  shape, status values, metadata style, filename conventions, and link patterns.
 - Keep one requirement per entry; split unrelated behavior.
 - Make acceptance scenarios observable: command, UI state, API response, file
   output, or audit evidence.
+- Capture compatibility, migration, rollback, and dependency impact when current
+  users, stored data, public APIs, or agent contracts may be affected.
+- Update README indexes or other discovery surfaces when adding, moving,
+  renaming, or materially changing discoverable specs.
 - Preserve history by marking requirements `SUPERSEDED` instead of deleting old
   intent.
-- Record validation commands when a CLI or schema checker exists, such as
-  `openspec validate`.
+- Record repo-native validation commands when a CLI, Makefile target, schema
+  checker, or documentation checker exists.
 - Prefer compact deltas over narrative summaries.
+- For reviews, group findings as `Errors`, `Warnings`, and `Info`.
 
 ## DO NOT
 
 - Do not create implementation tasks before the requirement delta is clear.
+- Do not propose a new spec for small bug fixes or narrow refactors with no
+  durable design, contract, or behavior impact.
 - Do not treat chat, memory, or previous assistant claims as source-of-truth.
 - Do not archive, apply, or overwrite OpenSpec changes unless explicitly
   assigned.
+- Do not add YAML frontmatter, central indexes, decision logs, or lifecycle
+  systems unless the target spec family already uses them or the user requests
+  them.
 - Do not use a spec as a task tracker; status belongs in plan lifecycle files.
 - Do not dispatch workers, choose models, or grant commit/push permissions.
 
 ## Checklist
 
 - [ ] Source-of-truth files were checked and cited.
+- [ ] Existing spec layout, naming, metadata, status, and indexes were preserved.
 - [ ] Local terms use repo definitions.
 - [ ] Change entries are classified as ADDED/MODIFIED/REMOVED/SUPERSEDED/DEFERRED.
 - [ ] Acceptance scenarios are observable and verifiable.
-- [ ] Non-goals and unresolved decisions are explicit.
+- [ ] Compatibility impact, assumptions, non-goals, and unresolved decisions are explicit.
+- [ ] Repo-native validation commands or structural checks are recorded.
 - [ ] Implementation handoff points to `agent-delegation-planning` when needed.
