@@ -20,9 +20,10 @@ Sources to re-check when updating this file:
 Use Claude-side routing for judgment, Codex for execution inside a repo, and
 Qwen for bounded local worker tasks.
 
-Claude choices are external routing choices for humans or Claude-side
-coordinators. Codex coordinators must not spawn, call, or delegate directly to
-Claude; use Codex/local alternatives or ask the user to route work to Claude.
+Claude choices require an explicit bridge/tool/CLI, a Claude-side coordinator, or
+human routing. Codex coordinators must not use uncontrolled Claude handoffs; use
+Codex/local alternatives, a scoped bridge request, or ask the user to route work
+to Claude.
 
 For role contracts, use [specialist-roles](specialist-roles.md). For command
 invocations, use [command-patterns](command-patterns.md).
@@ -31,21 +32,23 @@ invocations, use [command-patterns](command-patterns.md).
 
 | Task | Best first choice | Why |
 |------|-------------------|-----|
-| Architecture, plan, design review | Claude Opus or Codex high/xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only for major ambiguity or high-risk decisions. |
-| Normal feature implementation | Codex medium or Claude Sonnet | Use Codex when repo and tool execution matter; use Sonnet only by human/Claude-side routing. |
+| Architecture, plan, design review | Claude Opus or Codex high/xhigh | Use Claude through an explicit bridge/tool or human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only for major ambiguity or high-risk decisions. |
+| Normal feature implementation | Codex medium or Claude Sonnet | Use Codex when repo and tool execution matter; use Sonnet only through an explicit bridge/tool or human/Claude-side routing. |
 | Large multi-file implementation | Codex high | Better persistence and repo execution without always paying max reasoning cost. |
-| Hard debugging or subtle regression | Claude Opus or Codex high/xhigh | Use Opus only by human/Claude-side routing; use Codex high/xhigh for deep inspect/edit/run loops. |
-| Security-sensitive review | Claude Opus plus Codex high verification | Use two-model review when a human or Claude-side coordinator routes the Claude pass. |
-| Mechanical refactor | Qwen local, Codex low/medium, or Claude Haiku | Cheap and fast when file ownership is bounded; Claude Haiku is human/Claude-side routing only. |
-| Test generation | Qwen local, Codex medium, or Claude Haiku | Good worker task; Claude Haiku is human/Claude-side routing only and coordinator reviews usefulness. |
-| Boilerplate, docs, rename, grep-driven edits | Qwen local, Codex low/medium, or Claude Haiku | Low-risk and easy to verify; Claude Haiku is human/Claude-side routing only. Use high only for a separate public-contract/release/security review. |
+| Hard debugging or subtle regression | Claude Opus or Codex high/xhigh | Use Opus only through an explicit bridge/tool or human/Claude-side routing; use Codex high/xhigh for deep inspect/edit/run loops. |
+| Security-sensitive review | Claude Opus plus Codex high verification | Use two-model review when an explicit bridge/tool, a human, or a Claude-side coordinator routes the Claude pass. |
+| Mechanical refactor | Qwen local, Codex low/medium, or Claude Haiku | Cheap and fast when file ownership is bounded; Claude Haiku requires an explicit bridge/tool or human/Claude-side routing. |
+| Test generation | Qwen local, Codex medium, or Claude Haiku | Good worker task; Claude Haiku requires an explicit bridge/tool or human/Claude-side routing and coordinator reviews usefulness. |
+| Boilerplate, docs, rename, grep-driven edits | Qwen local, Codex low/medium, or Claude Haiku | Low-risk and easy to verify; Claude Haiku requires an explicit bridge/tool or human/Claude-side routing. Use high only for a separate public-contract/release/security review. |
 | Frontend prototype | Codex high | Stronger at producing, running, and verifying actual UI. |
 | Final integration, commit, push | Codex medium/high | Strong local repo and tool workflow. |
-| Final strategic review | Claude Opus or Codex high/xhigh | Use Claude only by human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only when risk is high. |
+| Final strategic review | Claude Opus or Codex high/xhigh | Use Claude through an explicit bridge/tool or human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only when risk is high. |
 
 ## Role Mapping
 
-Same boundary: Claude entries are not Codex delegation targets.
+Same boundary: Claude entries require an explicit bridge/tool, Claude-side
+coordinator, or human routing; they are not uncontrolled Codex delegation
+targets.
 
 | Need | Role | Default Execution |
 |------|------|-------------------|
@@ -63,8 +66,9 @@ Same boundary: Claude entries are not Codex delegation targets.
 
 ## Claude
 
-This section is guidance for Claude-side coordinators or humans deciding to run
-Claude. It is not permission for Codex to delegate directly to Claude.
+This section is guidance for Claude-side coordinators, humans, or explicit
+bridge/tool routes deciding to run Claude. It is not permission for uncontrolled
+Codex-to-Claude handoff.
 
 | Model | Use for | Avoid for |
 |-------|---------|-----------|

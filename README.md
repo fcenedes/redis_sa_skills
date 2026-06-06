@@ -40,6 +40,8 @@ A collection of agent skills for Redis solutions architecture built by Solution 
 |-------|-------------|
 | [agent-delegation-routing](agent-delegation-routing/SKILL.md) | Route coding work across Codex, Claude Code, local models, and CLI workers with specialist role presets, RTK-aware handoff, ownership, and verification. |
 | [agent-delegation-planning](agent-delegation-planning/SKILL.md) | Write delegated coding plans with task/epic structure, required skills, token economy, task status tracking, model/reasoning budget, parallelization, audit, Playwright UI gates, cleanup, and verification. |
+| [agent-spec-writing](agent-spec-writing/SKILL.md) | Write source-of-truth specs, requirement deltas, acceptance scenarios, and ADDED/MODIFIED/REMOVED change proposals before delegated implementation. |
+| [agent-plan-lifecycle](agent-plan-lifecycle/SKILL.md) | Track, resume, promote, close, and archive delegated plans with plan-state gates, status boards, audit evidence, and ledger promotion records. |
 | [agent-capability-ledger](agent-capability-ledger/SKILL.md) | Track delivered, partial, missing, blocked, superseded, and proven capabilities before follow-up plans so agents generate delta work instead of redoing old scope. |
 | [agent-memory-docker](agent-memory-docker/SKILL.md) | Run a portable local Agent Memory Server Docker stack with Redis 8, then connect Codex, Claude Code, and Claude Desktop to the same shared memory. |
 | [agent-memory-coordination](agent-memory-coordination/SKILL.md) | Coordinate parallel agents through shared `agent_memory` prompts, strict file ownership, integration passes, and verification gates. |
@@ -93,10 +95,10 @@ Install skills using the Agent Skills CLI:
 npx skills add fcenedes/redis_sa_skills --all
 
 # Agent delegation core in one command
-npx skills add fcenedes/redis_sa_skills --skill agent-capability-ledger agent-delegation-planning agent-delegation-routing
+npx skills add fcenedes/redis_sa_skills --skill agent-capability-ledger agent-delegation-planning agent-delegation-routing agent-spec-writing agent-plan-lifecycle
 
 # Full agent coordination suite in one command
-npx skills add fcenedes/redis_sa_skills --skill agent-capability-ledger agent-delegation-planning agent-delegation-routing agent-memory-coordination agent-memory-docker
+npx skills add fcenedes/redis_sa_skills --skill agent-capability-ledger agent-delegation-planning agent-delegation-routing agent-spec-writing agent-plan-lifecycle agent-memory-coordination agent-memory-docker
 
 # Token efficiency
 npx skills add fcenedes/redis_sa_skills --skill caveman
@@ -119,6 +121,8 @@ npx skills add fcenedes/redis_sa_skills --skill redis-insight-plugin
 # Agent coordination & memory
 npx skills add fcenedes/redis_sa_skills --skill agent-delegation-routing
 npx skills add fcenedes/redis_sa_skills --skill agent-delegation-planning
+npx skills add fcenedes/redis_sa_skills --skill agent-spec-writing
+npx skills add fcenedes/redis_sa_skills --skill agent-plan-lifecycle
 npx skills add fcenedes/redis_sa_skills --skill agent-capability-ledger
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-docker
 npx skills add fcenedes/redis_sa_skills --skill agent-memory-coordination
@@ -142,6 +146,8 @@ Use redis-insight-plugin with redis-product-ui to create an external Parcel Redi
 Use rtk-cli to inspect this repo and summarize the diff.
 Use agent-delegation-planning to write an executable delegated plan with required skills, token budget, task tracking, audit, Playwright UI gates, ownership, and verification.
 Use agent-delegation-routing to split a multi-agent coding task into coordinator, implementor, verifier, and Qwen worker contracts.
+Use agent-spec-writing to turn product behavior into a source-of-truth change delta with ADDED, MODIFIED, REMOVED, SUPERSEDED, and DEFERRED sections.
+Use agent-plan-lifecycle to resume an anchored plan, report current state, promote audited work into the capability ledger, and write an archive record.
 Use agent-capability-ledger before a follow-up readiness plan to classify done, partial, missing, blocked, and superseded capabilities, then generate delta tasks only.
 Use agent-memory-docker to create a shared local memory stack and configure Codex, Claude Code, and Claude Desktop.
 Use agent-memory-docker to install the default shared-memory policy for every new Codex and Claude Code session.
@@ -153,16 +159,14 @@ Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory 
 | Workflow | Skills |
 |----------|--------|
 | General disciplined coding | Superpowers + `rtk-cli` + `caveman` |
-| Redis app development | `redis-development` (redis/agent-skills) + `redis-performance-troubleshooting` |
-| Customer discovery | `redis-discovery-workshop` + `redis-presentation-decks` + `redis-excalidraw-diagrams` or `redis-lucidchart-diagrams` |
-| Demo creation | `redis-demo-builder` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
-| Product UI demo | `redis-product-ui` + `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
+| Redis app development | `redis-development` (redis/agent-skills) + `rtk-cli` |
+| Customer discovery | `redis-presentation-decks` + `redis-excalidraw-diagrams` or `redis-lucidchart-diagrams` |
+| Demo creation | `redis-brand-ui` + `playwright-cli-agent` + `playwright-test` |
+| Product UI demo | `redis-product-ui` + `playwright-cli-agent` + `playwright-test` |
 | RedisInsight plugin | `redis-insight-plugin` + `redis-product-ui` + `playwright-cli-agent` + `playwright-test` + `rtk-cli` |
 | Shared local agent memory | `agent-memory-docker` + `rtk-cli` |
-| Delegated agent work | `agent-capability-ledger` + `agent-delegation-planning` + `agent-delegation-routing` + `agent-memory-coordination` + `rtk-cli` + `caveman` |
-| Parallel agent coordination | `agent-capability-ledger` + `agent-memory-coordination` + `agent-delegation-routing` + Superpowers + `rtk-cli` |
-| Vector search and RAG | `redis-development` (redis/agent-skills) + `redis-vector-search-rag` + `redis-demo-builder` |
-| Operations | `redis-observability-runbook` + `redis-performance-troubleshooting` |
+| Delegated agent work | `agent-spec-writing` + `agent-capability-ledger` + `agent-delegation-planning` + `agent-delegation-routing` + `agent-plan-lifecycle` + `agent-memory-coordination` + `rtk-cli` + `caveman` |
+| Parallel agent coordination | `agent-capability-ledger` + `agent-memory-coordination` + `agent-delegation-routing` + `agent-plan-lifecycle` + Superpowers + `rtk-cli` |
 | Compact agent workflow | `rtk-cli` + `caveman` |
 
 ## Roadmap
@@ -186,16 +190,18 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | caveman | 1.0.0 |
 | rtk-cli | 1.0.0 |
 | redis-brand-ui | 1.0.0 |
-| redis-product-ui | 1.0.0 |
+| redis-product-ui | 1.1.0 |
 | redis-presentation-decks | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
 | redis-lucidchart-diagrams | 1.0.0 |
 | playwright-test | 1.0.0 |
 | playwright-cli-agent | 1.0.0 |
 | redis-insight-plugin | 1.0.0 |
-| agent-delegation-routing | 1.0.0 |
-| agent-delegation-planning | 1.0.0 |
-| agent-capability-ledger | 1.0.0 |
+| agent-delegation-routing | 1.1.1 |
+| agent-delegation-planning | 1.1.2 |
+| agent-spec-writing | 1.0.0 |
+| agent-plan-lifecycle | 1.0.0 |
+| agent-capability-ledger | 1.0.1 |
 | agent-memory-docker | 1.0.0 |
 | agent-memory-coordination | 1.1.1 |
 
@@ -213,7 +219,9 @@ skill-name/
 
 ## Codex Usage
 
-Codex uses repository-local skills from `.agents/skills/` and [`AGENTS.md`](AGENTS.md) for repo-level instructions. Invoke skills with `$skill-name`:
+Codex can invoke installed skills with `$skill-name`. For local development,
+sync or copy this repo's skill directories into `.agents/skills/`; [`AGENTS.md`](AGENTS.md)
+provides repo-level instructions.
 
 ```text
 $rtk-cli inspect this repo and summarize the diff.
@@ -223,14 +231,19 @@ $redis-insight-plugin create a Redis Insight Workbench plugin for XRANGE.
 $caveman ultra, summarize this failing test output.
 ```
 
-## Contributing
+## Claude Code Usage
 
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for skill structure rules, supported agents, and validation steps. Quick reference when adding a new skill:
+Claude Code can invoke installed skills with slash commands. For local
+development, copy skills into `.claude/skills/` or symlink them from
+`.agents/skills/` so Codex and Claude share the same installed copies.
 
-1. Create a directory with a descriptive kebab-case name.
-2. Add a `SKILL.md` with valid YAML frontmatter (`name`, `description`, `license`, `metadata.author`, `metadata.version`).
-3. Write instructions in imperative voice — tell agents *what to do*, not just what exists.
-4. Include anti-pattern guardrails (`DO NOT` rules).
-5. Split detailed values into `references/` files; keep `SKILL.md` under ~150 lines.
-6. Update the [Available Skills](#available-skills) table, [Installation](#installation), [Usage Examples](#usage-examples), and [Versioning](#versioning) tables.
-7. Run `bash scripts/validate-skills.sh` and fix any reported issues before opening a PR.
+```text
+/rtk-cli inspect this repo and summarize the diff.
+/playwright-test add E2E coverage for the login flow.
+/playwright-cli-agent reproduce this UI bug in the browser.
+/redis-insight-plugin create a Redis Insight Workbench plugin for XRANGE.
+/agent-delegation-planning write an executable delegated plan for this change.
+```
+
+For authoring rules, supported agents, and validation steps, see
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
