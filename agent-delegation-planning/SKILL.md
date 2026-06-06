@@ -4,13 +4,13 @@ description: Use when writing an execution plan that will be delegated to coding
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: "1.1.1"
+  version: "1.1.2"
 ---
 # Agent Delegation Planning
 
 Write plans that are directly executable by delegated agents. A good plan is not a narrative checklist; it is an ownership, routing, skill, and verification contract.
 
-Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-repo, or "what remains" plans. Use `agent-delegation-routing` after the plan exists. Use `agent-memory-coordination` when prompts, ownership, or durable outcomes must be shared across workers.
+Use `agent-spec-writing` before this skill when requirements, source-of-truth behavior, acceptance scenarios, or change deltas are still being authored. Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-repo, or "what remains" plans. Use `agent-delegation-routing` after the plan exists. Use `agent-memory-coordination` when prompts, ownership, or durable outcomes must be shared across workers. Use `agent-plan-lifecycle` for status, resume, promotion, closure, and archive operations after plan creation.
 
 Load [plan-template](references/plan-template.md) for full plans, multi-task work, or when exact fields matter.
 Load [packet-mode](references/packet-mode.md) when highly parallel work needs file-owned packet contracts, dependency waves, or repair packets.
@@ -22,6 +22,7 @@ When model choice is unclear, consult `agent-delegation-routing/references/routi
 Every plan must contain:
 
 - **Source of truth:** repo docs, issue, PR, user request, or tracker that wins over memory/chat.
+- **Spec/change source:** if the task changes requirements or product/source-of-truth behavior, use `agent-spec-writing` or cite the existing spec/change delta before planning implementation.
 - **Local terminology:** project-specific terms are interpreted from repo source-of-truth docs, not generic model knowledge or memory.
 - **Capability reconciliation:** for follow-up/readiness/multi-tranche work, classify existing capabilities before creating delta tasks.
 - **Plan persistence:** write the plan to files and post it to `agent_memory` when available; if memory writes are unavailable after discovery, use the tracker/file fallback and report degraded mode. Do not only answer in chat.
@@ -37,6 +38,7 @@ Every plan must contain:
 - **Coordinator unblock rule:** bounded blockers that do not require architecture, strategy, product, security, or public-contract decisions are fixed directly or via an immediate repair task/packet.
 - **Audit:** every delivery has an Auditor task before completion, run inline on an available runtime by default.
 - **Tracking:** every task has status tracked in `agent_memory` and, when needed, a repo tracker file.
+- **Plan lifecycle:** anchored plans use `agent-plan-lifecycle` state names for the plan itself: `planned`, `running`, `verified`, `audited`, `promoted`, `archived`, with side states `blocked`, `failed`, and `superseded`.
 - **Execution record:** plan files, tracker, and final report say what actually ran, what was parallelized, what was serialized, and why.
 - **Goal retention:** final, advisory, and audit answers re-read the active objective, tracker, ledger, latest audit verdict, and newest user request.
 - **Token economy:** minimize context, logs, repeated prompts, and model overuse at every stage.
@@ -88,6 +90,8 @@ Always identify skills needed before execution:
 - `rtk-cli`: noisy command output, git status, diffs, tests, logs, builds.
 - `caveman`: default compressed prose for plans, prompts, reports, audits, handoffs, and summaries.
 - `agent-capability-ledger`: required before follow-up, readiness, cross-tranche, cross-repo, "what remains", or "did we already do this?" planning.
+- `agent-spec-writing`: required when requirements, acceptance scenarios, source-of-truth behavior, OpenSpec changes, or ADDED/MODIFIED/REMOVED deltas must be authored before execution.
+- `agent-plan-lifecycle`: required for anchored plan status, resume, promotion, closure, or archive work.
 - `agent-delegation-routing`: worker role, model/reasoning, command shape, patch handoff.
 - `agent-memory-coordination`: parallel workers, reusable prompts, ownership maps, durable outcomes.
 - `playwright-cli-agent` or `playwright-test`: mandatory for UI, frontend, dashboard, demo, browser, responsive, or visual validation tasks.
@@ -114,6 +118,7 @@ Design every plan to minimize token use without losing evidence:
 
 Write every delegated plan to repo-local files, and post compact records to `agent_memory` when memory writes are available. If memory writes are unavailable after discovery, keep the repo tracker/file path as the durable fallback and report degraded mode. Default path: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`. Small plans use `plan.md`, `tracker.md`, and `coordinator-prompt.md`; large plans use `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
 For multi-agent, long-running, follow-up, readiness, or resumable plans, also write `charter.md`, `00-index.md`, `components.md`, and `decisions.md` in the plan directory. These anchor files are the first files read on resume, after compaction, before dispatch, after audit findings, and before final/advisory answers.
+For anchored plans, `00-index.md` records the plan lifecycle state separately from task status. Use `agent-plan-lifecycle` templates when creating, repairing, promoting, or archiving this status board.
 
 If the request has 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, or multiple delivery surfaces, it must use epic files. Convert user-provided batches or phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are the authoritative task contracts.
 
