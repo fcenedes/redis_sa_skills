@@ -10,6 +10,8 @@ Source of truth:
 Existing spec/docs checked:
 OpenSpec detected: yes/no
 OpenSpec change path, if any:
+Document family:
+Discovery/index updates needed:
 Author:
 Date:
 
@@ -21,11 +23,14 @@ Date:
 
 - Source:
 - Rationale:
+- Evidence checked:
 - Acceptance scenarios:
   - Given:
     When:
     Then:
 - Constraints:
+- Assumptions:
+- Compatibility impact:
 - Verification:
 - Handoff task, if any:
 
@@ -36,7 +41,10 @@ Date:
 - Previous behavior:
 - New behavior:
 - Why:
+- Evidence checked:
 - Acceptance scenarios:
+- Compatibility impact:
+- Migration/rollback:
 - Verification:
 - Supersedes:
 - Handoff task, if any:
@@ -62,7 +70,15 @@ Date:
 
 ## Non-Goals
 
+## Assumptions
+
 ## Open Decisions
+
+## Validation Report
+
+- Errors:
+- Warnings:
+- Info:
 
 ## Execution Handoff
 
