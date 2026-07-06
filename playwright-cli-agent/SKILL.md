@@ -1,6 +1,7 @@
 ---
 name: playwright-cli-agent
 description: Use when an agent needs to inspect, explore, operate, debug, or screenshot a web application through Playwright CLI. Use for live browser automation, UI exploration, reproducing bugs, validating flows, creating screenshots, or discovering stable selectors.
+compatibility: Requires Node.js project with Playwright CLI (or @playwright/cli) installed, and a running local/staging web app to target. Never point at production.
 license: MIT
 metadata:
   author: redis
@@ -23,6 +24,11 @@ Trigger this skill for:
 
 If the goal is to author or fix `*.spec.ts` files, switch to the `playwright-test` skill.
 
+## Authority
+
+- Authorized: drive browsers for exploration, screenshots, and validation against local/dev/staging.
+- Never interact with production without explicit confirmation; stop if the URL is ambiguous.
+
 ## Installation Check
 
 Confirm Playwright CLI is available:
@@ -42,28 +48,24 @@ Some environments expose the CLI as `npx playwright` subcommands (`npx playwrigh
 
 ## Common Commands
 
-```bash
-# Open a URL in a real browser
-playwright-cli open http://localhost:3000 --headed
+Use the project-supported Playwright CLI form to open/goto, interact with
+snapshot refs, and capture screenshots. See
+[references/live-browser-workflow.md](references/live-browser-workflow.md) for
+command examples and session handling.
 
-# Navigate inside an open session
-playwright-cli goto http://localhost:3000/login
+### What a Snapshot Looks Like
 
-# Interact via element refs from snapshots
-playwright-cli click <ref>
-playwright-cli fill <ref> "hello@example.com"
-playwright-cli type "hello@example.com"
-playwright-cli press Enter
-playwright-cli check <ref>
-playwright-cli uncheck <ref>
-playwright-cli select <ref> <value>
-playwright-cli hover <ref>
+A snapshot lists the accessibility tree with a `ref` attached to each interactive node, e.g.:
 
-# Capture a screenshot of the current viewport
-playwright-cli screenshot
+```
+- button "Sign in" [ref=#a4b2c]
+- textbox "Email" [ref=#e19f0]
+- textbox "Password" [ref=#b7d31]
 ```
 
-Element refs returned by CLI snapshots are **for live interaction only**. They are not stable test selectors — do not paste them into a Playwright test.
+Use the ref directly in the next command: `playwright-cli click #a4b2c`.
+
+Refs are **session-scoped and ephemeral** — they are assigned per snapshot and expire (or get reassigned) on navigation, reload, or when the browser session closes. That is exactly why they must never be pasted into a `*.spec.ts` file: the ref that worked in this session will not exist, or will point to a different element, the next time the test runs. Element refs returned by CLI snapshots are **for live interaction only**. When an exploration needs to become a durable test, translate the ref's element into a semantic locator (`getByRole('button', { name: 'Sign in' })`) before it leaves this skill.
 
 ## Core Workflow
 
@@ -107,18 +109,23 @@ Do **not** wrap interactive Playwright CLI commands with RTK — they expect a T
 
 ## DO NOT
 
-- DO NOT confuse this skill with `playwright-test`. This is for live operation; that is for the test runner.
-- DO NOT paste CLI snapshot refs into a Playwright test as the long-term selector.
+- DO NOT confuse this skill with `playwright-test`. This is for live operation; use `playwright-test` to author or fix `*.spec.ts` files.
+- DO NOT paste CLI snapshot refs into a Playwright test as the long-term selector — refs are session-scoped and expire on navigation/close.
 - DO NOT rely on coordinate-based clicks; use refs or semantic locators.
 - DO NOT screenshot blindly — capture state at meaningful checkpoints with a label.
-- DO NOT operate against production environments without explicit user authorization.
+- DO NOT operate against production environments, period — target only local/dev/staging URLs. If a URL is ambiguous, ask before navigating.
 - DO NOT run destructive flows (delete, purge, drop) without a screenshot of the prompt and explicit user confirmation.
 - DO NOT wrap interactive browser CLI commands with RTK.
 
 ## Final Checklist
 
-- The right skill is in use (live operation, not test authoring).
-- Each interaction step has a clear purpose and is logged.
-- Screenshots cover the meaningful before/during/after states.
-- Recorded URLs, console errors, and network calls accompany the visual evidence.
-- Discovered selectors are translated into resilient `getByRole/Label/Text` locators before being committed to any test.
+Each item must be literally verifiable (yes/no) before calling the task done:
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
+
+- [ ] The target URL was confirmed local/dev/staging, never production.
+- [ ] This skill (not `playwright-test`) was used because the task was live exploration, repro, or screenshots — not spec authoring.
+- [ ] Every interaction step (open/goto/click/fill) has a one-line purpose recorded alongside it.
+- [ ] Screenshots exist for each meaningful before/during/after state, each labeled with its URL.
+- [ ] Console errors and relevant network responses are recorded next to the screenshots that need them.
+- [ ] Zero raw CLI element refs (e.g. `#a4b2c`) appear in any file under a test directory or `*.spec.ts`.
+- [ ] Any selector handed off to `playwright-test` is written as `getByRole/Label/Placeholder/Text/TestId`, not a ref.

@@ -20,6 +20,12 @@ when an audited change must be promoted into durable truth or archived.
 Load [change-delta-template](references/change-delta-template.md) when producing
 a proposal, source-of-truth update, or handoff-ready delta.
 
+## Authority
+
+- Authorized: write spec, requirement, proposal, and delta files from repo evidence.
+- Not authorized: apply specs as implementation, archive OpenSpec changes, or dispatch workers.
+- Assessment-only default: for ambiguous requirements, produce the spec assessment or delta and stop.
+
 ## Workflow
 
 1. Identify the authoritative source: existing specs, repo docs, issues, PRs,
@@ -34,6 +40,9 @@ a proposal, source-of-truth update, or handoff-ready delta.
 4. If `openspec/` exists, read `openspec/specs/` as current truth and
    `openspec/changes/<id>/` as change context when a change ID is provided. Do
    not run `openspec apply` or `openspec archive` unless explicitly assigned.
+   Concrete lookup: check repo-local `openspec/specs/` or `specs/`; if absent,
+   treat this as a standard markdown spec and follow the nearest existing spec
+   directory's layout instead.
 5. Classify the requested change as `ADDED`, `MODIFIED`, `REMOVED`,
    `SUPERSEDED`, or `DEFERRED`.
 6. Write requirements with acceptance scenarios, constraints, non-goals, and
@@ -65,6 +74,7 @@ a proposal, source-of-truth update, or handoff-ready delta.
 
 ## DO NOT
 
+- Do not use this skill for a one-file fix, a trivial edit, or any task with no durable requirement/behavior change and no multi-agent handoff; just make the change directly.
 - Do not create implementation tasks before the requirement delta is clear.
 - Do not propose a new spec for small bug fixes or narrow refactors with no
   durable design, contract, or behavior impact.
@@ -79,6 +89,9 @@ a proposal, source-of-truth update, or handoff-ready delta.
 
 ## Checklist
 
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
+
+- [ ] Confirmed the task is not a one-file/trivial/no-handoff change that should be executed directly instead.
 - [ ] Source-of-truth files were checked and cited.
 - [ ] Existing spec layout, naming, metadata, status, and indexes were preserved.
 - [ ] Local terms use repo definitions.

@@ -2,6 +2,17 @@
 
 Product UI tokens are derived from the public Redis UI Storybook build.
 
+## Table of Contents
+
+- [Theme Selection](#theme-selection)
+- [Typography](#typography)
+- [Spacing](#spacing)
+- [Core Sizes](#core-sizes)
+- [Redis Product Light2/Dark2 Palette](#redis-product-light2dark2-palette)
+- [RedisInsight Light Palette](#redisinsight-light-palette)
+- [RedisInsight Dark Palette](#redisinsight-dark-palette)
+- [Focus](#focus)
+
 ## Theme Selection
 
 Redis UI Storybook exposes two theme pairs with different product intent:

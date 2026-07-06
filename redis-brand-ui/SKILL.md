@@ -1,6 +1,7 @@
 ---
 name: redis-brand-ui
 description: Apply Redis official brand guidelines to frontend UI implementations. Use this skill when building Redis-branded web interfaces, creating marketing pages, styling dashboards, or implementing any UI that must follow the Redis visual identity. Covers colors, typography, components, and dark mode.
+compatibility: Requires Node.js to run scripts/check-contrast.js for WCAG contrast validation.
 license: MIT
 metadata:
   author: redis
@@ -14,11 +15,15 @@ Actionable rules for implementing the Redis visual identity in frontend applicat
 
 Use these guidelines when:
 
-- Building any UI that carries the Redis brand
-- Creating marketing pages, landing pages, or documentation sites
-- Styling dashboards, admin panels, or developer tools for Redis products
-- Implementing components in React, Next.js, or any web framework
-- Configuring Tailwind CSS, CSS variables, or lightweight component-library themes for Redis projects
+- Building marketing pages, landing pages, or documentation sites that carry the Redis brand
+- Implementing logo usage, brand colors, or brand typography in any web framework
+- Configuring Tailwind CSS, CSS variables, or lightweight component-library themes for brand surfaces
+
+Do not use for the primary UI of dashboards, admin panels, or developer tools — those are
+`redis-product-ui`. If a request mixes a branded marketing shell with an embedded product UI,
+apply `redis-brand-ui` to the shell/marketing chrome and `redis-product-ui` to the embedded
+product surface; see `redis-product-ui`'s [source-of-truth.md](../redis-product-ui/references/source-of-truth.md)
+for the documented boundary.
 
 ## Style Profiles
 
@@ -78,6 +83,7 @@ Do not remove or overwrite current profiles when adding future guidance. See [st
 
 **DO NOT:**
 
+- Authority: authorized to create or modify Redis brand UI artifacts; requires explicit request before publishing, deploying, or changing product UI scope.
 - Use arbitrary red values (`#FF0000`, `#E53E3E`, `red-500`). Always use `#FF4438`.
 - Claim white normal-size text on `#FF4438` or `#EB352A` meets WCAG AA.
 - Use pure black (`#000000`) for text or backgrounds. Use `#091A23` instead.
@@ -87,21 +93,23 @@ Do not remove or overwrite current profiles when adding future guidance. See [st
 - Use spacing values that aren't multiples of `8px`.
 - Omit hover/focus states on interactive elements.
 - Use Tailwind's default color palette names (`red-500`, `gray-900`) — use the custom Redis token names.
+- Build the primary UI of a dashboard, admin panel, or developer tool with this skill alone — use `redis-product-ui` for that surface.
 
-## Reference Files
+## Reference Index
 
-| File | Contents |
+| File | Load When |
 | --- | --- |
-| colors | Core palette, CSS custom properties, Tailwind extend config, accessibility notes |
-| typography | Google Fonts imports, heading/body styles, font family config |
-| components | Buttons, cards, forms, React examples, lightweight theme object |
-| dark-mode | Dark palette, prefers-color-scheme setup, Tailwind dark variants |
-| [Style profiles](references/style-profiles.md) | Four stable applyable style IDs for current and future light/dark UI |
-| [Source of truth](references/source-of-truth.md) | Official brand sources vs product extension guidance |
-| [Delivery recipes](references/delivery-recipes.md) | Fast Redis demo/app recipes for dashboards, developer tools, docs, traces, and audit views |
-| [Status language](references/status-language.md) | Lightweight labels for live, sampled, modeled, derived, stale, pending, approved, evidence, and failed states |
-| [UI quality checklist](references/ui-quality-checklist.md) | Final A+++ checks before calling a Redis UI complete |
-| [Logos](references/logos.md) | Logo variants, clear space, sizing, favicon setup |
+| [colors.md](references/colors.md) | Need the core palette, CSS custom properties, Tailwind extend config, or accessibility notes. |
+| [typography.md](references/typography.md) | Need Google Fonts imports, heading/body styles, or font family config. |
+| [components.md](references/components.md) | Need button, card, form, React, or lightweight theme examples. |
+| [dark-mode.md](references/dark-mode.md) | Need the dark palette, `prefers-color-scheme` setup, or Tailwind dark variants. |
+| [style-profiles.md](references/style-profiles.md) | Choosing one of the four stable style IDs for current/future light/dark UI. |
+| [source-of-truth.md](references/source-of-truth.md) | Deciding whether guidance is official brand vs. product-extension guidance. |
+| [delivery-recipes.md](references/delivery-recipes.md) | Starting a demo/app layout for dashboards, developer tools, docs, traces, or audit views. |
+| [status-language.md](references/status-language.md) | Labeling live, sampled, modeled, derived, stale, pending, approved, evidence, or failed states. |
+| [ui-quality-checklist.md](references/ui-quality-checklist.md) | Running final A+++ checks before calling a Redis UI complete. |
+| [logos.md](references/logos.md) | Need logo variants, clear space, sizing, or favicon setup. |
+| [contrast-pairs.json](references/contrast-pairs.json) | Adding or auditing a foreground/background pair checked by `check-contrast.js`. |
 
 ## Quick Start Checklist
 
@@ -111,4 +119,26 @@ Do not remove or overwrite current profiles when adding future guidance. See [st
 4. Apply component patterns from [components](references/components.md)
 5. Add source, freshness, and state labels from [status language](references/status-language.md)
 6. Implement dark mode using [dark-mode](references/dark-mode.md) mappings
-7. Run the [UI quality checklist](references/ui-quality-checklist.md), `node redis-brand-ui/scripts/check-contrast.js`, and `bash scripts/validate-skills.sh`
+7. Run the contrast checker from the skill directory:
+
+   ```bash
+   node scripts/check-contrast.js
+   ```
+
+   It reads every pair in [contrast-pairs.json](references/contrast-pairs.json), prints one
+   `PASS`/`FAIL` line per pair, and exits non-zero if any pair fails its expected contrast ratio.
+8. Run the [UI quality checklist](references/ui-quality-checklist.md) and `bash scripts/validate-skills.sh`
+
+## Final Checklist (must be literally verifiable)
+
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
+
+- [ ] Every red used is exactly `#FF4438` or `#EB352A` — no other red hex/Tailwind red value appears.
+- [ ] No text or background uses pure black (`#000000`); primary text is `#091A23`.
+- [ ] Body/UI text uses Space Grotesk; code/commands/IDs/timestamps use Space Mono (no mixing).
+- [ ] `node scripts/check-contrast.js` exits `0` (all registered pairs report `PASS`).
+- [ ] Every interactive element has visible hover and focus states.
+- [ ] All spacing values are multiples of `8px`; standard components use `5px` border-radius.
+- [ ] The logo is an official SVG asset from `references/logos.md` — not CSS/HTML-recreated.
+- [ ] `bash scripts/validate-skills.sh` passes.
+- [ ] If the surface is a dashboard/admin/developer-tool UI rather than marketing/brand chrome, confirm `redis-product-ui` was used for that surface instead of (or alongside) this skill.

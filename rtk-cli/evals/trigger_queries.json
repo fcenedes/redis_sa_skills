@@ -1,0 +1,100 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Wrap both commands with rtk (rtk git status, rtk git diff) instead of running the raw commands, to keep output compact.",
+    "must_not": "Must not paste raw unfiltered git diff output when rtk git diff would summarize it just as usefully.",
+    "query": "run git status and git diff so I can see what's changed"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Use rtk test \"<test command>\" to run the suite so noisy logs are stripped while failing test titles/counts are kept.",
+    "must_not": "Must not run the raw test command and paste the full verbose log into the response.",
+    "query": "can you run our test suite and tell me if it passes"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Use rtk grep \"TODO\" . (path-scoped where possible) instead of raw grep -r, to avoid dumping every match unfiltered.",
+    "must_not": "Must not broaden to an unscoped raw grep when a path-scoped rtk grep would return a smaller, equally useful result.",
+    "query": "grep for TODO across the whole repo"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Explicit Codex-style invocation; use rtk docker logs <container> to fetch compact logs for triage.",
+    "must_not": "Must not use `docker logs -f` (streaming) under rtk; if the user needs live tailing, that's a bypass case for raw streaming, not rtk.",
+    "query": "$rtk docker logs for the api container, something's crashing"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Explicit slash-style invocation; run the build wrapped in rtk (e.g. rtk npm run build) and report the compact failure summary.",
+    "must_not": "Must not skip verifying rtk is actually installed before assuming the wrapped command ran correctly.",
+    "query": "/rtk-cli check the build output, it's failing"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "caveman",
+    "expected_behavior": "This is about compressing the agent's own written prose (a PR description), which is caveman's job, not rtk-cli's. rtk-cli only wraps shell/tool output.",
+    "must_not": "Must not attempt to wrap a text-writing task in an rtk shell command; there is no command whose output this refers to.",
+    "query": "can you make the PR description shorter and punchier"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "caveman",
+    "expected_behavior": "Request to compress the agent's own conversational prose, not command output; should route to caveman.",
+    "must_not": "Must not interpret 'terse' as a signal to wrap future Bash calls in rtk; no command output is being discussed.",
+    "query": "your last answer was too wordy, be more terse going forward"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "A Redis clustering/data-modeling question unrelated to shell output or token compression; no rtk-cli or caveman trigger. (Would route to a Redis domain skill like redis-clustering, not rtk-cli.)",
+    "must_not": "Must not wrap this conceptual Q&A in rtk since no shell command is being run.",
+    "query": "why does Redis recommend using hash tags for multi-key operations in a cluster"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "This is an explicit streaming/interactive command (tail -f). rtk-cli's own bypass rules say do NOT wrap streaming/interactive commands with rtk; run it raw.",
+    "must_not": "Must not wrap `tail -f` in an rtk command; streaming output must stay raw and live per the DO NOT list.",
+    "query": "tail -f the server logs so I can watch it live while I reproduce the bug"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "User explicitly wants unfiltered raw output. Per the bypass rules, use the raw command directly, not an rtk wrapper, and say why.",
+    "must_not": "Must not run this through rtk filtering when the user explicitly asked for verbatim raw output.",
+    "query": "I need the exact raw stack trace from that crash, copy it verbatim, nothing filtered"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Run the installation-verification steps (rtk --version, rtk gain) and report whether it's installed, watching for the reachingforthejack/rtk name collision.",
+    "must_not": "Must not assume rtk is installed without running the verification commands first.",
+    "query": "is rtk actually installed on this machine, I'm not sure"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "git diff --stat is already small output; per the bypass rules this is a case where rtk wrapping isn't necessary (the raw command is fine to run directly).",
+    "must_not": "Must not insist on wrapping an already-tiny, already-compact command with rtk when it adds no value.",
+    "query": "check git diff --stat, just want a quick count of files changed"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Use rtk ls . instead of raw ls -la for a directory that may be large, to get ranked/clustered compact output.",
+    "must_not": "Must not default to a bare `ls -la` when the directory could be large enough to benefit from rtk's clustering.",
+    "query": "list the files in this directory"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Use rtk kubectl get pods where supported to keep the pod listing compact, per the command mapping table.",
+    "must_not": "Must not run raw kubectl commands by default when an rtk-wrapped form is documented as supported.",
+    "query": "kubectl get pods, I think something is crash-looping"
+  }
+]

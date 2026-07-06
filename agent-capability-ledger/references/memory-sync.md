@@ -1,7 +1,8 @@
 # Memory Sync
 
-Use `agent_memory` as a coordination cache for capability ledgers. Repo files
-remain the source of truth.
+Use `agent_memory` as a coordination cache for capability ledgers when the MCP
+is available. Repo files remain the source of truth, and repo-file-only ledger
+work remains valid when memory is unavailable.
 
 ## Search Before Updating
 
@@ -9,7 +10,7 @@ Search with the narrowest useful namespace and user ID:
 
 ```text
 namespace: repo-<name>
-user_id: pierre
+user_id: <local-user-or-team-id>
 queries:
 - <repo> capability ledger
 - <domain> readiness status
@@ -35,7 +36,7 @@ Use semantic memory for stable ledger location and source hierarchy:
 
 ```markdown
 Namespace: repo-<name>
-User id: pierre
+User id: <local-user-or-team-id>
 Memory type: semantic
 Topics: capability-ledger, source-of-truth, coordination
 
@@ -50,7 +51,7 @@ Use episodic memory for dated status changes:
 
 ```markdown
 Namespace: repo-<name>
-User id: pierre
+User id: <local-user-or-team-id>
 Memory type: episodic
 Topics: capability-ledger, <capability-id>, status
 

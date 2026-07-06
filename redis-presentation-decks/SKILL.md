@@ -6,10 +6,17 @@ metadata:
   author: redis
   version: "1.0.0"
   source: "Adapted from https://github.com/ryanbbrown/revealjs-skill"
+compatibility: Requires Node.js; optional Playwright Chromium and Decktape for overflow/export validation.
 ---
 # Redis Presentation Decks
 
 Create polished Reveal.js decks that explain Redis systems with accurate technical evidence, Redis brand discipline, and presentation-ready visual QA.
+
+## Authority
+
+- Authorized: create or modify Redis Reveal.js deck artifacts and validation scripts for deck output.
+- Requires explicit request: publish, deploy, or export customer-facing files beyond the requested artifact.
+- Assessment-only default: for deck review requests, report findings and stop unless edits are requested.
 
 ## Required Workflow
 
@@ -76,8 +83,10 @@ DO NOT:
 - Show Redis as a vague box between app and database when Redis commands, data structures, modules, topology, or latency claims are central to the story.
 - Include charts without `maintainAspectRatio: false` and a bounded flex/grid container.
 - Deliver HTML based only on DOM inspection. Always inspect rendered screenshots for customer-facing decks.
+- Use this skill for a generic slide request with no Redis product, architecture, or technical content (e.g. a generic team offsite icebreaker deck) — build plain Reveal.js/HTML directly instead.
+- Produce `.pptx`, Google Slides, or other non-Reveal.js deck formats with this skill; it only generates Reveal.js HTML.
 
-## Reference Files
+## Reference Index
 
 | File | Load When |
 | --- | --- |
@@ -86,12 +95,14 @@ DO NOT:
 | [charts.md](references/charts.md) | Adding Chart.js visuals, KPI slides, latency/cost charts, or benchmark comparisons. |
 | [revealjs-reference.md](references/revealjs-reference.md) | Using speaker notes, fragments, backgrounds, code highlighting, transitions, and exports. |
 
-## Done Checklist
+## Done Checklist (must be literally verifiable)
 
-- Slide outline matches the audience and Redis use case.
-- Redis brand tokens and typography are applied consistently.
-- Technical slides include accurate Redis evidence where it matters.
-- Speaker notes support the presenter rather than duplicating visible text.
-- Chart checker passes when charts are present.
-- Overflow checker passes.
-- Every exported screenshot has been visually inspected and fixed.
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
+
+- [ ] Slide outline lists one message per slide and names the audience (executive/practitioner/workshop/implementation-review).
+- [ ] Every slide's Redis Red, text, and font usage matches the brand defaults in step 4 of Required Workflow (no non-brand red, no pure black, no system fonts for body/H1).
+- [ ] Every slide needing a talk track has an `<aside class="notes">` block; no presenter-only detail is on the visible slide.
+- [ ] `node <skill-dir>/scripts/check-charts.js presentation.html` exits `0` when the deck contains any `canvas[data-chart]`.
+- [ ] `node <skill-dir>/scripts/check-overflow.js presentation.html` exits `0` (no slide content exceeds slide bounds).
+- [ ] Every exported screenshot (Decktape or manual) has been visually opened and inspected, not just generated.
+- [ ] If the request had no Redis product/architecture content, confirm this skill was NOT used.

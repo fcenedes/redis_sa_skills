@@ -1,0 +1,72 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-lucidchart-diagrams",
+    "expected_behavior": "Trigger because the explicit requirement is customer-owned, ongoing editability via Lucid. Produce a Standard Import `.lucid` source with native shapes, not a flattened image.",
+    "must_not": "Must not hand off an .excalidraw file or a flattened PNG when the customer needs to keep editing it themselves.",
+    "query": "The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-lucidchart-diagrams",
+    "expected_behavior": "Direct invocation. Build document.json with native Lucid shapes/lines, then run package_lucid_import.py to validate/build the .lucid zip.",
+    "must_not": "Must not skip running the packaging script before calling the deliverable done.",
+    "query": "$redis-lucidchart-diagrams package our Redis Cluster resharding diagram as a Standard Import source for the customer's Lucid workspace"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-lucidchart-diagrams",
+    "expected_behavior": "Slash invocation. Build a Lucid-ready diagram with real Stream evidence (entry IDs, consumer groups, pending entries, acknowledgements) using native editable shapes.",
+    "must_not": "Must not deliver a static screenshot as the primary artifact when an editable handoff was requested.",
+    "query": "/redis-lucidchart-diagrams create an editable architecture flow for our Streams consumer-group pipeline that the SA team can hand off to the customer"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-excalidraw-diagrams",
+    "expected_behavior": "Recognize this is a fast, non-editable-by-customer sketch and defer to redis-excalidraw-diagrams instead.",
+    "must_not": "Must not produce a .lucid Standard Import source when the request explicitly says editability by the customer isn't needed.",
+    "query": "Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Decline to apply Redis palette, evidence rules, or Redis Lucid patterns; this is a non-Redis Lucidchart request outside this skill's Redis-specific scope.",
+    "must_not": "Must not force Redis commands, evidence blocks, or Redis color rules onto an unrelated org chart.",
+    "query": "Draw a generic org chart for our sales team in Lucidchart, nothing Redis-related"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "This is a product-comparison question with no diagram deliverable requested; answer directly without invoking the skill's workflow.",
+    "must_not": "Must not invoke the packaging script or reference loading for a question that produces no diagram artifact.",
+    "query": "What's the difference between Lucidchart and Lucidspark as products, just curious, no diagram needed"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Recognize this is a UI implementation task, not a diagram, and defer to redis-product-ui.",
+    "must_not": "Must not produce a .lucid diagram file when the deliverable is a functioning web page.",
+    "query": "We need a working RedisInsight-style dashboard prototype as an actual web page, not a diagram, for internal review"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-lucidchart-diagrams",
+    "expected_behavior": "Trigger for a customer-workshop, ongoing-maintenance Lucid deliverable. Include real FT.CREATE vector field syntax, DIM, DISTANCE_METRIC, and KNN evidence in dark evidence blocks.",
+    "must_not": "Must not use generic unlabeled boxes instead of real FT.CREATE/KNN command evidence.",
+    "query": "Build a Lucidchart diagram showing our Redis vector search RAG architecture with FT.CREATE schema and KNN query flow for a customer workshop they'll keep maintaining"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "This is an explanation request about an existing artifact, not a request to create or package a new Lucid/Mermaid deliverable; answer directly.",
+    "must_not": "Must not invoke the Lucid packaging workflow or rewrite the diagram when only an explanation was requested.",
+    "query": "I have an existing Mermaid diagram of our replication topology \u2014 can you just explain what it shows, no changes needed?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-lucidchart-diagrams",
+    "expected_behavior": "Trigger for explicit Lucidchart-ready, customer-iterable handoff. Build document.json with Active-Active copies, CRDT conflict resolution, and TLS sync as evidence, then validate with the packaging script.",
+    "must_not": "Must not deliver an Excalidraw file or flattened export when explicit ongoing customer iteration in Lucid was requested.",
+    "query": "Our SA wants a Lucidchart-ready handoff of the Redis Cloud Active-Active CRDT setup so the customer's architects can keep iterating on it after we leave"
+  }
+]

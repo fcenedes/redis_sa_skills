@@ -39,6 +39,12 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 - Use Redis UI package/components when they are already available in the target repo; otherwise emulate the public Storybook behavior with local CSS and no private source dependency.
 - Use ellipsis, wrapping rules, and tooltip/overflow behavior for long Redis keys, IDs, labels, and chip lists.
 
+## Authority
+
+- Authorized: create or modify Redis product UI artifacts, states, and implementation guidance.
+- Requires explicit request: publish/deploy the UI or change marketing/brand scope owned by `redis-brand-ui`.
+- Assessment-only default: for UI critique requests, report findings and stop unless implementation is requested.
+
 ## DO NOT
 
 - Do not replace `redis-brand-ui`; this skill complements it.
@@ -50,14 +56,45 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 - Do not vendor Storybook bundles, generated screenshots, or copied external source.
 - Do not reference private source repositories in generated skill docs or demo guidance.
 - Do not use pagination and virtualization together; for very large tables prefer virtualization and avoid custom expanded panels that break row measurement.
+- Do not use this skill as the primary guidance for a marketing page, landing page, or docs site — use `redis-brand-ui`.
 
-## Checklist
+## Reference Index
 
-1. Surface type and density are appropriate for product use.
-2. Theme family is correct: RedisInsight uses `light`/`dark`; other Redis products use `light2`/`dark2`.
-3. Typography uses product UI fonts unless brand/marketing guidance overrides it.
-4. Component states are complete and distinguish status from brand accent.
-5. Tables, filters, navigation, drawers, modals, and feedback patterns follow the references.
-6. Charts, if present, have labeled axes, tooltips, empty/loading/error states, and theme-safe colors.
-7. Accessibility, contrast, focus, keyboard behavior, screen-reader announcements, and overflow behavior are checked.
-8. Brand conflicts are resolved with `redis-brand-ui` and documented.
+| File | Load When |
+| --- | --- |
+| [source-of-truth.md](references/source-of-truth.md) | Reconciling a brand-vs-product conflict or deciding which skill owns a surface. |
+| [tokens.md](references/tokens.md) | Picking theme family (`light`/`dark` vs `light2`/`dark2`), typography, spacing, or focus tokens. |
+| [components.md](references/components.md) | Need concrete component markup/CSS patterns. |
+| [component-inventory.md](references/component-inventory.md) | Need the full list of available Redis UI components and their purpose (glossary, not a decision guide). |
+| [table-patterns.md](references/table-patterns.md) | Building a data grid: sorting, filtering, pagination vs. virtualization. |
+| [chart-patterns.md](references/chart-patterns.md) | Building metrics/telemetry charts with labeled axes and theme-safe colors. |
+| [implementation-patterns.md](references/implementation-patterns.md) | Wiring React/package or standalone demo implementation. |
+| [layout-patterns.md](references/layout-patterns.md) | Choosing a page/shell layout (product shell, dashboard, inspector, wizard). |
+| [quality-checklist.md](references/quality-checklist.md) | Final verification pass before calling the UI complete. |
+
+## Choosing a Component (when component-inventory.md is not enough)
+
+`component-inventory.md` lists what exists, not which one to pick. Use these rules first:
+
+- Prefer `Table` over `Card` grids for any list of more than ~8 similar operational items (keys,
+  connections, logs, audit events). Cards are for a handful of distinct, non-tabular entities.
+- Prefer `Drawer` over `Modal` when the user needs to keep table/list context visible while
+  inspecting or editing one row. Use `Modal` only for blocking confirmations or short forms.
+- Prefer inline `Banner` over `Toast` for persistent state (e.g. "connection lost"); use `Toast`
+  only for transient, dismissible feedback about an action just taken.
+- Prefer `Filters`/`SearchBar` over ad hoc dropdowns for anything the user will query repeatedly.
+- Use `Tabs` for peer views of the same entity; use `Stepper` only for linear multi-step setup.
+
+## Checklist (must be literally verifiable)
+
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
+
+- [ ] Surface identified as one of: product shell, dashboard, table, inspector, form, wizard, plugin, demo.
+- [ ] Theme family matches surface: RedisInsight-fidelity surfaces use `light`/`dark`; all other Redis product surfaces use `light2`/`dark2`.
+- [ ] Body/UI text uses `Geist`; code/commands/IDs/keys use `Source Code Pro` (no `Nunito Sans` outside legacy Storybook chrome).
+- [ ] Every interactive component has default, hover, active, disabled, loading, and empty states styled (not just default).
+- [ ] No color from the `primary`/brand-red family is used as a generic status color for success/warning/danger.
+- [ ] Large tables use virtualization OR pagination, never both.
+- [ ] No Storybook bundle, screenshot, or private-repo source is vendored/copied into the output.
+- [ ] Charts (if present) have labeled axes, tooltips, and empty/loading/error states.
+- [ ] If any marketing/landing-page content is part of the same request, confirm `redis-brand-ui` was applied to that portion.

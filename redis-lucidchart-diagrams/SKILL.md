@@ -2,6 +2,7 @@
 name: redis-lucidchart-diagrams
 description: Use when creating Redis-focused Lucidchart architecture diagrams, Lucid Standard Import sources, customer workshop visuals, SA diagrams, editable architecture flows, or Lucid-ready diagram handoff files.
 license: MIT
+compatibility: "Requires Python for scripts/package_lucid_import.py."
 metadata:
   author: redis
   version: "1.0.0"
@@ -9,6 +10,13 @@ metadata:
 # Redis Lucidchart Diagrams
 
 Create Redis technical diagrams that can be maintained in Lucidchart or Lucidspark. Treat Lucidchart and Excalidraw as peer choices: choose the format the SA, customer, or repo workflow prefers.
+
+Lucid Standard Import is Lucid's documented `.lucid` package format (a zip containing `document.json` plus optional `data/`/`images/`) that Lucidchart imports as native, editable shapes rather than a flattened picture — see [Lucid Standard Import](references/lucid-standard-import.md) for the full spec.
+
+## Authority
+
+- Authorized: generate Lucid Standard Import packages for Redis diagrams.
+- Not authorized: execute arbitrary Python or modify files outside the diagram output directory.
 
 ## Required Workflow
 
@@ -70,3 +78,11 @@ The source directory must contain `document.json`. Optional `data/` and `images/
 - Text labels are short enough to fit their boxes after import.
 - Redis context, live orchestration state, audit evidence, and worker paths are visually distinct.
 - Generated `.lucid` package was validated or built with the packaging script.
+
+## Reference Index
+
+| File | Load When |
+|------|-----------|
+| [lucid-standard-import.md](references/lucid-standard-import.md) | Producing a `.lucid` Standard Import source or packaging a handoff zip. |
+| [redis-lucid-patterns.md](references/redis-lucid-patterns.md) | Choosing layout, palette, evidence blocks, or swimlanes for a Redis system. |
+| [package_lucid_import.py](scripts/package_lucid_import.py) | Validating `document.json` or building the final `.lucid` zip. |

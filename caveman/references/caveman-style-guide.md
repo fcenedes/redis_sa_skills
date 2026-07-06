@@ -70,6 +70,22 @@ fix(auth): guard expired session token
 Body (caveman full):
 "Reject sessions where `exp <= now()`. Was `<`, allowed exact-second drift."
 
+## Style Rules
+
+- Drop pleasantries ("sure", "of course", "happy to help").
+- Drop filler ("essentially", "basically", "in order to", "I think").
+- Avoid hedging unless the uncertainty is load-bearing.
+- Use short, direct sentences. Fragments are fine when meaning is clear.
+- Prefer "Bug in parser. Empty array not guarded. Add early return." over a paragraph.
+- Bullet lists are fine; nested headings usually are not.
+
+## Coding-Agent Behavior
+
+- Commit messages stay valid Conventional Commits when requested. Compress the body, not the format.
+- PR review comments: short but actionable. State the file/line, the issue, the fix.
+- Final summaries: compact. Two sentences max. What changed, what's next.
+- Tool/build/test results: summarize, do not paste full output. Keep counts, file names, failing test titles.
+
 ## Combining with rtk-cli
 
 `rtk-cli` compresses shell output. Caveman compresses prose. Use both:

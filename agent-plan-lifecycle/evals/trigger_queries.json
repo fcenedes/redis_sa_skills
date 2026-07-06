@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Re-read charter.md, 00-index.md, decisions.md, and the latest verifier/audit result, then state the active residual and next coordinator action.",
+    "must_not": "Must not claim a state (verified/audited/promoted) without citing evidence path or command.",
+    "query": "Can you check the status of the delegated plan in plan/2026-05-auth-hardening/00-index.md and tell me what's next?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Re-read anchor files, restate active residual, and continue from the recorded plan state.",
+    "must_not": "Must not restart planning from scratch or ignore existing 00-index.md state.",
+    "query": "$agent-plan-lifecycle resume the compiler-migration plan after context compaction"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Verify the plan is audited and promoted before archiving; write archive.md preserving residual risks and superseded items.",
+    "must_not": "Must not archive a plan that is blocked, failed, or unaudited just because the user asked.",
+    "query": "/agent-plan-lifecycle this plan looks done, can we archive it?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Perform promotion: update ledger rows (pointing to agent-capability-ledger row format), record verification/audit evidence, and note durable-truth updates in promotion.md.",
+    "must_not": "Must not mark promoted without recording ledger/spec/docs/memory updates or an explicit not-applicable reason.",
+    "query": "We finished the audit for track E2, now update the capability ledger rows and record the promotion."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Defer to agent-capability-ledger to classify capabilities as done/partial/missing/blocked/superseded before any new plan is written.",
+    "must_not": "Must not attempt lifecycle state advancement when the request is about capability inventory, not a specific plan's state.",
+    "query": "What capabilities are still missing before we can plan the next tranche of work?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "Defer to agent-memory-coordination for live worker dispatch, ownership boundaries, and shared memory prompts.",
+    "must_not": "Must not treat a live dispatch request as a plan-lifecycle status/promotion/archive task.",
+    "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks using shared memory prompts."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-delegation-planning",
+    "expected_behavior": "Defer to agent-delegation-planning for authoring a new delegated plan; agent-plan-lifecycle only tracks plans that already exist.",
+    "must_not": "Must not create new charter.md/00-index.md content from scratch as if this were a lifecycle-tracking task.",
+    "query": "Write a fresh implementation plan for adding rate limiting to the API gateway."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Do not invoke any agent-plan-lifecycle behavior; this is unrelated to delegated plan tracking.",
+    "must_not": "Must not force a plan-lifecycle framing onto an unrelated request.",
+    "query": "What's the weather like today and can you summarize this news article for me?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Run a plain git diff; the presence of a tracker.md alone doesn't mean the user wants lifecycle tracking.",
+    "must_not": "Must not force a full lifecycle status report when the user only asked for a diff.",
+    "query": "Our repo has a tracker.md file with task statuses. Can you just tell me the current git diff instead?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Flag this as an invalid promotion: promoted state requires recorded ledger/spec/docs/memory updates and commit SHAs; recommend reverting to audited until evidence is added.",
+    "must_not": "Must not accept the 'promoted' label at face value without evidence.",
+    "query": "The plan says 'promoted' but I don't see any capability ledger updates or commit references anywhere. Is that right?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Warn that archiving must not hide failed/blocked/unaudited work; preserve residual risks and superseded items in archive.md rather than deleting them.",
+    "must_not": "Must not silently delete or omit failed task history to satisfy a 'clean it up' request.",
+    "query": "Mark this whole plan archived, we don't need the failed tasks anymore, just clean it up."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Defer to agent-memory-docker; unrelated to plan state tracking.",
+    "must_not": "Must not attempt to answer a Docker setup question using lifecycle-tracking behavior.",
+    "query": "How do I set up Docker Compose for the local agent memory server?"
+  }
+]

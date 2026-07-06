@@ -1,6 +1,7 @@
 ---
 name: agent-memory-docker
 description: Use when setting up shared Agent Memory Server locally with Docker for Codex, Claude Code, Claude Desktop, Redis 8, MCP, localhost troubleshooting, or portable teammate onboarding.
+compatibility: Requires Docker Compose, a Redis-compatible image, Python 3, and local MCP client configuration.
 license: Apache-2.0
 metadata:
   author: fcenedes
@@ -10,6 +11,12 @@ metadata:
 # Agent Memory Docker
 
 Use this skill to create a portable local Agent Memory Server stack and connect Codex, Claude Code, and Claude Desktop to the same Redis-backed memory.
+
+## Authority
+
+- Authorized: generate Docker Compose configs, env templates, and MCP client snippets for local Agent Memory setup.
+- Not authorized: start/stop containers, modify host networking, or expose services beyond localhost without explicit request.
+- Assessment-only default: for setup review or troubleshooting, report findings and stop unless changes are requested.
 
 ## Workflow
 
@@ -41,11 +48,13 @@ Restart Codex Desktop and Claude Desktop after client config changes. In Claude 
 | Item | Default |
 | --- | --- |
 | Runtime directory | `$HOME/.agent-memory-server` |
+| Bind host (all services) | `127.0.0.1` (set via `BIND_HOST`) |
 | REST API | `http://localhost:8000` |
 | MCP SSE | `http://localhost:9050/sse` |
 | MCP streamable HTTP | `http://localhost:9051/mcp` |
 | Redis host port | `6380` |
 | Redis image | `redis:8.6.2` |
+| Agent Memory Server image tag | `latest` (set via `REDIS_AGENT_MEMORY_VERSION`; pin in production) |
 
 ## DO NOT
 
@@ -55,8 +64,12 @@ Restart Codex Desktop and Claude Desktop after client config changes. In Claude 
 - Do not configure Claude web or remote connectors with `localhost`; remote connectors require public HTTPS and auth.
 - Do not print API keys when checking `.env.local` or container environment.
 - Do not treat Codex's local `Authentication not supported` OAuth label as failure when MCP tools list or tool calls succeed.
+- Do not override `BIND_HOST` to `0.0.0.0` or a LAN/public IP while `DISABLE_AUTH=true`/`AUTH_MODE=disabled`; if a teammate needs remote access, warn explicitly and require real auth (API key/token or a reverse proxy with auth) before widening the bind address.
+- Do not silently comply with a request to "expose this so others can connect"; state the network-exposure-without-auth risk first, then proceed only with explicit acknowledgment or an auth plan.
 
 ## Checklist
+
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
 
 - [ ] Runtime directory contains compose and `.env.local`.
 - [ ] `.env.local` contains `OPENAI_API_KEY`.
@@ -66,3 +79,4 @@ Restart Codex Desktop and Claude Desktop after client config changes. In Claude 
 - [ ] Claude Code shows `agent-memory` connected.
 - [ ] Claude Desktop has `mcpServers.agent-memory` and has been restarted.
 - [ ] Codex/Claude Code global instructions include the shared memory policy and project isolation rules.
+- [ ] Confirm services bind to 127.0.0.1 unless intentionally exposed with real auth configured.
