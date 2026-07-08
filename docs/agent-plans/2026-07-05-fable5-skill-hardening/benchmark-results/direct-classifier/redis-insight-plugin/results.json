@@ -1,0 +1,78 @@
+{
+  "skill": "redis-insight-plugin",
+  "tp": 6,
+  "fp": 0,
+  "tn": 5,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "My plugin's activationMethod does not match the exported render function and the iframe stays blank",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "$redis-insight-plugin scaffold a new external plugin that visualizes GEOSEARCH results on a Leaflet map",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "/redis-insight-plugin verify my plugin is actually loaded before I demo it to the customer",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "Build a generic Redis dashboard in Next.js showing key metrics, not a RedisInsight plugin",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "5",
+      "query": "How do I write an FT.CREATE index with a VECTOR field for RAG, unrelated to any UI or plugin?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "Set up authentication and TLS for our production Redis instance before we go live",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "We want to build a general internal admin tool with tables, filters, and a sidebar for our support team, no Redis Insight involved",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "My Workbench plugin renders fine locally but after I deploy it to ~/.redis-insight/plugins/geo-viz/ it doesn't show up in the visualization picker",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "9",
+      "query": "Explain what RedisInsight is and whether it's free to use, no plugin work needed",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "10",
+      "query": "Add a heatmap visualization mode to our existing plugin using the data from XRANGE, and make sure it matches RedisInsight's dark theme",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "11",
+      "query": "Our plugin bundle still references process.env.API_KEY after the Parcel build and we're not sure if that's a problem before shipping to a customer",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

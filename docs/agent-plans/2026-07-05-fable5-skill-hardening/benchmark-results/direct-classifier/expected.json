@@ -1,0 +1,1022 @@
+{
+  "caveman#00": {
+    "skill": "caveman",
+    "should_trigger": true,
+    "query": "caveman mode please, keep it short from here on"
+  },
+  "caveman#01": {
+    "skill": "caveman",
+    "should_trigger": true,
+    "query": "can you talk like a caveman for this answer, less words"
+  },
+  "caveman#02": {
+    "skill": "caveman",
+    "should_trigger": true,
+    "query": "give me a one-liner summary of what changed in this PR"
+  },
+  "caveman#03": {
+    "skill": "caveman",
+    "should_trigger": true,
+    "query": "/caveman"
+  },
+  "caveman#04": {
+    "skill": "caveman",
+    "should_trigger": true,
+    "query": "$caveman ultra, ship the summary"
+  },
+  "caveman#05": {
+    "skill": "caveman",
+    "should_trigger": false,
+    "query": "can you make git diff and the test output less noisy, I don't want walls of text"
+  },
+  "caveman#06": {
+    "skill": "caveman",
+    "should_trigger": false,
+    "query": "the build log is huge, can you trim it down before showing me"
+  },
+  "caveman#07": {
+    "skill": "caveman",
+    "should_trigger": false,
+    "query": "we're about to force-push over main, walk me through the risk carefully"
+  },
+  "caveman#08": {
+    "skill": "caveman",
+    "should_trigger": true,
+    "query": "can you make your explanations more concise in general, I read fast"
+  },
+  "caveman#09": {
+    "skill": "caveman",
+    "should_trigger": false,
+    "query": "what's the capital of France"
+  },
+  "caveman#10": {
+    "skill": "caveman",
+    "should_trigger": true,
+    "query": "stop caveman, go back to normal, I need the full explanation this time"
+  },
+  "caveman#11": {
+    "skill": "caveman",
+    "should_trigger": true,
+    "query": "review this PR but keep your comments short, one line per issue"
+  },
+  "caveman#12": {
+    "skill": "caveman",
+    "should_trigger": false,
+    "query": "please abbreviate all the variable names in this file to save space"
+  },
+  "caveman#13": {
+    "skill": "caveman",
+    "should_trigger": false,
+    "query": "run the test suite and wrap it with rtk so the output stays small"
+  },
+  "rtk-cli#00": {
+    "skill": "rtk-cli",
+    "should_trigger": true,
+    "query": "run git status and git diff so I can see what's changed"
+  },
+  "rtk-cli#01": {
+    "skill": "rtk-cli",
+    "should_trigger": true,
+    "query": "can you run our test suite and tell me if it passes"
+  },
+  "rtk-cli#02": {
+    "skill": "rtk-cli",
+    "should_trigger": true,
+    "query": "grep for TODO across the whole repo"
+  },
+  "rtk-cli#03": {
+    "skill": "rtk-cli",
+    "should_trigger": true,
+    "query": "$rtk docker logs for the api container, something's crashing"
+  },
+  "rtk-cli#04": {
+    "skill": "rtk-cli",
+    "should_trigger": true,
+    "query": "/rtk-cli check the build output, it's failing"
+  },
+  "rtk-cli#05": {
+    "skill": "rtk-cli",
+    "should_trigger": false,
+    "query": "can you make the PR description shorter and punchier"
+  },
+  "rtk-cli#06": {
+    "skill": "rtk-cli",
+    "should_trigger": false,
+    "query": "your last answer was too wordy, be more terse going forward"
+  },
+  "rtk-cli#07": {
+    "skill": "rtk-cli",
+    "should_trigger": false,
+    "query": "why does Redis recommend using hash tags for multi-key operations in a cluster"
+  },
+  "rtk-cli#08": {
+    "skill": "rtk-cli",
+    "should_trigger": false,
+    "query": "tail -f the server logs so I can watch it live while I reproduce the bug"
+  },
+  "rtk-cli#09": {
+    "skill": "rtk-cli",
+    "should_trigger": false,
+    "query": "I need the exact raw stack trace from that crash, copy it verbatim, nothing filtered"
+  },
+  "rtk-cli#10": {
+    "skill": "rtk-cli",
+    "should_trigger": true,
+    "query": "is rtk actually installed on this machine, I'm not sure"
+  },
+  "rtk-cli#11": {
+    "skill": "rtk-cli",
+    "should_trigger": false,
+    "query": "check git diff --stat, just want a quick count of files changed"
+  },
+  "rtk-cli#12": {
+    "skill": "rtk-cli",
+    "should_trigger": true,
+    "query": "list the files in this directory"
+  },
+  "rtk-cli#13": {
+    "skill": "rtk-cli",
+    "should_trigger": true,
+    "query": "kubectl get pods, I think something is crash-looping"
+  },
+  "redis-brand-ui#00": {
+    "skill": "redis-brand-ui",
+    "should_trigger": true,
+    "query": "Build a marketing landing page for redis.io announcing Redis 8 with a hero section, Redis Red CTA button, and logo in the header."
+  },
+  "redis-brand-ui#01": {
+    "skill": "redis-brand-ui",
+    "should_trigger": true,
+    "query": "$redis-brand-ui help me pick the right dark-mode text colors for a Redis blog post page."
+  },
+  "redis-brand-ui#02": {
+    "skill": "redis-brand-ui",
+    "should_trigger": true,
+    "query": "/redis-brand-ui check whether my button styles follow official brand contrast rules before I ship this docs site."
+  },
+  "redis-brand-ui#03": {
+    "skill": "redis-brand-ui",
+    "should_trigger": true,
+    "query": "Add the Redis logo and brand-approved typography to our conference sponsor slide footer graphic."
+  },
+  "redis-brand-ui#04": {
+    "skill": "redis-brand-ui",
+    "should_trigger": false,
+    "query": "We're building the RedisInsight-style admin dashboard with a dense table of active connections, filters, and a drawer for connection details. Style it."
+  },
+  "redis-brand-ui#05": {
+    "skill": "redis-brand-ui",
+    "should_trigger": false,
+    "query": "Build a customer-facing status page listing incident history with badges for each severity level."
+  },
+  "redis-brand-ui#06": {
+    "skill": "redis-brand-ui",
+    "should_trigger": false,
+    "query": "What's the best Redis Cluster key design for a multi-tenant leaderboard with hash tags?"
+  },
+  "redis-brand-ui#07": {
+    "skill": "redis-brand-ui",
+    "should_trigger": false,
+    "query": "Write a Python script that connects to Redis with redis-py and pipelines 1000 SET commands."
+  },
+  "redis-brand-ui#08": {
+    "skill": "redis-brand-ui",
+    "should_trigger": false,
+    "query": "Update our Storybook-based RedisInsight plugin iframe theme to match light/dark tokens."
+  },
+  "redis-brand-ui#09": {
+    "skill": "redis-brand-ui",
+    "should_trigger": true,
+    "query": "I need a one-pager for a trade show booth with the Redis wordmark, brand colors, and a QR code to our demo signup."
+  },
+  "redis-brand-ui#10": {
+    "skill": "redis-brand-ui",
+    "should_trigger": true,
+    "query": "Our React marketing site's primary CTA button currently uses #E53E3E. Is that on-brand?"
+  },
+  "redis-brand-ui#11": {
+    "skill": "redis-brand-ui",
+    "should_trigger": false,
+    "query": "Design a dense settings page for our internal developer CLI tool web UI with tabs, forms, and a save toast."
+  },
+  "redis-product-ui#00": {
+    "skill": "redis-product-ui",
+    "should_trigger": true,
+    "query": "Build a RedisInsight-style connections table with filters, a drawer for connection detail, and light/dark theme support."
+  },
+  "redis-product-ui#01": {
+    "skill": "redis-product-ui",
+    "should_trigger": true,
+    "query": "$redis-product-ui design an admin dashboard for our Redis Cloud database list with status badges, search, and a create-database wizard."
+  },
+  "redis-product-ui#02": {
+    "skill": "redis-product-ui",
+    "should_trigger": true,
+    "query": "/redis-product-ui add loading, empty, and error states to our metrics chart component."
+  },
+  "redis-product-ui#03": {
+    "skill": "redis-product-ui",
+    "should_trigger": true,
+    "query": "We need a developer-tool web UI with tabs, dense tables of API keys, and a toast when a key is revoked."
+  },
+  "redis-product-ui#04": {
+    "skill": "redis-product-ui",
+    "should_trigger": false,
+    "query": "Build our redis.io marketing homepage hero section with the Redis logo, brand red CTA button, and Space Grotesk headline."
+  },
+  "redis-product-ui#05": {
+    "skill": "redis-product-ui",
+    "should_trigger": false,
+    "query": "Create a docs landing page introducing Redis Query Engine with brand-consistent typography and a call-to-action to the docs."
+  },
+  "redis-product-ui#06": {
+    "skill": "redis-product-ui",
+    "should_trigger": false,
+    "query": "How do I avoid CROSSSLOT errors when running MGET across a Redis Cluster?"
+  },
+  "redis-product-ui#07": {
+    "skill": "redis-product-ui",
+    "should_trigger": false,
+    "query": "Set up ACL users and TLS for our production Redis deployment."
+  },
+  "redis-product-ui#08": {
+    "skill": "redis-product-ui",
+    "should_trigger": true,
+    "query": "Style our RedisInsight Workbench plugin iframe to match the host app's theme."
+  },
+  "redis-product-ui#09": {
+    "skill": "redis-product-ui",
+    "should_trigger": false,
+    "query": "Just make our internal tool look nice, whatever you think is best."
+  },
+  "redis-product-ui#10": {
+    "skill": "redis-product-ui",
+    "should_trigger": true,
+    "query": "Add a 20-column table of stream entries with virtualized rows and also paginate it for performance."
+  },
+  "redis-presentation-decks#00": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": true,
+    "query": "Build a 12-slide Reveal.js deck for a customer QBR covering our Redis Cloud usage growth and roadmap."
+  },
+  "redis-presentation-decks#01": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": true,
+    "query": "$redis-presentation-decks I need a solution architecture deck showing our cache-aside pattern with Redis Cluster failover, for a technical workshop."
+  },
+  "redis-presentation-decks#02": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": true,
+    "query": "/redis-presentation-decks add a latency comparison chart to slide 6 of my existing deck and validate it renders correctly."
+  },
+  "redis-presentation-decks#03": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": true,
+    "query": "Generate speaker notes for my existing Redis vector search demo deck so I remember the objection-handling talk track."
+  },
+  "redis-presentation-decks#04": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": false,
+    "query": "Make a fun, generic 5-slide icebreaker deck for our team offsite with random trivia questions, nothing Redis-related."
+  },
+  "redis-presentation-decks#05": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": false,
+    "query": "Convert our existing Reveal.js Redis architecture deck into a PowerPoint .pptx file for the sales team."
+  },
+  "redis-presentation-decks#06": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": false,
+    "query": "Design an Excalidraw diagram of our Redis Streams consumer group topology for a technical doc."
+  },
+  "redis-presentation-decks#07": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": false,
+    "query": "Write a blog post explaining Redis Query Engine's DIALECT 2 syntax with code examples."
+  },
+  "redis-presentation-decks#08": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": true,
+    "query": "Our deck's benchmark slide has a chart that overflows the slide bounds on export. Fix it and confirm it's resolved."
+  },
+  "redis-presentation-decks#09": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": false,
+    "query": "Build a Google Slides presentation about our Q3 Redis Enterprise sales numbers."
+  },
+  "redis-presentation-decks#10": {
+    "skill": "redis-presentation-decks",
+    "should_trigger": true,
+    "query": "We need an internal architecture review deck: request path, cache hit/miss flow, and replication failover, with real redis-cli evidence."
+  },
+  "redis-excalidraw-diagrams#00": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": true,
+    "query": "Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?"
+  },
+  "redis-excalidraw-diagrams#01": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": true,
+    "query": "$redis-excalidraw-diagrams draw the Redis Cluster hash slot topology with primary/replica failover for a workshop slide"
+  },
+  "redis-excalidraw-diagrams#02": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": true,
+    "query": "/redis-excalidraw-diagrams create a vector search RAG pipeline diagram showing HNSW index and KNN query flow"
+  },
+  "redis-excalidraw-diagrams#03": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": false,
+    "query": "The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture"
+  },
+  "redis-excalidraw-diagrams#04": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": false,
+    "query": "Draw me a generic system architecture diagram for a food delivery app, no Redis involved"
+  },
+  "redis-excalidraw-diagrams#05": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": false,
+    "query": "How do I read an .excalidraw file's raw JSON structure to understand element IDs, unrelated to Redis?"
+  },
+  "redis-excalidraw-diagrams#06": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": false,
+    "query": "We need a Redis observability dashboard mockup for our RedisInsight-like internal tool, built as a web page"
+  },
+  "redis-excalidraw-diagrams#07": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": true,
+    "query": "Make an architecture visual for our Redis Active-Active Cloud deployment across three regions with CRDT conflict resolution, for an internal architecture review, quick turnaround"
+  },
+  "redis-excalidraw-diagrams#08": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": false,
+    "query": "I already have a hand-drawn whiteboard photo of our Streams consumer group design \u2014 can you just clean up the photo in Photoshop?"
+  },
+  "redis-excalidraw-diagrams#09": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": true,
+    "query": "Sketch out a rough mental model of cache-aside vs write-through for an internal Slack explainer, nothing fancy or customer-facing"
+  },
+  "redis-excalidraw-diagrams#10": {
+    "skill": "redis-excalidraw-diagrams",
+    "should_trigger": false,
+    "query": "Build a Lucidchart diagram for our SA team's customer workshop on Redis Search index design"
+  },
+  "redis-lucidchart-diagrams#00": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": true,
+    "query": "The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture"
+  },
+  "redis-lucidchart-diagrams#01": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": true,
+    "query": "$redis-lucidchart-diagrams package our Redis Cluster resharding diagram as a Standard Import source for the customer's Lucid workspace"
+  },
+  "redis-lucidchart-diagrams#02": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": true,
+    "query": "/redis-lucidchart-diagrams create an editable architecture flow for our Streams consumer-group pipeline that the SA team can hand off to the customer"
+  },
+  "redis-lucidchart-diagrams#03": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": false,
+    "query": "Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?"
+  },
+  "redis-lucidchart-diagrams#04": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": false,
+    "query": "Draw a generic org chart for our sales team in Lucidchart, nothing Redis-related"
+  },
+  "redis-lucidchart-diagrams#05": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": false,
+    "query": "What's the difference between Lucidchart and Lucidspark as products, just curious, no diagram needed"
+  },
+  "redis-lucidchart-diagrams#06": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": false,
+    "query": "We need a working RedisInsight-style dashboard prototype as an actual web page, not a diagram, for internal review"
+  },
+  "redis-lucidchart-diagrams#07": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": true,
+    "query": "Build a Lucidchart diagram showing our Redis vector search RAG architecture with FT.CREATE schema and KNN query flow for a customer workshop they'll keep maintaining"
+  },
+  "redis-lucidchart-diagrams#08": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": false,
+    "query": "I have an existing Mermaid diagram of our replication topology \u2014 can you just explain what it shows, no changes needed?"
+  },
+  "redis-lucidchart-diagrams#09": {
+    "skill": "redis-lucidchart-diagrams",
+    "should_trigger": true,
+    "query": "Our SA wants a Lucidchart-ready handoff of the Redis Cloud Active-Active CRDT setup so the customer's architects can keep iterating on it after we leave"
+  },
+  "redis-insight-plugin#00": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": true,
+    "query": "My plugin's activationMethod does not match the exported render function and the iframe stays blank"
+  },
+  "redis-insight-plugin#01": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": true,
+    "query": "$redis-insight-plugin scaffold a new external plugin that visualizes GEOSEARCH results on a Leaflet map"
+  },
+  "redis-insight-plugin#02": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": true,
+    "query": "/redis-insight-plugin verify my plugin is actually loaded before I demo it to the customer"
+  },
+  "redis-insight-plugin#03": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": false,
+    "query": "Build a generic Redis dashboard in Next.js showing key metrics, not a RedisInsight plugin"
+  },
+  "redis-insight-plugin#04": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": false,
+    "query": "How do I write an FT.CREATE index with a VECTOR field for RAG, unrelated to any UI or plugin?"
+  },
+  "redis-insight-plugin#05": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": false,
+    "query": "Set up authentication and TLS for our production Redis instance before we go live"
+  },
+  "redis-insight-plugin#06": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": false,
+    "query": "We want to build a general internal admin tool with tables, filters, and a sidebar for our support team, no Redis Insight involved"
+  },
+  "redis-insight-plugin#07": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": true,
+    "query": "My Workbench plugin renders fine locally but after I deploy it to ~/.redis-insight/plugins/geo-viz/ it doesn't show up in the visualization picker"
+  },
+  "redis-insight-plugin#08": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": false,
+    "query": "Explain what RedisInsight is and whether it's free to use, no plugin work needed"
+  },
+  "redis-insight-plugin#09": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": true,
+    "query": "Add a heatmap visualization mode to our existing plugin using the data from XRANGE, and make sure it matches RedisInsight's dark theme"
+  },
+  "redis-insight-plugin#10": {
+    "skill": "redis-insight-plugin",
+    "should_trigger": true,
+    "query": "Our plugin bundle still references process.env.API_KEY after the Parcel build and we're not sure if that's a problem before shipping to a customer"
+  },
+  "playwright-test#00": {
+    "skill": "playwright-test",
+    "should_trigger": true,
+    "query": "Write a Playwright test that checks the login form shows an error for wrong credentials."
+  },
+  "playwright-test#01": {
+    "skill": "playwright-test",
+    "should_trigger": true,
+    "query": "Fix this flaky Playwright test \u2014 it fails intermittently in CI but passes locally."
+  },
+  "playwright-test#02": {
+    "skill": "playwright-test",
+    "should_trigger": true,
+    "query": "$playwright-test add auth setup with storageState to our e2e suite"
+  },
+  "playwright-test#03": {
+    "skill": "playwright-test",
+    "should_trigger": true,
+    "query": "/playwright-test review my playwright.config.ts for CI best practices"
+  },
+  "playwright-test#04": {
+    "skill": "playwright-test",
+    "should_trigger": true,
+    "query": "Our CI run failed on 3 Playwright specs, can you look at the trace and figure out why?"
+  },
+  "playwright-test#05": {
+    "skill": "playwright-test",
+    "should_trigger": false,
+    "query": "Can you manually poke around our staging site and see if the checkout flow still works after the deploy?"
+  },
+  "playwright-test#06": {
+    "skill": "playwright-test",
+    "should_trigger": false,
+    "query": "Take a screenshot of the dashboard at mobile width so I can attach it to a bug report."
+  },
+  "playwright-test#07": {
+    "skill": "playwright-test",
+    "should_trigger": false,
+    "query": "There's a weird rendering glitch on the settings page, can you reproduce it and tell me what's happening?"
+  },
+  "playwright-test#08": {
+    "skill": "playwright-test",
+    "should_trigger": false,
+    "query": "What indexing strategy should I use for a Redis Query Engine schema with a TAG field for status filters?"
+  },
+  "playwright-test#09": {
+    "skill": "playwright-test",
+    "should_trigger": false,
+    "query": "Explain the difference between Redis Hash and JSON for storing user profile objects."
+  },
+  "playwright-test#10": {
+    "skill": "playwright-test",
+    "should_trigger": true,
+    "query": "We need better selector strategy across our specs \u2014 too many tests break on refactors because of nth-child selectors."
+  },
+  "playwright-test#11": {
+    "skill": "playwright-test",
+    "should_trigger": true,
+    "query": "Can you set up a brand-new Playwright test project for our Next.js app? There's no config yet."
+  },
+  "playwright-cli-agent#00": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": true,
+    "query": "Can you open the app at localhost:3000 and click through the signup flow to see what happens?"
+  },
+  "playwright-cli-agent#01": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": true,
+    "query": "There's a bug where the cart total doesn't update after removing an item \u2014 can you reproduce it?"
+  },
+  "playwright-cli-agent#02": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": true,
+    "query": "$playwright-cli-agent grab a screenshot of the pricing page at 375px, 768px, and 1440px widths"
+  },
+  "playwright-cli-agent#03": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": true,
+    "query": "/playwright-cli-agent find a stable selector for the 'Export CSV' button before I write a test for it"
+  },
+  "playwright-cli-agent#04": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": true,
+    "query": "Check if the Redis Insight plugin renders correctly inside the workbench iframe after our latest change."
+  },
+  "playwright-cli-agent#05": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": false,
+    "query": "Write a Playwright test that verifies the signup form validates email format."
+  },
+  "playwright-cli-agent#06": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": false,
+    "query": "Our nightly Playwright CI run has 5 flaky tests, can you dig into the traces and stabilize them?"
+  },
+  "playwright-cli-agent#07": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": false,
+    "query": "Go explore our production checkout site at checkout.ourapp.com and try submitting an order to confirm it works end to end."
+  },
+  "playwright-cli-agent#08": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": false,
+    "query": "What's the best way to paginate through a large Redis Sorted Set for a leaderboard API?"
+  },
+  "playwright-cli-agent#09": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": false,
+    "query": "How do I configure ACL users for least-privilege access on our Redis Cloud instance?"
+  },
+  "playwright-cli-agent#10": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": true,
+    "query": "Compare the before and after screenshots of the dashboard once the redesign PR is deployed to the dev environment."
+  },
+  "playwright-cli-agent#11": {
+    "skill": "playwright-cli-agent",
+    "should_trigger": true,
+    "query": "Delete all test users from the staging database through the admin UI \u2014 can you do that and confirm it worked?"
+  },
+  "agent-delegation-routing#00": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": true,
+    "query": "$agent-delegation-routing which worker should implement the payments retry logic task from our plan, Codex or Claude?"
+  },
+  "agent-delegation-routing#01": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": true,
+    "query": "/agent-delegation-routing dispatch the three independent packets in wave 2 of the migration plan to workers now."
+  },
+  "agent-delegation-routing#02": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": true,
+    "query": "We have a written plan with 4 tasks. Route task T2 to the right worker and give me the exact worker prompt."
+  },
+  "agent-delegation-routing#03": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": false,
+    "query": "Fix this one typo in README.md, change 'recieve' to 'receive'."
+  },
+  "agent-delegation-routing#04": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": false,
+    "query": "I need a full multi-epic plan for migrating our billing service to a new schema, with parallel workstreams for schema, API, and UI."
+  },
+  "agent-delegation-routing#05": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": false,
+    "query": "What should the login flow behave like when a session token expires mid-request? I'm not sure we've defined this anywhere."
+  },
+  "agent-delegation-routing#06": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": false,
+    "query": "Can you check whether we already shipped the rate-limiting feature before I ask anyone to build it again?"
+  },
+  "agent-delegation-routing#07": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": false,
+    "query": "Just write the code for this bug fix yourself, it's a single function in utils.py, no need to spin up any agents."
+  },
+  "agent-delegation-routing#08": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": true,
+    "query": "Our anchored plan resumed after compaction \u2014 before dispatching wave 3, what do I need to re-read?"
+  },
+  "agent-delegation-routing#09": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": true,
+    "query": "The local Qwen worker returned a diff for the config patch \u2014 should I apply it directly or review it first?"
+  },
+  "agent-delegation-routing#10": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": false,
+    "query": "Give me a one-line explanation of what HNSW is in Redis vector search."
+  },
+  "agent-delegation-routing#11": {
+    "skill": "agent-delegation-routing",
+    "should_trigger": true,
+    "query": "Should the packet reviewer or the coordinator decide if a failed audit finding needs a repair packet?"
+  },
+  "agent-delegation-planning#00": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": true,
+    "query": "$agent-delegation-planning we need to migrate billing to a new schema: schema changes, API updates, and a UI checkout rework, delegated across multiple agents."
+  },
+  "agent-delegation-planning#01": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": true,
+    "query": "/agent-delegation-planning write a plan to add rate limiting to the API, add tests, and deploy behind a flag; I'll hand this to Codex and a Claude coordinator in parallel."
+  },
+  "agent-delegation-planning#02": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": false,
+    "query": "We already have a plan with 4 tasks written to docs/agent-plans/2026-07-01-rate-limit/. Just tell me which worker should run task T2."
+  },
+  "agent-delegation-planning#03": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": false,
+    "query": "Fix the off-by-one error on line 42 of parser.py."
+  },
+  "agent-delegation-planning#04": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": false,
+    "query": "What should happen when a coupon code is applied twice in the same cart? We haven't defined the expected behavior yet."
+  },
+  "agent-delegation-planning#05": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": false,
+    "query": "What features have we already delivered for the notifications system before I plan the next phase?"
+  },
+  "agent-delegation-planning#06": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": false,
+    "query": "Our anchored plan for the search-v2 migration needs to resume after a context compaction \u2014 what's the status and what's next?"
+  },
+  "agent-delegation-planning#07": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": false,
+    "query": "Can you just rename this one variable across this single file? No need for a plan."
+  },
+  "agent-delegation-planning#08": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": true,
+    "query": "We need parallel workstreams: one agent building the search index, one building the ranking API, one building the UI \u2014 write the full plan with ownership boundaries and verification gates."
+  },
+  "agent-delegation-planning#09": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": false,
+    "query": "Just pick whichever model is cheapest for this one bounded doc edit and go."
+  },
+  "agent-delegation-planning#10": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": false,
+    "query": "Draft an OpenSpec change proposal for the new subscription-tier logic before we plan the implementation."
+  },
+  "agent-delegation-planning#11": {
+    "skill": "agent-delegation-planning",
+    "should_trigger": true,
+    "query": "Plan and execute: refactor the auth module, add a new permissions layer, and update three downstream services, run to completion autonomously."
+  },
+  "agent-spec-writing#00": {
+    "skill": "agent-spec-writing",
+    "should_trigger": true,
+    "query": "$agent-spec-writing we need a requirement delta for how the checkout flow should handle expired discount codes, we haven't defined this anywhere."
+  },
+  "agent-spec-writing#01": {
+    "skill": "agent-spec-writing",
+    "should_trigger": true,
+    "query": "/agent-spec-writing update the ADDED/MODIFIED deltas for the new rate-limit behavior now that product clarified the retry semantics."
+  },
+  "agent-spec-writing#02": {
+    "skill": "agent-spec-writing",
+    "should_trigger": true,
+    "query": "The requirements for how partial refunds should interact with loyalty points are ambiguous \u2014 can you nail down the acceptance criteria before we plan the implementation?"
+  },
+  "agent-spec-writing#03": {
+    "skill": "agent-spec-writing",
+    "should_trigger": false,
+    "query": "Fix the typo in this one comment in auth.py, 'recieve' should be 'receive'."
+  },
+  "agent-spec-writing#04": {
+    "skill": "agent-spec-writing",
+    "should_trigger": false,
+    "query": "We already know exactly what we want: add a 'lastLoginAt' timestamp column and expose it in the API. Write the implementation plan."
+  },
+  "agent-spec-writing#05": {
+    "skill": "agent-spec-writing",
+    "should_trigger": false,
+    "query": "Which worker should implement the timestamp column migration, Codex or a local Qwen model?"
+  },
+  "agent-spec-writing#06": {
+    "skill": "agent-spec-writing",
+    "should_trigger": false,
+    "query": "Have we already implemented soft-delete for user accounts? Check before I ask for new requirements."
+  },
+  "agent-spec-writing#07": {
+    "skill": "agent-spec-writing",
+    "should_trigger": false,
+    "query": "Just rename this one function locally, no behavior change, no new contract."
+  },
+  "agent-spec-writing#08": {
+    "skill": "agent-spec-writing",
+    "should_trigger": false,
+    "query": "Our OpenSpec change for the payments-v2 migration was just approved \u2014 archive it and promote the spec to current truth."
+  },
+  "agent-spec-writing#09": {
+    "skill": "agent-spec-writing",
+    "should_trigger": true,
+    "query": "Review this PR's spec-compliance: does the diff match the acceptance scenarios we wrote last week?"
+  },
+  "agent-spec-writing#10": {
+    "skill": "agent-spec-writing",
+    "should_trigger": true,
+    "query": "Does this repo use OpenSpec? I want to add a new change proposal for multi-currency support."
+  },
+  "agent-spec-writing#11": {
+    "skill": "agent-spec-writing",
+    "should_trigger": false,
+    "query": "What's the cheapest LLM model for summarizing these ten support tickets?"
+  },
+  "agent-plan-lifecycle#00": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": true,
+    "query": "Can you check the status of the delegated plan in plan/2026-05-auth-hardening/00-index.md and tell me what's next?"
+  },
+  "agent-plan-lifecycle#01": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": true,
+    "query": "$agent-plan-lifecycle resume the compiler-migration plan after context compaction"
+  },
+  "agent-plan-lifecycle#02": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": true,
+    "query": "/agent-plan-lifecycle this plan looks done, can we archive it?"
+  },
+  "agent-plan-lifecycle#03": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": true,
+    "query": "We finished the audit for track E2, now update the capability ledger rows and record the promotion."
+  },
+  "agent-plan-lifecycle#04": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": false,
+    "query": "What capabilities are still missing before we can plan the next tranche of work?"
+  },
+  "agent-plan-lifecycle#05": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": false,
+    "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks using shared memory prompts."
+  },
+  "agent-plan-lifecycle#06": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": false,
+    "query": "Write a fresh implementation plan for adding rate limiting to the API gateway."
+  },
+  "agent-plan-lifecycle#07": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": false,
+    "query": "What's the weather like today and can you summarize this news article for me?"
+  },
+  "agent-plan-lifecycle#08": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": false,
+    "query": "Our repo has a tracker.md file with task statuses. Can you just tell me the current git diff instead?"
+  },
+  "agent-plan-lifecycle#09": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": true,
+    "query": "The plan says 'promoted' but I don't see any capability ledger updates or commit references anywhere. Is that right?"
+  },
+  "agent-plan-lifecycle#10": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": true,
+    "query": "Mark this whole plan archived, we don't need the failed tasks anymore, just clean it up."
+  },
+  "agent-plan-lifecycle#11": {
+    "skill": "agent-plan-lifecycle",
+    "should_trigger": false,
+    "query": "How do I set up Docker Compose for the local agent memory server?"
+  },
+  "agent-capability-ledger#00": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": true,
+    "query": "Before we plan the next tranche, what's actually done vs still missing across the auth and billing repos?"
+  },
+  "agent-capability-ledger#01": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": true,
+    "query": "$agent-capability-ledger did we already implement the retry backoff for stream consumers?"
+  },
+  "agent-capability-ledger#02": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": true,
+    "query": "/agent-capability-ledger audit readiness for the Q3 release across all three services"
+  },
+  "agent-capability-ledger#03": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": true,
+    "query": "Track what's done and what's missing before we write a follow-up plan for the notification service."
+  },
+  "agent-capability-ledger#04": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": false,
+    "query": "Coordinate three parallel workers on auth, billing, and UI right now using shared memory prompts and strict file ownership."
+  },
+  "agent-capability-ledger#05": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": false,
+    "query": "Promote this audited plan and archive it, updating any lifecycle records."
+  },
+  "agent-capability-ledger#06": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": false,
+    "query": "Set up the local Docker stack for the agent memory server so my team can share it."
+  },
+  "agent-capability-ledger#07": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": false,
+    "query": "What's a good recipe for banana bread?"
+  },
+  "agent-capability-ledger#08": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": false,
+    "query": "Just show me git log for the last 20 commits, nothing fancy."
+  },
+  "agent-capability-ledger#09": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": true,
+    "query": "I think the JWT refresh capability is done, I remember fixing it last week in our chat."
+  },
+  "agent-capability-ledger#10": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": true,
+    "query": "We have a Redis Array mirror of our ledger \u2014 can you query it for all partial rows instead of reading the Markdown?"
+  },
+  "agent-capability-ledger#11": {
+    "skill": "agent-capability-ledger",
+    "should_trigger": true,
+    "query": "How many capability rows should I create for a login feature that touches both frontend and backend with different owners?"
+  },
+  "agent-memory-docker#00": {
+    "skill": "agent-memory-docker",
+    "should_trigger": true,
+    "query": "Set up a local Agent Memory Server with Docker so Codex, Claude Code, and Claude Desktop can share the same Redis-backed memory."
+  },
+  "agent-memory-docker#01": {
+    "skill": "agent-memory-docker",
+    "should_trigger": true,
+    "query": "$agent-memory-docker can you expose the memory server so my teammate on another machine can connect?"
+  },
+  "agent-memory-docker#02": {
+    "skill": "agent-memory-docker",
+    "should_trigger": true,
+    "query": "/agent-memory-docker Claude Code shows agent-memory as disconnected, how do I fix it?"
+  },
+  "agent-memory-docker#03": {
+    "skill": "agent-memory-docker",
+    "should_trigger": true,
+    "query": "Codex keeps showing 'Authentification non prise en charge' for the local memory server, is that broken?"
+  },
+  "agent-memory-docker#04": {
+    "skill": "agent-memory-docker",
+    "should_trigger": false,
+    "query": "Track which capabilities across our repos are done vs missing before we plan the next round of work."
+  },
+  "agent-memory-docker#05": {
+    "skill": "agent-memory-docker",
+    "should_trigger": false,
+    "query": "Coordinate three parallel workers using shared memory prompts and strict file ownership for this refactor."
+  },
+  "agent-memory-docker#06": {
+    "skill": "agent-memory-docker",
+    "should_trigger": false,
+    "query": "What's the best way to design a Redis key schema for a leaderboard feature?"
+  },
+  "agent-memory-docker#07": {
+    "skill": "agent-memory-docker",
+    "should_trigger": false,
+    "query": "Can you write a haiku about autumn leaves?"
+  },
+  "agent-memory-docker#08": {
+    "skill": "agent-memory-docker",
+    "should_trigger": true,
+    "query": "Just print my current .env.local file contents so I can check a value."
+  },
+  "agent-memory-docker#09": {
+    "skill": "agent-memory-docker",
+    "should_trigger": true,
+    "query": "Should I use Redis Stack or Redis 8 for the local Agent Memory Server image?"
+  },
+  "agent-memory-docker#10": {
+    "skill": "agent-memory-docker",
+    "should_trigger": true,
+    "query": "I want to connect Claude web / a remote custom connector to my local memory server at localhost:9051."
+  },
+  "agent-memory-docker#11": {
+    "skill": "agent-memory-docker",
+    "should_trigger": true,
+    "query": "The agent-memory-server image tag is just 'latest' in our compose file, should we pin it for production?"
+  },
+  "agent-memory-docker#12": {
+    "skill": "agent-memory-docker",
+    "should_trigger": false,
+    "query": "We're deploying our production Redis Cloud database behind a firewall, what ACL rules should we set up?"
+  },
+  "agent-memory-docker#13": {
+    "skill": "agent-memory-docker",
+    "should_trigger": false,
+    "query": "Can you tune the HNSW parameters for our vector index so search recall improves?"
+  },
+  "agent-memory-coordination#00": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": true,
+    "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks \u2014 store their prompts in shared memory and give each a disjoint file set."
+  },
+  "agent-memory-coordination#01": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": true,
+    "query": "$agent-memory-coordination the auth worker just finished, record the gate result and check for blockers before the next dispatch."
+  },
+  "agent-memory-coordination#02": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": true,
+    "query": "/agent-memory-coordination memory tools seem read-only, can we still coordinate workers?"
+  },
+  "agent-memory-coordination#03": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": true,
+    "query": "Coordinate parallel workers via shared memory prompts across Codex and Claude Code for this multi-service refactor."
+  },
+  "agent-memory-coordination#04": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": false,
+    "query": "Before we plan a follow-up, track what's done and what's still missing across the repo's capability areas."
+  },
+  "agent-memory-coordination#05": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": false,
+    "query": "Is this plan promoted yet? Check if the ledger rows and commit SHAs were recorded during promotion."
+  },
+  "agent-memory-coordination#06": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": false,
+    "query": "Set up the Docker Compose stack for the local Agent Memory Server so my team can share it."
+  },
+  "agent-memory-coordination#07": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": false,
+    "query": "Can you translate this paragraph into French for me?"
+  },
+  "agent-memory-coordination#08": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": false,
+    "query": "Just run the test suite and tell me if it passes, no need to touch memory or dispatch anything."
+  },
+  "agent-memory-coordination#09": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": true,
+    "query": "One worker already finished the retrieval track and I want to skip live proof since we don't have the API key today \u2014 is that OK to mark passed?"
+  },
+  "agent-memory-coordination#10": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": true,
+    "query": "The auth worker and the billing worker both need to edit config/shared-settings.yaml, how should I split that?"
+  },
+  "agent-memory-coordination#11": {
+    "skill": "agent-memory-coordination",
+    "should_trigger": true,
+    "query": "We resumed this session after a context compaction \u2014 what should happen before I give the workers their next prompts?"
+  }
+}

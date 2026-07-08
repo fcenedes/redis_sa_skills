@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Find or create the capability ledger, classify each capability as done/partial/missing/blocked/superseded with proof class and evidence, then generate delta tasks only from non-done rows.",
+    "must_not": "Must not mark anything done from a claim alone; must not skip checking repo docs/trackers/tests.",
+    "query": "Before we plan the next tranche, what's actually done vs still missing across the auth and billing repos?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Check the existing ledger row (or repo evidence) for that capability; report status, proof class, and evidence path/command.",
+    "must_not": "Must not answer from memory/chat summary alone as if that were proof.",
+    "query": "$agent-capability-ledger did we already implement the retry backoff for stream consumers?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Reconcile ledger rows per service, flag stale proof, and separate done/superseded rows (context only) from partial/missing/blocked rows (become delta tasks).",
+    "must_not": "Must not treat docs-only proof as satisfying a runtime/live readiness claim.",
+    "query": "/agent-capability-ledger audit readiness for the Q3 release across all three services"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "This is capability/readiness tracking: build or update the ledger first, then hand delta rows to agent-delegation-planning.",
+    "must_not": "Must not jump straight to writing a new plan before reconciling the ledger.",
+    "query": "Track what's done and what's missing before we write a follow-up plan for the notification service."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "This is live worker dispatch and coordination, not capability/readiness tracking; defer to agent-memory-coordination for worker prompts, ownership maps, and gate results.",
+    "must_not": "Must not attempt to build or update ledger rows when the actual request is about dispatching live workers.",
+    "query": "Coordinate three parallel workers on auth, billing, and UI right now using shared memory prompts and strict file ownership."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Defer to agent-plan-lifecycle for plan state advancement (promoted/archived); agent-capability-ledger only supplies the ledger rows referenced during that promotion.",
+    "must_not": "Must not attempt to advance or archive plan state itself.",
+    "query": "Promote this audited plan and archive it, updating any lifecycle records."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Defer to agent-memory-docker; unrelated to capability tracking.",
+    "must_not": "Must not attempt to answer Docker/infra setup with ledger behavior.",
+    "query": "Set up the local Docker stack for the agent memory server so my team can share it."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "No skill should trigger; unrelated to software delivery tracking.",
+    "must_not": "Must not force a capability-ledger framing onto an unrelated request.",
+    "query": "What's a good recipe for banana bread?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Run the plain git log command; do not build or reference a capability ledger unless the user is asking about delivered/missing work.",
+    "must_not": "Must not turn a simple git log request into a ledger audit.",
+    "query": "Just show me git log for the last 20 commits, nothing fancy."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Do not accept chat memory as proof; check repo evidence (tests, commits, docs) and only mark done if evidence path and verification command exist.",
+    "must_not": "Must not mark the capability done based on the user's chat recollection alone.",
+    "query": "I think the JWT refresh capability is done, I remember fixing it last week in our chat."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Treat the Redis Array mirror as an optional accelerator only; if it conflicts with the Markdown ledger, the Markdown wins and should be checked.",
+    "must_not": "Must not treat the Redis mirror as the source of truth over repo Markdown.",
+    "query": "We have a Redis Array mirror of our ledger \u2014 can you query it for all partial rows instead of reading the Markdown?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Split into separate rows by ownership/runtime path/proof type rather than bundling unrelated capabilities into one row.",
+    "must_not": "Must not bundle frontend and backend ownership into a single capability row.",
+    "query": "How many capability rows should I create for a login feature that touches both frontend and backend with different owners?"
+  }
+]

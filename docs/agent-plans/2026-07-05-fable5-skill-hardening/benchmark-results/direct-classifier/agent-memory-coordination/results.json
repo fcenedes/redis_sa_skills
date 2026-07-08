@@ -1,0 +1,84 @@
+{
+  "skill": "agent-memory-coordination",
+  "tp": 7,
+  "fp": 0,
+  "tn": 5,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks — store their prompts in shared memory and give each a disjoint file set.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "$agent-memory-coordination the auth worker just finished, record the gate result and check for blockers before the next dispatch.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "/agent-memory-coordination memory tools seem read-only, can we still coordinate workers?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "Coordinate parallel workers via shared memory prompts across Codex and Claude Code for this multi-service refactor.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "5",
+      "query": "Before we plan a follow-up, track what's done and what's still missing across the repo's capability areas.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "Is this plan promoted yet? Check if the ledger rows and commit SHAs were recorded during promotion.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "Set up the Docker Compose stack for the local Agent Memory Server so my team can share it.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "Can you translate this paragraph into French for me?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "Just run the test suite and tell me if it passes, no need to touch memory or dispatch anything.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "10",
+      "query": "One worker already finished the retrieval track and I want to skip live proof since we don't have the API key today — is that OK to mark passed?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "11",
+      "query": "The auth worker and the billing worker both need to edit config/shared-settings.yaml, how should I split that?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "12",
+      "query": "We resumed this session after a context compaction — what should happen before I give the workers their next prompts?",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

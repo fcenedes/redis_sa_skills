@@ -1,0 +1,18 @@
+Classify skill trigger decisions. Use only the skill name and description. Return ONLY valid minified JSON: {"decisions":[{"id":"1","trigger":true}]}. No prose.
+Skill: agent-memory-docker
+Description: Use when setting up, troubleshooting, or safely inspecting shared Agent Memory Server Docker/MCP config for Codex, Claude Code, Claude Desktop, Redis 8, localhost, teammate onboarding, client config files, or secret-safe `.env.local` checks.
+Queries:
+1: Set up a local Agent Memory Server with Docker so Codex, Claude Code, and Claude Desktop can share the same Redis-backed memory.
+2: $agent-memory-docker can you expose the memory server so my teammate on another machine can connect?
+3: /agent-memory-docker Claude Code shows agent-memory as disconnected, how do I fix it?
+4: Codex keeps showing 'Authentification non prise en charge' for the local memory server, is that broken?
+5: Track which capabilities across our repos are done vs missing before we plan the next round of work.
+6: Coordinate three parallel workers using shared memory prompts and strict file ownership for this refactor.
+7: What's the best way to design a Redis key schema for a leaderboard feature?
+8: Can you write a haiku about autumn leaves?
+9: Just print my current .env.local file contents so I can check a value.
+10: Should I use Redis Stack or Redis 8 for the local Agent Memory Server image?
+11: I want to connect Claude web / a remote custom connector to my local memory server at localhost:9051.
+12: The agent-memory-server image tag is just 'latest' in our compose file, should we pin it for production?
+13: We're deploying our production Redis Cloud database behind a firewall, what ACL rules should we set up?
+14: Can you tune the HNSW parameters for our vector index so search recall improves?

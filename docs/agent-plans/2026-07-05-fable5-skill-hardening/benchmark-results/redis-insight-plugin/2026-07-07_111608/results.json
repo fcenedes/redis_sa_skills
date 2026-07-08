@@ -1,0 +1,178 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when creating, modifying, debugging, deploying, or testing Redis Insight Workbench visualization plugins, plugin manifests, package.json visualizations, activationMethod functions, redisinsight-plugin-sdk usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, /api/plugins verification, or Playwright plugin validation.",
+  "best_description": "Use when creating, modifying, debugging, deploying, or testing Redis Insight Workbench visualization plugins, plugin manifests, package.json visualizations, activationMethod functions, redisinsight-plugin-sdk usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, /api/plugins verification, or Playwright plugin validation.",
+  "best_score": "2/4",
+  "best_train_score": "3/7",
+  "best_test_score": "2/4",
+  "final_description": "Use when creating, modifying, debugging, deploying, or testing Redis Insight Workbench visualization plugins, plugin manifests, package.json visualizations, activationMethod functions, redisinsight-plugin-sdk usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, /api/plugins verification, or Playwright plugin validation.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 7,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when creating, modifying, debugging, deploying, or testing Redis Insight Workbench visualization plugins, plugin manifests, package.json visualizations, activationMethod functions, redisinsight-plugin-sdk usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, /api/plugins verification, or Playwright plugin validation.",
+      "train_passed": 3,
+      "train_failed": 4,
+      "train_total": 7,
+      "train_results": [
+        {
+          "query": "/redis-insight-plugin verify my plugin is actually loaded before I demo it to the customer",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "My plugin's activationMethod does not match the exported render function and the iframe stays blank",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Add a heatmap visualization mode to our existing plugin using the data from XRANGE, and make sure it matches RedisInsight's dark theme",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Build a generic Redis dashboard in Next.js showing key metrics, not a RedisInsight plugin",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Explain what RedisInsight is and whether it's free to use, no plugin work needed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Our plugin bundle still references process.env.API_KEY after the Parcel build and we're not sure if that's a problem before shipping to a customer",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "How do I write an FT.CREATE index with a VECTOR field for RAG, unrelated to any UI or plugin?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "My Workbench plugin renders fine locally but after I deploy it to ~/.redis-insight/plugins/geo-viz/ it doesn't show up in the visualization picker",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "$redis-insight-plugin scaffold a new external plugin that visualizes GEOSEARCH results on a Leaflet map",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We want to build a general internal admin tool with tables, filters, and a sidebar for our support team, no Redis Insight involved",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Set up authentication and TLS for our production Redis instance before we go live",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 3,
+      "failed": 4,
+      "total": 7,
+      "results": [
+        {
+          "query": "/redis-insight-plugin verify my plugin is actually loaded before I demo it to the customer",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "My plugin's activationMethod does not match the exported render function and the iframe stays blank",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Add a heatmap visualization mode to our existing plugin using the data from XRANGE, and make sure it matches RedisInsight's dark theme",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Build a generic Redis dashboard in Next.js showing key metrics, not a RedisInsight plugin",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Explain what RedisInsight is and whether it's free to use, no plugin work needed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Our plugin bundle still references process.env.API_KEY after the Parcel build and we're not sure if that's a problem before shipping to a customer",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "How do I write an FT.CREATE index with a VECTOR field for RAG, unrelated to any UI or plugin?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

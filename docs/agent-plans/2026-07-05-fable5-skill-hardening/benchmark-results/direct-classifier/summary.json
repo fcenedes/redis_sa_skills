@@ -1,0 +1,184 @@
+{
+  "overall": {
+    "tp": 110,
+    "fp": 0,
+    "tn": 94,
+    "fn": 0,
+    "precision": 100,
+    "recall": 100,
+    "accuracy": 100,
+    "total": 204
+  },
+  "skills": [
+    {
+      "skill": "caveman",
+      "tp": 8,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "rtk-cli",
+      "tp": 10,
+      "fp": 0,
+      "tn": 4,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "redis-brand-ui",
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "redis-product-ui",
+      "tp": 6,
+      "fp": 0,
+      "tn": 5,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "redis-presentation-decks",
+      "tp": 6,
+      "fp": 0,
+      "tn": 5,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "redis-excalidraw-diagrams",
+      "tp": 5,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "redis-lucidchart-diagrams",
+      "tp": 5,
+      "fp": 0,
+      "tn": 5,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "redis-insight-plugin",
+      "tp": 6,
+      "fp": 0,
+      "tn": 5,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "playwright-test",
+      "tp": 7,
+      "fp": 0,
+      "tn": 5,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "playwright-cli-agent",
+      "tp": 8,
+      "fp": 0,
+      "tn": 4,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "agent-delegation-routing",
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "agent-delegation-planning",
+      "tp": 4,
+      "fp": 0,
+      "tn": 8,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "agent-spec-writing",
+      "tp": 5,
+      "fp": 0,
+      "tn": 7,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "agent-plan-lifecycle",
+      "tp": 6,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "agent-capability-ledger",
+      "tp": 7,
+      "fp": 0,
+      "tn": 5,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "agent-memory-docker",
+      "tp": 8,
+      "fp": 0,
+      "tn": 6,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    },
+    {
+      "skill": "agent-memory-coordination",
+      "tp": 7,
+      "fp": 0,
+      "tn": 5,
+      "fn": 0,
+      "precision": 100,
+      "recall": 100,
+      "accuracy": 100
+    }
+  ]
+}

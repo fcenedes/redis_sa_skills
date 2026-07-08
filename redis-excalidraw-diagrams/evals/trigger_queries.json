@@ -1,0 +1,79 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-excalidraw-diagrams",
+    "expected_behavior": "Trigger redis-excalidraw-diagrams because the deliverable is a fast, non-editable-by-customer sketch. Classify depth, load the color palette, and produce a rendered .excalidraw diagram.",
+    "must_not": "Must not route to redis-lucidchart-diagrams \u2014 no requirement for customer-editable Lucid handoff.",
+    "query": "Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-excalidraw-diagrams",
+    "expected_behavior": "Direct invocation. Produce a technical Excalidraw diagram with 16,384 hash slots, shard ownership, and failover details, render to PNG, and visually inspect it.",
+    "must_not": "Must not skip the render-and-inspect PNG cycle just because it was directly invoked.",
+    "query": "$redis-excalidraw-diagrams draw the Redis Cluster hash slot topology with primary/replica failover for a workshop slide"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-excalidraw-diagrams",
+    "expected_behavior": "Slash invocation. Build a comprehensive technical diagram including FT.CREATE VECTOR field syntax, DIM, DISTANCE_METRIC, and KNN query evidence.",
+    "must_not": "Must not deliver generic unlabeled boxes without real FT.CREATE/KNN syntax as evidence.",
+    "query": "/redis-excalidraw-diagrams create a vector search RAG pipeline diagram showing HNSW index and KNN query flow"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-lucidchart-diagrams",
+    "expected_behavior": "Recognize the customer-editable, ongoing-maintenance requirement and defer to redis-lucidchart-diagrams instead.",
+    "must_not": "Must not produce an .excalidraw file when the explicit requirement is customer-editable Lucid ownership.",
+    "query": "The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Decline to apply Redis-specific palette/evidence rules; if a diagram tool is used at all it should not be this skill, since there is no Redis architecture content.",
+    "must_not": "Must not force Redis commands, palette, or evidence artifacts onto a non-Redis diagram request.",
+    "query": "Draw me a generic system architecture diagram for a food delivery app, no Redis involved"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "This is a generic Excalidraw file-format question with no Redis architecture content and no request to create a Redis diagram; answer directly without invoking the skill.",
+    "must_not": "Must not invoke Redis palette/evidence workflow for a non-Redis, format-only question.",
+    "query": "How do I read an .excalidraw file's raw JSON structure to understand element IDs, unrelated to Redis?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Recognize this is a UI implementation task (a real dashboard web page), not a diagram, and defer to redis-product-ui.",
+    "must_not": "Must not produce an .excalidraw diagram when the actual deliverable is a functioning UI/web page.",
+    "query": "We need a Redis observability dashboard mockup for our RedisInsight-like internal tool, built as a web page"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-excalidraw-diagrams",
+    "expected_behavior": "Trigger for a Redis Cloud technical diagram with a quick-turnaround, internal-review framing. Include subscriptions, regions, private endpoints, Active-Active copies, and CRDT conflict resolution as evidence.",
+    "must_not": "Must not omit Redis Cloud-specific evidence details in favor of generic box diagrams.",
+    "query": "Make an architecture visual for our Redis Active-Active Cloud deployment across three regions with CRDT conflict resolution, for an internal architecture review, quick turnaround"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "This is an image-editing request, not a request to author a new Redis architecture diagram; the skill's JSON/rendering workflow does not apply to editing an existing raster photo.",
+    "must_not": "Must not attempt to regenerate or replace the user's photo editing task with a new .excalidraw file unless asked.",
+    "query": "I already have a hand-drawn whiteboard photo of our Streams consumer group design \u2014 can you just clean up the photo in Photoshop?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-excalidraw-diagrams",
+    "expected_behavior": "Trigger for a simple/conceptual diagram per the depth classification step; still use the Redis palette and cycle pattern for cache-aside, but skip heavy technical evidence since it's conceptual.",
+    "must_not": "Must not over-engineer a simple conceptual request with full production-topology evidence requirements.",
+    "query": "Sketch out a rough mental model of cache-aside vs write-through for an internal Slack explainer, nothing fancy or customer-facing"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-lucidchart-diagrams",
+    "expected_behavior": "Explicit Lucidchart request should route to redis-lucidchart-diagrams, not this skill, despite being a Redis architecture diagram.",
+    "must_not": "Must not produce an .excalidraw file when the user explicitly named Lucidchart as the target tool.",
+    "query": "Build a Lucidchart diagram for our SA team's customer workshop on Redis Search index design"
+  }
+]

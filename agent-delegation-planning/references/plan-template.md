@@ -2,6 +2,46 @@
 
 Use this template for delegated coding plans. Keep every field concrete enough that a worker can act without reading the original chat.
 
+## Quick-start
+
+Skim these two skeletons before reading the full template below. Use the
+task-only skeleton for one small ownership area; use the epic skeleton for
+multiple workers, phases, or delivery surfaces.
+
+**Small task-only plan (~10 lines):**
+
+```markdown
+# Plan: fix-flaky-login-test
+
+- Source of truth: tests/auth/login.spec.ts, issue #482
+- Execution: start-now | Autonomy: autonomous | Commit policy: not allowed
+- Task T1: Implementor, owns tests/auth/login.spec.ts, forbidden: src/**
+  - Verify: `npm test -- login.spec.ts`
+  - Required skills: rtk-cli: filter test output
+- Audit: inline Verifier task after T1, evidence = green test run
+- Tracking: tracker.md status field, no anchor files needed (single task, not resumable)
+```
+
+**Multi-epic anchored plan (~15 lines):**
+
+```markdown
+# Plan: payments-v2-migration
+
+- Source of truth: openspec/changes/payments-v2/, charter.md
+- Execution: start-now | Autonomy: autonomous | Commit policy: allowed (working branch only)
+- Anchor files: charter.md, 00-index.md, components.md, decisions.md
+- Epic E1: schema migration — owns db/migrations/**, Implementor + Verifier
+- Epic E2: API surface — owns src/api/payments/**, Implementor + Auditor
+- Epic E3: UI checkout flow — owns src/ui/checkout/**, UI Designer + Playwright verification
+- Parallelization: E1 blocks E2; E3 parallel with E2 (disjoint files)
+- Integration: epic-integration.md owns shared src/types/payments.ts
+- Audit: epic-audit.md, cross-agent Auditor via agent-delegation-routing
+- Tracking: agent_memory + tracker.md; 00-index.md holds lifecycle state
+- Capability ledger: reconcile before creating E1-E3 delta tasks
+```
+
+Both skeletons still need the full field set below (routing reason, model/reasoning, verification, done evidence) once you start filling in the real plan.
+
 ```markdown
 # Plan: <title>
 

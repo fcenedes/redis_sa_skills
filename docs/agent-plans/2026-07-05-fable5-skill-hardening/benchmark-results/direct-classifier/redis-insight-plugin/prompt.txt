@@ -1,0 +1,21 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: redis-insight-plugin
+Skill description: Use when creating, modifying, debugging, deploying, or testing Redis Insight Workbench visualization plugins, plugin manifests, package.json visualizations, activationMethod functions, redisinsight-plugin-sdk usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, /api/plugins verification, or Playwright plugin validation.
+
+Queries:
+1. My plugin's activationMethod does not match the exported render function and the iframe stays blank
+2. $redis-insight-plugin scaffold a new external plugin that visualizes GEOSEARCH results on a Leaflet map
+3. /redis-insight-plugin verify my plugin is actually loaded before I demo it to the customer
+4. Build a generic Redis dashboard in Next.js showing key metrics, not a RedisInsight plugin
+5. How do I write an FT.CREATE index with a VECTOR field for RAG, unrelated to any UI or plugin?
+6. Set up authentication and TLS for our production Redis instance before we go live
+7. We want to build a general internal admin tool with tables, filters, and a sidebar for our support team, no Redis Insight involved
+8. My Workbench plugin renders fine locally but after I deploy it to ~/.redis-insight/plugins/geo-viz/ it doesn't show up in the visualization picker
+9. Explain what RedisInsight is and whether it's free to use, no plugin work needed
+10. Add a heatmap visualization mode to our existing plugin using the data from XRANGE, and make sure it matches RedisInsight's dark theme
+11. Our plugin bundle still references process.env.API_KEY after the Parcel build and we're not sure if that's a problem before shipping to a customer

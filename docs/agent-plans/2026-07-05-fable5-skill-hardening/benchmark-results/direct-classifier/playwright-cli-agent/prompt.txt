@@ -1,0 +1,16 @@
+Classify skill trigger decisions. Return ONLY valid minified JSON: {"decisions":[{"id":"1","trigger":true}]}. No prose.
+Skill: playwright-cli-agent
+Description: Use when an agent needs to inspect, explore, operate, debug, or screenshot a web application through Playwright CLI. Use for live browser automation, UI exploration, reproducing bugs, validating flows, creating screenshots, or discovering stable selectors.
+Queries:
+1: Can you open the app at localhost:3000 and click through the signup flow to see what happens?
+2: There's a bug where the cart total doesn't update after removing an item — can you reproduce it?
+3: $playwright-cli-agent grab a screenshot of the pricing page at 375px, 768px, and 1440px widths
+4: /playwright-cli-agent find a stable selector for the 'Export CSV' button before I write a test for it
+5: Check if the Redis Insight plugin renders correctly inside the workbench iframe after our latest change.
+6: Write a Playwright test that verifies the signup form validates email format.
+7: Our nightly Playwright CI run has 5 flaky tests, can you dig into the traces and stabilize them?
+8: Go explore our production checkout site at checkout.ourapp.com and try submitting an order to confirm it works end to end.
+9: What's the best way to paginate through a large Redis Sorted Set for a leaderboard API?
+10: How do I configure ACL users for least-privilege access on our Redis Cloud instance?
+11: Compare the before and after screenshots of the dashboard once the redesign PR is deployed to the dev environment.
+12: Delete all test users from the staging database through the admin UI — can you do that and confirm it worked?

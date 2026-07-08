@@ -20,6 +20,12 @@ completed plan. Use `agent-capability-ledger` during promotion.
 Load [lifecycle-templates](references/lifecycle-templates.md) when creating or
 repairing `00-index.md`, `promotion.md`, or `archive.md`.
 
+## Authority
+
+- Authorized: advance plan state from repo evidence and update lifecycle records.
+- Not authorized: mark work promoted or archived without auditor approval and durable evidence.
+- Assessment-only default: for status requests, report the active residual before changing state.
+
 ## Plan States
 
 Primary states: `planned`, `running`, `verified`, `audited`, `promoted`, and
@@ -54,7 +60,10 @@ decision evidence.
    next action, and promotion/archive status.
 4. If work is audited, promote durable truth before archiving.
 5. During promotion, update capability ledger rows and memory pointers when
-   available. If an OpenSpec change is present, validate it when the CLI exists;
+   available. Use `agent-capability-ledger` for row format, status values, and
+   proof-class rules; see the before/after promotion example in
+   [lifecycle-templates](references/lifecycle-templates.md#capability-ledger-row-promotion-example).
+   If an OpenSpec change is present, validate it when the CLI exists;
    do not apply/archive it unless explicitly assigned.
 6. Archive by writing `archive.md` or marking the plan `archived`; do not delete
    history needed for future audits.
@@ -67,12 +76,16 @@ decision evidence.
 - Do not move or delete plan directories unless the user or repo policy says so.
 - Do not overwrite older decisions; append supersession records.
 - Do not count skipped live/browser/integration proof as passed.
+- Do not use this skill to build or maintain the capability ledger itself; that ownership belongs to `agent-capability-ledger` (lifecycle only reads and updates ledger rows during promotion).
+- Do not suggest ending the session to save context. Continue lifecycle operations until the plan reaches a terminal state or you are genuinely blocked.
 
 ## Checklist
+
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
 
 - [ ] Anchor files and newest user request were re-read.
 - [ ] Active residual was stated.
 - [ ] Plan state and task states are separate and current.
 - [ ] Evidence paths, commands, and audit verdicts are recorded.
-- [ ] Promotion updated ledger/spec/docs/memory as applicable.
-- [ ] Archive record preserves residual risks and superseded items.
+- [ ] Promotion updated ledger/spec/docs/memory as applicable, or recorded an explicit "not applicable" reason.
+- [ ] Archive record preserves residual risks and superseded items (yes/no verifiable: archive.md exists and lists them).

@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "Search memory for saved prompts first, assign disjoint ownership, dispatch worker prompts via agent_memory, then run integration pass and full gate before commit.",
+    "must_not": "Must not let two workers own the same file or dispatch without checking memory first.",
+    "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks \u2014 store their prompts in shared memory and give each a disjoint file set."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "Write an episodic gate-result memory with dated outcome, record blocker disposition if any, and re-anchor before the next worker prompt.",
+    "must_not": "Must not claim memory was seeded/updated without a write-capable backend confirming the write.",
+    "query": "$agent-memory-coordination the auth worker just finished, record the gate result and check for blockers before the next dispatch."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "Actively discover lazy-loaded write tools (create/add/write/save/upsert/edit/update/set) before concluding write is unavailable; fall back to repo tracker files only after discovery attempted.",
+    "must_not": "Must not declare memory read-only/unavailable without attempting tool discovery first.",
+    "query": "/agent-memory-coordination memory tools seem read-only, can we still coordinate workers?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "This is live worker dispatch and coordination; use namespace strategy, ownership boundaries, and integration pass across both agent types.",
+    "must_not": "Must not build a capability ledger instead of dispatching workers when the actual ask is live coordination.",
+    "query": "Coordinate parallel workers via shared memory prompts across Codex and Claude Code for this multi-service refactor."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "This is capability/readiness tracking before planning, not live worker dispatch; defer to agent-capability-ledger which owns capability-row memory sync.",
+    "must_not": "Must not use worker-prompt/gate-result memory patterns to answer a capability-inventory question.",
+    "query": "Before we plan a follow-up, track what's done and what's still missing across the repo's capability areas."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Defer to agent-plan-lifecycle for plan-state advancement questions; this skill only reads pointers to ledger rows, it does not manage promotion state.",
+    "must_not": "Must not attempt to advance or judge plan lifecycle state.",
+    "query": "Is this plan promoted yet? Check if the ledger rows and commit SHAs were recorded during promotion."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Defer to agent-memory-docker for infrastructure setup; this skill assumes the memory backend already exists and running.",
+    "must_not": "Must not attempt Docker/infra setup steps.",
+    "query": "Set up the Docker Compose stack for the local Agent Memory Server so my team can share it."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "No skill should trigger; unrelated to agent coordination.",
+    "must_not": "Must not force a coordination framing onto an unrelated request.",
+    "query": "Can you translate this paragraph into French for me?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Run the requested tests directly; do not invoke multi-worker coordination machinery for a single explicit test-run request.",
+    "must_not": "Must not wrap a simple test-run request in memory lookup/dispatch ceremony.",
+    "query": "Just run the test suite and tell me if it passes, no need to touch memory or dispatch anything."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "Record the skipped live proof honestly as skipped with the missing prerequisite noted; do not mark it passed.",
+    "must_not": "Must not agree to mark a skipped live proof as passed.",
+    "query": "One worker already finished the retrieval track and I want to skip live proof since we don't have the API key today \u2014 is that OK to mark passed?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "Reserve the shared file for the integrator rather than letting both workers own it, or merge the tracks.",
+    "must_not": "Must not let two workers directly co-own the same shared file.",
+    "query": "The auth worker and the billing worker both need to edit config/shared-settings.yaml, how should I split that?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "Perform the re-anchor ritual (defined in agent-delegation-planning's anchoring reference): re-read anchored files and restate active residual before generating new worker prompts.",
+    "must_not": "Must not dispatch new worker prompts without re-anchoring after compaction.",
+    "query": "We resumed this session after a context compaction \u2014 what should happen before I give the workers their next prompts?"
+  }
+]

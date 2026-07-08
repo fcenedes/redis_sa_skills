@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when tracking what has been delivered, proven, skipped, superseded, or still missing across multi-plan, multi-agent, multi-repo, readiness, audit, or follow-up work before writing new delegated plans.",
+  "best_description": "Use when tracking what has been delivered, proven, skipped, superseded, or still missing across multi-plan, multi-agent, multi-repo, readiness, audit, or follow-up work before writing new delegated plans.",
+  "best_score": "2/4",
+  "best_train_score": "3/8",
+  "best_test_score": "2/4",
+  "final_description": "Use when tracking what has been delivered, proven, skipped, superseded, or still missing across multi-plan, multi-agent, multi-repo, readiness, audit, or follow-up work before writing new delegated plans.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when tracking what has been delivered, proven, skipped, superseded, or still missing across multi-plan, multi-agent, multi-repo, readiness, audit, or follow-up work before writing new delegated plans.",
+      "train_passed": 3,
+      "train_failed": 5,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "How many capability rows should I create for a login feature that touches both frontend and backend with different owners?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I think the JWT refresh capability is done, I remember fixing it last week in our chat.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "/agent-capability-ledger audit readiness for the Q3 release across all three services",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Before we plan the next tranche, what's actually done vs still missing across the auth and billing repos?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Set up the local Docker stack for the agent memory server so my team can share it.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "We have a Redis Array mirror of our ledger \u2014 can you query it for all partial rows instead of reading the Markdown?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Coordinate three parallel workers on auth, billing, and UI right now using shared memory prompts and strict file ownership.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Promote this audited plan and archive it, updating any lifecycle records.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "$agent-capability-ledger did we already implement the retry backoff for stream consumers?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Track what's done and what's missing before we write a follow-up plan for the notification service.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Just show me git log for the last 20 commits, nothing fancy.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What's a good recipe for banana bread?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 3,
+      "failed": 5,
+      "total": 8,
+      "results": [
+        {
+          "query": "How many capability rows should I create for a login feature that touches both frontend and backend with different owners?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I think the JWT refresh capability is done, I remember fixing it last week in our chat.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "/agent-capability-ledger audit readiness for the Q3 release across all three services",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Before we plan the next tranche, what's actually done vs still missing across the auth and billing repos?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Set up the local Docker stack for the agent memory server so my team can share it.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "We have a Redis Array mirror of our ledger \u2014 can you query it for all partial rows instead of reading the Markdown?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Coordinate three parallel workers on auth, billing, and UI right now using shared memory prompts and strict file ownership.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Promote this audited plan and archive it, updating any lifecycle records.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

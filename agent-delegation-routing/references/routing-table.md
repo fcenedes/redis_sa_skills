@@ -1,12 +1,13 @@
 # Agent Routing Table
 
 Model guidance changes. Verify current vendor docs before making durable claims
-about exact model names, pricing, limits, or availability. As of the 2026-05
-guidance used to create this skill: Anthropic positions Sonnet for most coding,
-Opus for hard or wide work, and Haiku for quick mechanical work; OpenAI
-positions Codex as long-horizon agentic coding with low/medium/high/xhigh
-reasoning effort; Qwen positions Qwen3-Coder as an agentic coding model with
-Qwen Code tooling.
+about exact model names, pricing, limits, or availability. As of the 2026-07
+guidance used to update this skill: Anthropic's Fable 5 (Mythos class) is above
+Opus in capability; effort, not rule density, is the primary control lever.
+Anthropic positions Sonnet for most coding, Opus for hard or wide work, and
+Haiku for quick mechanical work; OpenAI positions Codex as long-horizon agentic
+coding with low/medium/high/xhigh reasoning effort; Qwen positions Qwen3-Coder
+as an agentic coding model with Qwen Code tooling.
 
 Sources to re-check when updating this file:
 
@@ -72,11 +73,46 @@ Codex-to-Claude handoff.
 
 | Model | Use for | Avoid for |
 |-------|---------|-----------|
+| Fable 5 | Everything Opus does, with stronger instruction-following and autonomous execution. Default for Claude Code. | Step-by-step recipes (follow the contract model instead), "explain your reasoning" prompts. |
 | Opus | Planning, architecture, hard debugging, ambiguous specs, final reviews, high-stakes reasoning. | Bulk edits, cheap loops, mechanical changes. |
 | Sonnet | Most coding, refactors, tests, known bugs, implementation from a plan. | Very cheap repetitive tasks. |
 | Haiku | Renames, summaries, small docs, regex/log explanations, simple boilerplate. | Architecture, broad repo edits, subtle bugs. |
 
 Practical pattern on the Claude side: Opus plans, Sonnet executes.
+
+## Fable 5 (Claude Code)
+
+Fable 5 is Anthropic's Mythos-class model, above Opus in capability.
+Control model: contract-based. Define objective, success criteria,
+authority boundary, and obligation of proof. Do not compensate with
+step-by-step recipes -- Fable either follows them rigidly (even when
+they're wrong for the task) or contests them mid-task.
+
+Effort is the primary lever:
+
+| Effort | Use for | Notes |
+|--------|---------|-------|
+| low | Grep, summaries, tiny docs, simple edits | Fable low >= previous-gen xhigh for routine work. |
+| medium | Normal bounded coding, tests, docs, fixes | Default for most worker tasks. |
+| high | Multi-file implementation, integration, debugging | Default for coordinators and non-trivial work. |
+| xhigh | Architecture, subtle regression, security, final verification | Use sparingly -- over-deliberation on routine work. |
+
+Before adding rules to control Fable behavior, lower effort first.
+At high effort on routine work, Fable over-collects context and
+deliberates beyond the task's needs.
+
+Fresh-context verifiers outperform self-review. For final gates,
+spawn a new verification agent rather than re-checking your own work.
+
+Anti-pitfalls:
+- Do not include "explain your reasoning" or "show your thinking" in
+  prompts -- this can trigger reasoning_extraction refusal and fall
+  back to Opus 4.8.
+- For autonomous pipelines, add: "You operate autonomously. For
+  reversible actions that follow from the request, proceed without
+  asking."
+- In long sessions, do not suggest ending or summarizing to save
+  context -- continue until the task is complete.
 
 ## Codex Reasoning
 
@@ -132,6 +168,7 @@ Report blockers.
 
 ## Default Team Setup
 
+- Fable 5: default Claude Code coordinator/auditor when Claude-side routing is available; use contract prompts and tune effort before adding rules.
 - Claude Opus: write or review the plan when routed by a human or Claude-side coordinator.
 - Codex medium/high: implement and run gates based on risk.
 - Qwen local: parallel bounded worker for tests, docs, and mechanical patches.

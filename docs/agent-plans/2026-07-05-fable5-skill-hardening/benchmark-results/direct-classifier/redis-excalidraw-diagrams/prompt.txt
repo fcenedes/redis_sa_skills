@@ -1,0 +1,21 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: redis-excalidraw-diagrams
+Skill description: Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Search, Streams, replication, clustering, observability, and Redis Cloud systems. Use when a user asks for a Redis technical diagram, architecture visual, workflow sketch, or .excalidraw file that must be accurate, branded, and visually validated.
+
+Queries:
+1. Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?
+2. $redis-excalidraw-diagrams draw the Redis Cluster hash slot topology with primary/replica failover for a workshop slide
+3. /redis-excalidraw-diagrams create a vector search RAG pipeline diagram showing HNSW index and KNN query flow
+4. The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture
+5. Draw me a generic system architecture diagram for a food delivery app, no Redis involved
+6. How do I read an .excalidraw file's raw JSON structure to understand element IDs, unrelated to Redis?
+7. We need a Redis observability dashboard mockup for our RedisInsight-like internal tool, built as a web page
+8. Make an architecture visual for our Redis Active-Active Cloud deployment across three regions with CRDT conflict resolution, for an internal architecture review, quick turnaround
+9. I already have a hand-drawn whiteboard photo of our Streams consumer group design — can you just clean up the photo in Photoshop?
+10. Sketch out a rough mental model of cache-aside vs write-through for an internal Slack explainer, nothing fancy or customer-facing
+11. Build a Lucidchart diagram for our SA team's customer workshop on Redis Search index design

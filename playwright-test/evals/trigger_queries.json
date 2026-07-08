@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "playwright-test",
+    "expected_behavior": "Inspect existing config/specs for conventions, then author a new *.spec.ts using @playwright/test with resilient locators and web-first assertions.",
+    "must_not": "Must not switch to playwright-cli-agent or drive a live browser session to write the test.",
+    "query": "Write a Playwright test that checks the login form shows an error for wrong credentials."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "playwright-test",
+    "expected_behavior": "Diagnose via trace/report, identify unhandled waits or race conditions, and fix with web-first assertions or proper wait conditions instead of bumping timeouts.",
+    "must_not": "Must not just increase waitForTimeout values or disable the test.",
+    "query": "Fix this flaky Playwright test \u2014 it fails intermittently in CI but passes locally."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "playwright-test",
+    "expected_behavior": "Add an auth.setup.ts project and configure storageState reuse per references/playwright-test-patterns.md, using templates if no fixture file exists.",
+    "must_not": "Must not log in via the UI inside every test.",
+    "query": "$playwright-test add auth setup with storageState to our e2e suite"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "playwright-test",
+    "expected_behavior": "Review trace/retries/workers/reporter settings against CI recommendations in references/playwright-test-patterns.md.",
+    "must_not": "Must not recommend live CLI exploration commands as the primary fix.",
+    "query": "/playwright-test review my playwright.config.ts for CI best practices"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "playwright-test",
+    "expected_behavior": "Open the trace/report, narrow to the smallest failing scope, and diagnose per references/debugging-and-traces.md.",
+    "must_not": "Must not skip straight to rewriting tests without reading the trace.",
+    "query": "Our CI run failed on 3 Playwright specs, can you look at the trace and figure out why?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "playwright-cli-agent",
+    "expected_behavior": "Recognize this is live manual exploration/validation, not spec authoring, and defer to playwright-cli-agent.",
+    "must_not": "Must not write a *.spec.ts file when the ask is a one-off manual check.",
+    "query": "Can you manually poke around our staging site and see if the checkout flow still works after the deploy?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "playwright-cli-agent",
+    "expected_behavior": "Identify this as live screenshot capture and route to playwright-cli-agent.",
+    "must_not": "Must not create or modify a test file to produce the screenshot.",
+    "query": "Take a screenshot of the dashboard at mobile width so I can attach it to a bug report."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "playwright-cli-agent",
+    "expected_behavior": "Recognize live bug reproduction and defer to playwright-cli-agent; playwright-test only comes in later to codify a regression test.",
+    "must_not": "Must not immediately write a regression test before the bug is reproduced and understood.",
+    "query": "There's a weird rendering glitch on the settings page, can you reproduce it and tell me what's happening?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "No Playwright skill applies; this is a Redis Query Engine / indexing question with no browser or UI testing involved.",
+    "must_not": "Must not invoke playwright-test or playwright-cli-agent for a backend indexing question.",
+    "query": "What indexing strategy should I use for a Redis Query Engine schema with a TAG field for status filters?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "No Playwright skill applies; purely a data modeling question with no test authoring or browser involved.",
+    "must_not": "Must not trigger playwright-test or playwright-cli-agent.",
+    "query": "Explain the difference between Redis Hash and JSON for storing user profile objects."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "playwright-test",
+    "expected_behavior": "Refactor existing specs to prefer getByRole/Label/Placeholder/Text per references/selectors-and-locators.md, replacing brittle CSS/positional selectors.",
+    "must_not": "Must not suggest adding data-testid everywhere instead of trying semantic locators first.",
+    "query": "We need better selector strategy across our specs \u2014 too many tests break on refactors because of nth-child selectors."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "playwright-test",
+    "expected_behavior": "Start from templates/playwright.config.example.ts and templates/fixture-template.ts since no existing config/fixtures exist, then adapt testDir/baseURL/projects.",
+    "must_not": "Must not hand-roll a config from scratch when a starter template exists, and must not skip inspecting package.json first.",
+    "query": "Can you set up a brand-new Playwright test project for our Next.js app? There's no config yet."
+  }
+]
