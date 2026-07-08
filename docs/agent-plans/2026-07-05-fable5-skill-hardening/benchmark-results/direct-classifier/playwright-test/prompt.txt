@@ -1,0 +1,22 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: playwright-test
+Skill description: Use when creating, fixing, reviewing, or debugging Playwright Test E2E/UI tests, playwright.config files, fixtures, auth state, selectors, traces, CI failures, flaky UI tests, browser tests, or test runner workflows.
+
+Queries:
+1. Write a Playwright test that checks the login form shows an error for wrong credentials.
+2. Fix this flaky Playwright test — it fails intermittently in CI but passes locally.
+3. $playwright-test add auth setup with storageState to our e2e suite
+4. /playwright-test review my playwright.config.ts for CI best practices
+5. Our CI run failed on 3 Playwright specs, can you look at the trace and figure out why?
+6. Can you manually poke around our staging site and see if the checkout flow still works after the deploy?
+7. Take a screenshot of the dashboard at mobile width so I can attach it to a bug report.
+8. There's a weird rendering glitch on the settings page, can you reproduce it and tell me what's happening?
+9. What indexing strategy should I use for a Redis Query Engine schema with a TAG field for status filters?
+10. Explain the difference between Redis Hash and JSON for storing user profile objects.
+11. We need better selector strategy across our specs — too many tests break on refactors because of nth-child selectors.
+12. Can you set up a brand-new Playwright test project for our Next.js app? There's no config yet.

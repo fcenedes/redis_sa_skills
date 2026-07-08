@@ -10,7 +10,7 @@ services:
   redis:
     image: ${REDIS_IMAGE:-redis:8}
     ports:
-      - "${REDIS_PORT:-6380}:6379"
+      - "${BIND_HOST:-127.0.0.1}:${REDIS_PORT:-6380}:6379"
     volumes:
       - agent_memory_redis_data:/data
     command: ["redis-server", "--appendonly", "yes"]
@@ -23,6 +23,8 @@ services:
       - agent-memory-local
 
   agent-memory-api:
+    # REDIS_AGENT_MEMORY_VERSION defaults to "latest" for local dev convenience.
+    # Recommended: pin to a specific released tag in production or shared environments.
     image: redislabs/agent-memory-server:${REDIS_AGENT_MEMORY_VERSION:-latest}
     env_file:
       - path: .env.local
@@ -51,7 +53,7 @@ services:
       - DEFAULT_MCP_NAMESPACE=${DEFAULT_MCP_NAMESPACE:-agent-memory-local}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
     ports:
-      - "${AMS_API_PORT:-8000}:8000"
+      - "${BIND_HOST:-127.0.0.1}:${AMS_API_PORT:-8000}:8000"
     depends_on:
       redis:
         condition: service_healthy
@@ -99,7 +101,7 @@ services:
       - DEFAULT_MCP_NAMESPACE=${DEFAULT_MCP_NAMESPACE:-agent-memory-local}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
     ports:
-      - "${AMS_MCP_SSE_PORT:-9050}:9000"
+      - "${BIND_HOST:-127.0.0.1}:${AMS_MCP_SSE_PORT:-9050}:9000"
     depends_on:
       redis:
         condition: service_healthy
@@ -142,7 +144,7 @@ services:
       - DEFAULT_MCP_NAMESPACE=${DEFAULT_MCP_NAMESPACE:-agent-memory-local}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
     ports:
-      - "${AMS_MCP_HTTP_PORT:-9051}:9000"
+      - "${BIND_HOST:-127.0.0.1}:${AMS_MCP_HTTP_PORT:-9051}:9000"
     depends_on:
       redis:
         condition: service_healthy

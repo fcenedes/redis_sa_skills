@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when writing an execution plan that will be delegated to coding agents, subagents, Codex CLI, Claude-side coordinators, Qwen/Ollama, or parallel workers.",
+  "best_description": "Use when writing an execution plan that will be delegated to coding agents, subagents, Codex CLI, Claude-side coordinators, Qwen/Ollama, or parallel workers.",
+  "best_score": "3/4",
+  "best_train_score": "5/8",
+  "best_test_score": "3/4",
+  "final_description": "Use when writing an execution plan that will be delegated to coding agents, subagents, Codex CLI, Claude-side coordinators, Qwen/Ollama, or parallel workers.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when writing an execution plan that will be delegated to coding agents, subagents, Codex CLI, Claude-side coordinators, Qwen/Ollama, or parallel workers.",
+      "train_passed": 5,
+      "train_failed": 3,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "$agent-delegation-planning we need to migrate billing to a new schema: schema changes, API updates, and a UI checkout rework, delegated across multiple agents.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our anchored plan for the search-v2 migration needs to resume after a context compaction \u2014 what's the status and what's next?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "/agent-delegation-planning write a plan to add rate limiting to the API, add tests, and deploy behind a flag; I'll hand this to Codex and a Claude coordinator in parallel.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Plan and execute: refactor the auth module, add a new permissions layer, and update three downstream services, run to completion autonomously.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We already have a plan with 4 tasks written to docs/agent-plans/2026-07-01-rate-limit/. Just tell me which worker should run task T2.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Just pick whichever model is cheapest for this one bounded doc edit and go.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Fix the off-by-one error on line 42 of parser.py.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What features have we already delivered for the notifications system before I plan the next phase?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 3,
+      "test_failed": 1,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "We need parallel workstreams: one agent building the search index, one building the ranking API, one building the UI \u2014 write the full plan with ownership boundaries and verification gates.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Draft an OpenSpec change proposal for the new subscription-tier logic before we plan the implementation.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Can you just rename this one variable across this single file? No need for a plan.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What should happen when a coupon code is applied twice in the same cart? We haven't defined the expected behavior yet.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 5,
+      "failed": 3,
+      "total": 8,
+      "results": [
+        {
+          "query": "$agent-delegation-planning we need to migrate billing to a new schema: schema changes, API updates, and a UI checkout rework, delegated across multiple agents.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our anchored plan for the search-v2 migration needs to resume after a context compaction \u2014 what's the status and what's next?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "/agent-delegation-planning write a plan to add rate limiting to the API, add tests, and deploy behind a flag; I'll hand this to Codex and a Claude coordinator in parallel.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Plan and execute: refactor the auth module, add a new permissions layer, and update three downstream services, run to completion autonomously.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We already have a plan with 4 tasks written to docs/agent-plans/2026-07-01-rate-limit/. Just tell me which worker should run task T2.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Just pick whichever model is cheapest for this one bounded doc edit and go.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Fix the off-by-one error on line 42 of parser.py.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What features have we already delivered for the notifications system before I plan the next phase?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

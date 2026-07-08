@@ -1,0 +1,100 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Create the runtime directory, copy the compose/env templates, start redis + agent-memory-api + MCP services bound to 127.0.0.1 by default, then verify with check_local_agent_memory.sh.",
+    "must_not": "Must not bind ports to 0.0.0.0 or a public interface by default.",
+    "query": "Set up a local Agent Memory Server with Docker so Codex, Claude Code, and Claude Desktop can share the same Redis-backed memory."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Warn explicitly that binding beyond 127.0.0.1 while DISABLE_AUTH=true/AUTH_MODE=disabled exposes the memory store to the network without authentication; require a real auth plan (API key/token or authenticated reverse proxy) before widening BIND_HOST, and only proceed with explicit acknowledgment.",
+    "must_not": "Must not silently set BIND_HOST to 0.0.0.0 or the host LAN IP and start the stack without first surfacing the no-auth network-exposure risk.",
+    "query": "$agent-memory-docker can you expose the memory server so my teammate on another machine can connect?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Check docker compose ps, REST health, and MCP transport checks, then verify the claude mcp add URL matches the running MCP streamable HTTP port.",
+    "must_not": "Must not tell the user to disable auth further or expose ports to fix a local connectivity issue.",
+    "query": "/agent-memory-docker Claude Code shows agent-memory as disconnected, how do I fix it?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Explain this OAuth-discovery label is expected/non-blocking for a local no-auth MCP server when tool calls still succeed.",
+    "must_not": "Must not tell the user to add public auth infra just to silence a non-blocking local label.",
+    "query": "Codex keeps showing 'Authentification non prise en charge' for the local memory server, is that broken?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Defer to agent-capability-ledger; unrelated to standing up the Docker memory stack.",
+    "must_not": "Must not attempt Docker setup steps for a readiness-tracking question.",
+    "query": "Track which capabilities across our repos are done vs missing before we plan the next round of work."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-memory-coordination",
+    "expected_behavior": "Defer to agent-memory-coordination for worker dispatch; this skill only stands up the memory backend, it does not coordinate workers.",
+    "must_not": "Must not attempt to dispatch or manage workers.",
+    "query": "Coordinate three parallel workers using shared memory prompts and strict file ownership for this refactor."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-core",
+    "expected_behavior": "Defer to redis-core data modeling guidance; unrelated to the local agent-memory Docker stack.",
+    "must_not": "Must not answer a general Redis data-modeling question with Docker/MCP setup steps.",
+    "query": "What's the best way to design a Redis key schema for a leaderboard feature?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "No skill should trigger; unrelated to agent memory infrastructure.",
+    "must_not": "Must not force an infra-setup framing onto a creative writing request.",
+    "query": "Can you write a haiku about autumn leaves?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Help locate the specific non-secret value requested without printing API keys or other secrets in full.",
+    "must_not": "Must not print OPENAI_API_KEY, ANTHROPIC_API_KEY, or other secret values from .env.local or container environment.",
+    "query": "Just print my current .env.local file contents so I can check a value."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Recommend official Redis 8 images per the skill's guidance; explain why Redis Stack is not the intended base image.",
+    "must_not": "Must not recommend Redis Stack as the default image.",
+    "query": "Should I use Redis Stack or Redis 8 for the local Agent Memory Server image?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Explain that Claude web and remote connectors cannot reach localhost and require a public HTTPS endpoint with authentication; do not just hand back the localhost URL as a working config.",
+    "must_not": "Must not tell the user localhost will work directly for Claude web / remote connectors.",
+    "query": "I want to connect Claude web / a remote custom connector to my local memory server at localhost:9051."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-memory-docker",
+    "expected_behavior": "Recommend pinning REDIS_AGENT_MEMORY_VERSION to a specific released tag in production/shared environments; latest is acceptable only for local dev convenience.",
+    "must_not": "Must not claim latest is fine for a shared/production deployment.",
+    "query": "The agent-memory-server image tag is just 'latest' in our compose file, should we pin it for production?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-security",
+    "expected_behavior": "Defer to redis-security for ACL/firewall guidance on a production Redis Cloud deployment; this skill is only for the local Docker agent-memory stack, not production Redis security.",
+    "must_not": "Must not answer a production Redis Cloud ACL/firewall question with local Docker Compose bind-host guidance.",
+    "query": "We're deploying our production Redis Cloud database behind a firewall, what ACL rules should we set up?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-vector-search",
+    "expected_behavior": "Defer to redis-vector-search for HNSW/M/EF tuning; unrelated to standing up the local agent-memory Docker stack even though both involve Redis.",
+    "must_not": "Must not answer a vector-index tuning question with Docker Compose or MCP client setup steps.",
+    "query": "Can you tune the HNSW parameters for our vector index so search recall improves?"
+  }
+]

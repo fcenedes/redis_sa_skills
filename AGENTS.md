@@ -22,6 +22,7 @@ Every skill in this repo must have:
 - Imperative instructions ("Do X", "Use Y").
 - Explicit `DO NOT` guardrails for anti-patterns.
 - A final checklist agents can run through before declaring the task done.
+- Explicit authority boundary (what the skill may do autonomously vs. what requires user request).
 
 ## Do Not Vendor
 
@@ -75,6 +76,10 @@ Run `bash scripts/validate-skills.sh` before opening a PR. The script checks fro
 
 ## Model and Cost Optimization
 
+### Fable 5
+
+Fable 5 is the Claude Code default. Use reasoning effort as the primary control lever: lower effort for routine work before adding more rules. See [routing-table.md](agent-delegation-routing/references/routing-table.md) for detailed model routing and effort guidance.
+
 ### Tokenizer Inflation: Opus 4.7
 
 Opus 4.7 uses a new tokenizer that inflates token counts by up to ~35% compared to Opus 4.6 for equivalent work. If you are seeing unexpectedly high token usage or cost:
@@ -114,6 +119,42 @@ export CLAUDE_STREAM_IDLE_TIMEOUT_MS=600000           # 10-minute idle timeout (
 - Do not disable prompt caching unless debugging cache-specific issues.
 - Do not place volatile content (timestamps, request IDs) before stable content in prompts — it breaks cache alignment.
 - Do not leave `CLAUDE_STREAM_IDLE_TIMEOUT_MS` at default for repos with slow builds or large test suites — streams will timeout mid-run.
+
+## Fable 5 Control Model
+
+Fable 5 (Mythos-class) is the most capable Claude model. It drifts by
+strength, not weakness: it evaluates rules instead of blindly following
+them. Control comes from contracts, not prescriptions.
+
+### Authority Boundary Convention
+
+Every skill must declare its scope of initiative:
+- What actions it may take autonomously.
+- What requires explicit user request.
+- Default: when the user describes a problem without requesting a change,
+  the deliverable is the assessment. Report and stop.
+
+### Tool-Result Anchoring
+
+Progress and completion claims must cite tool results from the current
+session. Checklists must be provable by command output or file read, not
+by memory or prior conversation. Auditors re-run verification commands
+independently.
+
+### Effort as Primary Lever
+
+Before adding rules to control model behavior, lower reasoning effort.
+Fable at low effort outperforms previous-gen models at xhigh for routine
+tasks. High effort on routine work causes over-collection and
+over-deliberation.
+
+### Anti-Pitfalls
+
+- Do not include "explain your reasoning" or "show your thinking" in
+  skill instructions — can trigger reasoning_extraction refusal.
+- For autonomous pipelines: "proceed without asking for reversible
+  actions that follow from the request."
+- In long sessions: do not suggest ending or summarizing to save context.
 
 ## Scope
 

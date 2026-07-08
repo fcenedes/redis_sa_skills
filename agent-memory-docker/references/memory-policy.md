@@ -20,7 +20,7 @@ During the session:
 - Store only durable, future-useful facts: explicit user preferences, stable project decisions, validated setup details, reusable paths, and constraints.
 - Prefer a specific namespace for project or customer facts, for example `project-xyz`, `customer-abc`, or `repo-<name>`.
 - Prefer namespace `redis-sa-agent-memory` only for Redis SA shared setup and workflow memories unless a more specific namespace is needed.
-- Use `user_id="pierre"` for Pierre's local setup memories.
+- Use `user_id="<local-user-or-team-id>"` for local setup memories (for personal setups prefer `$USER` or your configured MCP user).
 - Write memories as self-contained sentences with concrete names, absolute dates for events, and no unresolved pronouns.
 
 Do not store:

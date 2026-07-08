@@ -1,0 +1,100 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "caveman",
+    "expected_behavior": "Enter caveman full mode for the rest of this session; compress subsequent prose while preserving identifiers, code, and safety warnings.",
+    "must_not": "Must not abbreviate code identifiers, file paths, or error strings in later responses.",
+    "query": "caveman mode please, keep it short from here on"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "caveman",
+    "expected_behavior": "Enter caveman mode (casual phrasing of the same trigger) and answer tersely.",
+    "must_not": "Must not treat this as a joke/Tarzan-style request; stay technically precise.",
+    "query": "can you talk like a caveman for this answer, less words"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "caveman",
+    "expected_behavior": "Produce an ultra-mode one-line summary of the PR changes.",
+    "must_not": "Must not omit which files/behavior changed just to hit one line if that makes it ambiguous.",
+    "query": "give me a one-liner summary of what changed in this PR"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "caveman",
+    "expected_behavior": "Explicit slash-command invocation; enter caveman full mode.",
+    "must_not": "Must not ask for clarification before entering the mode; the trigger is unambiguous.",
+    "query": "/caveman"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "caveman",
+    "expected_behavior": "Explicit Codex-style invocation requesting ultra mode; compress maximally while staying unambiguous.",
+    "must_not": "Must not fall back to full mode when ultra was explicitly requested.",
+    "query": "$caveman ultra, ship the summary"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "This is about compressing command/tool OUTPUT, not agent prose, so it should route to rtk-cli (wrap the commands with rtk), not caveman.",
+    "must_not": "Must not apply caveman-style prose compression as the fix; the fix is wrapping git/test commands with rtk.",
+    "query": "can you make git diff and the test output less noisy, I don't want walls of text"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Shell/build output compression belongs to rtk-cli (e.g. rtk npm run build), not caveman.",
+    "must_not": "Must not invoke caveman prose-compression rules for raw log output.",
+    "query": "the build log is huge, can you trim it down before showing me"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "This is a safety/destructive-operation warning. Even if caveman mode is currently active in the session, this must be answered in full clear prose per the Auto-Clarity Exceptions, not compressed.",
+    "must_not": "Must not compress or shorten the force-push risk explanation for token savings, even mid-caveman-session.",
+    "query": "we're about to force-push over main, walk me through the risk carefully"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "caveman",
+    "expected_behavior": "Ambiguous phrasing that still maps to the core intent (brevity in agent prose); treat as a caveman-lite trigger and confirm/adopt lite mode.",
+    "must_not": "Must not silently ignore the request or treat it as a formatting-only tweak outside any skill.",
+    "query": "can you make your explanations more concise in general, I read fast"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Unrelated general-knowledge question. No skill in this repo should trigger.",
+    "must_not": "Must not invoke caveman, rtk-cli, or any other skill for a plain factual question.",
+    "query": "what's the capital of France"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "caveman",
+    "expected_behavior": "Explicit mode-off trigger; disable caveman compression and resume standard prose for this and future responses until re-triggered.",
+    "must_not": "Must not continue compressing prose after this explicit opt-out.",
+    "query": "stop caveman, go back to normal, I need the full explanation this time"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "caveman",
+    "expected_behavior": "Short-review request maps to caveman-review style: one line per finding (file/line, issue, fix), still technically complete.",
+    "must_not": "Must not drop the file/line location or the fix just to keep the line short.",
+    "query": "review this PR but keep your comments short, one line per issue"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "This asks to rename/abbreviate actual code identifiers, which caveman explicitly forbids (it compresses prose, never code identifiers). Should not be treated as a caveman trigger; if attempted at all it is a separate refactor request outside this skill's scope.",
+    "must_not": "Must not use caveman's compression license to justify abbreviating real code identifiers; caveman never touches code identifiers.",
+    "query": "please abbreviate all the variable names in this file to save space"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Explicit request to wrap a shell command with rtk; this is rtk-cli's core workflow (rtk test \"npm test\"), not a caveman prose-compression task.",
+    "must_not": "Must not route this to caveman just because the word 'small'/'wrap' sounds like compression language; the object being compressed is command output.",
+    "query": "run the test suite and wrap it with rtk so the output stays small"
+  }
+]

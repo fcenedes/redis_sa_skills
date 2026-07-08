@@ -188,21 +188,21 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | Skill | Version |
 |-------|---------|
 | caveman | 1.0.0 |
-| rtk-cli | 1.0.0 |
-| redis-brand-ui | 1.0.0 |
-| redis-product-ui | 1.1.0 |
+| rtk-cli | 1.1.0 |
+| redis-brand-ui | 1.1.0 |
+| redis-product-ui | 1.2.0 |
 | redis-presentation-decks | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
 | redis-lucidchart-diagrams | 1.0.0 |
 | playwright-test | 1.0.0 |
-| playwright-cli-agent | 1.0.0 |
+| playwright-cli-agent | 1.1.0 |
 | redis-insight-plugin | 1.0.0 |
 | agent-delegation-routing | 1.1.1 |
 | agent-delegation-planning | 1.1.2 |
-| agent-spec-writing | 1.0.0 |
+| agent-spec-writing | 1.2.0 |
 | agent-plan-lifecycle | 1.0.0 |
 | agent-capability-ledger | 1.0.1 |
-| agent-memory-docker | 1.0.0 |
+| agent-memory-docker | 1.1.0 |
 | agent-memory-coordination | 1.1.1 |
 
 ## Skill Structure

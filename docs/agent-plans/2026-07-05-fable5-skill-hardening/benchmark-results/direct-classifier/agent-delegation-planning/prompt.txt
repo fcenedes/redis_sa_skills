@@ -1,0 +1,22 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: agent-delegation-planning
+Skill description: Use when writing an execution plan that will be delegated to coding agents, subagents, Codex CLI, Claude-side coordinators, Qwen/Ollama, or parallel workers.
+
+Queries:
+1. $agent-delegation-planning we need to migrate billing to a new schema: schema changes, API updates, and a UI checkout rework, delegated across multiple agents.
+2. /agent-delegation-planning write a plan to add rate limiting to the API, add tests, and deploy behind a flag; I'll hand this to Codex and a Claude coordinator in parallel.
+3. We already have a plan with 4 tasks written to docs/agent-plans/2026-07-01-rate-limit/. Just tell me which worker should run task T2.
+4. Fix the off-by-one error on line 42 of parser.py.
+5. What should happen when a coupon code is applied twice in the same cart? We haven't defined the expected behavior yet.
+6. What features have we already delivered for the notifications system before I plan the next phase?
+7. Our anchored plan for the search-v2 migration needs to resume after a context compaction — what's the status and what's next?
+8. Can you just rename this one variable across this single file? No need for a plan.
+9. We need parallel workstreams: one agent building the search index, one building the ranking API, one building the UI — write the full plan with ownership boundaries and verification gates.
+10. Just pick whichever model is cheapest for this one bounded doc edit and go.
+11. Draft an OpenSpec change proposal for the new subscription-tier logic before we plan the implementation.
+12. Plan and execute: refactor the auth module, add a new permissions layer, and update three downstream services, run to completion autonomously.

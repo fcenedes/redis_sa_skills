@@ -1,0 +1,79 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Use references/table-patterns.md and references/tokens.md, applying the light/dark theme pair (RedisInsight fidelity) and Drawer over Modal for row inspection.",
+    "must_not": "Apply light2/dark2 tokens for a RedisInsight-fidelity surface, or use Modal instead of Drawer for row inspection.",
+    "query": "Build a RedisInsight-style connections table with filters, a drawer for connection detail, and light/dark theme support."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Use light2/dark2 theme tokens (non-RedisInsight product), Stepper for the wizard, and product semantic colors for status badges.",
+    "must_not": "Use Redis Red as the universal status color, or use light/dark RedisInsight tokens for a non-RedisInsight product.",
+    "query": "$redis-product-ui design an admin dashboard for our Redis Cloud database list with status badges, search, and a create-database wizard."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Use references/chart-patterns.md to add labeled axes, tooltips, and theme-safe colors for all three states.",
+    "must_not": "Ship a chart with only a default/happy-path state.",
+    "query": "/redis-product-ui add loading, empty, and error states to our metrics chart component."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Use Table for the dense list, Tabs for peer views, and Toast for the transient revoke confirmation.",
+    "must_not": "Use a card grid for the dense API key list, or use a persistent Banner instead of a transient Toast.",
+    "query": "We need a developer-tool web UI with tabs, dense tables of API keys, and a toast when a key is revoked."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-brand-ui",
+    "expected_behavior": "Recognize this is marketing/landing-page brand work and defer to redis-brand-ui for logo, brand color, and typography rules.",
+    "must_not": "Apply redis-product-ui component states, semantic color families, or dense-table patterns to a marketing hero section.",
+    "query": "Build our redis.io marketing homepage hero section with the Redis logo, brand red CTA button, and Space Grotesk headline."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-brand-ui",
+    "expected_behavior": "Treat this as brand/marketing/docs-site work and defer to redis-brand-ui rather than product semantic tokens.",
+    "must_not": "Apply light2/dark2 product theme tokens or Redis UI component states to a docs landing page.",
+    "query": "Create a docs landing page introducing Redis Query Engine with brand-consistent typography and a call-to-action to the docs."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Recognize this is a clustering/data-access question with no UI component and defer to redis-clustering.",
+    "must_not": "Answer with product UI component or table guidance.",
+    "query": "How do I avoid CROSSSLOT errors when running MGET across a Redis Cluster?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Recognize this is a security/ops task unrelated to UI and defer to redis-security.",
+    "must_not": "Pull in product UI tokens or component patterns for a security configuration task.",
+    "query": "Set up ACL users and TLS for our production Redis deployment."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Apply RedisInsight light/dark theme-pair fidelity per tokens.md; note redis-insight-plugin skill for the plugin packaging itself.",
+    "must_not": "Use light2/dark2 tokens for a RedisInsight plugin iframe, or claim these are official brand-portal colors.",
+    "query": "Style our RedisInsight Workbench plugin iframe to match the host app's theme."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Ask for clarification on whether this is a product/admin UI (redis-product-ui) or marketing page (redis-brand-ui) before proceeding, since the surface type is ambiguous.",
+    "must_not": "Guess and silently apply one skill's full opinionated pattern set without flagging the ambiguity.",
+    "query": "Just make our internal tool look nice, whatever you think is best."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Flag that pagination and virtualization should not both be used per the DO NOT guardrail, and recommend virtualization alone for a large table.",
+    "must_not": "Implement both pagination and virtualization together without flagging the conflict.",
+    "query": "Add a 20-column table of stream entries with virtualized rows and also paginate it for performance."
+  }
+]

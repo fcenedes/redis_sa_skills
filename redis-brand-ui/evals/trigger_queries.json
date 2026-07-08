@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-brand-ui",
+    "expected_behavior": "Apply Redis brand colors (#FF4438), Space Grotesk typography, and official logo SVG usage from references/logos.md.",
+    "must_not": "Invent a new arbitrary red, recreate the logo in CSS, or pull in redis-product-ui dense-table patterns.",
+    "query": "Build a marketing landing page for redis.io announcing Redis 8 with a hero section, Redis Red CTA button, and logo in the header."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-brand-ui",
+    "expected_behavior": "Use references/dark-mode.md for dark palette and prefers-color-scheme setup, inverting background/text while keeping Redis Red as accent.",
+    "must_not": "Use product semantic color families (informative/success/danger) from redis-product-ui.",
+    "query": "$redis-brand-ui help me pick the right dark-mode text colors for a Redis blog post page."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-brand-ui",
+    "expected_behavior": "Run node scripts/check-contrast.js against references/contrast-pairs.json and report PASS/FAIL per pair.",
+    "must_not": "Claim a pair passes without running the script, or skip reporting a FAIL.",
+    "query": "/redis-brand-ui check whether my button styles follow official brand contrast rules before I ship this docs site."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-brand-ui",
+    "expected_behavior": "Use official Redis_Logo/Redis_Mark SVG assets from references/logos.md with correct clear space and sizing.",
+    "must_not": "Recreate the logo as CSS/HTML shapes or use an unapproved wordmark.",
+    "query": "Add the Redis logo and brand-approved typography to our conference sponsor slide footer graphic."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Recognize this is a product/admin UI with tables, filters, and drawers and defer to redis-product-ui instead.",
+    "must_not": "Apply redis-brand-ui as the primary skill for a dense operator dashboard; must not style the table/drawer with marketing typography rules.",
+    "query": "We're building the RedisInsight-style admin dashboard with a dense table of active connections, filters, and a drawer for connection details. Style it."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Treat badges/severity states as product semantic color guidance (redis-product-ui), not brand marketing colors.",
+    "must_not": "Force Redis Red onto every severity badge as if it were the universal brand accent.",
+    "query": "Build a customer-facing status page listing incident history with badges for each severity level."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Recognize this is a data-modeling/clustering question, unrelated to UI or brand, and defer to redis-clustering or redis-core.",
+    "must_not": "Answer with brand colors or typography guidance.",
+    "query": "What's the best Redis Cluster key design for a multi-tenant leaderboard with hash tags?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Recognize this is a client/connection task with no UI component and skip this skill entirely.",
+    "must_not": "Pull in typography or color guidance for a backend scripting task.",
+    "query": "Write a Python script that connects to Redis with redis-py and pipelines 1000 SET commands."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Recognize light/dark theme-pair fidelity for RedisInsight plugin UI belongs to redis-product-ui (and redis-insight-plugin), not brand marketing guidance.",
+    "must_not": "Apply brand-only color rules or claim Storybook tokens are official brand colors.",
+    "query": "Update our Storybook-based RedisInsight plugin iframe theme to match light/dark tokens."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-brand-ui",
+    "expected_behavior": "Apply official logo usage, brand color palette, and typography roles per references/logos.md and colors.md.",
+    "must_not": "Use product UI component states (toasts, drawers) which are out of scope for a print/marketing one-pager.",
+    "query": "I need a one-pager for a trade show booth with the Redis wordmark, brand colors, and a QR code to our demo signup."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-brand-ui",
+    "expected_behavior": "Flag #E53E3E as an arbitrary red violating the DO NOT guardrail and correct it to #FF4438 (Hyper).",
+    "must_not": "Approve the arbitrary red or suggest a Tailwind default red-500 as a fix.",
+    "query": "Our React marketing site's primary CTA button currently uses #E53E3E. Is that on-brand?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Identify this as a developer-tool product UI (tabs, forms, toasts, states) and defer to redis-product-ui.",
+    "must_not": "Style the settings page using brand marketing typography/color rules as the primary guide.",
+    "query": "Design a dense settings page for our internal developer CLI tool web UI with tabs, forms, and a save toast."
+  }
+]

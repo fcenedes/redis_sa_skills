@@ -1,0 +1,84 @@
+{
+  "skill": "agent-plan-lifecycle",
+  "tp": 6,
+  "fp": 0,
+  "tn": 6,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "Can you check the status of the delegated plan in plan/2026-05-auth-hardening/00-index.md and tell me what's next?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "$agent-plan-lifecycle resume the compiler-migration plan after context compaction",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "/agent-plan-lifecycle this plan looks done, can we archive it?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "We finished the audit for track E2, now update the capability ledger rows and record the promotion.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "5",
+      "query": "What capabilities are still missing before we can plan the next tranche of work?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks using shared memory prompts.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "Write a fresh implementation plan for adding rate limiting to the API gateway.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "What's the weather like today and can you summarize this news article for me?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "Our repo has a tracker.md file with task statuses. Can you just tell me the current git diff instead?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "10",
+      "query": "The plan says 'promoted' but I don't see any capability ledger updates or commit references anywhere. Is that right?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "11",
+      "query": "Mark this whole plan archived, we don't need the failed tasks anymore, just clean it up.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "12",
+      "query": "How do I set up Docker Compose for the local agent memory server?",
+      "should_trigger": false,
+      "trigger": false
+    }
+  ]
+}

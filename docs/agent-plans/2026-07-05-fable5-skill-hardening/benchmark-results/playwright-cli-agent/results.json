@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when an agent needs to inspect, explore, operate, debug, or screenshot a web application through Playwright CLI. Use for live browser automation, UI exploration, reproducing bugs, validating flows, creating screenshots, or discovering stable selectors.",
+  "best_description": "Use when an agent needs to inspect, explore, operate, debug, or screenshot a web application through Playwright CLI. Use for live browser automation, UI exploration, reproducing bugs, validating flows, creating screenshots, or discovering stable selectors.",
+  "best_score": "2/4",
+  "best_train_score": "3/8",
+  "best_test_score": "2/4",
+  "final_description": "Use when an agent needs to inspect, explore, operate, debug, or screenshot a web application through Playwright CLI. Use for live browser automation, UI exploration, reproducing bugs, validating flows, creating screenshots, or discovering stable selectors.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when an agent needs to inspect, explore, operate, debug, or screenshot a web application through Playwright CLI. Use for live browser automation, UI exploration, reproducing bugs, validating flows, creating screenshots, or discovering stable selectors.",
+      "train_passed": 3,
+      "train_failed": 5,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "$playwright-cli-agent grab a screenshot of the pricing page at 375px, 768px, and 1440px widths",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Check if the Redis Insight plugin renders correctly inside the workbench iframe after our latest change.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you open the app at localhost:3000 and click through the signup flow to see what happens?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Delete all test users from the staging database through the admin UI \u2014 can you do that and confirm it worked?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Compare the before and after screenshots of the dashboard once the redesign PR is deployed to the dev environment.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Write a Playwright test that verifies the signup form validates email format.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Go explore our production checkout site at checkout.ourapp.com and try submitting an order to confirm it works end to end.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Our nightly Playwright CI run has 5 flaky tests, can you dig into the traces and stabilize them?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "/playwright-cli-agent find a stable selector for the 'Export CSV' button before I write a test for it",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "There's a bug where the cart total doesn't update after removing an item \u2014 can you reproduce it?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "How do I configure ACL users for least-privilege access on our Redis Cloud instance?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What's the best way to paginate through a large Redis Sorted Set for a leaderboard API?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 3,
+      "failed": 5,
+      "total": 8,
+      "results": [
+        {
+          "query": "$playwright-cli-agent grab a screenshot of the pricing page at 375px, 768px, and 1440px widths",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Check if the Redis Insight plugin renders correctly inside the workbench iframe after our latest change.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you open the app at localhost:3000 and click through the signup flow to see what happens?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Delete all test users from the staging database through the admin UI \u2014 can you do that and confirm it worked?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Compare the before and after screenshots of the dashboard once the redesign PR is deployed to the dev environment.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Write a Playwright test that verifies the signup form validates email format.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Go explore our production checkout site at checkout.ourapp.com and try submitting an order to confirm it works end to end.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Our nightly Playwright CI run has 5 flaky tests, can you dig into the traces and stabilize them?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

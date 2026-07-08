@@ -9,7 +9,10 @@ metadata:
 ---
 # Caveman Mode
 
-Ultra-compressed technical communication. Cut filler, keep technical accuracy. Aimed at coding-agent prose, reviews, commits, and summaries — not at code itself.
+Ultra-compressed technical communication. Cut filler, keep technical accuracy.
+Compresses coding-agent **prose** — explanations, reviews, commits, summaries.
+Never compresses code itself, and never compresses raw shell/tool output (that's
+`rtk-cli`; see "Pairs With rtk-cli" below).
 
 ## When to Use
 
@@ -21,6 +24,9 @@ Trigger this skill when the user says any of:
 
 Also trigger when the user asks for "ultra short", "one-liner answers", or "short reviews".
 
+Do NOT trigger for requests to shorten/filter **command output** (e.g. "make git diff
+less noisy", "trim the test log") — route those to `rtk-cli` instead.
+
 ## Goal
 
 - Preserve technical accuracy.
@@ -28,7 +34,27 @@ Also trigger when the user asks for "ultra short", "one-liner answers", or "shor
 - Keep code, commands, file paths, API names, errors, flags, and identifiers exact.
 - Make the answer easier to scan, not harder to understand.
 
-See [references/caveman-style-guide.md](references/caveman-style-guide.md) for examples by domain (debugging, reviews, commits, tests, architecture).
+See [references/caveman-style-guide.md](references/caveman-style-guide.md) for the full rationale and domain-by-domain examples (debugging, reviews, commits, tests, architecture).
+
+## Authority
+
+- Authorized: compress the agent's own prose in the active caveman mode.
+- Not authorized: compress code, alter tool output, or change communication mode without a user trigger.
+- Assessment-only default: when brevity risks ambiguity, report the concern in normal clear prose.
+
+## DO NOT (guardrails — check every response)
+
+- NEVER compress or soften a safety or security warning to save tokens.
+- NEVER abbreviate code identifiers, function/class names, API names, env vars, file
+  paths, command flags, or error strings — reproduce them exactly, character for character.
+- NEVER alter or truncate a quoted error message or command output.
+- NEVER drop a required step from an ordered sequence (auth, migration order, lock
+  acquisition) just to shorten the answer.
+- NEVER make the final answer ambiguous. Compressed is not the same as cryptic.
+- NEVER use caveman style inside code comments unless the user explicitly asks.
+- NEVER drop a leading verb when its absence creates ambiguity ("Restart" vs "Restart
+  server" — the second is mandatory).
+- NEVER apply caveman to shell/CLI/tool output — that belongs to `rtk-cli`, not this skill.
 
 ## Modes
 
@@ -41,28 +67,21 @@ See [references/caveman-style-guide.md](references/caveman-style-guide.md) for e
 
 See [references/caveman-modes.md](references/caveman-modes.md) for detailed examples of each mode.
 
-## Persistence
+## Persistence Scope
 
-- Once enabled, stay in caveman until the user asks for `normal` or `stop caveman`.
-- Mode change persists across the current session.
-- `lite` / `full` / `ultra` are sticky; the most recent explicit mode wins.
-- A single message asking for "more detail here" is not a global mode change — explain the one section, then return to the active mode.
-
-## Style Rules
-
-- Drop pleasantries ("sure", "of course", "happy to help").
-- Drop filler ("essentially", "basically", "in order to", "I think").
-- Avoid hedging unless the uncertainty is load-bearing.
-- Use short, direct sentences. Fragments are fine when meaning is clear.
-- Prefer "Bug in parser. Empty array not guarded. Add early return." over a paragraph.
-- Keep technical terms exact. Never abbreviate code identifiers, API names, env vars, file paths, or error strings.
-- Never alter quoted error messages.
-- Never compress code blocks in a way that changes code semantics.
-- Bullet lists are fine; nested headings usually are not.
+- Caveman mode is **per-conversation only**. It persists for the rest of the current
+  chat session once enabled, until the user asks for `normal` or `stop caveman`.
+- It does NOT persist across a new session, a new worktree, or a new agent
+  invocation — each fresh session starts in `normal` unless the user opens with a
+  caveman trigger again. There is no cross-session or cross-worktree state for this skill.
+- `lite` / `full` / `ultra` are sticky within the session; the most recent explicit
+  mode wins.
+- A single message asking for "more detail here" is not a global mode change —
+  explain the one section, then return to the active mode without announcing it.
 
 ## Auto-Clarity Exceptions
 
-Temporarily exit caveman compression when:
+Temporarily exit caveman compression (full normal prose) when:
 
 - Giving a safety or security warning.
 - Confirming a destructive operation (delete, drop, reset, force-push).
@@ -73,41 +92,29 @@ Temporarily exit caveman compression when:
 
 After the clear section, return to the active caveman mode without announcing it.
 
-## Coding-Agent Behavior
+Style rules, coding-agent behavior (commits/reviews/summaries), and worked examples
+by domain are in [references/caveman-style-guide.md](references/caveman-style-guide.md).
+Mode-by-mode voice examples are in [references/caveman-modes.md](references/caveman-modes.md).
 
-- Commit messages stay valid Conventional Commits when requested. Compress the body, not the format.
-- PR review comments: short but actionable. State the file/line, the issue, the fix.
-- Final summaries: compact. Two sentences max. What changed, what's next.
-- Tool/build/test results: summarize, do not paste full output. Keep counts, file names, failing test titles.
-- Pair with `rtk-cli`: RTK compresses **shell output**, caveman compresses **agent prose**. Use both for max savings.
+## Pairs With rtk-cli
 
-## Examples
+RTK compresses **shell/tool output**; caveman compresses **agent prose**. Use both
+together for max token savings: let `rtk-cli` shrink what a command prints, then use
+caveman to shrink what you say about it. See the `rtk-cli` skill for the shell side.
 
-Normal:
-"The issue is probably caused by the parser not handling empty arrays correctly."
+## Final Checklist (each item must be literally true before sending)
 
-Caveman full:
-"Parser bug. Empty array not guarded. Add early return."
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
 
-Caveman ultra:
-"Parser: empty array → crash. Guard."
+- [ ] Is the answer shorter than an uncompressed version would have been? (yes/no)
+- [ ] Does every code block, command, flag, path, and identifier match the source
+      exactly, unabbreviated? (yes/no)
+- [ ] Is every quoted error message or command output left unaltered? (yes/no)
+- [ ] If a safety/security/destructive-action warning was needed, was it given in
+      full clear prose (not compressed)? (yes/no)
+- [ ] Is the currently active mode (lite/full/ultra/normal) the one the user last
+      explicitly requested in this session? (yes/no)
+- [ ] Would a reader unfamiliar with the compression still resolve every reference
+      unambiguously? (yes/no)
 
-## DO NOT
-
-- DO NOT remove technical detail that the user needs to act.
-- DO NOT obscure security warnings to save tokens.
-- DO NOT abbreviate code symbols, command flags, API names, env vars, file paths, or error strings.
-- DO NOT make the final answer cryptic. Compressed ≠ ambiguous.
-- DO NOT use caveman style **inside code comments** unless the user asks.
-- DO NOT use joke/Tarzan style when the user asks for formal or professional output.
-- DO NOT drop the leading verb when its absence creates ambiguity ("Restart" vs "Restart server" — the second is mandatory).
-
-## Final Checklist
-
-- Answer is shorter than the default would have been.
-- No filler, no hedging without reason.
-- Every technical term is preserved exactly.
-- Every code block, command, and identifier is unchanged.
-- No ambiguity introduced by compression.
-- Safety/security clarity preserved.
-- Mode persistence respected (still in caveman unless told otherwise).
+If any check is "no", fix that item before sending — do not send a shorter but wrong answer.

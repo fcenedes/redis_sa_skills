@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when writing or updating source-of-truth specs, requirements, change proposals, acceptance scenarios, or ADDED/MODIFIED/REMOVED deltas before implementation or delegated execution.",
+  "best_description": "Use when writing or updating source-of-truth specs, requirements, change proposals, acceptance scenarios, or ADDED/MODIFIED/REMOVED deltas before implementation or delegated execution.",
+  "best_score": "2/4",
+  "best_train_score": "5/8",
+  "best_test_score": "2/4",
+  "final_description": "Use when writing or updating source-of-truth specs, requirements, change proposals, acceptance scenarios, or ADDED/MODIFIED/REMOVED deltas before implementation or delegated execution.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when writing or updating source-of-truth specs, requirements, change proposals, acceptance scenarios, or ADDED/MODIFIED/REMOVED deltas before implementation or delegated execution.",
+      "train_passed": 5,
+      "train_failed": 3,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "Does this repo use OpenSpec? I want to add a new change proposal for multi-currency support.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "$agent-spec-writing we need a requirement delta for how the checkout flow should handle expired discount codes, we haven't defined this anywhere.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Which worker should implement the timestamp column migration, Codex or a local Qwen model?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "The requirements for how partial refunds should interact with loyalty points are ambiguous \u2014 can you nail down the acceptance criteria before we plan the implementation?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our OpenSpec change for the payments-v2 migration was just approved \u2014 archive it and promote the spec to current truth.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What's the cheapest LLM model for summarizing these ten support tickets?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Fix the typo in this one comment in auth.py, 'recieve' should be 'receive'.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "We already know exactly what we want: add a 'lastLoginAt' timestamp column and expose it in the API. Write the implementation plan.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "/agent-spec-writing update the ADDED/MODIFIED deltas for the new rate-limit behavior now that product clarified the retry semantics.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Review this PR's spec-compliance: does the diff match the acceptance scenarios we wrote last week?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Just rename this one function locally, no behavior change, no new contract.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Have we already implemented soft-delete for user accounts? Check before I ask for new requirements.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 5,
+      "failed": 3,
+      "total": 8,
+      "results": [
+        {
+          "query": "Does this repo use OpenSpec? I want to add a new change proposal for multi-currency support.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "$agent-spec-writing we need a requirement delta for how the checkout flow should handle expired discount codes, we haven't defined this anywhere.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Which worker should implement the timestamp column migration, Codex or a local Qwen model?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "The requirements for how partial refunds should interact with loyalty points are ambiguous \u2014 can you nail down the acceptance criteria before we plan the implementation?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our OpenSpec change for the payments-v2 migration was just approved \u2014 archive it and promote the spec to current truth.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What's the cheapest LLM model for summarizing these ten support tickets?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Fix the typo in this one comment in auth.py, 'recieve' should be 'receive'.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "We already know exactly what we want: add a 'lastLoginAt' timestamp column and expose it in the API. Write the implementation plan.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

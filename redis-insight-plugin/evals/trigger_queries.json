@@ -1,0 +1,79 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-insight-plugin",
+    "expected_behavior": "Trigger and debug the manifest/export mismatch: check package.json visualizations[].activationMethod against the default-exported function name in the bundle, per the Activation Function Contract and Required Manifest sections.",
+    "must_not": "Must not guess a generic React rendering fix without checking the exact activationMethod-to-export-name match first.",
+    "query": "My plugin's activationMethod does not match the exported render function and the iframe stays blank"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-insight-plugin",
+    "expected_behavior": "Direct invocation. Choose the external/Parcel plugin type, follow the Phase 1/2/3 workflow, and use references/redis-command-parsing.md for GEOSEARCH response shape and third-party-libraries.md for Leaflet.",
+    "must_not": "Must not use Vite or import RedisInsight monorepo internals for a standalone external plugin.",
+    "query": "$redis-insight-plugin scaffold a new external plugin that visualizes GEOSEARCH results on a Leaflet map"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-insight-plugin",
+    "expected_behavior": "Slash invocation. Run the deploy + /api/plugins verification steps: confirm dist/index.js and dist/styles.css exist, curl http://localhost:5540/api/plugins, and confirm the plugin name and visualizations are listed.",
+    "must_not": "Must not declare the plugin ready without actually hitting /api/plugins.",
+    "query": "/redis-insight-plugin verify my plugin is actually loaded before I demo it to the customer"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Recognize this is a standalone Next.js web app, not a RedisInsight Workbench iframe plugin, and defer to redis-product-ui.",
+    "must_not": "Must not apply plugin manifest, activationMethod, or iframe rules to a standalone Next.js app that has nothing to do with RedisInsight's plugin system.",
+    "query": "Build a generic Redis dashboard in Next.js showing key metrics, not a RedisInsight plugin"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-vector-search",
+    "expected_behavior": "This is a pure Redis Query Engine/vector indexing question with no RedisInsight Workbench plugin involved; defer to redis-vector-search or redis-query-engine.",
+    "must_not": "Must not pull in plugin manifest, Parcel/Vite, or iframe activation guidance for a question that never mentions RedisInsight plugins.",
+    "query": "How do I write an FT.CREATE index with a VECTOR field for RAG, unrelated to any UI or plugin?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-security",
+    "expected_behavior": "This is a Redis server security/deployment task unrelated to RedisInsight Workbench visualization plugins; defer to redis-security.",
+    "must_not": "Must not interpret 'deploy' as the plugin Deploy section when the deployment target is Redis itself, not a plugin.",
+    "query": "Set up authentication and TLS for our production Redis instance before we go live"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Recognize this is a generic product UI task with dense layouts/tables/filters but no RedisInsight iframe or plugin manifest involved; defer to redis-product-ui.",
+    "must_not": "Must not force a plugin package.json/activationMethod/iframe structure onto a standalone admin tool.",
+    "query": "We want to build a general internal admin tool with tables, filters, and a sidebar for our support team, no Redis Insight involved"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-insight-plugin",
+    "expected_behavior": "Trigger and diagnose the deploy path: confirm dist/index.js and styles.css are copied correctly, confirm the manifest is stripped of dev-only fields, restart Redis Insight, and curl /api/plugins to confirm registration.",
+    "must_not": "Must not skip the /api/plugins check or assume a code bug before checking the deploy path and manifest.",
+    "query": "My Workbench plugin renders fine locally but after I deploy it to ~/.redis-insight/plugins/geo-viz/ it doesn't show up in the visualization picker"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "This is a general product question about RedisInsight itself, not a plugin creation/debug/deploy task; answer directly without invoking the skill's workflow.",
+    "must_not": "Must not walk through manifest, phased workflow, or deployment steps for a question that never asks to build or fix a plugin.",
+    "query": "Explain what RedisInsight is and whether it's free to use, no plugin work needed"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-insight-plugin",
+    "expected_behavior": "Trigger. Add a new visualization descriptor to package.json, implement the activationMethod with heatmap rendering per third-party-libraries.md, and use redis-product-ui light/dark tokens (not light2/dark2) for RedisInsight product UI fidelity.",
+    "must_not": "Must not use light2/dark2 theme tokens or skip validating the activationMethod name against the exported function.",
+    "query": "Add a heatmap visualization mode to our existing plugin using the data from XRANGE, and make sure it matches RedisInsight's dark theme"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-insight-plugin",
+    "expected_behavior": "Trigger and flag this as a shipping blocker: grep -c \"process.env\" dist/index.js must be 0, per the Build and Verify and Security Rules sections; also check for embedded secrets.",
+    "must_not": "Must not approve the bundle for customer shipment while process.env references remain unreplaced.",
+    "query": "Our plugin bundle still references process.env.API_KEY after the Parcel build and we're not sure if that's a problem before shipping to a customer"
+  }
+]

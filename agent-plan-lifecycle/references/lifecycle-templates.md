@@ -67,6 +67,35 @@ Plan state before promotion:
 Plan state after promotion: promoted | blocked | failed
 ```
 
+## Capability Ledger Row Promotion Example
+
+Use this shape when promotion updates a capability ledger row. See
+`agent-capability-ledger` for the full row schema and status rules.
+
+Before promotion (row in `docs/capability-ledger.md`):
+
+```markdown
+| ID | Capability | Status | Proof class | Evidence | Verify | Residual gap | Next delta |
+|---|---|---|---|---|---|---|---|
+| CAP.014 | Stream consumer retry backoff | partial | unit | `src/stream/retry.rs` tests | `cargo test retry_backoff` | no live-Redis proof | run local-live proof, then promote |
+```
+
+After promotion (same row, updated in place; old state referenced from `promotion.md`):
+
+```markdown
+| ID | Capability | Status | Proof class | Evidence | Verify | Residual gap | Next delta |
+|---|---|---|---|---|---|---|---|
+| CAP.014 | Stream consumer retry backoff | done | local-live | `src/stream/retry.rs` tests + `logs/retry-backoff-live-2026-05-29.txt` | `REDIS_URL=redis://localhost:6380 cargo test retry_backoff_live` | none | none |
+```
+
+`promotion.md` for this change records:
+
+```markdown
+| Surface | Path / Record | Change | Evidence |
+|---|---|---|---|
+| Capability ledger | `docs/capability-ledger.md#CAP.014` | partial -> done | `logs/retry-backoff-live-2026-05-29.txt` |
+```
+
 ## `archive.md`
 
 ```markdown

@@ -1,6 +1,7 @@
 ---
 name: redis-insight-plugin
 description: Use when creating, modifying, debugging, deploying, or testing Redis Insight Workbench visualization plugins, plugin manifests, package.json visualizations, activationMethod functions, redisinsight-plugin-sdk usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, /api/plugins verification, or Playwright plugin validation.
+compatibility: Requires Node.js, Parcel or Vite, and Docker for RedisInsight deployment validation.
 license: MIT
 metadata:
   author: redis
@@ -20,81 +21,32 @@ Official source-of-truth references:
 
 See [references/official-docs-summary.md](references/official-docs-summary.md) for a condensed summary.
 
+## Authority
+
+- Authorized: scaffold, build, and validate Redis Insight Workbench plugins.
+- Not authorized: deploy to production without confirmation or run destructive Redis commands.
+- Assessment-only default: for plugin review or debugging requests, report findings unless implementation is requested.
+
 ## First Decision: Plugin Type
 
-Decide before scaffolding anything else.
+Decide before scaffolding anything else: **external standalone** (Parcel, installed into `~/.redis-insight/plugins/<name>/`, default for almost every customer or demo plugin) or **internal monorepo** (Vite, lives inside `RedisInsight/redisinsight/ui/src/packages/<plugin-name>/`, only when the work is in the RedisInsight repo itself). Getting this wrong produces the wrong folder layout and build tool for the rest of the workflow.
 
-- **External standalone plugin** — installed by a user into `~/.redis-insight/plugins/<name>/`. Build with **Parcel**. Bundle all dependencies. Do not import from `uiSrc/` or any RedisInsight monorepo internal. Default for almost every customer or demo plugin.
-- **Internal monorepo plugin** — lives inside `RedisInsight/redisinsight/ui/src/packages/<plugin-name>/` and ships with Redis Insight itself. Build with **Vite**. Only use this when the work is in the RedisInsight repo itself.
-
-See [references/external-parcel-plugin.md](references/external-parcel-plugin.md) and [references/internal-vite-plugin.md](references/internal-vite-plugin.md).
-
-## External Plugin Structure
-
-```
-<plugin-name>/
-  package.json              # manifest + build scripts
-  src/
-    index.html              # iframe entry, has #app
-    main.tsx                # activation functions, default export
-    components/
-    styles/
-      styles.scss
-  dist/
-    index.js                # built bundle (referenced by manifest "main")
-    styles.css              # built styles (referenced by manifest "styles")
-```
+See [references/external-parcel-plugin.md](references/external-parcel-plugin.md) for the external folder layout, Parcel config, and bundling rules, or [references/internal-vite-plugin.md](references/internal-vite-plugin.md) for the internal path and Vite config.
 
 ## Required Manifest
 
-Top-level `package.json` fields:
-
-- `name`
-- `version`
-- `description`
-- `main` — path to built JS (e.g. `./dist/index.js`).
-- `styles` — path to built CSS (e.g. `./dist/styles.css`).
-- `visualizations` — array of visualization descriptors.
-
-Each visualization descriptor must include:
-
-- `id`
-- `name`
-- `activationMethod`
-- `matchCommands`
-- `description`
-- `default`
-
-Set `default: false` unless the user explicitly asks for it to be the default visualization.
-
-The `activationMethod` value must **exactly** match an exported function name in the bundle. The plugin entry must export that function via the default export:
-
-```ts
-export default { renderMyView };
-```
-
-Multiple visualizations:
-
-```ts
-export default {
-  renderMarkersView,
-  renderHeatmapView,
-};
-```
-
-See [references/plugin-manifest.md](references/plugin-manifest.md) for full examples and how to strip dev-only fields from the deployed manifest.
+`package.json` must declare the plugin entrypoints and non-empty `visualizations`
+array. Every visualization needs `id`, `name`, `activationMethod`,
+`matchCommands`, `description`, and `default`; `activationMethod` must exactly
+match an exported function name in the bundle. See
+[references/plugin-manifest.md](references/plugin-manifest.md) for examples,
+multi-visualization exports, and deployed-manifest stripping.
 
 ## Activation Function Contract
 
-Every activation function must:
-
-1. Get the host element: `const root = document.getElementById('app');`
-2. Defensively validate props (`command`, `data`, modules, theme).
-3. Wrap render logic in `try/catch` and render an error state on failure.
-4. Render an empty state when `data` is missing or empty.
-5. Log with a plugin-specific prefix, e.g. `[GEO_PLUGIN]`, never bare `console.log`.
-
-See [references/error-handling.md](references/error-handling.md).
+Every activation function must find the host element, validate props, wrap render
+logic in `try/catch`, render empty/error states, and log with a plugin-specific
+prefix. See [references/error-handling.md](references/error-handling.md).
 
 ## RedisInsight Product UI Contract
 
@@ -111,11 +63,10 @@ See [references/redisinsight-product-ui.md](references/redisinsight-product-ui.m
 
 ## Mandatory Phased Workflow
 
-Build every new plugin in three phases. Do not skip phases — the failure mode in each phase tells you exactly what is wrong.
-
-- **Phase 1 — Vanilla wiring.** No React, no third-party libraries. Render plain DOM that proves activation, props, and iframe rendering work end-to-end.
-- **Phase 2 — React rendering.** Add React + ReactDOM. Render a typed component that displays `command`, `status`, and the raw response.
-- **Phase 3 — Full feature.** Add the actual visualization library (Leaflet, Chart.js, etc.) and the real UX.
+These three phases are mandatory verification gates, not a tutorial. Each phase
+proves a specific contract: iframe wiring, React mounting, then visualization
+library integration. Skipping a phase means skipping its proof; the next phase
+will fail in ways that are harder to diagnose.
 
 See [references/iterative-development.md](references/iterative-development.md) and the templates in `templates/`.
 
@@ -132,36 +83,17 @@ See [references/review-hardening.md](references/review-hardening.md).
 
 ## Build and Verify
 
-```bash
-yarn build
-test -f dist/index.js
-test -f dist/styles.css                       # if "styles" is declared
-grep -c "process.env" dist/index.js           # must be 0 in a Parcel build
-```
-
-Confirm each `activationMethod` name appears in the bundle:
-
-```bash
-grep -o "renderMyView" dist/index.js | head
-```
+Run the project build, verify declared bundle files exist, confirm
+`process.env` is absent from Parcel output, and grep the bundle for every
+`activationMethod`. Use the exact commands in
+[references/testing-and-deployment.md](references/testing-and-deployment.md).
 
 ## Deploy
 
-External plugin → user plugins folder:
-
-```bash
-mkdir -p ~/.redis-insight/plugins/<plugin-name>
-cp package.json ~/.redis-insight/plugins/<plugin-name>/
-cp -R dist ~/.redis-insight/plugins/<plugin-name>/dist
-```
-
-Restart Redis Insight, then verify:
-
-```bash
-curl -s http://localhost:5540/api/plugins
-```
-
-The response must include the plugin `name` and its visualizations. See [references/testing-and-deployment.md](references/testing-and-deployment.md) for Docker workarounds, Playwright smoke tests, and the static-plugin path inside the Docker image.
+External plugins deploy to `~/.redis-insight/plugins/<plugin-name>/` with
+`package.json` and `dist/`. Restart Redis Insight and verify `/api/plugins`
+contains the plugin `name` and visualizations. See
+[references/testing-and-deployment.md](references/testing-and-deployment.md).
 
 ## Security Rules
 
@@ -187,18 +119,21 @@ The response must include the plugin `name` and its visualizations. See [referen
 
 ## Final Checklist
 
-- Plugin type chosen and matches build tool (Parcel = external, Vite = internal).
-- `package.json` declares `main`, `styles`, and `visualizations` with required fields.
-- Every `activationMethod` matches a default-exported function.
-- Phases 1, 2, 3 each rendered successfully before moving on.
-- RedisInsight product UI applied with `redis-product-ui`, `light` / `dark` theme handling, and local CSS variables for standalone plugins.
-- Review hardening pass completed for manifest matching, command parsing, visualization state, and scoped tests.
-- Bundle verified: `dist/index.js`, `dist/styles.css`, no `process.env`.
-- Plugin deployed to `~/.redis-insight/plugins/<name>/` (or via the Docker workaround).
-- `curl http://localhost:5540/api/plugins` lists the plugin.
-- Workbench runs a matching command and renders the visualization.
-- Defensive empty/error states verified.
-- Optional Playwright smoke test passes.
+Each item must be answerable yes/no by inspection or command output, not by impression:
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
+
+- [ ] Build tool matches plugin type: `yarn build` used Parcel for external, or the monorepo's Vite config for internal — confirm by reading the `scripts.build` entry actually invoked.
+- [ ] `cat package.json` shows `main`, `styles`, and a non-empty `visualizations` array with `id`, `name`, `activationMethod`, `matchCommands`, `description`, `default` on every entry.
+- [ ] For every `activationMethod` value, `grep -o "<name>" dist/index.js` returns at least one match.
+- [ ] Phase 1 render, Phase 2 render, and Phase 3 render were each observed working (screenshot, console log, or manual check) before starting the next phase.
+- [ ] Plugin UI uses `redis-product-ui` `light`/`dark` tokens (not `light2`/`dark2`) — confirm by grepping the CSS/SCSS for theme class names.
+- [ ] Review hardening pass ran against manifest matching, command parsing, and visualization state, with at least one new/updated test.
+- [ ] `test -f dist/index.js && test -f dist/styles.css` both succeed, and `grep -c "process.env" dist/index.js` prints `0`.
+- [ ] Plugin files exist under `~/.redis-insight/plugins/<name>/` (or the Docker-mounted equivalent) — confirm with `ls`.
+- [ ] `curl -s http://localhost:5540/api/plugins` output contains the plugin's `name` and its `visualizations` list.
+- [ ] Workbench was run against a matching Redis command and the visualization rendered (not the default table view).
+- [ ] Empty-data and error-thrown cases were triggered manually and rendered the defensive empty/error state, not a blank iframe.
+- [ ] Playwright smoke test run, if present, with the actual pass/fail output checked (not assumed).
 
 ## Reference Index
 

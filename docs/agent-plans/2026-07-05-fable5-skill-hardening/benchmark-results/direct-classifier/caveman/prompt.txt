@@ -1,0 +1,24 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: caveman
+Skill description: Ultra-compressed technical communication mode. Use when the user asks for caveman mode, less tokens, terse mode, compressed answers, brief output, short reviews, terse commits, or token-efficient coding-agent communication.
+
+Queries:
+1. caveman mode please, keep it short from here on
+2. can you talk like a caveman for this answer, less words
+3. give me a one-liner summary of what changed in this PR
+4. /caveman
+5. $caveman ultra, ship the summary
+6. can you make git diff and the test output less noisy, I don't want walls of text
+7. the build log is huge, can you trim it down before showing me
+8. we're about to force-push over main, walk me through the risk carefully
+9. can you make your explanations more concise in general, I read fast
+10. what's the capital of France
+11. stop caveman, go back to normal, I need the full explanation this time
+12. review this PR but keep your comments short, one line per issue
+13. please abbreviate all the variable names in this file to save space
+14. run the test suite and wrap it with rtk so the output stays small

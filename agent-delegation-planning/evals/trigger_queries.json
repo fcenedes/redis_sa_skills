@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-planning",
+    "expected_behavior": "Creates an epic plan (E1 schema, E2 API, E3 UI) with ownership, skills, model/reasoning, verification, parallelization, and anchor files since it's multi-agent and long-running.",
+    "must_not": "Must not skip straight to worker/model selection without writing the plan files first.",
+    "query": "$agent-delegation-planning we need to migrate billing to a new schema: schema changes, API updates, and a UI checkout rework, delegated across multiple agents."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-planning",
+    "expected_behavior": "Produces a file-backed plan (plan.md/epics, tracker.md, coordinator-prompt.md) with required skills, execution mode, autonomy mode, and audit task.",
+    "must_not": "Must not leave the plan only in chat without writing plan files.",
+    "query": "/agent-delegation-planning write a plan to add rate limiting to the API, add tests, and deploy behind a flag; I'll hand this to Codex and a Claude coordinator in parallel."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Recognizes the plan already exists; this is a worker-selection/dispatch question, so it should trigger agent-delegation-routing, not re-plan.",
+    "must_not": "Must not create new epic/task files or re-derive ownership when a plan already exists \u2014 that's routing's job.",
+    "query": "We already have a plan with 4 tasks written to docs/agent-plans/2026-07-01-rate-limit/. Just tell me which worker should run task T2."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Fixes the single-line bug directly with a normal edit; no plan, epics, or delegation contract needed.",
+    "must_not": "Must not create plan.md, tracker.md, or any epic/task files for a one-line fix.",
+    "query": "Fix the off-by-one error on line 42 of parser.py."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-spec-writing",
+    "expected_behavior": "Recognizes requirements/behavior are undefined and defers to agent-spec-writing to produce acceptance criteria before any plan is written.",
+    "must_not": "Must not write task contracts or ownership assignments before the requirement itself is clear.",
+    "query": "What should happen when a coupon code is applied twice in the same cart? We haven't defined the expected behavior yet."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Recognizes this is a 'what remains' capability question requiring ledger reconciliation before any new plan is created.",
+    "must_not": "Must not invent new epics/tasks for the next phase before checking the capability ledger.",
+    "query": "What features have we already delivered for the notifications system before I plan the next phase?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Recognizes this is a resume/status question on an existing anchored plan, which belongs to agent-plan-lifecycle rather than creating a new plan.",
+    "must_not": "Must not create a brand-new plan when the request is to resume/check status of an existing one.",
+    "query": "Our anchored plan for the search-v2 migration needs to resume after a context compaction \u2014 what's the status and what's next?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Performs the rename directly with a normal edit in the current session.",
+    "must_not": "Must not invoke agent-delegation-planning or create any plan artifacts for a single-file rename.",
+    "query": "Can you just rename this one variable across this single file? No need for a plan."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-planning",
+    "expected_behavior": "Writes an epic-based plan with disjoint file ownership per track, parallelization batch, integration owner, and per-task verification/audit.",
+    "must_not": "Must not merge the three tracks into one task or skip the parallelization decision.",
+    "query": "We need parallel workstreams: one agent building the search index, one building the ranking API, one building the UI \u2014 write the full plan with ownership boundaries and verification gates."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Recognizes this is model/worker selection for a task, which is agent-delegation-routing's job, not planning's.",
+    "must_not": "Must not build epics or a full plan contract for a single bounded model-selection decision.",
+    "query": "Just pick whichever model is cheapest for this one bounded doc edit and go."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-spec-writing",
+    "expected_behavior": "Recognizes the change proposal/spec delta must be authored first via agent-spec-writing before implementation planning starts.",
+    "must_not": "Must not start writing task contracts for implementation before the spec/change delta exists.",
+    "query": "Draft an OpenSpec change proposal for the new subscription-tier logic before we plan the implementation."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-planning",
+    "expected_behavior": "Writes an epic plan with Execution: start-now, Autonomy: autonomous, skill stack, parallelization, and an Auditor task, then hands off to routing for dispatch.",
+    "must_not": "Must not treat 'autonomous' as a signal to skip writing plan files or skip the audit task.",
+    "query": "Plan and execute: refactor the auth module, add a new permissions layer, and update three downstream services, run to completion autonomously."
+  }
+]

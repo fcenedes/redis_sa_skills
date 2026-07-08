@@ -1,0 +1,24 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: rtk-cli
+Skill description: Use when running shell commands, inspecting files, checking git output, reading logs, running tests, lint, typecheck, builds, Docker/Kubernetes commands, package-manager commands, grep/find, or any CLI command likely to produce significant output. Prefer RTK wrappers to keep terminal output compact.
+
+Queries:
+1. run git status and git diff so I can see what's changed
+2. can you run our test suite and tell me if it passes
+3. grep for TODO across the whole repo
+4. $rtk docker logs for the api container, something's crashing
+5. /rtk-cli check the build output, it's failing
+6. can you make the PR description shorter and punchier
+7. your last answer was too wordy, be more terse going forward
+8. why does Redis recommend using hash tags for multi-key operations in a cluster
+9. tail -f the server logs so I can watch it live while I reproduce the bug
+10. I need the exact raw stack trace from that crash, copy it verbatim, nothing filtered
+11. is rtk actually installed on this machine, I'm not sure
+12. check git diff --stat, just want a quick count of files changed
+13. list the files in this directory
+14. kubectl get pods, I think something is crash-looping

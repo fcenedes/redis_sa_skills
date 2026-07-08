@@ -4,6 +4,25 @@ Use these role presets when a generic worker prompt is not enough. Keep roles
 generic: do not include vendor-specific agent APIs, project-specific mission
 locks, or repo-specific state.
 
+## Navigation Index
+
+| Role | Contract Anchor |
+|------|------------------|
+| Coordinator | [Coordinator Contract](#coordinator-contract) |
+| Spec Writer | [Spec Writer Contract](#spec-writer-contract) |
+| Implementor | [Implementor Contract](#implementor-contract) |
+| Verifier | [Verifier Contract](#verifier-contract) |
+| Auditor | [Auditor Contract](#auditor-contract) |
+| PR Reviewer | [PR Reviewer Contract](#pr-reviewer-contract) |
+| PR Shepherd | [PR Shepherd Contract](#pr-shepherd-contract) |
+| UI Designer | [UI Designer Contract](#ui-designer-contract) |
+| Docs Worker | [Selection Rule table](#selection-rule) (no dedicated contract block) |
+| Capability Ledger Maintainer | [Selection Rule table](#selection-rule) (no dedicated contract block) |
+| Capability Auditor | [Selection Rule table](#selection-rule) (no dedicated contract block) |
+| Packet Worker | [Qwen Worker Contract](#qwen-worker-contract) shape; see also [Worker Status](#worker-status) |
+| Packet Reviewer | [Selection Rule table](#selection-rule) (no dedicated contract block) |
+| Qwen Worker | [Qwen Worker Contract](#qwen-worker-contract) |
+
 ## Selection Rule
 
 Use the smallest role that can safely complete the task:

@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Selects the smallest sufficient role/model (e.g. Implementor, Codex medium) from the routing matrix, records requested/actual model and routing reason.",
+    "must_not": "Must not re-derive a new plan structure or epics; assumes a file-backed plan already exists.",
+    "query": "$agent-delegation-routing which worker should implement the payments retry logic task from our plan, Codex or Claude?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Confirms packet dependencies, allowed_files/forbidden_files, and verification before dispatching each packet worker per the Worker Prompt Contract.",
+    "must_not": "Must not start a packet whose dependencies are incomplete without explicit coordinator unblock.",
+    "query": "/agent-delegation-routing dispatch the three independent packets in wave 2 of the migration plan to workers now."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Produces a self-contained Worker Prompt Contract (role, model, reasoning, ownership, verify, output format, commit-not-allowed).",
+    "must_not": "Must not omit requested/actual model or reasoning fields.",
+    "query": "We have a written plan with 4 tasks. Route task T2 to the right worker and give me the exact worker prompt."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Edits the single word directly with a normal Edit tool call, no worker routing or role selection.",
+    "must_not": "Must not invoke agent-delegation-routing, select a worker role, or produce a Worker Prompt Contract for a one-word fix.",
+    "query": "Fix this one typo in README.md, change 'recieve' to 'receive'."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-delegation-planning",
+    "expected_behavior": "Recognizes this needs plan creation (epics, tasks, ownership, verification) before any routing decision, so it should trigger agent-delegation-planning instead.",
+    "must_not": "Must not jump straight to picking workers/models without an executable plan existing first.",
+    "query": "I need a full multi-epic plan for migrating our billing service to a new schema, with parallel workstreams for schema, API, and UI."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-spec-writing",
+    "expected_behavior": "Recognizes this is an undefined requirement/behavior question and defers to agent-spec-writing before any plan or routing work happens.",
+    "must_not": "Must not attempt to route or dispatch work for behavior that hasn't been specified yet.",
+    "query": "What should the login flow behave like when a session token expires mid-request? I'm not sure we've defined this anywhere."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Recognizes this is a 'did we already do this' capability question, not a worker-routing question, and defers to agent-capability-ledger.",
+    "must_not": "Must not route new implementation work before capability reconciliation happens.",
+    "query": "Can you check whether we already shipped the rate-limiting feature before I ask anyone to build it again?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Executes the fix directly in the current session with normal file edits.",
+    "must_not": "Must not select a worker role, propose Codex/Claude/Qwen dispatch, or build a Worker Prompt Contract for a single-function fix.",
+    "query": "Just write the code for this bug fix yourself, it's a single function in utils.py, no need to spin up any agents."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Points to re-reading charter.md, 00-index.md, components.md, and decisions.md before dispatch, per the anchoring/resume rule.",
+    "must_not": "Must not dispatch wave 3 without confirming anchor files were re-read first.",
+    "query": "Our anchored plan resumed after compaction \u2014 before dispatching wave 3, what do I need to re-read?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Applies the Patch Handoff rule: git apply --check, then diff review, reject if it touches files outside ownership.",
+    "must_not": "Must not apply the patch without a check/diff review step.",
+    "query": "The local Qwen worker returned a diff for the config patch \u2014 should I apply it directly or review it first?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Answers directly from Redis vector search knowledge (or the redis-vector-search skill); no delegation machinery involved.",
+    "must_not": "Must not invoke any agent-delegation-* skill for a factual question with no coding task.",
+    "query": "Give me a one-line explanation of what HNSW is in Redis vector search."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Clarifies role selection: Packet Reviewer checks boundaries, but blocker disposition/repair-packet creation is coordinator scope per the Role Selection and DO NOT sections.",
+    "must_not": "Must not conflate Packet Reviewer's boundary-review role with the coordinator's blocker-disposition authority.",
+    "query": "Should the packet reviewer or the coordinator decide if a failed audit finding needs a repair packet?"
+  }
+]

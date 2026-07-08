@@ -1,6 +1,7 @@
 ---
 name: playwright-test
 description: Use when creating, fixing, reviewing, or debugging Playwright Test E2E/UI tests, playwright.config files, fixtures, auth state, selectors, traces, CI failures, flaky UI tests, browser tests, or test runner workflows.
+compatibility: Requires Node.js project with @playwright/test or ability to install Playwright browsers.
 license: MIT
 metadata:
   author: redis
@@ -8,7 +9,7 @@ metadata:
 ---
 # Playwright Test
 
-Author and maintain reliable E2E and UI tests with `@playwright/test`. This skill is for the Playwright **test runner** — config, specs, fixtures, traces, CI. For live browser exploration via the Playwright CLI, use `playwright-cli-agent` instead.
+Author and maintain reliable E2E and UI tests with `@playwright/test`. This skill is for the Playwright **test runner** — config, specs, fixtures, traces, CI. It does not drive a live browser session; for live browser exploration, manual bug reproduction, or screenshots via the Playwright CLI, use `playwright-cli-agent` instead.
 
 ## When to Use
 
@@ -32,6 +33,14 @@ Before writing or changing tests, inspect project conventions:
 - `tests/auth.setup.ts` or `storageState` files for authenticated flows.
 
 Match existing conventions; do not invent a parallel pattern.
+
+If the project has **no existing `playwright.config.*`**, start from [templates/playwright.config.example.ts](templates/playwright.config.example.ts) and adjust `testDir`, `baseURL`, and projects to the app. If the project has **no shared fixture file**, start from [templates/fixture-template.ts](templates/fixture-template.ts) rather than inlining auth/setup logic per spec. Do not copy either template when an equivalent already exists — extend the existing one instead.
+
+## Authority
+
+- Authorized: create or modify Playwright Test specs, fixtures, config, and test helpers.
+- Requires explicit request: publish/deploy artifacts or run tests against production systems.
+- Assessment-only default: for test review or CI triage, report findings and stop unless edits are requested.
 
 ## Core Patterns
 
@@ -108,13 +117,19 @@ See [references/playwright-test-patterns.md](references/playwright-test-patterns
 - DO NOT wrap `--ui`, `codegen`, `show-report`, or `show-trace` with RTK.
 - DO NOT add `data-testid` for elements already reachable by role/label/text. Add it only when no semantic locator works.
 - DO NOT commit screenshots, videos, traces, or `test-results/` artifacts unless the project asks for them.
+- DO NOT use this skill to manually drive a browser for exploration, bug repro, or screenshots — use `playwright-cli-agent` for that, then bring back semantic locators.
+- DO NOT paste Playwright CLI element refs (e.g. `#a4b2c`) into a spec. They are session-scoped and expire on navigation/close; translate to `getByRole/Label/Text` instead.
 
 ## Final Checklist
 
-- Tests use `@playwright/test` and resilient locators.
-- All waits are condition-based; no `waitForTimeout` without justification.
-- Each test is independent and parallel-safe.
-- Auth flows use `storageState`, not UI login per test.
-- Third-party calls are mocked via `page.route`.
-- Trace is configured (`on-first-retry` in CI, `retain-on-failure` locally).
-- Tests pass locally and in CI on the narrowest scope before broadening.
+Each item must be literally verifiable (yes/no) before calling the task done:
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
+
+- [ ] Every new/changed test imports `test`/`expect` from `@playwright/test` (or the project's fixture wrapper of it).
+- [ ] `rtk npx playwright test path/to/file.spec.ts` (or the project's equivalent) exits 0 for the narrowest scope touched.
+- [ ] Zero occurrences of `waitForTimeout` were added without an inline comment justifying it.
+- [ ] Each `test(...)` runs in isolation — deleting or reordering any other test in the file does not change its outcome.
+- [ ] Authenticated tests reference a `storageState` file or auth fixture, not a UI login inside the test body.
+- [ ] No test calls a real third-party API — `page.route` mocks are in place for external hosts.
+- [ ] `trace` is set in `playwright.config.ts` (`on-first-retry` in CI, `retain-on-failure` locally).
+- [ ] No CLI element ref (`playwright-cli` output) appears anywhere in the diff.

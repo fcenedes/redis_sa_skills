@@ -1,0 +1,84 @@
+{
+  "skill": "agent-delegation-routing",
+  "tp": 6,
+  "fp": 0,
+  "tn": 6,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "$agent-delegation-routing which worker should implement the payments retry logic task from our plan, Codex or Claude?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "/agent-delegation-routing dispatch the three independent packets in wave 2 of the migration plan to workers now.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "We have a written plan with 4 tasks. Route task T2 to the right worker and give me the exact worker prompt.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "Fix this one typo in README.md, change 'recieve' to 'receive'.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "5",
+      "query": "I need a full multi-epic plan for migrating our billing service to a new schema, with parallel workstreams for schema, API, and UI.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "What should the login flow behave like when a session token expires mid-request? I'm not sure we've defined this anywhere.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "Can you check whether we already shipped the rate-limiting feature before I ask anyone to build it again?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "Just write the code for this bug fix yourself, it's a single function in utils.py, no need to spin up any agents.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "Our anchored plan resumed after compaction — before dispatching wave 3, what do I need to re-read?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "10",
+      "query": "The local Qwen worker returned a diff for the config patch — should I apply it directly or review it first?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "11",
+      "query": "Give me a one-line explanation of what HNSW is in Redis vector search.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "12",
+      "query": "Should the packet reviewer or the coordinator decide if a failed audit finding needs a repair packet?",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

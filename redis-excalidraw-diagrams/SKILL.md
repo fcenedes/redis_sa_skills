@@ -1,6 +1,7 @@
 ---
 name: redis-excalidraw-diagrams
 description: Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Search, Streams, replication, clustering, observability, and Redis Cloud systems. Use when a user asks for a Redis technical diagram, architecture visual, workflow sketch, or .excalidraw file that must be accurate, branded, and visually validated.
+compatibility: Requires Python (uv) and Playwright/Chromium for scripts/render_excalidraw.py to render and visually validate diagrams.
 license: MIT
 metadata:
   author: redis
@@ -10,6 +11,19 @@ metadata:
 # Redis Excalidraw Diagram Skill
 
 Create `.excalidraw` JSON diagrams that explain Redis systems through structure, flow, and concrete evidence. Do not produce generic boxes-and-arrows diagrams.
+
+## Authority
+
+- Authorized: create or modify Redis Excalidraw diagram files and local render outputs for validation.
+- Requires explicit request: publish/deploy diagrams or replace Lucidchart handoff scope.
+- Assessment-only default: for diagram review requests, report findings and stop unless edits are requested.
+
+## DO NOT
+
+- Do not invent colors outside the palette in [color-palette.md](references/color-palette.md); every fill, stroke, and text color must trace back to it.
+- Do not use generic unlabeled boxes as components; every shape must carry a real Redis role, command, or evidence artifact.
+- Do not skip the render-inspect PNG cycle; JSON that "looks right" is not validated until it has been rendered and visually checked.
+- Do not omit real Redis commands, schemas, or config fragments as evidence on technical diagrams; decorative boxes without concrete artifacts are not acceptable.
 
 ## Required Workflow
 
@@ -76,6 +90,8 @@ Repeat render-view-fix until the PNG is ready to share. Do not deliver technical
 
 ## Quality Checklist
 
+Each item must be proved by a command output or file read from this session, not by memory or prior conversation.
+
 - Redis facts were researched against current docs or user-provided source material.
 - Diagram depth matches the user's need.
 - The Redis palette was used for every color choice.
@@ -83,3 +99,13 @@ Repeat render-view-fix until the PNG is ready to share. Do not deliver technical
 - Major concepts use distinct visual patterns instead of uniform cards.
 - Excalidraw JSON validates and renders to PNG.
 - Rendered PNG was visually inspected and fixed.
+
+## Reference Index
+
+| File | Load When |
+|------|-----------|
+| [color-palette.md](references/color-palette.md) | Always, before choosing any fill, stroke, or text color. |
+| [element-templates.md](references/element-templates.md) | Building Excalidraw JSON elements (shapes, arrows, text, containers). |
+| [json-schema.md](references/json-schema.md) | Validating `.excalidraw` file structure and required fields. |
+| [redis-architecture-patterns.md](references/redis-architecture-patterns.md) | Choosing patterns and evidence examples for a specific Redis system (caching, Streams, cluster, vector search, Cloud). |
+| [render_excalidraw.py](references/render_excalidraw.py) | Rendering a `.excalidraw` file to PNG for visual inspection. |
