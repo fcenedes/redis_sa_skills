@@ -1,10 +1,10 @@
 ---
 name: agent-spec-writing
-description: Use when writing or updating source-of-truth specs, requirements, change proposals, acceptance scenarios, or ADDED/MODIFIED/REMOVED deltas before implementation or delegated execution.
+description: Use when writing, updating, or reviewing source-of-truth specs, requirements, change proposals, acceptance scenarios, spec-compliance against a diff, or ADDED/MODIFIED/REMOVED deltas before implementation. Not for archiving, promoting, or lifecycle state changes.
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Agent Spec Writing

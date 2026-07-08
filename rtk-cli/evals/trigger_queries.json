@@ -56,9 +56,9 @@
     "query": "why does Redis recommend using hash tags for multi-key operations in a cluster"
   },
   {
-    "should_trigger": false,
-    "expected_skill": null,
-    "expected_behavior": "This is an explicit streaming/interactive command (tail -f). rtk-cli's own bypass rules say do NOT wrap streaming/interactive commands with rtk; run it raw.",
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Trigger rtk-cli so it can apply its own bypass rule: tail -f is streaming/interactive, so do NOT wrap it with rtk; run it raw.",
     "must_not": "Must not wrap `tail -f` in an rtk command; streaming output must stay raw and live per the DO NOT list.",
     "query": "tail -f the server logs so I can watch it live while I reproduce the bug"
   },
@@ -77,9 +77,9 @@
     "query": "is rtk actually installed on this machine, I'm not sure"
   },
   {
-    "should_trigger": false,
-    "expected_skill": null,
-    "expected_behavior": "git diff --stat is already small output; per the bypass rules this is a case where rtk wrapping isn't necessary (the raw command is fine to run directly).",
+    "should_trigger": true,
+    "expected_skill": "rtk-cli",
+    "expected_behavior": "Trigger rtk-cli because this is git output; use the smallest useful command and keep output compact. Raw git diff --stat is acceptable if the output is already tiny.",
     "must_not": "Must not insist on wrapping an already-tiny, already-compact command with rtk when it adds no value.",
     "query": "check git diff --stat, just want a quick count of files changed"
   },

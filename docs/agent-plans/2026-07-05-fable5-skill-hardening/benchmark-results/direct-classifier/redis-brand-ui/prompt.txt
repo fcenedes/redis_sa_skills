@@ -1,0 +1,16 @@
+Classify skill trigger decisions. Use only the skill name and description. Return ONLY valid minified JSON: {"decisions":[{"id":"1","trigger":true}]}. No prose.
+Skill: redis-brand-ui
+Description: Use when applying official Redis brand identity to marketing pages, sponsor slides, one-pagers, logo or wordmark placements, booth collateral, or UI surfaces that explicitly need Redis brand guidelines. Covers colors, typography, logo usage, and visual identity; not RedisInsight/product app layout patterns.
+Queries:
+1: Build a marketing landing page for redis.io announcing Redis 8 with a hero section, Redis Red CTA button, and logo in the header.
+2: $redis-brand-ui help me pick the right dark-mode text colors for a Redis blog post page.
+3: /redis-brand-ui check whether my button styles follow official brand contrast rules before I ship this docs site.
+4: Add the Redis logo and brand-approved typography to our conference sponsor slide footer graphic.
+5: We're building the RedisInsight-style admin dashboard with a dense table of active connections, filters, and a drawer for connection details. Style it.
+6: Build a customer-facing status page listing incident history with badges for each severity level.
+7: What's the best Redis Cluster key design for a multi-tenant leaderboard with hash tags?
+8: Write a Python script that connects to Redis with redis-py and pipelines 1000 SET commands.
+9: Update our Storybook-based RedisInsight plugin iframe theme to match light/dark tokens.
+10: I need a one-pager for a trade show booth with the Redis wordmark, brand colors, and a QR code to our demo signup.
+11: Our React marketing site's primary CTA button currently uses #E53E3E. Is that on-brand?
+12: Design a dense settings page for our internal developer CLI tool web UI with tabs, forms, and a save toast.

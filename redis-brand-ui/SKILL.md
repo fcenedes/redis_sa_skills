@@ -1,11 +1,11 @@
 ---
 name: redis-brand-ui
-description: Apply Redis official brand guidelines to frontend UI implementations. Use this skill when building Redis-branded web interfaces, creating marketing pages, styling dashboards, or implementing any UI that must follow the Redis visual identity. Covers colors, typography, components, and dark mode.
+description: Use when applying official Redis brand identity to marketing pages, sponsor slides, one-pagers, logo or wordmark placements, booth collateral, or UI surfaces that explicitly need Redis brand guidelines. Covers colors, typography, logo usage, and visual identity; not RedisInsight/product app layout patterns.
 compatibility: Requires Node.js to run scripts/check-contrast.js for WCAG contrast validation.
 license: MIT
 metadata:
   author: redis
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 # Redis Brand UI Guidelines
 

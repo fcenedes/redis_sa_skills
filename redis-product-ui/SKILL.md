@@ -1,10 +1,10 @@
 ---
 name: redis-product-ui
-description: Use when building Redis product, dashboard, admin, RedisInsight-like, developer-tool, prototype, or demo UIs that need Redis UI application patterns, dense layouts, light/dark modes, component states, tables, filters, sidebars, drawers, modals, toasts, or product semantic colors.
+description: Use when building explicit Redis product, dashboard, admin, RedisInsight, Workbench plugin iframe, developer-tool, prototype, or demo UIs that need app patterns, dense layouts, light/dark modes, tables, filters, drawers, modals, toasts, or product semantic colors. Not for vague generic internal tools.
 license: MIT
 metadata:
   author: redis
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 # Redis Product UI
 

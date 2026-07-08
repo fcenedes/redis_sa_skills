@@ -1,0 +1,20 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: redis-lucidchart-diagrams
+Skill description: Use when creating Redis-focused Lucidchart architecture diagrams, Lucid Standard Import sources, customer workshop visuals, SA diagrams, editable architecture flows, or Lucid-ready diagram handoff files.
+
+Queries:
+1. The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture
+2. $redis-lucidchart-diagrams package our Redis Cluster resharding diagram as a Standard Import source for the customer's Lucid workspace
+3. /redis-lucidchart-diagrams create an editable architecture flow for our Streams consumer-group pipeline that the SA team can hand off to the customer
+4. Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?
+5. Draw a generic org chart for our sales team in Lucidchart, nothing Redis-related
+6. What's the difference between Lucidchart and Lucidspark as products, just curious, no diagram needed
+7. We need a working RedisInsight-style dashboard prototype as an actual web page, not a diagram, for internal review
+8. Build a Lucidchart diagram showing our Redis vector search RAG architecture with FT.CREATE schema and KNN query flow for a customer workshop they'll keep maintaining
+9. I have an existing Mermaid diagram of our replication topology — can you just explain what it shows, no changes needed?
+10. Our SA wants a Lucidchart-ready handoff of the Redis Cloud Active-Active CRDT setup so the customer's architects can keep iterating on it after we leave

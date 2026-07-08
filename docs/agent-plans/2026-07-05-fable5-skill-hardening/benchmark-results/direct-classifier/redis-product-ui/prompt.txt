@@ -1,0 +1,15 @@
+Classify skill trigger decisions. Use only the skill name and description. Return ONLY valid minified JSON: {"decisions":[{"id":"1","trigger":true}]}. No prose.
+Skill: redis-product-ui
+Description: Use when building explicit Redis product, dashboard, admin, RedisInsight, Workbench plugin iframe, developer-tool, prototype, or demo UIs that need app patterns, dense layouts, light/dark modes, tables, filters, drawers, modals, toasts, or product semantic colors. Not for vague generic internal tools.
+Queries:
+1: Build a RedisInsight-style connections table with filters, a drawer for connection detail, and light/dark theme support.
+2: $redis-product-ui design an admin dashboard for our Redis Cloud database list with status badges, search, and a create-database wizard.
+3: /redis-product-ui add loading, empty, and error states to our metrics chart component.
+4: We need a developer-tool web UI with tabs, dense tables of API keys, and a toast when a key is revoked.
+5: Build our redis.io marketing homepage hero section with the Redis logo, brand red CTA button, and Space Grotesk headline.
+6: Create a docs landing page introducing Redis Query Engine with brand-consistent typography and a call-to-action to the docs.
+7: How do I avoid CROSSSLOT errors when running MGET across a Redis Cluster?
+8: Set up ACL users and TLS for our production Redis deployment.
+9: Style our RedisInsight Workbench plugin iframe to match the host app's theme.
+10: Just make our internal tool look nice, whatever you think is best.
+11: Add a 20-column table of stream entries with virtualized rows and also paginate it for performance.

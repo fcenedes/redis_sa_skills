@@ -1,0 +1,218 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when running shell commands, inspecting files, checking git output, reading logs, running tests, lint, typecheck, builds, Docker/Kubernetes commands, package-manager commands, grep/find, or any CLI command likely to produce significant output. Prefer RTK wrappers to keep terminal output compact.",
+  "best_description": "Use when running shell commands, inspecting files, checking git output, reading logs, running tests, lint, typecheck, builds, Docker/Kubernetes commands, package-manager commands, grep/find, or any CLI command likely to produce significant output. Prefer RTK wrappers to keep terminal output compact.",
+  "best_score": "2/5",
+  "best_train_score": "4/9",
+  "best_test_score": "2/5",
+  "final_description": "Use when running shell commands, inspecting files, checking git output, reading logs, running tests, lint, typecheck, builds, Docker/Kubernetes commands, package-manager commands, grep/find, or any CLI command likely to produce significant output. Prefer RTK wrappers to keep terminal output compact.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 9,
+  "test_size": 5,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when running shell commands, inspecting files, checking git output, reading logs, running tests, lint, typecheck, builds, Docker/Kubernetes commands, package-manager commands, grep/find, or any CLI command likely to produce significant output. Prefer RTK wrappers to keep terminal output compact.",
+      "train_passed": 4,
+      "train_failed": 5,
+      "train_total": 9,
+      "train_results": [
+        {
+          "query": "kubectl get pods, I think something is crash-looping",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "is rtk actually installed on this machine, I'm not sure",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "run git status and git diff so I can see what's changed",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "grep for TODO across the whole repo",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "can you run our test suite and tell me if it passes",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "why does Redis recommend using hash tags for multi-key operations in a cluster",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I need the exact raw stack trace from that crash, copy it verbatim, nothing filtered",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you make the PR description shorter and punchier",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "check git diff --stat, just want a quick count of files changed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 3,
+      "test_total": 5,
+      "test_results": [
+        {
+          "query": "$rtk docker logs for the api container, something's crashing",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "/rtk-cli check the build output, it's failing",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "list the files in this directory",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "your last answer was too wordy, be more terse going forward",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "tail -f the server logs so I can watch it live while I reproduce the bug",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 4,
+      "failed": 5,
+      "total": 9,
+      "results": [
+        {
+          "query": "kubectl get pods, I think something is crash-looping",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "is rtk actually installed on this machine, I'm not sure",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "run git status and git diff so I can see what's changed",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "grep for TODO across the whole repo",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "can you run our test suite and tell me if it passes",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "why does Redis recommend using hash tags for multi-key operations in a cluster",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I need the exact raw stack trace from that crash, copy it verbatim, nothing filtered",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you make the PR description shorter and punchier",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "check git diff --stat, just want a quick count of files changed",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

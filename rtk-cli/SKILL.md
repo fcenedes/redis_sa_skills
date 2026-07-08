@@ -5,7 +5,7 @@ compatibility: Requires the rtk binary on PATH; falls back to raw shell commands
 license: MIT
 metadata:
   author: redis
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 # RTK CLI (Rust Token Killer)
 

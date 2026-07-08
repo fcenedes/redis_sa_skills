@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when coordinating multiple parallel agents or subagents with shared agent_memory prompts, strict file ownership, integration passes, and verification gates across Codex, Claude Code, or other coding agents.",
+  "best_description": "Use when coordinating multiple parallel agents or subagents with shared agent_memory prompts, strict file ownership, integration passes, and verification gates across Codex, Claude Code, or other coding agents.",
+  "best_score": "2/4",
+  "best_train_score": "3/8",
+  "best_test_score": "2/4",
+  "final_description": "Use when coordinating multiple parallel agents or subagents with shared agent_memory prompts, strict file ownership, integration passes, and verification gates across Codex, Claude Code, or other coding agents.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when coordinating multiple parallel agents or subagents with shared agent_memory prompts, strict file ownership, integration passes, and verification gates across Codex, Claude Code, or other coding agents.",
+      "train_passed": 3,
+      "train_failed": 5,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "/agent-memory-coordination memory tools seem read-only, can we still coordinate workers?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "One worker already finished the retrieval track and I want to skip live proof since we don't have the API key today \u2014 is that OK to mark passed?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We resumed this session after a context compaction \u2014 what should happen before I give the workers their next prompts?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks \u2014 store their prompts in shared memory and give each a disjoint file set.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "The auth worker and the billing worker both need to edit config/shared-settings.yaml, how should I split that?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Before we plan a follow-up, track what's done and what's still missing across the repo's capability areas.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Set up the Docker Compose stack for the local Agent Memory Server so my team can share it.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Is this plan promoted yet? Check if the ledger rows and commit SHAs were recorded during promotion.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "$agent-memory-coordination the auth worker just finished, record the gate result and check for blockers before the next dispatch.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Coordinate parallel workers via shared memory prompts across Codex and Claude Code for this multi-service refactor.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Just run the test suite and tell me if it passes, no need to touch memory or dispatch anything.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Can you translate this paragraph into French for me?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 3,
+      "failed": 5,
+      "total": 8,
+      "results": [
+        {
+          "query": "/agent-memory-coordination memory tools seem read-only, can we still coordinate workers?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "One worker already finished the retrieval track and I want to skip live proof since we don't have the API key today \u2014 is that OK to mark passed?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We resumed this session after a context compaction \u2014 what should happen before I give the workers their next prompts?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks \u2014 store their prompts in shared memory and give each a disjoint file set.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "The auth worker and the billing worker both need to edit config/shared-settings.yaml, how should I split that?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Before we plan a follow-up, track what's done and what's still missing across the repo's capability areas.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Set up the Docker Compose stack for the local Agent Memory Server so my team can share it.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Is this plan promoted yet? Check if the ledger rows and commit SHAs were recorded during promotion.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

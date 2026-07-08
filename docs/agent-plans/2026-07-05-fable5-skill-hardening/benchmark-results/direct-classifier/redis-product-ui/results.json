@@ -1,0 +1,78 @@
+{
+  "skill": "redis-product-ui",
+  "tp": 6,
+  "fp": 0,
+  "tn": 5,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "Build a RedisInsight-style connections table with filters, a drawer for connection detail, and light/dark theme support.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "$redis-product-ui design an admin dashboard for our Redis Cloud database list with status badges, search, and a create-database wizard.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "/redis-product-ui add loading, empty, and error states to our metrics chart component.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "We need a developer-tool web UI with tabs, dense tables of API keys, and a toast when a key is revoked.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "5",
+      "query": "Build our redis.io marketing homepage hero section with the Redis logo, brand red CTA button, and Space Grotesk headline.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "Create a docs landing page introducing Redis Query Engine with brand-consistent typography and a call-to-action to the docs.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "How do I avoid CROSSSLOT errors when running MGET across a Redis Cluster?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "Set up ACL users and TLS for our production Redis deployment.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "Style our RedisInsight Workbench plugin iframe to match the host app's theme.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "10",
+      "query": "Just make our internal tool look nice, whatever you think is best.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "11",
+      "query": "Add a 20-column table of stream entries with virtualized rows and also paginate it for performance.",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

@@ -5,7 +5,7 @@ compatibility: Requires Node.js project with Playwright CLI (or @playwright/cli)
 license: MIT
 metadata:
   author: redis
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 # Playwright CLI for Agents
 

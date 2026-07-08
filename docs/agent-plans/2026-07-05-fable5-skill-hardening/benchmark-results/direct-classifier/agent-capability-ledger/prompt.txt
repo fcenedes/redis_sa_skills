@@ -1,0 +1,22 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: agent-capability-ledger
+Skill description: Use when tracking what has been delivered, proven, skipped, superseded, or still missing across multi-plan, multi-agent, multi-repo, readiness, audit, or follow-up work before writing new delegated plans.
+
+Queries:
+1. Before we plan the next tranche, what's actually done vs still missing across the auth and billing repos?
+2. $agent-capability-ledger did we already implement the retry backoff for stream consumers?
+3. /agent-capability-ledger audit readiness for the Q3 release across all three services
+4. Track what's done and what's missing before we write a follow-up plan for the notification service.
+5. Coordinate three parallel workers on auth, billing, and UI right now using shared memory prompts and strict file ownership.
+6. Promote this audited plan and archive it, updating any lifecycle records.
+7. Set up the local Docker stack for the agent memory server so my team can share it.
+8. What's a good recipe for banana bread?
+9. Just show me git log for the last 20 commits, nothing fancy.
+10. I think the JWT refresh capability is done, I remember fixing it last week in our chat.
+11. We have a Redis Array mirror of our ledger — can you query it for all partial rows instead of reading the Markdown?
+12. How many capability rows should I create for a login feature that touches both frontend and backend with different owners?

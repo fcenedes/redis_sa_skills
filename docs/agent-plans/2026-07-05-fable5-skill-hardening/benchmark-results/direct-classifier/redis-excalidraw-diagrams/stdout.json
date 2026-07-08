@@ -1,0 +1,3 @@
+```json
+{"decisions":[{"id":"1","trigger":true},{"id":"2","trigger":true},{"id":"3","trigger":true},{"id":"4","trigger":false},{"id":"5","trigger":false},{"id":"6","trigger":false},{"id":"7","trigger":false},{"id":"8","trigger":true},{"id":"9","trigger":false},{"id":"10","trigger":true},{"id":"11","trigger":false}]}
+```

@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Apply Redis official brand guidelines to frontend UI implementations. Use this skill when building Redis-branded web interfaces, creating marketing pages, styling dashboards, or implementing any UI that must follow the Redis visual identity. Covers colors, typography, components, and dark mode.",
+  "best_description": "Apply Redis official brand guidelines to frontend UI implementations. Use this skill when building Redis-branded web interfaces, creating marketing pages, styling dashboards, or implementing any UI that must follow the Redis visual identity. Covers colors, typography, components, and dark mode.",
+  "best_score": "2/4",
+  "best_train_score": "4/8",
+  "best_test_score": "2/4",
+  "final_description": "Apply Redis official brand guidelines to frontend UI implementations. Use this skill when building Redis-branded web interfaces, creating marketing pages, styling dashboards, or implementing any UI that must follow the Redis visual identity. Covers colors, typography, components, and dark mode.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Apply Redis official brand guidelines to frontend UI implementations. Use this skill when building Redis-branded web interfaces, creating marketing pages, styling dashboards, or implementing any UI that must follow the Redis visual identity. Covers colors, typography, components, and dark mode.",
+      "train_passed": 4,
+      "train_failed": 4,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "Build a marketing landing page for redis.io announcing Redis 8 with a hero section, Redis Red CTA button, and logo in the header.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "/redis-brand-ui check whether my button styles follow official brand contrast rules before I ship this docs site.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our React marketing site's primary CTA button currently uses #E53E3E. Is that on-brand?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I need a one-pager for a trade show booth with the Redis wordmark, brand colors, and a QR code to our demo signup.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "What's the best Redis Cluster key design for a multi-tenant leaderboard with hash tags?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Update our Storybook-based RedisInsight plugin iframe theme to match light/dark tokens.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Build a customer-facing status page listing incident history with badges for each severity level.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Design a dense settings page for our internal developer CLI tool web UI with tabs, forms, and a save toast.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "Add the Redis logo and brand-approved typography to our conference sponsor slide footer graphic.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "$redis-brand-ui help me pick the right dark-mode text colors for a Redis blog post page.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Write a Python script that connects to Redis with redis-py and pipelines 1000 SET commands.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "We're building the RedisInsight-style admin dashboard with a dense table of active connections, filters, and a drawer for connection details. Style it.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 4,
+      "failed": 4,
+      "total": 8,
+      "results": [
+        {
+          "query": "Build a marketing landing page for redis.io announcing Redis 8 with a hero section, Redis Red CTA button, and logo in the header.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "/redis-brand-ui check whether my button styles follow official brand contrast rules before I ship this docs site.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our React marketing site's primary CTA button currently uses #E53E3E. Is that on-brand?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I need a one-pager for a trade show booth with the Redis wordmark, brand colors, and a QR code to our demo signup.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "What's the best Redis Cluster key design for a multi-tenant leaderboard with hash tags?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Update our Storybook-based RedisInsight plugin iframe theme to match light/dark tokens.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Build a customer-facing status page listing incident history with badges for each severity level.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Design a dense settings page for our internal developer CLI tool web UI with tabs, forms, and a save toast.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: agent-delegation-routing
+Skill description: Use when a coordinator agent needs to route coding work to Codex CLI, Claude-side coordinators, local Qwen/Ollama, LM Studio, or other command-line workers.
+
+Queries:
+1. $agent-delegation-routing which worker should implement the payments retry logic task from our plan, Codex or Claude?
+2. /agent-delegation-routing dispatch the three independent packets in wave 2 of the migration plan to workers now.
+3. We have a written plan with 4 tasks. Route task T2 to the right worker and give me the exact worker prompt.
+4. Fix this one typo in README.md, change 'recieve' to 'receive'.
+5. I need a full multi-epic plan for migrating our billing service to a new schema, with parallel workstreams for schema, API, and UI.
+6. What should the login flow behave like when a session token expires mid-request? I'm not sure we've defined this anywhere.
+7. Can you check whether we already shipped the rate-limiting feature before I ask anyone to build it again?
+8. Just write the code for this bug fix yourself, it's a single function in utils.py, no need to spin up any agents.
+9. Our anchored plan resumed after compaction — before dispatching wave 3, what do I need to re-read?
+10. The local Qwen worker returned a diff for the config patch — should I apply it directly or review it first?
+11. Give me a one-line explanation of what HNSW is in Redis vector search.
+12. Should the packet reviewer or the coordinator decide if a failed audit finding needs a repair packet?

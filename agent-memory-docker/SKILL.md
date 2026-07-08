@@ -1,11 +1,11 @@
 ---
 name: agent-memory-docker
-description: Use when setting up shared Agent Memory Server locally with Docker for Codex, Claude Code, Claude Desktop, Redis 8, MCP, localhost troubleshooting, or portable teammate onboarding.
+description: Use when setting up, troubleshooting, or safely inspecting shared Agent Memory Server Docker/MCP config for Codex, Claude Code, Claude Desktop, Redis 8, localhost, teammate onboarding, client config files, or secret-safe `.env.local` checks.
 compatibility: Requires Docker Compose, a Redis-compatible image, Python 3, and local MCP client configuration.
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Agent Memory Docker

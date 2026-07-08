@@ -1,0 +1,21 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: redis-presentation-decks
+Skill description: Create Redis-focused Reveal.js presentation decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. Use when a user asks for Redis-branded slides, decks, or presentations that need Reveal.js HTML, speaker notes, charts, architecture flows, screenshot review, and overflow validation.
+
+Queries:
+1. Build a 12-slide Reveal.js deck for a customer QBR covering our Redis Cloud usage growth and roadmap.
+2. $redis-presentation-decks I need a solution architecture deck showing our cache-aside pattern with Redis Cluster failover, for a technical workshop.
+3. /redis-presentation-decks add a latency comparison chart to slide 6 of my existing deck and validate it renders correctly.
+4. Generate speaker notes for my existing Redis vector search demo deck so I remember the objection-handling talk track.
+5. Make a fun, generic 5-slide icebreaker deck for our team offsite with random trivia questions, nothing Redis-related.
+6. Convert our existing Reveal.js Redis architecture deck into a PowerPoint .pptx file for the sales team.
+7. Design an Excalidraw diagram of our Redis Streams consumer group topology for a technical doc.
+8. Write a blog post explaining Redis Query Engine's DIALECT 2 syntax with code examples.
+9. Our deck's benchmark slide has a chart that overflows the slide bounds on export. Fix it and confirm it's resolved.
+10. Build a Google Slides presentation about our Q3 Redis Enterprise sales numbers.
+11. We need an internal architecture review deck: request path, cache hit/miss flow, and replication failover, with real redis-cli evidence.

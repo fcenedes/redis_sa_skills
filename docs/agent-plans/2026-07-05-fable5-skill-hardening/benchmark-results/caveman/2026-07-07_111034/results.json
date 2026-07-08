@@ -1,0 +1,218 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Ultra-compressed technical communication mode. Use when the user asks for caveman mode, less tokens, terse mode, compressed answers, brief output, short reviews, terse commits, or token-efficient coding-agent communication.",
+  "best_description": "Ultra-compressed technical communication mode. Use when the user asks for caveman mode, less tokens, terse mode, compressed answers, brief output, short reviews, terse commits, or token-efficient coding-agent communication.",
+  "best_score": "2/5",
+  "best_train_score": "4/9",
+  "best_test_score": "2/5",
+  "final_description": "Ultra-compressed technical communication mode. Use when the user asks for caveman mode, less tokens, terse mode, compressed answers, brief output, short reviews, terse commits, or token-efficient coding-agent communication.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 9,
+  "test_size": 5,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Ultra-compressed technical communication mode. Use when the user asks for caveman mode, less tokens, terse mode, compressed answers, brief output, short reviews, terse commits, or token-efficient coding-agent communication.",
+      "train_passed": 4,
+      "train_failed": 5,
+      "train_total": 9,
+      "train_results": [
+        {
+          "query": "can you make your explanations more concise in general, I read fast",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "caveman mode please, keep it short from here on",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "give me a one-liner summary of what changed in this PR",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "review this PR but keep your comments short, one line per issue",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "can you talk like a caveman for this answer, less words",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "please abbreviate all the variable names in this file to save space",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you make git diff and the test output less noisy, I don't want walls of text",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "run the test suite and wrap it with rtk so the output stays small",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "we're about to force-push over main, walk me through the risk carefully",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 3,
+      "test_total": 5,
+      "test_results": [
+        {
+          "query": "/caveman",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "stop caveman, go back to normal, I need the full explanation this time",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "what's the capital of France",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "$caveman ultra, ship the summary",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "the build log is huge, can you trim it down before showing me",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 4,
+      "failed": 5,
+      "total": 9,
+      "results": [
+        {
+          "query": "can you make your explanations more concise in general, I read fast",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "caveman mode please, keep it short from here on",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "give me a one-liner summary of what changed in this PR",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "review this PR but keep your comments short, one line per issue",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "can you talk like a caveman for this answer, less words",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "please abbreviate all the variable names in this file to save space",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "can you make git diff and the test output less noisy, I don't want walls of text",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "run the test suite and wrap it with rtk so the output stays small",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "we're about to force-push over main, walk me through the risk carefully",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1044 @@
+{
+  "instruction": "You are a binary skill trigger classifier. For each item, decide whether the named skill should trigger for the user query. Use only the provided skill description and query. Return JSON only with this exact shape: {\"decisions\":[{\"id\":\"...\",\"trigger\":true|false}]}. Include every id exactly once. Do not explain.",
+  "skills": {
+    "caveman": "Ultra-compressed technical communication mode. Use when the user asks for caveman mode, less tokens, terse mode, compressed answers, brief output, short reviews, terse commits, or token-efficient coding-agent communication.",
+    "rtk-cli": "Use when running shell commands, inspecting files, checking git output, reading logs, running tests, lint, typecheck, builds, Docker/Kubernetes commands, package-manager commands, grep/find, or any CLI command likely to produce significant output. Prefer RTK wrappers to keep terminal output compact.",
+    "redis-brand-ui": "Apply Redis official brand guidelines to frontend UI implementations. Use this skill when building Redis-branded web interfaces, creating marketing pages, styling dashboards, or implementing any UI that must follow the Redis visual identity. Covers colors, typography, components, and dark mode.",
+    "redis-product-ui": "Use when building Redis product, dashboard, admin, RedisInsight-like, developer-tool, prototype, or demo UIs that need Redis UI application patterns, dense layouts, light/dark modes, component states, tables, filters, sidebars, drawers, modals, toasts, or product semantic colors.",
+    "redis-presentation-decks": "Create Redis-focused Reveal.js presentation decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. Use when a user asks for Redis-branded slides, decks, or presentations that need Reveal.js HTML, speaker notes, charts, architecture flows, screenshot review, and overflow validation.",
+    "redis-excalidraw-diagrams": "Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Search, Streams, replication, clustering, observability, and Redis Cloud systems. Use when a user asks for a Redis technical diagram, architecture visual, workflow sketch, or .excalidraw file that must be accurate, branded, and visually validated.",
+    "redis-lucidchart-diagrams": "Use when creating Redis-focused Lucidchart architecture diagrams, Lucid Standard Import sources, customer workshop visuals, SA diagrams, editable architecture flows, or Lucid-ready diagram handoff files.",
+    "redis-insight-plugin": "Use when creating, modifying, debugging, deploying, or testing Redis Insight Workbench visualization plugins, plugin manifests, package.json visualizations, activationMethod functions, redisinsight-plugin-sdk usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, /api/plugins verification, or Playwright plugin validation.",
+    "playwright-test": "Use when creating, fixing, reviewing, or debugging Playwright Test E2E/UI tests, playwright.config files, fixtures, auth state, selectors, traces, CI failures, flaky UI tests, browser tests, or test runner workflows.",
+    "playwright-cli-agent": "Use when an agent needs to inspect, explore, operate, debug, or screenshot a web application through Playwright CLI. Use for live browser automation, UI exploration, reproducing bugs, validating flows, creating screenshots, or discovering stable selectors.",
+    "agent-delegation-routing": "Use when a coordinator agent needs to route coding work to Codex CLI, Claude-side coordinators, local Qwen/Ollama, LM Studio, or other command-line workers.",
+    "agent-delegation-planning": "Use when writing an execution plan that will be delegated to coding agents, subagents, Codex CLI, Claude-side coordinators, Qwen/Ollama, or parallel workers.",
+    "agent-spec-writing": "Use when writing or updating source-of-truth specs, requirements, change proposals, acceptance scenarios, or ADDED/MODIFIED/REMOVED deltas before implementation or delegated execution.",
+    "agent-plan-lifecycle": "Use when checking status, resuming, advancing, promoting, closing, or archiving delegated agent plans, especially anchored plans with charter.md, 00-index.md, tracker.md, decisions.md, or capability ledger updates.",
+    "agent-capability-ledger": "Use when tracking what has been delivered, proven, skipped, superseded, or still missing across multi-plan, multi-agent, multi-repo, readiness, audit, or follow-up work before writing new delegated plans.",
+    "agent-memory-docker": "Use when setting up shared Agent Memory Server locally with Docker for Codex, Claude Code, Claude Desktop, Redis 8, MCP, localhost troubleshooting, or portable teammate onboarding.",
+    "agent-memory-coordination": "Use when coordinating multiple parallel agents or subagents with shared agent_memory prompts, strict file ownership, integration passes, and verification gates across Codex, Claude Code, or other coding agents."
+  },
+  "items": [
+    {
+      "id": "caveman#00",
+      "skill": "caveman",
+      "query": "caveman mode please, keep it short from here on"
+    },
+    {
+      "id": "caveman#01",
+      "skill": "caveman",
+      "query": "can you talk like a caveman for this answer, less words"
+    },
+    {
+      "id": "caveman#02",
+      "skill": "caveman",
+      "query": "give me a one-liner summary of what changed in this PR"
+    },
+    {
+      "id": "caveman#03",
+      "skill": "caveman",
+      "query": "/caveman"
+    },
+    {
+      "id": "caveman#04",
+      "skill": "caveman",
+      "query": "$caveman ultra, ship the summary"
+    },
+    {
+      "id": "caveman#05",
+      "skill": "caveman",
+      "query": "can you make git diff and the test output less noisy, I don't want walls of text"
+    },
+    {
+      "id": "caveman#06",
+      "skill": "caveman",
+      "query": "the build log is huge, can you trim it down before showing me"
+    },
+    {
+      "id": "caveman#07",
+      "skill": "caveman",
+      "query": "we're about to force-push over main, walk me through the risk carefully"
+    },
+    {
+      "id": "caveman#08",
+      "skill": "caveman",
+      "query": "can you make your explanations more concise in general, I read fast"
+    },
+    {
+      "id": "caveman#09",
+      "skill": "caveman",
+      "query": "what's the capital of France"
+    },
+    {
+      "id": "caveman#10",
+      "skill": "caveman",
+      "query": "stop caveman, go back to normal, I need the full explanation this time"
+    },
+    {
+      "id": "caveman#11",
+      "skill": "caveman",
+      "query": "review this PR but keep your comments short, one line per issue"
+    },
+    {
+      "id": "caveman#12",
+      "skill": "caveman",
+      "query": "please abbreviate all the variable names in this file to save space"
+    },
+    {
+      "id": "caveman#13",
+      "skill": "caveman",
+      "query": "run the test suite and wrap it with rtk so the output stays small"
+    },
+    {
+      "id": "rtk-cli#00",
+      "skill": "rtk-cli",
+      "query": "run git status and git diff so I can see what's changed"
+    },
+    {
+      "id": "rtk-cli#01",
+      "skill": "rtk-cli",
+      "query": "can you run our test suite and tell me if it passes"
+    },
+    {
+      "id": "rtk-cli#02",
+      "skill": "rtk-cli",
+      "query": "grep for TODO across the whole repo"
+    },
+    {
+      "id": "rtk-cli#03",
+      "skill": "rtk-cli",
+      "query": "$rtk docker logs for the api container, something's crashing"
+    },
+    {
+      "id": "rtk-cli#04",
+      "skill": "rtk-cli",
+      "query": "/rtk-cli check the build output, it's failing"
+    },
+    {
+      "id": "rtk-cli#05",
+      "skill": "rtk-cli",
+      "query": "can you make the PR description shorter and punchier"
+    },
+    {
+      "id": "rtk-cli#06",
+      "skill": "rtk-cli",
+      "query": "your last answer was too wordy, be more terse going forward"
+    },
+    {
+      "id": "rtk-cli#07",
+      "skill": "rtk-cli",
+      "query": "why does Redis recommend using hash tags for multi-key operations in a cluster"
+    },
+    {
+      "id": "rtk-cli#08",
+      "skill": "rtk-cli",
+      "query": "tail -f the server logs so I can watch it live while I reproduce the bug"
+    },
+    {
+      "id": "rtk-cli#09",
+      "skill": "rtk-cli",
+      "query": "I need the exact raw stack trace from that crash, copy it verbatim, nothing filtered"
+    },
+    {
+      "id": "rtk-cli#10",
+      "skill": "rtk-cli",
+      "query": "is rtk actually installed on this machine, I'm not sure"
+    },
+    {
+      "id": "rtk-cli#11",
+      "skill": "rtk-cli",
+      "query": "check git diff --stat, just want a quick count of files changed"
+    },
+    {
+      "id": "rtk-cli#12",
+      "skill": "rtk-cli",
+      "query": "list the files in this directory"
+    },
+    {
+      "id": "rtk-cli#13",
+      "skill": "rtk-cli",
+      "query": "kubectl get pods, I think something is crash-looping"
+    },
+    {
+      "id": "redis-brand-ui#00",
+      "skill": "redis-brand-ui",
+      "query": "Build a marketing landing page for redis.io announcing Redis 8 with a hero section, Redis Red CTA button, and logo in the header."
+    },
+    {
+      "id": "redis-brand-ui#01",
+      "skill": "redis-brand-ui",
+      "query": "$redis-brand-ui help me pick the right dark-mode text colors for a Redis blog post page."
+    },
+    {
+      "id": "redis-brand-ui#02",
+      "skill": "redis-brand-ui",
+      "query": "/redis-brand-ui check whether my button styles follow official brand contrast rules before I ship this docs site."
+    },
+    {
+      "id": "redis-brand-ui#03",
+      "skill": "redis-brand-ui",
+      "query": "Add the Redis logo and brand-approved typography to our conference sponsor slide footer graphic."
+    },
+    {
+      "id": "redis-brand-ui#04",
+      "skill": "redis-brand-ui",
+      "query": "We're building the RedisInsight-style admin dashboard with a dense table of active connections, filters, and a drawer for connection details. Style it."
+    },
+    {
+      "id": "redis-brand-ui#05",
+      "skill": "redis-brand-ui",
+      "query": "Build a customer-facing status page listing incident history with badges for each severity level."
+    },
+    {
+      "id": "redis-brand-ui#06",
+      "skill": "redis-brand-ui",
+      "query": "What's the best Redis Cluster key design for a multi-tenant leaderboard with hash tags?"
+    },
+    {
+      "id": "redis-brand-ui#07",
+      "skill": "redis-brand-ui",
+      "query": "Write a Python script that connects to Redis with redis-py and pipelines 1000 SET commands."
+    },
+    {
+      "id": "redis-brand-ui#08",
+      "skill": "redis-brand-ui",
+      "query": "Update our Storybook-based RedisInsight plugin iframe theme to match light/dark tokens."
+    },
+    {
+      "id": "redis-brand-ui#09",
+      "skill": "redis-brand-ui",
+      "query": "I need a one-pager for a trade show booth with the Redis wordmark, brand colors, and a QR code to our demo signup."
+    },
+    {
+      "id": "redis-brand-ui#10",
+      "skill": "redis-brand-ui",
+      "query": "Our React marketing site's primary CTA button currently uses #E53E3E. Is that on-brand?"
+    },
+    {
+      "id": "redis-brand-ui#11",
+      "skill": "redis-brand-ui",
+      "query": "Design a dense settings page for our internal developer CLI tool web UI with tabs, forms, and a save toast."
+    },
+    {
+      "id": "redis-product-ui#00",
+      "skill": "redis-product-ui",
+      "query": "Build a RedisInsight-style connections table with filters, a drawer for connection detail, and light/dark theme support."
+    },
+    {
+      "id": "redis-product-ui#01",
+      "skill": "redis-product-ui",
+      "query": "$redis-product-ui design an admin dashboard for our Redis Cloud database list with status badges, search, and a create-database wizard."
+    },
+    {
+      "id": "redis-product-ui#02",
+      "skill": "redis-product-ui",
+      "query": "/redis-product-ui add loading, empty, and error states to our metrics chart component."
+    },
+    {
+      "id": "redis-product-ui#03",
+      "skill": "redis-product-ui",
+      "query": "We need a developer-tool web UI with tabs, dense tables of API keys, and a toast when a key is revoked."
+    },
+    {
+      "id": "redis-product-ui#04",
+      "skill": "redis-product-ui",
+      "query": "Build our redis.io marketing homepage hero section with the Redis logo, brand red CTA button, and Space Grotesk headline."
+    },
+    {
+      "id": "redis-product-ui#05",
+      "skill": "redis-product-ui",
+      "query": "Create a docs landing page introducing Redis Query Engine with brand-consistent typography and a call-to-action to the docs."
+    },
+    {
+      "id": "redis-product-ui#06",
+      "skill": "redis-product-ui",
+      "query": "How do I avoid CROSSSLOT errors when running MGET across a Redis Cluster?"
+    },
+    {
+      "id": "redis-product-ui#07",
+      "skill": "redis-product-ui",
+      "query": "Set up ACL users and TLS for our production Redis deployment."
+    },
+    {
+      "id": "redis-product-ui#08",
+      "skill": "redis-product-ui",
+      "query": "Style our RedisInsight Workbench plugin iframe to match the host app's theme."
+    },
+    {
+      "id": "redis-product-ui#09",
+      "skill": "redis-product-ui",
+      "query": "Just make our internal tool look nice, whatever you think is best."
+    },
+    {
+      "id": "redis-product-ui#10",
+      "skill": "redis-product-ui",
+      "query": "Add a 20-column table of stream entries with virtualized rows and also paginate it for performance."
+    },
+    {
+      "id": "redis-presentation-decks#00",
+      "skill": "redis-presentation-decks",
+      "query": "Build a 12-slide Reveal.js deck for a customer QBR covering our Redis Cloud usage growth and roadmap."
+    },
+    {
+      "id": "redis-presentation-decks#01",
+      "skill": "redis-presentation-decks",
+      "query": "$redis-presentation-decks I need a solution architecture deck showing our cache-aside pattern with Redis Cluster failover, for a technical workshop."
+    },
+    {
+      "id": "redis-presentation-decks#02",
+      "skill": "redis-presentation-decks",
+      "query": "/redis-presentation-decks add a latency comparison chart to slide 6 of my existing deck and validate it renders correctly."
+    },
+    {
+      "id": "redis-presentation-decks#03",
+      "skill": "redis-presentation-decks",
+      "query": "Generate speaker notes for my existing Redis vector search demo deck so I remember the objection-handling talk track."
+    },
+    {
+      "id": "redis-presentation-decks#04",
+      "skill": "redis-presentation-decks",
+      "query": "Make a fun, generic 5-slide icebreaker deck for our team offsite with random trivia questions, nothing Redis-related."
+    },
+    {
+      "id": "redis-presentation-decks#05",
+      "skill": "redis-presentation-decks",
+      "query": "Convert our existing Reveal.js Redis architecture deck into a PowerPoint .pptx file for the sales team."
+    },
+    {
+      "id": "redis-presentation-decks#06",
+      "skill": "redis-presentation-decks",
+      "query": "Design an Excalidraw diagram of our Redis Streams consumer group topology for a technical doc."
+    },
+    {
+      "id": "redis-presentation-decks#07",
+      "skill": "redis-presentation-decks",
+      "query": "Write a blog post explaining Redis Query Engine's DIALECT 2 syntax with code examples."
+    },
+    {
+      "id": "redis-presentation-decks#08",
+      "skill": "redis-presentation-decks",
+      "query": "Our deck's benchmark slide has a chart that overflows the slide bounds on export. Fix it and confirm it's resolved."
+    },
+    {
+      "id": "redis-presentation-decks#09",
+      "skill": "redis-presentation-decks",
+      "query": "Build a Google Slides presentation about our Q3 Redis Enterprise sales numbers."
+    },
+    {
+      "id": "redis-presentation-decks#10",
+      "skill": "redis-presentation-decks",
+      "query": "We need an internal architecture review deck: request path, cache hit/miss flow, and replication failover, with real redis-cli evidence."
+    },
+    {
+      "id": "redis-excalidraw-diagrams#00",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#01",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "$redis-excalidraw-diagrams draw the Redis Cluster hash slot topology with primary/replica failover for a workshop slide"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#02",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "/redis-excalidraw-diagrams create a vector search RAG pipeline diagram showing HNSW index and KNN query flow"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#03",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#04",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "Draw me a generic system architecture diagram for a food delivery app, no Redis involved"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#05",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "How do I read an .excalidraw file's raw JSON structure to understand element IDs, unrelated to Redis?"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#06",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "We need a Redis observability dashboard mockup for our RedisInsight-like internal tool, built as a web page"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#07",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "Make an architecture visual for our Redis Active-Active Cloud deployment across three regions with CRDT conflict resolution, for an internal architecture review, quick turnaround"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#08",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "I already have a hand-drawn whiteboard photo of our Streams consumer group design — can you just clean up the photo in Photoshop?"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#09",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "Sketch out a rough mental model of cache-aside vs write-through for an internal Slack explainer, nothing fancy or customer-facing"
+    },
+    {
+      "id": "redis-excalidraw-diagrams#10",
+      "skill": "redis-excalidraw-diagrams",
+      "query": "Build a Lucidchart diagram for our SA team's customer workshop on Redis Search index design"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#00",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#01",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "$redis-lucidchart-diagrams package our Redis Cluster resharding diagram as a Standard Import source for the customer's Lucid workspace"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#02",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "/redis-lucidchart-diagrams create an editable architecture flow for our Streams consumer-group pipeline that the SA team can hand off to the customer"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#03",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#04",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "Draw a generic org chart for our sales team in Lucidchart, nothing Redis-related"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#05",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "What's the difference between Lucidchart and Lucidspark as products, just curious, no diagram needed"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#06",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "We need a working RedisInsight-style dashboard prototype as an actual web page, not a diagram, for internal review"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#07",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "Build a Lucidchart diagram showing our Redis vector search RAG architecture with FT.CREATE schema and KNN query flow for a customer workshop they'll keep maintaining"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#08",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "I have an existing Mermaid diagram of our replication topology — can you just explain what it shows, no changes needed?"
+    },
+    {
+      "id": "redis-lucidchart-diagrams#09",
+      "skill": "redis-lucidchart-diagrams",
+      "query": "Our SA wants a Lucidchart-ready handoff of the Redis Cloud Active-Active CRDT setup so the customer's architects can keep iterating on it after we leave"
+    },
+    {
+      "id": "redis-insight-plugin#00",
+      "skill": "redis-insight-plugin",
+      "query": "My plugin's activationMethod does not match the exported render function and the iframe stays blank"
+    },
+    {
+      "id": "redis-insight-plugin#01",
+      "skill": "redis-insight-plugin",
+      "query": "$redis-insight-plugin scaffold a new external plugin that visualizes GEOSEARCH results on a Leaflet map"
+    },
+    {
+      "id": "redis-insight-plugin#02",
+      "skill": "redis-insight-plugin",
+      "query": "/redis-insight-plugin verify my plugin is actually loaded before I demo it to the customer"
+    },
+    {
+      "id": "redis-insight-plugin#03",
+      "skill": "redis-insight-plugin",
+      "query": "Build a generic Redis dashboard in Next.js showing key metrics, not a RedisInsight plugin"
+    },
+    {
+      "id": "redis-insight-plugin#04",
+      "skill": "redis-insight-plugin",
+      "query": "How do I write an FT.CREATE index with a VECTOR field for RAG, unrelated to any UI or plugin?"
+    },
+    {
+      "id": "redis-insight-plugin#05",
+      "skill": "redis-insight-plugin",
+      "query": "Set up authentication and TLS for our production Redis instance before we go live"
+    },
+    {
+      "id": "redis-insight-plugin#06",
+      "skill": "redis-insight-plugin",
+      "query": "We want to build a general internal admin tool with tables, filters, and a sidebar for our support team, no Redis Insight involved"
+    },
+    {
+      "id": "redis-insight-plugin#07",
+      "skill": "redis-insight-plugin",
+      "query": "My Workbench plugin renders fine locally but after I deploy it to ~/.redis-insight/plugins/geo-viz/ it doesn't show up in the visualization picker"
+    },
+    {
+      "id": "redis-insight-plugin#08",
+      "skill": "redis-insight-plugin",
+      "query": "Explain what RedisInsight is and whether it's free to use, no plugin work needed"
+    },
+    {
+      "id": "redis-insight-plugin#09",
+      "skill": "redis-insight-plugin",
+      "query": "Add a heatmap visualization mode to our existing plugin using the data from XRANGE, and make sure it matches RedisInsight's dark theme"
+    },
+    {
+      "id": "redis-insight-plugin#10",
+      "skill": "redis-insight-plugin",
+      "query": "Our plugin bundle still references process.env.API_KEY after the Parcel build and we're not sure if that's a problem before shipping to a customer"
+    },
+    {
+      "id": "playwright-test#00",
+      "skill": "playwright-test",
+      "query": "Write a Playwright test that checks the login form shows an error for wrong credentials."
+    },
+    {
+      "id": "playwright-test#01",
+      "skill": "playwright-test",
+      "query": "Fix this flaky Playwright test — it fails intermittently in CI but passes locally."
+    },
+    {
+      "id": "playwright-test#02",
+      "skill": "playwright-test",
+      "query": "$playwright-test add auth setup with storageState to our e2e suite"
+    },
+    {
+      "id": "playwright-test#03",
+      "skill": "playwright-test",
+      "query": "/playwright-test review my playwright.config.ts for CI best practices"
+    },
+    {
+      "id": "playwright-test#04",
+      "skill": "playwright-test",
+      "query": "Our CI run failed on 3 Playwright specs, can you look at the trace and figure out why?"
+    },
+    {
+      "id": "playwright-test#05",
+      "skill": "playwright-test",
+      "query": "Can you manually poke around our staging site and see if the checkout flow still works after the deploy?"
+    },
+    {
+      "id": "playwright-test#06",
+      "skill": "playwright-test",
+      "query": "Take a screenshot of the dashboard at mobile width so I can attach it to a bug report."
+    },
+    {
+      "id": "playwright-test#07",
+      "skill": "playwright-test",
+      "query": "There's a weird rendering glitch on the settings page, can you reproduce it and tell me what's happening?"
+    },
+    {
+      "id": "playwright-test#08",
+      "skill": "playwright-test",
+      "query": "What indexing strategy should I use for a Redis Query Engine schema with a TAG field for status filters?"
+    },
+    {
+      "id": "playwright-test#09",
+      "skill": "playwright-test",
+      "query": "Explain the difference between Redis Hash and JSON for storing user profile objects."
+    },
+    {
+      "id": "playwright-test#10",
+      "skill": "playwright-test",
+      "query": "We need better selector strategy across our specs — too many tests break on refactors because of nth-child selectors."
+    },
+    {
+      "id": "playwright-test#11",
+      "skill": "playwright-test",
+      "query": "Can you set up a brand-new Playwright test project for our Next.js app? There's no config yet."
+    },
+    {
+      "id": "playwright-cli-agent#00",
+      "skill": "playwright-cli-agent",
+      "query": "Can you open the app at localhost:3000 and click through the signup flow to see what happens?"
+    },
+    {
+      "id": "playwright-cli-agent#01",
+      "skill": "playwright-cli-agent",
+      "query": "There's a bug where the cart total doesn't update after removing an item — can you reproduce it?"
+    },
+    {
+      "id": "playwright-cli-agent#02",
+      "skill": "playwright-cli-agent",
+      "query": "$playwright-cli-agent grab a screenshot of the pricing page at 375px, 768px, and 1440px widths"
+    },
+    {
+      "id": "playwright-cli-agent#03",
+      "skill": "playwright-cli-agent",
+      "query": "/playwright-cli-agent find a stable selector for the 'Export CSV' button before I write a test for it"
+    },
+    {
+      "id": "playwright-cli-agent#04",
+      "skill": "playwright-cli-agent",
+      "query": "Check if the Redis Insight plugin renders correctly inside the workbench iframe after our latest change."
+    },
+    {
+      "id": "playwright-cli-agent#05",
+      "skill": "playwright-cli-agent",
+      "query": "Write a Playwright test that verifies the signup form validates email format."
+    },
+    {
+      "id": "playwright-cli-agent#06",
+      "skill": "playwright-cli-agent",
+      "query": "Our nightly Playwright CI run has 5 flaky tests, can you dig into the traces and stabilize them?"
+    },
+    {
+      "id": "playwright-cli-agent#07",
+      "skill": "playwright-cli-agent",
+      "query": "Go explore our production checkout site at checkout.ourapp.com and try submitting an order to confirm it works end to end."
+    },
+    {
+      "id": "playwright-cli-agent#08",
+      "skill": "playwright-cli-agent",
+      "query": "What's the best way to paginate through a large Redis Sorted Set for a leaderboard API?"
+    },
+    {
+      "id": "playwright-cli-agent#09",
+      "skill": "playwright-cli-agent",
+      "query": "How do I configure ACL users for least-privilege access on our Redis Cloud instance?"
+    },
+    {
+      "id": "playwright-cli-agent#10",
+      "skill": "playwright-cli-agent",
+      "query": "Compare the before and after screenshots of the dashboard once the redesign PR is deployed to the dev environment."
+    },
+    {
+      "id": "playwright-cli-agent#11",
+      "skill": "playwright-cli-agent",
+      "query": "Delete all test users from the staging database through the admin UI — can you do that and confirm it worked?"
+    },
+    {
+      "id": "agent-delegation-routing#00",
+      "skill": "agent-delegation-routing",
+      "query": "$agent-delegation-routing which worker should implement the payments retry logic task from our plan, Codex or Claude?"
+    },
+    {
+      "id": "agent-delegation-routing#01",
+      "skill": "agent-delegation-routing",
+      "query": "/agent-delegation-routing dispatch the three independent packets in wave 2 of the migration plan to workers now."
+    },
+    {
+      "id": "agent-delegation-routing#02",
+      "skill": "agent-delegation-routing",
+      "query": "We have a written plan with 4 tasks. Route task T2 to the right worker and give me the exact worker prompt."
+    },
+    {
+      "id": "agent-delegation-routing#03",
+      "skill": "agent-delegation-routing",
+      "query": "Fix this one typo in README.md, change 'recieve' to 'receive'."
+    },
+    {
+      "id": "agent-delegation-routing#04",
+      "skill": "agent-delegation-routing",
+      "query": "I need a full multi-epic plan for migrating our billing service to a new schema, with parallel workstreams for schema, API, and UI."
+    },
+    {
+      "id": "agent-delegation-routing#05",
+      "skill": "agent-delegation-routing",
+      "query": "What should the login flow behave like when a session token expires mid-request? I'm not sure we've defined this anywhere."
+    },
+    {
+      "id": "agent-delegation-routing#06",
+      "skill": "agent-delegation-routing",
+      "query": "Can you check whether we already shipped the rate-limiting feature before I ask anyone to build it again?"
+    },
+    {
+      "id": "agent-delegation-routing#07",
+      "skill": "agent-delegation-routing",
+      "query": "Just write the code for this bug fix yourself, it's a single function in utils.py, no need to spin up any agents."
+    },
+    {
+      "id": "agent-delegation-routing#08",
+      "skill": "agent-delegation-routing",
+      "query": "Our anchored plan resumed after compaction — before dispatching wave 3, what do I need to re-read?"
+    },
+    {
+      "id": "agent-delegation-routing#09",
+      "skill": "agent-delegation-routing",
+      "query": "The local Qwen worker returned a diff for the config patch — should I apply it directly or review it first?"
+    },
+    {
+      "id": "agent-delegation-routing#10",
+      "skill": "agent-delegation-routing",
+      "query": "Give me a one-line explanation of what HNSW is in Redis vector search."
+    },
+    {
+      "id": "agent-delegation-routing#11",
+      "skill": "agent-delegation-routing",
+      "query": "Should the packet reviewer or the coordinator decide if a failed audit finding needs a repair packet?"
+    },
+    {
+      "id": "agent-delegation-planning#00",
+      "skill": "agent-delegation-planning",
+      "query": "$agent-delegation-planning we need to migrate billing to a new schema: schema changes, API updates, and a UI checkout rework, delegated across multiple agents."
+    },
+    {
+      "id": "agent-delegation-planning#01",
+      "skill": "agent-delegation-planning",
+      "query": "/agent-delegation-planning write a plan to add rate limiting to the API, add tests, and deploy behind a flag; I'll hand this to Codex and a Claude coordinator in parallel."
+    },
+    {
+      "id": "agent-delegation-planning#02",
+      "skill": "agent-delegation-planning",
+      "query": "We already have a plan with 4 tasks written to docs/agent-plans/2026-07-01-rate-limit/. Just tell me which worker should run task T2."
+    },
+    {
+      "id": "agent-delegation-planning#03",
+      "skill": "agent-delegation-planning",
+      "query": "Fix the off-by-one error on line 42 of parser.py."
+    },
+    {
+      "id": "agent-delegation-planning#04",
+      "skill": "agent-delegation-planning",
+      "query": "What should happen when a coupon code is applied twice in the same cart? We haven't defined the expected behavior yet."
+    },
+    {
+      "id": "agent-delegation-planning#05",
+      "skill": "agent-delegation-planning",
+      "query": "What features have we already delivered for the notifications system before I plan the next phase?"
+    },
+    {
+      "id": "agent-delegation-planning#06",
+      "skill": "agent-delegation-planning",
+      "query": "Our anchored plan for the search-v2 migration needs to resume after a context compaction — what's the status and what's next?"
+    },
+    {
+      "id": "agent-delegation-planning#07",
+      "skill": "agent-delegation-planning",
+      "query": "Can you just rename this one variable across this single file? No need for a plan."
+    },
+    {
+      "id": "agent-delegation-planning#08",
+      "skill": "agent-delegation-planning",
+      "query": "We need parallel workstreams: one agent building the search index, one building the ranking API, one building the UI — write the full plan with ownership boundaries and verification gates."
+    },
+    {
+      "id": "agent-delegation-planning#09",
+      "skill": "agent-delegation-planning",
+      "query": "Just pick whichever model is cheapest for this one bounded doc edit and go."
+    },
+    {
+      "id": "agent-delegation-planning#10",
+      "skill": "agent-delegation-planning",
+      "query": "Draft an OpenSpec change proposal for the new subscription-tier logic before we plan the implementation."
+    },
+    {
+      "id": "agent-delegation-planning#11",
+      "skill": "agent-delegation-planning",
+      "query": "Plan and execute: refactor the auth module, add a new permissions layer, and update three downstream services, run to completion autonomously."
+    },
+    {
+      "id": "agent-spec-writing#00",
+      "skill": "agent-spec-writing",
+      "query": "$agent-spec-writing we need a requirement delta for how the checkout flow should handle expired discount codes, we haven't defined this anywhere."
+    },
+    {
+      "id": "agent-spec-writing#01",
+      "skill": "agent-spec-writing",
+      "query": "/agent-spec-writing update the ADDED/MODIFIED deltas for the new rate-limit behavior now that product clarified the retry semantics."
+    },
+    {
+      "id": "agent-spec-writing#02",
+      "skill": "agent-spec-writing",
+      "query": "The requirements for how partial refunds should interact with loyalty points are ambiguous — can you nail down the acceptance criteria before we plan the implementation?"
+    },
+    {
+      "id": "agent-spec-writing#03",
+      "skill": "agent-spec-writing",
+      "query": "Fix the typo in this one comment in auth.py, 'recieve' should be 'receive'."
+    },
+    {
+      "id": "agent-spec-writing#04",
+      "skill": "agent-spec-writing",
+      "query": "We already know exactly what we want: add a 'lastLoginAt' timestamp column and expose it in the API. Write the implementation plan."
+    },
+    {
+      "id": "agent-spec-writing#05",
+      "skill": "agent-spec-writing",
+      "query": "Which worker should implement the timestamp column migration, Codex or a local Qwen model?"
+    },
+    {
+      "id": "agent-spec-writing#06",
+      "skill": "agent-spec-writing",
+      "query": "Have we already implemented soft-delete for user accounts? Check before I ask for new requirements."
+    },
+    {
+      "id": "agent-spec-writing#07",
+      "skill": "agent-spec-writing",
+      "query": "Just rename this one function locally, no behavior change, no new contract."
+    },
+    {
+      "id": "agent-spec-writing#08",
+      "skill": "agent-spec-writing",
+      "query": "Our OpenSpec change for the payments-v2 migration was just approved — archive it and promote the spec to current truth."
+    },
+    {
+      "id": "agent-spec-writing#09",
+      "skill": "agent-spec-writing",
+      "query": "Review this PR's spec-compliance: does the diff match the acceptance scenarios we wrote last week?"
+    },
+    {
+      "id": "agent-spec-writing#10",
+      "skill": "agent-spec-writing",
+      "query": "Does this repo use OpenSpec? I want to add a new change proposal for multi-currency support."
+    },
+    {
+      "id": "agent-spec-writing#11",
+      "skill": "agent-spec-writing",
+      "query": "What's the cheapest LLM model for summarizing these ten support tickets?"
+    },
+    {
+      "id": "agent-plan-lifecycle#00",
+      "skill": "agent-plan-lifecycle",
+      "query": "Can you check the status of the delegated plan in plan/2026-05-auth-hardening/00-index.md and tell me what's next?"
+    },
+    {
+      "id": "agent-plan-lifecycle#01",
+      "skill": "agent-plan-lifecycle",
+      "query": "$agent-plan-lifecycle resume the compiler-migration plan after context compaction"
+    },
+    {
+      "id": "agent-plan-lifecycle#02",
+      "skill": "agent-plan-lifecycle",
+      "query": "/agent-plan-lifecycle this plan looks done, can we archive it?"
+    },
+    {
+      "id": "agent-plan-lifecycle#03",
+      "skill": "agent-plan-lifecycle",
+      "query": "We finished the audit for track E2, now update the capability ledger rows and record the promotion."
+    },
+    {
+      "id": "agent-plan-lifecycle#04",
+      "skill": "agent-plan-lifecycle",
+      "query": "What capabilities are still missing before we can plan the next tranche of work?"
+    },
+    {
+      "id": "agent-plan-lifecycle#05",
+      "skill": "agent-plan-lifecycle",
+      "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks using shared memory prompts."
+    },
+    {
+      "id": "agent-plan-lifecycle#06",
+      "skill": "agent-plan-lifecycle",
+      "query": "Write a fresh implementation plan for adding rate limiting to the API gateway."
+    },
+    {
+      "id": "agent-plan-lifecycle#07",
+      "skill": "agent-plan-lifecycle",
+      "query": "What's the weather like today and can you summarize this news article for me?"
+    },
+    {
+      "id": "agent-plan-lifecycle#08",
+      "skill": "agent-plan-lifecycle",
+      "query": "Our repo has a tracker.md file with task statuses. Can you just tell me the current git diff instead?"
+    },
+    {
+      "id": "agent-plan-lifecycle#09",
+      "skill": "agent-plan-lifecycle",
+      "query": "The plan says 'promoted' but I don't see any capability ledger updates or commit references anywhere. Is that right?"
+    },
+    {
+      "id": "agent-plan-lifecycle#10",
+      "skill": "agent-plan-lifecycle",
+      "query": "Mark this whole plan archived, we don't need the failed tasks anymore, just clean it up."
+    },
+    {
+      "id": "agent-plan-lifecycle#11",
+      "skill": "agent-plan-lifecycle",
+      "query": "How do I set up Docker Compose for the local agent memory server?"
+    },
+    {
+      "id": "agent-capability-ledger#00",
+      "skill": "agent-capability-ledger",
+      "query": "Before we plan the next tranche, what's actually done vs still missing across the auth and billing repos?"
+    },
+    {
+      "id": "agent-capability-ledger#01",
+      "skill": "agent-capability-ledger",
+      "query": "$agent-capability-ledger did we already implement the retry backoff for stream consumers?"
+    },
+    {
+      "id": "agent-capability-ledger#02",
+      "skill": "agent-capability-ledger",
+      "query": "/agent-capability-ledger audit readiness for the Q3 release across all three services"
+    },
+    {
+      "id": "agent-capability-ledger#03",
+      "skill": "agent-capability-ledger",
+      "query": "Track what's done and what's missing before we write a follow-up plan for the notification service."
+    },
+    {
+      "id": "agent-capability-ledger#04",
+      "skill": "agent-capability-ledger",
+      "query": "Coordinate three parallel workers on auth, billing, and UI right now using shared memory prompts and strict file ownership."
+    },
+    {
+      "id": "agent-capability-ledger#05",
+      "skill": "agent-capability-ledger",
+      "query": "Promote this audited plan and archive it, updating any lifecycle records."
+    },
+    {
+      "id": "agent-capability-ledger#06",
+      "skill": "agent-capability-ledger",
+      "query": "Set up the local Docker stack for the agent memory server so my team can share it."
+    },
+    {
+      "id": "agent-capability-ledger#07",
+      "skill": "agent-capability-ledger",
+      "query": "What's a good recipe for banana bread?"
+    },
+    {
+      "id": "agent-capability-ledger#08",
+      "skill": "agent-capability-ledger",
+      "query": "Just show me git log for the last 20 commits, nothing fancy."
+    },
+    {
+      "id": "agent-capability-ledger#09",
+      "skill": "agent-capability-ledger",
+      "query": "I think the JWT refresh capability is done, I remember fixing it last week in our chat."
+    },
+    {
+      "id": "agent-capability-ledger#10",
+      "skill": "agent-capability-ledger",
+      "query": "We have a Redis Array mirror of our ledger — can you query it for all partial rows instead of reading the Markdown?"
+    },
+    {
+      "id": "agent-capability-ledger#11",
+      "skill": "agent-capability-ledger",
+      "query": "How many capability rows should I create for a login feature that touches both frontend and backend with different owners?"
+    },
+    {
+      "id": "agent-memory-docker#00",
+      "skill": "agent-memory-docker",
+      "query": "Set up a local Agent Memory Server with Docker so Codex, Claude Code, and Claude Desktop can share the same Redis-backed memory."
+    },
+    {
+      "id": "agent-memory-docker#01",
+      "skill": "agent-memory-docker",
+      "query": "$agent-memory-docker can you expose the memory server so my teammate on another machine can connect?"
+    },
+    {
+      "id": "agent-memory-docker#02",
+      "skill": "agent-memory-docker",
+      "query": "/agent-memory-docker Claude Code shows agent-memory as disconnected, how do I fix it?"
+    },
+    {
+      "id": "agent-memory-docker#03",
+      "skill": "agent-memory-docker",
+      "query": "Codex keeps showing 'Authentification non prise en charge' for the local memory server, is that broken?"
+    },
+    {
+      "id": "agent-memory-docker#04",
+      "skill": "agent-memory-docker",
+      "query": "Track which capabilities across our repos are done vs missing before we plan the next round of work."
+    },
+    {
+      "id": "agent-memory-docker#05",
+      "skill": "agent-memory-docker",
+      "query": "Coordinate three parallel workers using shared memory prompts and strict file ownership for this refactor."
+    },
+    {
+      "id": "agent-memory-docker#06",
+      "skill": "agent-memory-docker",
+      "query": "What's the best way to design a Redis key schema for a leaderboard feature?"
+    },
+    {
+      "id": "agent-memory-docker#07",
+      "skill": "agent-memory-docker",
+      "query": "Can you write a haiku about autumn leaves?"
+    },
+    {
+      "id": "agent-memory-docker#08",
+      "skill": "agent-memory-docker",
+      "query": "Just print my current .env.local file contents so I can check a value."
+    },
+    {
+      "id": "agent-memory-docker#09",
+      "skill": "agent-memory-docker",
+      "query": "Should I use Redis Stack or Redis 8 for the local Agent Memory Server image?"
+    },
+    {
+      "id": "agent-memory-docker#10",
+      "skill": "agent-memory-docker",
+      "query": "I want to connect Claude web / a remote custom connector to my local memory server at localhost:9051."
+    },
+    {
+      "id": "agent-memory-docker#11",
+      "skill": "agent-memory-docker",
+      "query": "The agent-memory-server image tag is just 'latest' in our compose file, should we pin it for production?"
+    },
+    {
+      "id": "agent-memory-docker#12",
+      "skill": "agent-memory-docker",
+      "query": "We're deploying our production Redis Cloud database behind a firewall, what ACL rules should we set up?"
+    },
+    {
+      "id": "agent-memory-docker#13",
+      "skill": "agent-memory-docker",
+      "query": "Can you tune the HNSW parameters for our vector index so search recall improves?"
+    },
+    {
+      "id": "agent-memory-coordination#00",
+      "skill": "agent-memory-coordination",
+      "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks — store their prompts in shared memory and give each a disjoint file set."
+    },
+    {
+      "id": "agent-memory-coordination#01",
+      "skill": "agent-memory-coordination",
+      "query": "$agent-memory-coordination the auth worker just finished, record the gate result and check for blockers before the next dispatch."
+    },
+    {
+      "id": "agent-memory-coordination#02",
+      "skill": "agent-memory-coordination",
+      "query": "/agent-memory-coordination memory tools seem read-only, can we still coordinate workers?"
+    },
+    {
+      "id": "agent-memory-coordination#03",
+      "skill": "agent-memory-coordination",
+      "query": "Coordinate parallel workers via shared memory prompts across Codex and Claude Code for this multi-service refactor."
+    },
+    {
+      "id": "agent-memory-coordination#04",
+      "skill": "agent-memory-coordination",
+      "query": "Before we plan a follow-up, track what's done and what's still missing across the repo's capability areas."
+    },
+    {
+      "id": "agent-memory-coordination#05",
+      "skill": "agent-memory-coordination",
+      "query": "Is this plan promoted yet? Check if the ledger rows and commit SHAs were recorded during promotion."
+    },
+    {
+      "id": "agent-memory-coordination#06",
+      "skill": "agent-memory-coordination",
+      "query": "Set up the Docker Compose stack for the local Agent Memory Server so my team can share it."
+    },
+    {
+      "id": "agent-memory-coordination#07",
+      "skill": "agent-memory-coordination",
+      "query": "Can you translate this paragraph into French for me?"
+    },
+    {
+      "id": "agent-memory-coordination#08",
+      "skill": "agent-memory-coordination",
+      "query": "Just run the test suite and tell me if it passes, no need to touch memory or dispatch anything."
+    },
+    {
+      "id": "agent-memory-coordination#09",
+      "skill": "agent-memory-coordination",
+      "query": "One worker already finished the retrieval track and I want to skip live proof since we don't have the API key today — is that OK to mark passed?"
+    },
+    {
+      "id": "agent-memory-coordination#10",
+      "skill": "agent-memory-coordination",
+      "query": "The auth worker and the billing worker both need to edit config/shared-settings.yaml, how should I split that?"
+    },
+    {
+      "id": "agent-memory-coordination#11",
+      "skill": "agent-memory-coordination",
+      "query": "We resumed this session after a context compaction — what should happen before I give the workers their next prompts?"
+    }
+  ]
+}

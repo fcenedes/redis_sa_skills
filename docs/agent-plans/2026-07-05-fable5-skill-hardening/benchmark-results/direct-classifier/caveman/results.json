@@ -1,0 +1,96 @@
+{
+  "skill": "caveman",
+  "tp": 8,
+  "fp": 0,
+  "tn": 6,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "caveman mode please, keep it short from here on",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "can you talk like a caveman for this answer, less words",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "give me a one-liner summary of what changed in this PR",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "/caveman",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "5",
+      "query": "$caveman ultra, ship the summary",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "6",
+      "query": "can you make git diff and the test output less noisy, I don't want walls of text",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "the build log is huge, can you trim it down before showing me",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "we're about to force-push over main, walk me through the risk carefully",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "can you make your explanations more concise in general, I read fast",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "10",
+      "query": "what's the capital of France",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "11",
+      "query": "stop caveman, go back to normal, I need the full explanation this time",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "12",
+      "query": "review this PR but keep your comments short, one line per issue",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "13",
+      "query": "please abbreviate all the variable names in this file to save space",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "14",
+      "query": "run the test suite and wrap it with rtk so the output stays small",
+      "should_trigger": false,
+      "trigger": false
+    }
+  ]
+}
