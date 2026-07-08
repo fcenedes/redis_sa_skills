@@ -1,0 +1,78 @@
+{
+  "skill": "redis-excalidraw-diagrams",
+  "tp": 5,
+  "fp": 0,
+  "tn": 6,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "$redis-excalidraw-diagrams draw the Redis Cluster hash slot topology with primary/replica failover for a workshop slide",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "/redis-excalidraw-diagrams create a vector search RAG pipeline diagram showing HNSW index and KNN query flow",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "5",
+      "query": "Draw me a generic system architecture diagram for a food delivery app, no Redis involved",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "How do I read an .excalidraw file's raw JSON structure to understand element IDs, unrelated to Redis?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "We need a Redis observability dashboard mockup for our RedisInsight-like internal tool, built as a web page",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "Make an architecture visual for our Redis Active-Active Cloud deployment across three regions with CRDT conflict resolution, for an internal architecture review, quick turnaround",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "9",
+      "query": "I already have a hand-drawn whiteboard photo of our Streams consumer group design — can you just clean up the photo in Photoshop?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "10",
+      "query": "Sketch out a rough mental model of cache-aside vs write-through for an internal Slack explainer, nothing fancy or customer-facing",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "11",
+      "query": "Build a Lucidchart diagram for our SA team's customer workshop on Redis Search index design",
+      "should_trigger": false,
+      "trigger": false
+    }
+  ]
+}

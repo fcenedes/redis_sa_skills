@@ -8,345 +8,99 @@ metadata:
 ---
 # Agent Delegation Planning
 
-Write plans that are directly executable by delegated agents. A good plan is not a narrative checklist; it is an ownership, routing, skill, and verification contract.
+Write file-backed plans that are directly executable by delegated agents. A plan is a binding ownership, routing, skill, and verification contract, not a narrative checklist.
 
-Use `agent-spec-writing` before this skill when requirements, source-of-truth behavior, acceptance scenarios, or change deltas are still being authored. Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-repo, or "what remains" plans. Use `agent-delegation-routing` after the plan exists. Use `agent-memory-coordination` when prompts, ownership, or durable outcomes must be shared across workers. Use `agent-plan-lifecycle` for status, resume, promotion, closure, and archive operations after plan creation.
+Use `agent-spec-writing` before planning when requirements or source-of-truth behavior are still being authored. Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-repo, or "what remains" plans. Use `agent-delegation-routing` after the plan exists, `agent-memory-coordination` when prompts/status/ownership must be shared, and `agent-plan-lifecycle` after plan creation for status, resume, promotion, closure, or archive.
 
-Load [plan-template](references/plan-template.md) for full plans, multi-task work, or when exact fields matter.
-Load [packet-mode](references/packet-mode.md) when highly parallel work needs file-owned packet contracts, dependency waves, or repair packets.
-Load [anchoring](references/anchoring.md) for delegated, long-running, resumed, post-compaction, follow-up, readiness, or multi-agent plans that need `charter.md`, `00-index.md`, `components.md`, `decisions.md`, resume ritual, or rigid worker reports.
-When model choice is unclear, consult `agent-delegation-routing/references/routing-table.md` instead of inventing routing policy.
+Load references only when needed:
+
+- [plan-template](references/plan-template.md): full field definitions, task-only and epic skeletons, coordinator prompt, audit handoffs, and anti-overkill examples.
+- [packet-mode](references/packet-mode.md): file-owned packet contracts, dependency waves, and repair packets.
+- [anchoring](references/anchoring.md): `charter.md`, `00-index.md`, `components.md`, `decisions.md`, resume ritual, and rigid worker reports.
+- [mandatory-skills](references/mandatory-skills.md): mandatory skill stack and token-economy rules.
+- [planning-guardrails](references/planning-guardrails.md): detailed DO NOT guardrails and final checklist extracted from this root skill.
+- `agent-delegation-routing/references/routing-table.md`: model and reasoning policy.
 
 ## Required Shape
 
-Every plan must contain:
+Every plan is a binding ownership, routing, skill, and verification contract. It must declare these fields:
 
-- **Source of truth:** repo docs, issue, PR, user request, or tracker that wins over memory/chat.
-- **Spec/change source:** if the task changes requirements or product/source-of-truth behavior, use `agent-spec-writing` or cite the existing spec/change delta before planning implementation.
-- **Local terminology:** project-specific terms are interpreted from repo source-of-truth docs, not generic model knowledge or memory.
-- **Capability reconciliation:** for follow-up/readiness/multi-tranche work, classify existing capabilities before creating delta tasks.
-- **Plan persistence:** write the plan to files and post it to `agent_memory` when available; if memory writes are unavailable after discovery, use the tracker/file fallback and report degraded mode. Do not only answer in chat.
-- **Anchoring artifacts:** multi-agent, long-running, follow-up, readiness, or resumable plans create `charter.md`, `00-index.md`, `components.md`, and `decisions.md`, or record why each is not needed.
-- **Skill stack:** required skills for the whole plan and for each task. Use epic-level skills when epics exist.
-- **Plan granularity:** small requests may be task-only; multi-area or multi-goal work uses epics containing tasks.
-- **Tasks:** each task has routing reason, repo/branch, owned files, forbidden files, worker role, model, reasoning effort, verification, audit, output format, and done evidence.
-- **Parallelization:** actively seek parallel batches; use serial only for real dependencies, shared files, or runtime limits.
-- **Packet mode when useful:** highly parallel work may use file-owned packets with an index, `allowed_files`, `forbidden_files`, dependency waves, and repair packets.
-- **Integration:** shared files, integrator owner, conflict risks, and final gates.
-- **Execution mode:** every plan declares `start-now` or `plan-only`. Infer the default from the request: `build`, `fix`, `do`, `run`, `execute`, or equivalent means `start-now`; `plan`, `design`, `spec`, `propose`, or equivalent means `plan-only`.
-- **Autonomy mode:** every plan declares `autonomous`, `checkpoint`, or `manual`. This controls continuation after execution starts, not whether planning starts execution. Default `autonomous`: dispatch all waves to completion, run validation inline, and return to the user only on a true decision-blocker or when all tasks reach `audited`. Use `checkpoint` only when the user asks to approve between waves; `manual` only when the user wants to fire each step.
-- **Coordinator unblock rule:** bounded blockers that do not require architecture, strategy, product, security, or public-contract decisions are fixed directly or via an immediate repair task/packet.
-- **Audit:** every delivery has an Auditor task before completion, run inline on an available runtime by default.
-- **Tracking:** every task has status tracked in `agent_memory` and, when needed, a repo tracker file.
-- **Plan lifecycle:** anchored plans use `agent-plan-lifecycle` state names for the plan itself: `planned`, `running`, `verified`, `audited`, `promoted`, `archived`, with side states `blocked`, `failed`, and `superseded`.
-- **Execution record:** plan files, tracker, and final report say what actually ran, what was parallelized, what was serialized, and why.
-- **Goal retention:** final, advisory, and audit answers re-read the active objective, tracker, ledger, latest audit verdict, and newest user request.
-- **Token economy:** minimize context, logs, repeated prompts, and model overuse at every stage.
-- **Documentation cleanup:** after delivery, keep docs aligned with what shipped and archive obsolete planning noise.
-- **Memory:** what to search, write, or avoid writing in `agent_memory`.
+| Contract area | Required fields |
+|---|---|
+| Source | source of truth, spec/change source, local terminology sources, non-goals |
+| Persistence | plan files, memory backend/namespace/user, tracker fallback, anchor files |
+| Control | execution mode, autonomy mode, commit policy, lifecycle state |
+| Work shape | task-only or epics, packet mode if used, parallelization, integration owner |
+| Tasks | role, provider, model, reasoning, ownership, forbidden files, exact steps, gates |
+| Evidence | verification, audit, tracking, done evidence, final report contract |
+| Economy | required skills, reference loading, output limits, model sufficiency, cleanup |
+
+Detailed field definitions and templates live in [plan-template](references/plan-template.md).
+
+## Authority
+
+- Authorized: write plan files, post compact records to `agent_memory`, create tracker fallbacks, and dispatch workers when `Execution: start-now`.
+- Requires explicit user request: start execution when `Execution: plan-only`, commit, push, change the default branch, or expand scope beyond the declared plan.
+- Assessment-only default: when the user describes a planning problem without requesting a change, assess and report findings instead of changing files.
 
 ## Execution Start And Autonomy
 
-Execution start and autonomy are separate controls. `Execution: start-now` means
-write the plan files, then begin dispatching in the same turn. `Execution:
-plan-only` means write the plan files and coordinator prompt, then stop with a
-handoff for the user or coordinator to start later. Infer the default from the
-request verb, and record the inference in the plan.
+Execution start and autonomy are separate controls: `Execution: start-now` means write plan files then begin dispatching in the same turn, while `Execution: plan-only` means write the files and coordinator prompt then stop. `Autonomy: autonomous` controls continuation after execution starts: dispatch every wave, verify, audit inline, and keep going until all tasks reach `audited` or a true decision-blocker is hit. Commit policy is a separate explicit gate; autonomy never grants commit or push permission.
 
-Once execution starts, plans default to run-to-completion. With `Autonomy:
-autonomous`, the coordinator dispatches every wave, verifies, audits inline, and
-keeps going until all tasks reach `audited` or a true decision-blocker is hit. Do
-not return to the user between waves, after each task, or to request permission
-to continue.
+When autonomous, proceed without asking for reversible actions that follow from the request. Stop only for destructive actions, genuine scope changes, unavailable environment/secret/live system, unverifiable work, or decisions the user must make: architecture, strategy, product, security, public contract, ownership, scope, or access.
 
-A true stop is only: an architecture, strategy, product, security,
-public-contract, ownership, scope, or access decision; an unavailable
-environment/secret/live system; or work that cannot be verified. Everything else
-is handled in-flight: bounded blockers are fixed directly or via an immediate
-repair task/packet, and ambiguous local terminology becomes a discovery task with
-a recorded working interpretation, not a pause for a user question, unless the
-ambiguity itself blocks a true decision.
+For `checkpoint` or `manual`, honor the requested boundary. Execution/autonomy examples and edge cases are in [planning-guardrails](references/planning-guardrails.md).
 
-Validation is part of the plan, not a handoff. The Auditor/Verifier runs inline
-on an available runtime as the final wave of the same execution. Cross-agent
-audit is allowed when an explicit bridge, tool, or CLI exists and the prompt is
-scoped to owned files, evidence, no secrets, and no push. If no safe bridge is
-available, use an independent in-runtime auditor or a user-routed handoff for
-high-risk public-contract, security, or architecture claims.
+## Mandatory Skill Stack And Token Economy
 
-Commit policy is a separate explicit gate. Default `Commit policy: not allowed`.
-The coordinator may commit audited work on the working branch only when the plan
-declares `Commit policy: allowed`. Execution mode and autonomy never grant commit
-permission by themselves. Pushing and any change to the default branch stay gated
-on explicit user approval. Record commit SHAs in the final report.
+Every plan names required skills and token-economy choices: RTK for noisy output, lazy references, concise worker reports, smallest sufficient model/reasoning, and cleanup of stale planning noise. Use [mandatory-skills](references/mandatory-skills.md) for the full stack.
 
-When `Autonomy: checkpoint` or `manual` is set, follow that instead: checkpoint
-returns once per wave boundary; manual returns after each task.
+## Planning Gates
 
-## Mandatory Skill Stack
-
-Always identify skills needed before execution:
-
-- `rtk-cli`: noisy command output, git status, diffs, tests, logs, builds.
-- `caveman`: default compressed prose for plans, prompts, reports, audits, handoffs, and summaries.
-- `agent-capability-ledger`: required before follow-up, readiness, cross-tranche, cross-repo, "what remains", or "did we already do this?" planning.
-- `agent-spec-writing`: required when requirements, acceptance scenarios, source-of-truth behavior, OpenSpec changes, or ADDED/MODIFIED/REMOVED deltas must be authored before execution.
-- `agent-plan-lifecycle`: required for anchored plan status, resume, promotion, closure, or archive work.
-- `agent-delegation-routing`: worker role, model/reasoning, command shape, patch handoff.
-- `agent-memory-coordination`: parallel workers, reusable prompts, ownership maps, durable outcomes.
-- `playwright-cli-agent` or `playwright-test`: mandatory for UI, frontend, dashboard, demo, browser, responsive, or visual validation tasks.
-- Repo-specific skills: UI, Redis, testing, browser, docs, diagrams, or product skills required by the task.
-
-For each task, and for each epic when epics exist, list `Required skills: <skill>: <why>`. If a skill is unavailable, record the fallback.
-
-## Token Economy
-
-Design every plan to minimize token use without losing evidence:
-
-- Use `rtk-cli` for noisy shell output whenever available; record raw-command fallback only when RTK is unavailable or unsuitable.
-- Load references on demand, not wholesale. Put links/paths in the plan instead of copying long docs.
-- Keep worker prompts self-contained but short: ownership, task, constraints, gates, output contract.
-- Use `caveman lite` by default for plans/audits, `full` for worker reports, and `ultra` only for status lines. Do not compress code, command flags, identifiers, or safety-critical explanations.
-- Reuse prompts through `agent-memory-coordination` instead of pasting long prompts repeatedly.
-- Ask workers for concise reports: files changed, commands run, test summary, blockers, evidence paths.
-- Keep audits compressed but complete: verdict, gate, file/line evidence, required fix, and residual risk.
-- Do not paste raw logs, full diffs, generated files, or large docs into plans; cite paths and summarize only relevant lines.
-- Pick the smallest sufficient model and reasoning effort; token economy includes avoiding unnecessary high/xhigh.
-- Archive stale planning docs and trackers after delivery so future agents read less irrelevant context.
-
-## Plan Files
-
-Write every delegated plan to repo-local files, and post compact records to `agent_memory` when memory writes are available. If memory writes are unavailable after discovery, keep the repo tracker/file path as the durable fallback and report degraded mode. Default path: `docs/agent-plans/<YYYY-MM-DD>-<slug>/`. Small plans use `plan.md`, `tracker.md`, and `coordinator-prompt.md`; large plans use `00-overview.md`, one `epic-<id>.md` per epic, `tracker.md`, and `coordinator-prompt.md`.
-For multi-agent, long-running, follow-up, readiness, or resumable plans, also write `charter.md`, `00-index.md`, `components.md`, and `decisions.md` in the plan directory. These anchor files are the first files read on resume, after compaction, before dispatch, after audit findings, and before final/advisory answers.
-For anchored plans, `00-index.md` records the plan lifecycle state separately from task status. Use `agent-plan-lifecycle` templates when creating, repairing, promoting, or archiving this status board.
-
-If the request has 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, or multiple delivery surfaces, it must use epic files. Convert user-provided batches or phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are the authoritative task contracts.
-
-Post compact memory records for overview, epics, task ownership/status, and coordinator prompt. Before recording `Memory persistence: unavailable`, use `agent-memory-coordination` to discover lazy-loaded memory write tools for create/add/write/save/upsert/edit/update/set operations. If `agent_memory` is unavailable after discovery, say so, recommend installing/configuring shared memory, and continue with files/tracker as degraded fallback. If memory or file persistence fails, record `Memory persistence: unavailable` or `File persistence: unavailable` in the other medium and final response.
-
-When `Execution: start-now`, do not stop at the plan: write the files, then immediately begin executing the coordinator prompt in the same turn. The final response reports executed work: files changed, task statuses, verification, audit evidence, and commit SHAs when commits were explicitly allowed. When `Execution: plan-only`, or the user explicitly asked for a plan-only deliverable, paste a fenced `Coordinator prompt` block from `coordinator-prompt.md` when it is 120 lines or fewer (else state `Coordinator prompt not pasted because: <reason>. Path: <path>`) and wait. `Autonomy` controls how a started run continues; it does not decide whether execution starts.
-
-For large plans, create explicit integrator and auditor task contracts. Use `epic-integration.md` and `epic-audit.md`, or first-class `*.INTEGRATE` and `*.AUDIT` task sections, when integration/audit own shared files, final gates, or nontrivial review.
-
-## Packet Mode
-
-Use packet mode only as an optional execution shape for highly parallel,
-file-owned work. Packets are dispatch contracts inside or alongside epics; they
-do not replace source-of-truth docs, capability ledgers, task contracts, memory
-status, model/reasoning fields, verification, or audit.
-
-Packet plans must include a packet index, dependency waves, one packet file or
-section per worker, `allowed_files`, `forbidden_files`, owner/status, exact
-verification, and an output contract. Workers get the packet index and assigned
-packet by default; add more context only when the packet requires it. Review
-boundary compliance before behavior: changed files must be a subset of
-`allowed_files`, forbidden files must be untouched, and dependencies must be
-complete before later waves start. Use narrow `R#` repair packets for failed
-audit findings instead of reopening broad tasks.
-
-## Capability Ledger Gate
-
-Before writing a follow-up, readiness, cross-tranche, cross-repo, or "what remains" plan, use `agent-capability-ledger` to find or create a repo-local ledger. Classify capabilities as `done`, `partial`, `missing`, `blocked`, or `superseded`, with proof class, evidence path, verification command, residual gap, and next delta task. Generate new tasks only from `partial`, `missing`, `blocked`, stale-proof, or newly requested rows. Treat `done` rows as context and `superseded` rows as archive notes.
-
-If no ledger exists, create a baseline ledger from repo docs, trackers, tests, commits, and relevant memory before planning. If memory disagrees with the ledger, repo evidence wins. If both ledger and evidence are missing, ask the user or create an explicit discovery task instead of inventing completed scope.
-
-## Local Context Retention
-
-Before interpreting project-specific architecture, product, runtime, provider,
-workflow, registry, worker, audit, replay, orchestration, component, or
-authority terms, read the local source-of-truth docs first. Do not infer local
-meaning from generic software usage, memory, previous chats, or model knowledge
-when repo definitions exist.
-
-Plans should list local terminology sources such as README, specs, component
-docs, lockfiles, trackers, capability ledgers, or active plan files. If a term
-is ambiguous, record checked sources, working interpretation, and risk if wrong,
-then create a discovery task and continue on the working interpretation where
-safe. Pause for a user question only when the ambiguity blocks a true decision
-(architecture, product, security, public contract, scope, or access).
-
-On session resume, post-compaction, a new coordinator turn, before dispatch, after audit findings, and before scope changes, run the resume ritual from `references/anchoring.md`: reload `charter.md`, `00-index.md` or tracker, relevant ledger rows, latest audit/verifier verdict, and newest user request, then restate the active residual before acting.
-
-When execution or audit expands owned files, epics, or task scope beyond the
-initial plan, record the scope decision in `decisions.md` before finalizing. The
-entry must name the original boundary, expanded boundary, reason, evidence, and
-revisit trigger.
-
-Before final, advisory, or audit answers, re-read the active plan objective,
-tracker current status, capability ledger rows, latest audit verdict, and newest
-user request. Answer only the active residual; do not broaden the goal, reopen
-closed scope, or generalize beyond the bounded task.
-
-## Task Status Tracking
-
-Use `agent_memory` when available to track each task with task ID, epic or task-only, owner, status, evidence, next action, and update time. If memory writes are unavailable after discovery, use the repo tracker for the same fields. Status values are `planning`, `running`, `blocked`, `failed`, `done`, and `audited`. Write `planning` before dispatch, `running` when work starts, `done` only after verification, and `audited` only after audit.
-
-Also maintain a tracker file when `agent_memory` is unavailable, agents may not share the same backend, or a problem must be preserved in repo-local context. Prefer an existing tracker; otherwise propose `docs/agent-tracking/<plan-id>.md` and confirm whether to commit it.
-
-Set `done` only after task verification evidence exists. Set `audited` only after Auditor approval or recorded residual risk. For `blocked` or `failed`, write reason and next action to memory and tracker file when possible.
-
-## Model Discipline
-
-Pick the smallest sufficient model and reasoning effort for each task:
-
-- `low`: grep, summaries, tiny docs, simple local edits.
-- `medium`: normal bounded coding, tests, docs, straightforward fixes.
-- `high`: multi-file implementation, UI, integration, nontrivial debugging.
-- `xhigh`: architecture ambiguity, subtle regression, security logic, final high-risk verification.
-
-Default lower when bounded and easy to verify. Escalate only for ambiguity, risk, cross-cutting behavior, or hard debugging. Record the reason for every high/xhigh task.
-
-For Codex, Claude Code, Qwen/Ollama, LM Studio, or any other worker, record requested model/reasoning before dispatch and actual model/reasoning after completion when knowable. If the worker path cannot control model/reasoning and the task is low/medium-risk, use direct execution, explicit CLI/local worker, or record `No lower-cost worker available`; do not spawn an inherited senior worker.
-
-Documentation execution defaults to low/medium. If docs touch public command wording, route inventories, release posture, live-proof semantics, security claims, or architecture boundaries, keep the docs edit low/medium and add a separate high Spec Writer/Auditor task for the risky claim. Do not use inherited senior-model/high-reasoning subagents for docs-only editing.
-
-Separate routing fields:
-
-- **Preferred worker/provider:** agent or tool family only, such as Codex CLI, Claude Code, local Qwen/Ollama, LM Studio, Claude-side Auditor via explicit bridge/tool or human-routed handoff, or no preference.
-- **Fallback worker/provider:** viable alternative or `none available`.
-- **Requested model/model class:** provider-specific model or model class, separate from worker/provider.
-- **Requested reasoning effort:** low, medium, high, or xhigh, separate from worker/provider.
-
-Do not write values like `Codex high` in `Preferred worker/provider`; that mixes provider and reasoning. Do not make Codex the only route unless repo tooling, user instruction, or environment constraints require it. For each role, record at least one non-Codex option or explain why no alternative is viable.
-
-## Granularity
-
-Use task-only plans for one small request, one ownership area, or a few tightly related tasks. Do not invent epics. Use epic plans for multiple goals, ownership areas, workers, phases, batches, crates/packages, CI/live-system tracks, or delivery surfaces. Task-only plans still need skills, model/reasoning, ownership, parallelization, verification, tracking, and audit.
-
-## Parallelization
-
-Always look for parallelism before writing serial steps. Batch tasks with disjoint writes, read-only analysis, independent tests, UI validation, audits, or doc cleanup when no ordering dependency exists. Record `max_parallel`, `parallel batch`, `serial because <reason>`, `not parallelizable because <reason>`, or `parallelizable but serialized because <runtime limit>`.
-
-If execution starts from the plan, the coordinator must either dispatch independent tasks concurrently or record `parallelizable but serialized` with the concrete tool/runtime limitation. Do not call work parallel merely because it was grouped into a batch; parallel means separate workers or execution streams were actually used.
-
-## Coordinator Blocker Handling
-
-During execution, the coordinator owns bounded unblockers inside the active
-plan. If a blocker can be solved without an architecture, strategic, product,
-security, public-contract, ownership, access, or scope decision, the coordinator
-must fix it directly when it is in coordinator/integrator scope, or create and
-dispatch an immediate repair task or `R#` repair packet. Verify the fix and keep
-the current delivery moving.
-
-Escalate only when the blocker needs a human/strategic decision, expands scope,
-changes architecture or public contracts, conflicts with ownership, requires
-secrets/access/live systems that are unavailable, or cannot be verified. Record
-the disposition as `fixed directly`, `repair delegated`, `blocked for decision`,
-or `blocked for environment`.
+- Persist plans under `docs/agent-plans/<YYYY-MM-DD>-<slug>/` by default and post compact records to `agent_memory` when available. Discover memory write tools before declaring degraded mode.
+- Use task-only plans for one small ownership area. Use epics for multiple goals, ownership areas, workers, phases, delivery surfaces, crates/packages, or CI/live-system tracks.
+- Use packet mode only for highly parallel, file-owned work; packets supplement epics/tasks and require `allowed_files`, `forbidden_files`, dependencies, verification, and repair policy.
+- Interpret local terms from repo source-of-truth docs. If ambiguous, record checked sources, a working interpretation, risk, and a discovery task unless it blocks a true decision.
+- Pick the smallest sufficient provider/model/reasoning and keep provider, requested model, and reasoning as separate fields. Docs execution is low/medium unless a separate high-risk reviewer/spec task is justified.
+- Track task status in `agent_memory` and tracker fallback with `planning`, `running`, `blocked`, `failed`, `done`, and `audited`; mark `done` only with verification evidence and `audited` only with an Auditor verdict.
+- Include Playwright gates for UI/browser work and documentation cleanup for non-trivial deliveries.
 
 ## Delivery Audit
 
-Every delivery must include a separate Auditor task with owner, model/reasoning, inputs, gates, verdict, and evidence. The Auditor identifies gaps, blockers, required fixes, and closure criteria; the coordinator then fixes bounded blockers directly or delegates repair immediately. Prefer cross-agent audit when an explicit bridge, tool, or CLI is available and scoped: Codex delivery may request a Claude-side Auditor through that bridge, and Claude or local/Qwen delivery may request a Codex Auditor. If no safe bridge is available, use an independent Auditor on an available provider or a user-routed handoff for high-risk claims, and record the fallback. If the independent audit path fails or hangs, record `Audit independence: self-evidence only` with the failed command or tool path; do not claim independent audit.
+Every delivery must include a separate Auditor task with owner, model/reasoning, inputs, gates, verdict, and evidence. Prefer spawning a fresh verification agent with no prior context over self-reviewing; fresh-context verifiers catch claim-vs-evidence mismatches that self-review misses. Before reporting completion, the Auditor must re-run verification commands independently, because claims without tool-result evidence from this session are not accepted.
 
-## UI Verification
-
-For UI, frontend, dashboard, demo, browser, responsive, or visual work, Playwright is mandatory. The plan must include URL/server, browser, default viewports `1440x900` and `390x844` unless the app requires others, screenshot or trace paths, console/network error check, and light/dark checks when applicable. If Playwright cannot run, mark the UI task `blocked` or record an explicit environment limitation; do not call UI verification passed.
-
-## Documentation Cleanup
-
-End every non-trivial delivery with a cleanup task. Keep documentation that describes the delivered behavior, operational facts, decisions, and verification evidence. Move superseded plans, stale drafts, failed alternatives, temporary trackers, or noisy intermediate docs into `docs/archive/<YYYY-MM-DD>-<plan-id>/` or the repo's archive path when still useful. Commit trackers/archives only when they are durable project evidence or repo policy requires it. Do not archive the tracker before all tasks are `audited`. Do not delete repo docs unless explicitly allowed.
-
-## Epic Contract
-
-Each epic must include: ID, objective, source of truth, non-goals, required skills, owned/forbidden areas, dependencies, parallelizable-with, acceptance criteria, tasks, exact verification gate commands, and enough detail to dispatch without reading the original chat.
+Use cross-agent audit only through an explicit scoped bridge/tool/CLI. If no safe bridge exists, use an independent available Auditor or user-routed handoff for high-risk claims. Record failed independence as `Audit independence: self-evidence only`.
 
 ## Task Contract
 
-Each task must include: ID, epic or `none`, objective, required skills, routing reason, repo, branch, worker role, preferred worker/provider, fallback worker/provider, requested/actual model, requested/actual reasoning, inheritance status, why sufficient, escalation trigger, owned files, forbidden files, other agents active, inputs, exact steps, exact verify commands, output format, audit, tracking, done evidence, and a `Commit allowed` value. Workers default to `Commit allowed: no` (the coordinator/integrator owns commits). The coordinator may commit audited work on the working branch only when the plan declares `Commit policy: allowed`; pushing and default-branch changes stay gated on explicit user approval.
-
-Implementation tasks that create or change public APIs, schemas, data contracts, validators, compiler mappings, tests, CLI/user behavior, or integration boundaries must include a minimal `Target API / snippet`, `Compatibility constraints`, and `Example test shape`. Snippets are directional contracts, not full implementations, unless the user provided exact code.
-
-The task contract must be convertible into a worker prompt without adding hidden context. References to `plan.md` may supplement context, but they must not replace exact steps, verification commands, ownership, snippets, or output contract in the task file.
-
-Every coordinator, worker, auditor, integrator, and handoff prompt must include this instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
+Each task must include ID, objective, skills, routing reason, repo/branch, role, provider, requested/actual model and reasoning, inheritance status, sufficiency reason, escalation trigger, owned and forbidden files, inputs, exact steps, exact verification, output format, audit, tracking, done evidence, and `Commit allowed`. API/schema/contract tasks also need target snippet, compatibility constraints, and example test shape. Every generated prompt includes: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
 
 ## DO NOT
 
-- Do not write generic plans that omit ownership, skills, model, reasoning, or verification.
-- Do not interpret local architecture or product terms from generic knowledge when repo definitions exist.
-- Do not proceed on ambiguous local terminology without checked sources, working interpretation, and risk; default to a discovery task and continue where safe rather than pausing for the user.
-- Do not stop an `autonomous` plan between waves, after each task, or to ask permission to continue; run to `audited` and return only on a true decision-blocker.
-- Do not use `Autonomy` as the execution-start control; use `Execution: start-now` or `Execution: plan-only`.
-- Do not route validation/audit back to the user by default; run an auditor inline, use explicit cross-agent bridges when available and scoped, and reserve user-routed handoff for unavailable bridges or high-risk claims.
-- Do not answer final/advisory/audit questions without re-anchoring on the active objective, tracker, ledger, latest audit verdict, and newest user request.
-- Do not write follow-up/readiness plans before reconciling a capability ledger when the work has prior deliveries.
-- Do not execute from chat, memory, or a generic checklist when a file-backed plan is required.
-- Do not leave delegated plans only in chat; write plan files, post memory records, and create a coordinator prompt.
-- Do not create a multi-agent, long-running, follow-up, readiness, or resumable plan without `charter.md` and `00-index.md`.
-- Do not continue after resume, compaction, audit findings, or scope change without the resume ritual.
-- Do not accept worker reports that omit the rigid status block from `references/anchoring.md` when anchoring is required.
-- Do not record `Memory persistence: unavailable` before lazy-loaded memory write tool discovery has been attempted.
-- Do not leave execution evidence only in chat; update memory when available and the tracker/final report always.
-- Do not hand the user a coordinator prompt to fire when `Execution: start-now`; execute it yourself and report results. Paste the prompt instead of executing only for `Execution: plan-only` or an explicit plan-only request, and then only when it is within the 120-line limit.
-- Do not commit because `Execution: start-now` or `Autonomy: autonomous` is set; commit only when the plan declares `Commit policy: allowed`.
-- Do not generate a delegation prompt that omits the `$agent-delegation-routing` recommendation when that skill may be available.
-- Do not replace required `epic-<id>.md` task contracts with batch files, phase files, or routing summaries.
-- Do not call a conceptual batch a packet unless it has file ownership, `allowed_files`, `forbidden_files`, dependencies, verification, and status.
-- Do not start a packet before its dependencies are done or explicitly unblocked by the coordinator.
-- Do not give packet workers broad context by default; use the packet index and assigned packet unless extra files are necessary.
-- Do not repair packet failures by widening scope; create a narrow `R#` repair packet with exact files and re-checks.
-- Do not assign implementation work with only prose when an API, schema, mapping, validator, test, or command contract needs a minimal snippet.
-- Do not write `Preferred worker/provider: Codex high`; provider, model, and reasoning effort are separate fields.
-- Do not make all roles Codex-only unless the user explicitly asks or no other provider is viable; record alternatives or the reason they are unavailable.
-- Do not put only `commands in plan.md` or `steps in plan.md` in an epic/task file when that file is meant to dispatch a worker.
-- Do not invent epics for a small task-only request.
-- Do not skip the search for parallelizable tasks.
-- Do not claim parallel execution when independent tasks were merely listed together but run serially by the same coordinator.
-- Do not defer a bounded, verifiable blocker to a future delegation when the coordinator can fix it directly or dispatch an immediate repair task.
-- Do not escalate mechanical, local, or integration-scope unblockers as if they required architecture or strategic decisions.
-- Do not let auditor findings remain generic; every finding needs required fix, closure criteria, and suggested disposition.
-- Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
-- Do not default to the coordinator's model or reasoning for worker tasks.
-- Do not spawn inherited-model Codex/Claude subagents for low/medium work when explicit CLI/local/direct execution is available.
-- Do not route docs-only workers to inherited senior/high execution; use low/medium or split high-risk review into a separate auditor/spec task.
-- Do not use high/xhigh without a concrete risk or ambiguity reason.
-- Do not finish a delivery without an Auditor task and audit evidence.
-- Do not make Codex use an uncontrolled Claude handoff for audit; require an explicit bridge/tool/CLI with scoped prompt, or use an independent available auditor or user-routed fallback.
-- Do not lose task status: if memory is unavailable or questionable, write a tracker file.
-- Do not mark `done` or `audited` without evidence.
-- Do not mark UI work verified without Playwright evidence or an explicit blocked/skip reason.
-- Do not leave stale planning docs mixed with delivered documentation; archive them or mark them obsolete.
-- Do not create epics that mix unrelated ownership boundaries.
-- Do not assign two workers the same file unless an integrator owns the merge.
-- Do not treat missing skills, skipped tests, or unavailable live systems as passing.
-- Do not put secrets, tokens, raw private logs, or credentials into task prompts.
+- Do not use this skill for one-file, trivial, or no-handoff work; execute directly.
+- Do not write generic plans that omit ownership, skills, model, reasoning, exact verification, audit, or tracking.
+- Do not interpret local terms from generic knowledge when repo definitions exist.
+- Do not stop an autonomous plan except for a true decision-blocker, unavailable required environment/access, scope change, destructive action, or unverifiable work.
+- Do not confuse `Autonomy` with `Execution`, or treat autonomy as commit/push permission.
+- Do not leave delegated plans only in chat; write files, memory records when available, and a coordinator prompt.
+- Do not skip anchoring for multi-agent, long-running, follow-up, readiness, or resumable plans.
+- Do not dispatch from broad chat, generic checklists, batch summaries, or incomplete packets.
+- Do not mix provider, model, and reasoning fields, or let workers silently inherit a senior/high coordinator model for low/medium work.
+- Do not claim parallelism, completion, UI verification, `done`, or `audited` without current-session evidence.
+- Do not defer bounded repair work that the coordinator can fix or delegate immediately.
+- Do not pass secrets, private logs, generated artifacts, large diffs, or unrelated context into plans/prompts.
+- Run the full detailed guardrails in [planning-guardrails](references/planning-guardrails.md) when producing or auditing a delegated plan.
 
 ## Checklist
 
-- [ ] Source of truth and non-goals are explicit.
-- [ ] Local terminology sources are listed; ambiguous terms have checked sources, interpretation, risk, and disposition.
-- [ ] Capability ledger was reconciled for follow-up/readiness/multi-tranche work, or not applicable is justified.
-- [ ] Plan is written to files and posted to `agent_memory` when available; degraded tracker/file fallback is recorded otherwise. Large plans are split per epic and include `coordinator-prompt.md`.
-- [ ] Required anchor files exist: `charter.md`, `00-index.md`, `components.md`, `decisions.md`, or omissions are justified.
-- [ ] Resume ritual is included in coordinator and worker prompts for resumable work.
-- [ ] Worker output contract uses the rigid report block when anchoring is required.
-- [ ] Memory write capability was discovered before any degraded memory status was recorded.
-- [ ] Execution mode is declared as `start-now` or `plan-only`, with request-verb inference recorded.
-- [ ] Autonomy mode is declared; `autonomous` controls continuation after execution starts, not whether execution starts.
-- [ ] Commit policy is declared as `allowed` or `not allowed`; commits happen only when explicitly allowed.
-- [ ] Final response includes the coordinator prompt text only for `Execution: plan-only`/plan-only requests; otherwise it reports executed work, evidence, and commit SHAs only when commits were allowed.
-- [ ] Plan granularity is justified: task-only for small work, epics for multi-area work.
-- [ ] Any batches/phases are mapped to epics/tasks; batch summaries do not replace `epic-<id>.md` files.
-- [ ] Packet mode is used only when it improves parallel file-owned execution; packet index, `allowed_files`, `forbidden_files`, dependency waves, and repair policy are present.
-- [ ] Whole-plan and task skill stacks are listed; epic skill stacks are listed when epics exist.
-- [ ] Token economy choices are explicit: RTK/fallback, caveman mode, reference loading, concise evidence, prompt reuse.
-- [ ] Execution record fields are present: actual dispatch mode, actual/unknown model, actual/unknown reasoning, and serialized/parallelized reason.
-- [ ] Goal-retention rule is present for final/advisory/audit answers.
-- [ ] Every epic, when used, contains executable tasks.
-- [ ] Every task has routing reason, repo/branch, owner, forbidden files, worker role, model, reasoning, output format, and why sufficient.
-- [ ] Worker/provider, requested model, and requested reasoning are separate; every role has a fallback or a stated reason none exists.
-- [ ] Documentation workers are low/medium by default; any high reasoning is a separate reviewer/spec task with a named risk.
-- [ ] Epic/task files include exact steps and verification commands, not only pointers to another file.
-- [ ] Implementation tasks include target snippets, compatibility constraints, and example test shape when the contract would otherwise be ambiguous.
-- [ ] Every generated prompt recommends `$agent-delegation-routing` when available.
-- [ ] High/xhigh tasks have an escalation/risk reason.
-- [ ] Parallelization was actively considered; independent tasks are batched or serialization is justified.
-- [ ] Claimed parallel work used separate workers/execution streams, or the plan says `parallelizable but serialized`.
-- [ ] Coordinator blocker policy is explicit: bounded blockers are fixed directly or repaired immediately; true decisions are escalated.
-- [ ] Every delivery has an Auditor task; cross-agent audit preference or fallback is recorded.
-- [ ] Failed or unavailable independent audit paths are recorded as `Audit independence: self-evidence only` and not represented as independent audit.
-- [ ] UI/frontend/demo tasks include mandatory Playwright verification or a blocked/skip reason.
-- [ ] Task statuses are tracked in `agent_memory`; tracker-file fallback/problem log is defined.
-- [ ] Documentation cleanup keeps delivered docs current and archives stale planning noise.
-- [ ] Verification gates and done evidence are concrete.
-- [ ] Memory search/write/avoid rules are explicit.
+- [ ] Each item is proved by a command output or file read from this session, not by memory or prior conversation.
+- [ ] Request shape justifies planning instead of direct execution.
+- [ ] Source of truth, non-goals, local terminology, and capability ledger disposition are explicit.
+- [ ] Plan files, memory records or degraded fallback, tracker, and anchoring artifacts are present or omissions justified.
+- [ ] Execution mode, autonomy mode, commit policy, granularity, packet decision, and parallelization decision are declared.
+- [ ] Every task has ownership, routing, provider/model/reasoning, exact steps, exact verification, output contract, tracking, and done evidence.
+- [ ] Provider, requested model, and requested reasoning are separate; docs-only/high-risk split is respected.
+- [ ] Generated prompts include `$agent-delegation-routing` and required anchoring/worker report instructions.
+- [ ] Bounded blocker policy, Auditor task, independent verification path, and audit evidence are included.
+- [ ] UI/browser gates, documentation cleanup, token economy, and final report contract are included when applicable.
+- [ ] Detailed checklist in [planning-guardrails](references/planning-guardrails.md) passes before declaring the plan complete.

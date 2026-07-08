@@ -1,0 +1,84 @@
+{
+  "skill": "playwright-test",
+  "tp": 7,
+  "fp": 0,
+  "tn": 5,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "Write a Playwright test that checks the login form shows an error for wrong credentials.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "Fix this flaky Playwright test — it fails intermittently in CI but passes locally.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "$playwright-test add auth setup with storageState to our e2e suite",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "/playwright-test review my playwright.config.ts for CI best practices",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "5",
+      "query": "Our CI run failed on 3 Playwright specs, can you look at the trace and figure out why?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "6",
+      "query": "Can you manually poke around our staging site and see if the checkout flow still works after the deploy?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "Take a screenshot of the dashboard at mobile width so I can attach it to a bug report.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "There's a weird rendering glitch on the settings page, can you reproduce it and tell me what's happening?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "What indexing strategy should I use for a Redis Query Engine schema with a TAG field for status filters?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "10",
+      "query": "Explain the difference between Redis Hash and JSON for storing user profile objects.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "11",
+      "query": "We need better selector strategy across our specs — too many tests break on refactors because of nth-child selectors.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "12",
+      "query": "Can you set up a brand-new Playwright test project for our Next.js app? There's no config yet.",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

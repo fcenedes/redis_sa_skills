@@ -1,0 +1,78 @@
+{
+  "skill": "redis-presentation-decks",
+  "tp": 6,
+  "fp": 0,
+  "tn": 5,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "Build a 12-slide Reveal.js deck for a customer QBR covering our Redis Cloud usage growth and roadmap.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "$redis-presentation-decks I need a solution architecture deck showing our cache-aside pattern with Redis Cluster failover, for a technical workshop.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "/redis-presentation-decks add a latency comparison chart to slide 6 of my existing deck and validate it renders correctly.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "Generate speaker notes for my existing Redis vector search demo deck so I remember the objection-handling talk track.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "5",
+      "query": "Make a fun, generic 5-slide icebreaker deck for our team offsite with random trivia questions, nothing Redis-related.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "Convert our existing Reveal.js Redis architecture deck into a PowerPoint .pptx file for the sales team.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "Design an Excalidraw diagram of our Redis Streams consumer group topology for a technical doc.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "Write a blog post explaining Redis Query Engine's DIALECT 2 syntax with code examples.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "Our deck's benchmark slide has a chart that overflows the slide bounds on export. Fix it and confirm it's resolved.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "10",
+      "query": "Build a Google Slides presentation about our Q3 Redis Enterprise sales numbers.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "11",
+      "query": "We need an internal architecture review deck: request path, cache hit/miss flow, and replication failover, with real redis-cli evidence.",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+You are evaluating whether the named skill should trigger for each user query.
+
+Use ONLY the skill name and description as the routing signal. Do not use the expected labels.
+Return ONLY compact JSON with this shape: {"decisions":[{"id":"1","trigger":true|false}, ...]}
+Include exactly one decision per query id.
+
+Skill name: agent-plan-lifecycle
+Skill description: Use when checking status, resuming, advancing, promoting, closing, or archiving delegated agent plans, especially anchored plans with charter.md, 00-index.md, tracker.md, decisions.md, or capability ledger updates.
+
+Queries:
+1. Can you check the status of the delegated plan in plan/2026-05-auth-hardening/00-index.md and tell me what's next?
+2. $agent-plan-lifecycle resume the compiler-migration plan after context compaction
+3. /agent-plan-lifecycle this plan looks done, can we archive it?
+4. We finished the audit for track E2, now update the capability ledger rows and record the promotion.
+5. What capabilities are still missing before we can plan the next tranche of work?
+6. Dispatch three workers in parallel to fix the auth, billing, and UI tracks using shared memory prompts.
+7. Write a fresh implementation plan for adding rate limiting to the API gateway.
+8. What's the weather like today and can you summarize this news article for me?
+9. Our repo has a tracker.md file with task statuses. Can you just tell me the current git diff instead?
+10. The plan says 'promoted' but I don't see any capability ledger updates or commit references anywhere. Is that right?
+11. Mark this whole plan archived, we don't need the failed tasks anymore, just clean it up.
+12. How do I set up Docker Compose for the local agent memory server?

@@ -2,6 +2,7 @@
 name: agent-memory-coordination
 description: Use when coordinating multiple parallel agents or subagents with shared agent_memory prompts, strict file ownership, integration passes, and verification gates across Codex, Claude Code, or other coding agents.
 license: Apache-2.0
+compatibility: "Requires the agent_memory MCP for shared worker-prompt/gate-result memory (optional; falls back to repo tracker files)."
 metadata:
   author: fcenedes
   version: 1.1.1
@@ -13,6 +14,11 @@ Coordinate parallel agents through shared `agent_memory` instead of copying long
 worker prompts through chat. For repo-backed plans, treat versioned repo docs,
 trackers, plans, and capability ledgers as source of truth, `agent_memory` as
 coordination cache, and chat as fallback only.
+
+## Authority
+
+- Authorized: read/write `agent_memory`, dispatch workers with scoped prompts, and coordinate file ownership.
+- Not authorized: commit or push, access secrets, or dispatch without an ownership plan.
 
 ## Namespace Strategy
 
@@ -53,28 +59,9 @@ memories for new dated events, gate results, blockers, and skipped proofs.
 ## Tool Capability Discovery
 
 Before declaring `agent_memory` unavailable or read-only, actively discover the
-available memory tools. In Codex, Claude Code, or any MCP-based agent, search or
-inspect tool names/descriptions for create, add, write, save, upsert, edit,
-update, and set-working-memory operations. Lazy-loaded tools may not appear
-until searched.
-
-Report read and write capability separately:
-
-```text
-Memory backend:
-Namespace searched:
-User id searched:
-Read tool available: yes/no
-Write tool discovery attempted: yes/no
-Write tool available: yes/no
-Write tool used: <tool name or none>
-Memory write confirmed: yes/no
-Fallback used: repo tracker / repo docs / none
-```
-
-If a write tool appears after discovery, use it before reporting degraded mode.
-If no write tool is available after discovery, continue with repo tracker files
-and say that memory writes are unavailable after tool discovery.
+available memory tools (lazy-loaded write tools may not appear until searched).
+Full discovery procedure and required read/write capability report shape:
+[tool-discovery](references/tool-discovery.md).
 
 ## Source Hierarchy
 
@@ -135,6 +122,9 @@ When anchored plan files exist, perform the resume ritual and re-anchor before
 dispatching after session resume, context compaction, a new coordinator turn,
 audit findings, or scope changes. Re-anchor means re-reading the anchored files
 and restating the active residual before any new worker prompt is generated.
+The full re-anchor ritual is defined in `agent-delegation-planning`'s
+[anchoring reference](../agent-delegation-planning/references/anchoring.md);
+this skill triggers it at coordination checkpoints but does not redefine it.
 
 For Claude Code, use the copy-ready bootstrap report and repo-backed seed
 template in [examples](references/examples.md).
@@ -146,6 +136,10 @@ for the integrator, give each worker a disjoint write set, and tell workers they
 are not alone. Inspect each worker diff against ownership, reject unrelated
 churn, run focused tests, run the integration pass, then run the full quality
 gate before committing or pushing.
+Prefer async orchestrator-worker communication: dispatch all independent
+workers, then collect results. Do not block waiting for each sub-agent return
+when results are independent. For verification, spawn fresh-context verifiers
+rather than self-reviewing dispatcher results.
 If anchored plan files exist, re-anchor before dispatching so workers receive
 the current charter, status board, component map, decisions, tracker state, and
 latest audit context rather than a memory-only summary.
@@ -215,6 +209,7 @@ cache/pointer index only.
 - Do not dispatch from stale memory without checking repo source docs, trackers, plans, and ledgers.
 - Do not store full anchor files when paths and compact summaries are sufficient.
 - Do not skip the resume ritual when anchored plan files exist.
+- Do not use this skill to build or maintain the capability ledger's row data (status, proof class, evidence path); that ownership belongs to `agent-capability-ledger`. This skill owns worker-prompt and gate-result memory, not capability-row memory sync.
 
 ## Checklist
 

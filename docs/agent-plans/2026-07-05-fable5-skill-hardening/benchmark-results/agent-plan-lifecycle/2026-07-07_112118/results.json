@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when checking status, resuming, advancing, promoting, closing, or archiving delegated agent plans, especially anchored plans with charter.md, 00-index.md, tracker.md, decisions.md, or capability ledger updates.",
+  "best_description": "Use when checking status, resuming, advancing, promoting, closing, or archiving delegated agent plans, especially anchored plans with charter.md, 00-index.md, tracker.md, decisions.md, or capability ledger updates.",
+  "best_score": "2/4",
+  "best_train_score": "4/8",
+  "best_test_score": "2/4",
+  "final_description": "Use when checking status, resuming, advancing, promoting, closing, or archiving delegated agent plans, especially anchored plans with charter.md, 00-index.md, tracker.md, decisions.md, or capability ledger updates.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when checking status, resuming, advancing, promoting, closing, or archiving delegated agent plans, especially anchored plans with charter.md, 00-index.md, tracker.md, decisions.md, or capability ledger updates.",
+      "train_passed": 4,
+      "train_failed": 4,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "/agent-plan-lifecycle this plan looks done, can we archive it?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you check the status of the delegated plan in plan/2026-05-auth-hardening/00-index.md and tell me what's next?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "The plan says 'promoted' but I don't see any capability ledger updates or commit references anywhere. Is that right?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Mark this whole plan archived, we don't need the failed tasks anymore, just clean it up.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our repo has a tracker.md file with task statuses. Can you just tell me the current git diff instead?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Write a fresh implementation plan for adding rate limiting to the API gateway.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "How do I set up Docker Compose for the local agent memory server?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks using shared memory prompts.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "We finished the audit for track E2, now update the capability ledger rows and record the promotion.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "$agent-plan-lifecycle resume the compiler-migration plan after context compaction",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "What's the weather like today and can you summarize this news article for me?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What capabilities are still missing before we can plan the next tranche of work?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 4,
+      "failed": 4,
+      "total": 8,
+      "results": [
+        {
+          "query": "/agent-plan-lifecycle this plan looks done, can we archive it?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you check the status of the delegated plan in plan/2026-05-auth-hardening/00-index.md and tell me what's next?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "The plan says 'promoted' but I don't see any capability ledger updates or commit references anywhere. Is that right?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Mark this whole plan archived, we don't need the failed tasks anymore, just clean it up.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our repo has a tracker.md file with task statuses. Can you just tell me the current git diff instead?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Write a fresh implementation plan for adding rate limiting to the API gateway.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "How do I set up Docker Compose for the local agent memory server?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Dispatch three workers in parallel to fix the auth, billing, and UI tracks using shared memory prompts.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

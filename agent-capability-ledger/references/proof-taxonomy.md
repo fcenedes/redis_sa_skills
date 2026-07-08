@@ -6,6 +6,7 @@ actually achieved and the missing proof needed for the next claim.
 | Proof class | Meaning | Enough for |
 |---|---|---|
 | `claim` | Written statement with no direct repo evidence. | Never enough for `done`. |
+| `tool-result` | Proof anchored to a specific tool output (command result, file read, test output) from the current session. Stronger than `self-report`; required for `done` and `audited` status. | Completion and audit claims. |
 | `docs` | Versioned documentation exists. | Documentation readiness only. |
 | `contract` | API/schema/CLI/behavior contract is specified. | Planning and compatibility review. |
 | `unit` | Focused unit test proves local behavior. | Local implementation claims. |

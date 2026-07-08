@@ -1,0 +1,84 @@
+{
+  "skill": "agent-capability-ledger",
+  "tp": 7,
+  "fp": 0,
+  "tn": 5,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "Before we plan the next tranche, what's actually done vs still missing across the auth and billing repos?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "$agent-capability-ledger did we already implement the retry backoff for stream consumers?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "/agent-capability-ledger audit readiness for the Q3 release across all three services",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "Track what's done and what's missing before we write a follow-up plan for the notification service.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "5",
+      "query": "Coordinate three parallel workers on auth, billing, and UI right now using shared memory prompts and strict file ownership.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "Promote this audited plan and archive it, updating any lifecycle records.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "Set up the local Docker stack for the agent memory server so my team can share it.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "What's a good recipe for banana bread?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "Just show me git log for the last 20 commits, nothing fancy.",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "10",
+      "query": "I think the JWT refresh capability is done, I remember fixing it last week in our chat.",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "11",
+      "query": "We have a Redis Array mirror of our ledger — can you query it for all partial rows instead of reading the Markdown?",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "12",
+      "query": "How many capability rows should I create for a login feature that touches both frontend and backend with different owners?",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "skill": "rtk-cli",
+  "tp": 10,
+  "fp": 0,
+  "tn": 4,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "run git status and git diff so I can see what's changed",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "can you run our test suite and tell me if it passes",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "grep for TODO across the whole repo",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "$rtk docker logs for the api container, something's crashing",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "5",
+      "query": "/rtk-cli check the build output, it's failing",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "6",
+      "query": "can you make the PR description shorter and punchier",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "your last answer was too wordy, be more terse going forward",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "why does Redis recommend using hash tags for multi-key operations in a cluster",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "9",
+      "query": "tail -f the server logs so I can watch it live while I reproduce the bug",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "10",
+      "query": "I need the exact raw stack trace from that crash, copy it verbatim, nothing filtered",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "11",
+      "query": "is rtk actually installed on this machine, I'm not sure",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "12",
+      "query": "check git diff --stat, just want a quick count of files changed",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "13",
+      "query": "list the files in this directory",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "14",
+      "query": "kubectl get pods, I think something is crash-looping",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

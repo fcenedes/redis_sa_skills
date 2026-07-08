@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when a coordinator agent needs to route coding work to Codex CLI, Claude-side coordinators, local Qwen/Ollama, LM Studio, or other command-line workers.",
+  "best_description": "Use when a coordinator agent needs to route coding work to Codex CLI, Claude-side coordinators, local Qwen/Ollama, LM Studio, or other command-line workers.",
+  "best_score": "2/4",
+  "best_train_score": "4/8",
+  "best_test_score": "2/4",
+  "final_description": "Use when a coordinator agent needs to route coding work to Codex CLI, Claude-side coordinators, local Qwen/Ollama, LM Studio, or other command-line workers.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when a coordinator agent needs to route coding work to Codex CLI, Claude-side coordinators, local Qwen/Ollama, LM Studio, or other command-line workers.",
+      "train_passed": 4,
+      "train_failed": 4,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "$agent-delegation-routing which worker should implement the payments retry logic task from our plan, Codex or Claude?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "The local Qwen worker returned a diff for the config patch \u2014 should I apply it directly or review it first?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We have a written plan with 4 tasks. Route task T2 to the right worker and give me the exact worker prompt.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Should the packet reviewer or the coordinator decide if a failed audit finding needs a repair packet?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Just write the code for this bug fix yourself, it's a single function in utils.py, no need to spin up any agents.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What should the login flow behave like when a session token expires mid-request? I'm not sure we've defined this anywhere.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Give me a one-line explanation of what HNSW is in Redis vector search.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I need a full multi-epic plan for migrating our billing service to a new schema, with parallel workstreams for schema, API, and UI.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "Our anchored plan resumed after compaction \u2014 before dispatching wave 3, what do I need to re-read?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "/agent-delegation-routing dispatch the three independent packets in wave 2 of the migration plan to workers now.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Fix this one typo in README.md, change 'recieve' to 'receive'.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Can you check whether we already shipped the rate-limiting feature before I ask anyone to build it again?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 4,
+      "failed": 4,
+      "total": 8,
+      "results": [
+        {
+          "query": "$agent-delegation-routing which worker should implement the payments retry logic task from our plan, Codex or Claude?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "The local Qwen worker returned a diff for the config patch \u2014 should I apply it directly or review it first?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We have a written plan with 4 tasks. Route task T2 to the right worker and give me the exact worker prompt.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Should the packet reviewer or the coordinator decide if a failed audit finding needs a repair packet?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Just write the code for this bug fix yourself, it's a single function in utils.py, no need to spin up any agents.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What should the login flow behave like when a session token expires mid-request? I'm not sure we've defined this anywhere.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Give me a one-line explanation of what HNSW is in Redis vector search.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "I need a full multi-epic plan for migrating our billing service to a new schema, with parallel workstreams for schema, API, and UI.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

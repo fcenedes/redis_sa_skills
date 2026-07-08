@@ -1,0 +1,72 @@
+{
+  "skill": "redis-lucidchart-diagrams",
+  "tp": 5,
+  "fp": 0,
+  "tn": 5,
+  "fn": 0,
+  "precision": 100,
+  "recall": 100,
+  "accuracy": 100,
+  "items": [
+    {
+      "id": "1",
+      "query": "The customer wants an editable Lucid file they can update themselves after the workshop to reflect their evolving architecture",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "2",
+      "query": "$redis-lucidchart-diagrams package our Redis Cluster resharding diagram as a Standard Import source for the customer's Lucid workspace",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "3",
+      "query": "/redis-lucidchart-diagrams create an editable architecture flow for our Streams consumer-group pipeline that the SA team can hand off to the customer",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "4",
+      "query": "Can you sketch a quick Redis caching diagram, doesn't need to be editable by the customer later, just something for our internal design doc?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "5",
+      "query": "Draw a generic org chart for our sales team in Lucidchart, nothing Redis-related",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "6",
+      "query": "What's the difference between Lucidchart and Lucidspark as products, just curious, no diagram needed",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "7",
+      "query": "We need a working RedisInsight-style dashboard prototype as an actual web page, not a diagram, for internal review",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "8",
+      "query": "Build a Lucidchart diagram showing our Redis vector search RAG architecture with FT.CREATE schema and KNN query flow for a customer workshop they'll keep maintaining",
+      "should_trigger": true,
+      "trigger": true
+    },
+    {
+      "id": "9",
+      "query": "I have an existing Mermaid diagram of our replication topology — can you just explain what it shows, no changes needed?",
+      "should_trigger": false,
+      "trigger": false
+    },
+    {
+      "id": "10",
+      "query": "Our SA wants a Lucidchart-ready handoff of the Redis Cloud Active-Active CRDT setup so the customer's architects can keep iterating on it after we leave",
+      "should_trigger": true,
+      "trigger": true
+    }
+  ]
+}

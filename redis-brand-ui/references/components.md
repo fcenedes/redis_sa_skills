@@ -1,5 +1,19 @@
 # Redis Brand Components
 
+## Table of Contents
+
+- [Design Tokens](#design-tokens)
+- [Button Variants](#button-variants)
+  - [Primary Button](#primary-button)
+  - [Secondary Button](#secondary-button)
+  - [Tertiary Button](#tertiary-button)
+- [React Component Examples](#react-component-examples)
+- [Card / Panel Pattern](#card--panel-pattern)
+- [Demo and App Layouts](#demo-and-app-layouts)
+- [Form Input Styling](#form-input-styling)
+- [Lightweight Theme Configuration](#lightweight-theme-configuration)
+- [Anti-Patterns](#anti-patterns)
+
 ## Design Tokens
 
 All components share these foundational values:

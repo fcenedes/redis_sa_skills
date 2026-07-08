@@ -1,0 +1,79 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-presentation-decks",
+    "expected_behavior": "Scaffold with scripts/create-presentation.js, follow Required Workflow steps 1-8, apply Redis brand defaults, and run check-overflow.js before delivery.",
+    "must_not": "Hand-write full Reveal.js boilerplate from scratch when the scaffold could fit the request.",
+    "query": "Build a 12-slide Reveal.js deck for a customer QBR covering our Redis Cloud usage growth and roadmap."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-presentation-decks",
+    "expected_behavior": "Read references/redis-deck-patterns.md for architecture slide archetypes and show failover/replication behavior through layout, not a vague Redis box.",
+    "must_not": "Represent Redis as a generic box between app and database when topology is central to the story.",
+    "query": "$redis-presentation-decks I need a solution architecture deck showing our cache-aside pattern with Redis Cluster failover, for a technical workshop."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-presentation-decks",
+    "expected_behavior": "Read references/charts.md, add a canvas[data-chart] with maintainAspectRatio:false, then run node scripts/check-charts.js on the deck file.",
+    "must_not": "Add a chart without maintainAspectRatio:false or skip running check-charts.js.",
+    "query": "/redis-presentation-decks add a latency comparison chart to slide 6 of my existing deck and validate it renders correctly."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-presentation-decks",
+    "expected_behavior": "Add <aside class=\"notes\"> blocks per references/revealjs-reference.md, keeping presenter-only detail off the visible slide.",
+    "must_not": "Put objection-handling detail as visible slide text instead of speaker notes.",
+    "query": "Generate speaker notes for my existing Redis vector search demo deck so I remember the objection-handling talk track."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Recognize there is no Redis product/architecture content and build plain Reveal.js or generic slides directly without invoking this skill's brand/evidence workflow.",
+    "must_not": "Force Redis brand colors, evidence blocks, or architecture-flow patterns onto an unrelated icebreaker deck.",
+    "query": "Make a fun, generic 5-slide icebreaker deck for our team offsite with random trivia questions, nothing Redis-related."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "anthropic-skills:pptx",
+    "expected_behavior": "Recognize the deliverable format is .pptx, not Reveal.js HTML, and defer to the pptx skill for the conversion/output step.",
+    "must_not": "Claim create-presentation.js or the Reveal.js scaffold can produce a .pptx file.",
+    "query": "Convert our existing Reveal.js Redis architecture deck into a PowerPoint .pptx file for the sales team."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-excalidraw-diagrams",
+    "expected_behavior": "Recognize this is a standalone diagram deliverable, not a slide deck, and defer to redis-excalidraw-diagrams.",
+    "must_not": "Wrap the diagram in a Reveal.js deck scaffold when no deck was requested.",
+    "query": "Design an Excalidraw diagram of our Redis Streams consumer group topology for a technical doc."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Recognize this is long-form written content, not a slide deck, and skip this skill entirely.",
+    "must_not": "Convert the blog post into Reveal.js slides unless explicitly asked.",
+    "query": "Write a blog post explaining Redis Query Engine's DIALECT 2 syntax with code examples."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-presentation-decks",
+    "expected_behavior": "Fix the layout, then re-run node scripts/check-overflow.js and inspect the exported screenshot before declaring it resolved.",
+    "must_not": "Claim the overflow is fixed without re-running check-overflow.js or inspecting a screenshot.",
+    "query": "Our deck's benchmark slide has a chart that overflows the slide bounds on export. Fix it and confirm it's resolved."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Recognize Google Slides is a different output format than Reveal.js HTML and flag that this skill cannot produce it directly.",
+    "must_not": "Silently produce Reveal.js HTML and call it a Google Slides deliverable.",
+    "query": "Build a Google Slides presentation about our Q3 Redis Enterprise sales numbers."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-presentation-decks",
+    "expected_behavior": "Use architecture-flow patterns and evidence-block styling from base-styles.css, with real redis-cli commands, verified against current docs.",
+    "must_not": "Use generic SaaS pitch-deck layouts or paste raw API docs onto the slide instead of an evidence block.",
+    "query": "We need an internal architecture review deck: request path, cache hit/miss flow, and replication failover, with real redis-cli evidence."
+  }
+]

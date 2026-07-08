@@ -1,0 +1,16 @@
+Classify skill trigger decisions. Use only the skill name and description. Return ONLY valid minified JSON: {"decisions":[{"id":"1","trigger":true}]}. No prose.
+Skill: agent-spec-writing
+Description: Use when writing, updating, or reviewing source-of-truth specs, requirements, change proposals, acceptance scenarios, spec-compliance against a diff, or ADDED/MODIFIED/REMOVED deltas before implementation. Not for archiving, promoting, or lifecycle state changes.
+Queries:
+1: $agent-spec-writing we need a requirement delta for how the checkout flow should handle expired discount codes, we haven't defined this anywhere.
+2: /agent-spec-writing update the ADDED/MODIFIED deltas for the new rate-limit behavior now that product clarified the retry semantics.
+3: The requirements for how partial refunds should interact with loyalty points are ambiguous — can you nail down the acceptance criteria before we plan the implementation?
+4: Fix the typo in this one comment in auth.py, 'recieve' should be 'receive'.
+5: We already know exactly what we want: add a 'lastLoginAt' timestamp column and expose it in the API. Write the implementation plan.
+6: Which worker should implement the timestamp column migration, Codex or a local Qwen model?
+7: Have we already implemented soft-delete for user accounts? Check before I ask for new requirements.
+8: Just rename this one function locally, no behavior change, no new contract.
+9: Our OpenSpec change for the payments-v2 migration was just approved — archive it and promote the spec to current truth.
+10: Review this PR's spec-compliance: does the diff match the acceptance scenarios we wrote last week?
+11: Does this repo use OpenSpec? I want to add a new change proposal for multi-currency support.
+12: What's the cheapest LLM model for summarizing these ten support tickets?

@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-spec-writing",
+    "expected_behavior": "Identifies authoritative source, classifies the change as ADDED, writes acceptance scenarios and non-goals, following the repo's existing spec layout.",
+    "must_not": "Must not dispatch implementation workers or write task ownership from the spec itself.",
+    "query": "$agent-spec-writing we need a requirement delta for how the checkout flow should handle expired discount codes, we haven't defined this anywhere."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-spec-writing",
+    "expected_behavior": "Updates the existing change delta with MODIFIED classification, observable acceptance scenarios, and compatibility notes.",
+    "must_not": "Must not overwrite OpenSpec changes or run openspec apply/archive without explicit assignment.",
+    "query": "/agent-spec-writing update the ADDED/MODIFIED deltas for the new rate-limit behavior now that product clarified the retry semantics."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-spec-writing",
+    "expected_behavior": "Writes requirement entries with acceptance scenarios and unresolved-decision notes, explicitly before handing off to agent-delegation-planning.",
+    "must_not": "Must not proceed to task/worker assignment before the requirement delta is clear.",
+    "query": "The requirements for how partial refunds should interact with loyalty points are ambiguous \u2014 can you nail down the acceptance criteria before we plan the implementation?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Fixes the comment directly with a normal edit; no spec, requirement delta, or acceptance scenario needed.",
+    "must_not": "Must not create a spec entry or change-delta file for a one-word comment fix.",
+    "query": "Fix the typo in this one comment in auth.py, 'recieve' should be 'receive'."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-delegation-planning",
+    "expected_behavior": "Recognizes requirements are already unambiguous and concrete, so this should go straight to agent-delegation-planning rather than spec writing.",
+    "must_not": "Must not force a spec-writing detour when the requirement is already fully specified and unambiguous.",
+    "query": "We already know exactly what we want: add a 'lastLoginAt' timestamp column and expose it in the API. Write the implementation plan."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-delegation-routing",
+    "expected_behavior": "Recognizes this is a worker/model routing question with no ambiguous requirement, so it should trigger agent-delegation-routing instead.",
+    "must_not": "Must not treat a routing question as a spec-writing task.",
+    "query": "Which worker should implement the timestamp column migration, Codex or a local Qwen model?"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-capability-ledger",
+    "expected_behavior": "Recognizes this is a delivered-capability question, not a new requirement to author, so it defers to agent-capability-ledger.",
+    "must_not": "Must not draft a new spec for a feature that may already be delivered without checking the ledger first.",
+    "query": "Have we already implemented soft-delete for user accounts? Check before I ask for new requirements."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Performs the rename directly; a mechanical rename with no durable design/contract impact does not need a spec.",
+    "must_not": "Must not create a spec entry for a narrow refactor with no behavior or contract impact.",
+    "query": "Just rename this one function locally, no behavior change, no new contract."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "agent-plan-lifecycle",
+    "expected_behavior": "Recognizes archiving/promoting an audited change into durable truth is agent-plan-lifecycle's job, per this skill's own handoff note.",
+    "must_not": "Must not run openspec archive/apply itself; this skill defers promotion/archival to agent-plan-lifecycle.",
+    "query": "Our OpenSpec change for the payments-v2 migration was just approved \u2014 archive it and promote the spec to current truth."
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-spec-writing",
+    "expected_behavior": "Groups findings as Errors/Warnings/Info against the existing acceptance scenarios, using repo-native validation commands where they exist.",
+    "must_not": "Must not skip citing the source-of-truth spec file when flagging mismatches.",
+    "query": "Review this PR's spec-compliance: does the diff match the acceptance scenarios we wrote last week?"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "agent-spec-writing",
+    "expected_behavior": "Checks repo-local openspec/specs/ or specs/ first; if absent, treats it as a standard markdown spec and follows the nearest existing spec directory's layout.",
+    "must_not": "Must not introduce a parallel spec format without first checking for an existing openspec/ or specs/ directory.",
+    "query": "Does this repo use OpenSpec? I want to add a new change proposal for multi-currency support."
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Answers as a model-selection/cost question directly (or via a relevant model-pricing skill); unrelated to specs or requirements.",
+    "must_not": "Must not invoke agent-spec-writing for a model-cost question with no requirement or behavior change involved.",
+    "query": "What's the cheapest LLM model for summarizing these ten support tickets?"
+  }
+]

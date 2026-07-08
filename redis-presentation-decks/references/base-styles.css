@@ -4,8 +4,22 @@
 /* Redis Reveal.js base theme.
  * Copy this file as styles.css for each new presentation and customize it there.
  * Use pt for visible slide text so sizing remains presentation-like and predictable.
+ *
+ * Table of Contents (search for the numbered comment header, e.g. "/* 3."):
+ *   1. CSS variables                       (:root)
+ *   2. Reveal.js base overrides            (.reveal, viewport, headings, lists, code)
+ *   3. Slide/section structure             (.slides section, stack, content, footnote)
+ *   4. Section divider slides              (.section-divider)
+ *   5. Typography utility classes          (.text-*, .font-*)
+ *   6. Eyebrow / chip labels               (.eyebrow, .redis-chip)
+ *   7. Callout boxes                       (.callout, .callout.query/stream/cluster/cloud)
+ *   8. Evidence blocks (code/CLI/JSON)     (.evidence-block)
+ *   9. Metric grid/cards                   (.metric-grid, .metric-card)
+ *  10. Architecture flow diagrams          (.architecture-flow, .flow-node)
+ *  11. Blockquote / citations              (.reveal blockquote, customer quotes)
  */
 
+/* 1. CSS variables */
 :root {
   --redis-red: #ff4438;
   --redis-red-hover: #eb352a;
@@ -55,6 +69,7 @@
   --box-radius: 5px;
 }
 
+/* 2. Reveal.js base overrides (.reveal, viewport, headings, lists, code) */
 .reveal {
   font-family: var(--body-font);
   font-size: var(--base-font-size);
@@ -181,6 +196,7 @@
   width: 6px;
 }
 
+/* 3. Slide/section structure (.slides section, stack, content, footnote) */
 .reveal .slides section {
   box-sizing: border-box;
   display: flex !important;
@@ -213,6 +229,7 @@
   right: var(--slide-padding);
 }
 
+/* 4. Section divider slides (.section-divider) */
 .reveal .slides section.section-divider {
   align-items: center !important;
   justify-content: center !important;
@@ -236,6 +253,7 @@
   margin-top: 18px;
 }
 
+/* 5. Typography utility classes (.text-*, .font-*) */
 .text-lg { font-size: 19pt !important; }
 .text-xl { font-size: 22pt !important; }
 .text-2xl { font-size: 26pt !important; }
@@ -249,6 +267,7 @@
 .font-light { font-weight: 300 !important; }
 .font-bold { font-weight: 700 !important; }
 
+/* 6. Eyebrow / chip labels (.eyebrow, .redis-chip) */
 .eyebrow {
   color: var(--redis-red);
   font-family: var(--mono-font);
@@ -274,6 +293,7 @@
   text-transform: uppercase;
 }
 
+/* 7. Callout boxes (.callout, .callout.query/stream/cluster/cloud) */
 .callout {
   background: var(--redis-red-soft);
   border-left: 5px solid var(--redis-red);
@@ -301,6 +321,7 @@
   border-color: var(--redis-cloud);
 }
 
+/* 8. Evidence blocks (code/CLI/JSON) (.evidence-block) */
 .evidence-block {
   background: var(--redis-text-primary);
   border-radius: var(--box-radius);
@@ -316,6 +337,7 @@
   color: var(--redis-red);
 }
 
+/* 9. Metric grid/cards (.metric-grid, .metric-card) */
 .metric-grid {
   display: grid;
   gap: 18px;
@@ -343,6 +365,7 @@
   margin: 0;
 }
 
+/* 10. Architecture flow diagrams (.architecture-flow, .flow-node) */
 .architecture-flow {
   align-items: stretch;
   display: grid;
@@ -382,6 +405,7 @@
   margin: 0;
 }
 
+/* 11. Blockquote / citations (customer quotes on evidence slides) */
 .reveal blockquote {
   background: none;
   border-left: 5px solid var(--redis-red);

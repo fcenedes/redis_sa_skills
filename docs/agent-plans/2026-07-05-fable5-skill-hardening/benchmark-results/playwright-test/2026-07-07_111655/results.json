@@ -1,0 +1,194 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when creating, fixing, reviewing, or debugging Playwright Test E2E/UI tests, playwright.config files, fixtures, auth state, selectors, traces, CI failures, flaky UI tests, browser tests, or test runner workflows.",
+  "best_description": "Use when creating, fixing, reviewing, or debugging Playwright Test E2E/UI tests, playwright.config files, fixtures, auth state, selectors, traces, CI failures, flaky UI tests, browser tests, or test runner workflows.",
+  "best_score": "2/4",
+  "best_train_score": "3/8",
+  "best_test_score": "2/4",
+  "final_description": "Use when creating, fixing, reviewing, or debugging Playwright Test E2E/UI tests, playwright.config files, fixtures, auth state, selectors, traces, CI failures, flaky UI tests, browser tests, or test runner workflows.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 8,
+  "test_size": 4,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when creating, fixing, reviewing, or debugging Playwright Test E2E/UI tests, playwright.config files, fixtures, auth state, selectors, traces, CI failures, flaky UI tests, browser tests, or test runner workflows.",
+      "train_passed": 3,
+      "train_failed": 5,
+      "train_total": 8,
+      "train_results": [
+        {
+          "query": "$playwright-test add auth setup with storageState to our e2e suite",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you set up a brand-new Playwright test project for our Next.js app? There's no config yet.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Write a Playwright test that checks the login form shows an error for wrong credentials.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our CI run failed on 3 Playwright specs, can you look at the trace and figure out why?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We need better selector strategy across our specs \u2014 too many tests break on refactors because of nth-child selectors.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you manually poke around our staging site and see if the checkout flow still works after the deploy?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "There's a weird rendering glitch on the settings page, can you reproduce it and tell me what's happening?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Take a screenshot of the dashboard at mobile width so I can attach it to a bug report.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 2,
+      "test_total": 4,
+      "test_results": [
+        {
+          "query": "/playwright-test review my playwright.config.ts for CI best practices",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Fix this flaky Playwright test \u2014 it fails intermittently in CI but passes locally.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Explain the difference between Redis Hash and JSON for storing user profile objects.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "What indexing strategy should I use for a Redis Query Engine schema with a TAG field for status filters?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 3,
+      "failed": 5,
+      "total": 8,
+      "results": [
+        {
+          "query": "$playwright-test add auth setup with storageState to our e2e suite",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you set up a brand-new Playwright test project for our Next.js app? There's no config yet.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Write a Playwright test that checks the login form shows an error for wrong credentials.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Our CI run failed on 3 Playwright specs, can you look at the trace and figure out why?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "We need better selector strategy across our specs \u2014 too many tests break on refactors because of nth-child selectors.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you manually poke around our staging site and see if the checkout flow still works after the deploy?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "There's a weird rendering glitch on the settings page, can you reproduce it and tell me what's happening?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Take a screenshot of the dashboard at mobile width so I can attach it to a bug report.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}

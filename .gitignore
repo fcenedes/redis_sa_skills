@@ -26,5 +26,9 @@ Thumbs.db
 *.log
 npm-debug.log*
 
+# Python
+__pycache__/
+*.pyc
+
 # Local agent execution plans
 docs/superpowers/plans/

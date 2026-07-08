@@ -1,0 +1,218 @@
+{
+  "exit_reason": "max_iterations (1)",
+  "original_description": "Use when setting up shared Agent Memory Server locally with Docker for Codex, Claude Code, Claude Desktop, Redis 8, MCP, localhost troubleshooting, or portable teammate onboarding.",
+  "best_description": "Use when setting up shared Agent Memory Server locally with Docker for Codex, Claude Code, Claude Desktop, Redis 8, MCP, localhost troubleshooting, or portable teammate onboarding.",
+  "best_score": "2/5",
+  "best_train_score": "4/9",
+  "best_test_score": "2/5",
+  "final_description": "Use when setting up shared Agent Memory Server locally with Docker for Codex, Claude Code, Claude Desktop, Redis 8, MCP, localhost troubleshooting, or portable teammate onboarding.",
+  "iterations_run": 1,
+  "holdout": 0.4,
+  "train_size": 9,
+  "test_size": 5,
+  "history": [
+    {
+      "iteration": 1,
+      "description": "Use when setting up shared Agent Memory Server locally with Docker for Codex, Claude Code, Claude Desktop, Redis 8, MCP, localhost troubleshooting, or portable teammate onboarding.",
+      "train_passed": 4,
+      "train_failed": 5,
+      "train_total": 9,
+      "train_results": [
+        {
+          "query": "/agent-memory-docker Claude Code shows agent-memory as disconnected, how do I fix it?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Should I use Redis Stack or Redis 8 for the local Agent Memory Server image?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "The agent-memory-server image tag is just 'latest' in our compose file, should we pin it for production?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Set up a local Agent Memory Server with Docker so Codex, Claude Code, and Claude Desktop can share the same Redis-backed memory.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "$agent-memory-docker can you expose the memory server so my teammate on another machine can connect?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "What's the best way to design a Redis key schema for a leaderboard feature?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "We're deploying our production Redis Cloud database behind a firewall, what ACL rules should we set up?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Track which capabilities across our repos are done vs missing before we plan the next round of work.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Can you tune the HNSW parameters for our vector index so search recall improves?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "test_passed": 2,
+      "test_failed": 3,
+      "test_total": 5,
+      "test_results": [
+        {
+          "query": "Just print my current .env.local file contents so I can check a value.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Codex keeps showing 'Authentification non prise en charge' for the local memory server, is that broken?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "I want to connect Claude web / a remote custom connector to my local memory server at localhost:9051.",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Can you write a haiku about autumn leaves?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Coordinate three parallel workers using shared memory prompts and strict file ownership for this refactor.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ],
+      "passed": 4,
+      "failed": 5,
+      "total": 9,
+      "results": [
+        {
+          "query": "/agent-memory-docker Claude Code shows agent-memory as disconnected, how do I fix it?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Should I use Redis Stack or Redis 8 for the local Agent Memory Server image?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "The agent-memory-server image tag is just 'latest' in our compose file, should we pin it for production?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "Set up a local Agent Memory Server with Docker so Codex, Claude Code, and Claude Desktop can share the same Redis-backed memory.",
+          "should_trigger": true,
+          "trigger_rate": 0.3333333333333333,
+          "triggers": 1,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "$agent-memory-docker can you expose the memory server so my teammate on another machine can connect?",
+          "should_trigger": true,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": false
+        },
+        {
+          "query": "What's the best way to design a Redis key schema for a leaderboard feature?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "We're deploying our production Redis Cloud database behind a firewall, what ACL rules should we set up?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Track which capabilities across our repos are done vs missing before we plan the next round of work.",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        },
+        {
+          "query": "Can you tune the HNSW parameters for our vector index so search recall improves?",
+          "should_trigger": false,
+          "trigger_rate": 0.0,
+          "triggers": 0,
+          "runs": 3,
+          "pass": true
+        }
+      ]
+    }
+  ]
+}
