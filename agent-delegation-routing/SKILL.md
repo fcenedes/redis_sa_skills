@@ -32,6 +32,17 @@ Load references only when needed:
 - Documentation execution: low/medium only by default; high is for named public-contract, release-claim, security, or architecture ambiguity and is usually an audit/spec role, not a docs worker.
 - Final high-risk review: Claude Opus through an explicit bridge/tool or human/Claude-side routing plus Codex high/xhigh verification.
 
+Codex subagent cost rule: if explicit overrides expose `gpt-5.6-sol`,
+`gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, and `gpt-5.4`, start with the
+cheapest sufficient explicit model. Use `gpt-5.4` for bounded
+implementation/docs/tests, `gpt-5.5` for complex coding or broader repo
+analysis, `gpt-5.6-luna` for fast latest-generation needs, `gpt-5.6-terra` only
+when cheaper models are insufficient for longer/multi-file agentic work, and
+`gpt-5.6-sol` only for high-risk audit, architecture, security, subtle
+regression, or final verification. External `Sonnet`/`Opus` labels are
+model-class hints, not Codex model IDs. Avoiding inheritance ambiguity requires
+an explicit model; it does not justify a newer or higher-cost model by itself.
+
 ## Role Selection
 
 Pick the smallest role that preserves quality:
@@ -237,6 +248,7 @@ the active plan and do not change architecture, public contracts, or ownership.
 - Do not omit requested model, requested reasoning effort, or routing reason.
 - Do not omit actual model, actual reasoning, or inheritance status from worker reports; write `unknown` if not knowable.
 - Do not silently let workers inherit the coordinator model or reasoning level.
+- Do not use `gpt-5.6-terra`, `gpt-5.6-sol`, high, xhigh, max, or ultra merely because explicit model/reasoning controls are available; record why cheaper explicit choices are insufficient.
 - Do not call Codex or Claude Code subagents that can only inherit the coordinator model for low/medium-risk work.
 - Do not use inherited senior-model/high-reasoning workers for docs-only execution; split high-risk review from low/medium docs editing.
 - Do not serialize independent worker tracks without recording why.

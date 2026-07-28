@@ -30,13 +30,22 @@ ollama list
 ## Model Control Gate
 
 Before dispatching a worker, confirm the chosen path can set or reasonably
-select the requested model and reasoning. If a host subagent tool only inherits
-the coordinator model, including Claude Code Task/subagents, do not use it for
-bounded low/medium-risk work.
+select the requested model and reasoning, then confirm the selected model is the
+cheapest sufficient explicit choice. If a host subagent tool only inherits the
+coordinator model, including Claude Code Task/subagents, do not use it for
+bounded low/medium-risk work. If the path exposes explicit Codex subagent
+models, do not jump to `gpt-5.6-terra` or `gpt-5.6-sol` merely to avoid
+inheritance ambiguity; prefer lower-cost explicit choices such as `gpt-5.4`,
+`gpt-5.5`, local Qwen, or direct execution when they fit.
 
 Acceptable bounded-worker paths:
 
 - `codex exec` with `-m` and/or `-c reasoning.effort=<level>` when available.
+- Codex subagents with explicit model override, using `gpt-5.4` for routine
+  bounded work, `gpt-5.5` for more complex coding, `gpt-5.6-luna` for fast
+  latest-generation needs, `gpt-5.6-terra` for longer/multi-file work only when
+  cheaper models are insufficient, and `gpt-5.6-sol` for high-risk audit or
+  architecture/security/final verification.
 - `ollama run <qwen-model>` or another explicit local model.
 - An explicit cross-agent bridge, tool, or CLI that can run the requested agent
   family with a scoped prompt and no inherited senior-model ambiguity.

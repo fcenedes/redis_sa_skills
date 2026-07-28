@@ -33,6 +33,15 @@ The coordinator may override any default when scope, risk, cost, or tool
 availability justifies it. Record the reason when overriding a safer default
 with a cheaper or less capable worker.
 
+When Codex subagents expose exact model overrides, choose the cheapest
+sufficient explicit model first. `gpt-5.4` fits bounded implementation, docs,
+tests, and small refactors; `gpt-5.5` fits complex coding or broader repo
+analysis; `gpt-5.6-luna` fits fast latest-generation needs; `gpt-5.6-terra` is
+for longer or multi-file agentic work after cheaper models are insufficient;
+`gpt-5.6-sol` is for high-risk audit, architecture, security, subtle regression,
+or final verification. Do not treat external `Sonnet`/`Opus` labels as callable
+Codex model IDs.
+
 ## Model Alternatives
 
 Use the configured current stable model for each family unless the repo or user
@@ -64,7 +73,7 @@ the user to route work to Claude.
 Default version policy:
 
 - Claude: use the configured current stable Opus, Sonnet, or Haiku variant only when operating from Claude, an explicit bridge/tool, or explicit human routing.
-- Codex: use the configured current Codex coding model with the listed reasoning effort.
+- Codex: use the cheapest sufficient explicit Codex model with the listed reasoning effort; if exact subagent overrides are available, apply the Codex subagent ladder above.
 - Qwen/local: use the strongest locally installed Qwen Coder model that fits latency and memory.
 - If exact model identity matters, the coordinator records the model name and why.
 
@@ -104,6 +113,11 @@ acceptable in Codex or Claude Code. Use Codex CLI with explicit config,
 Qwen/Ollama/local worker, or do the task directly. If none is available, report
 `No lower-cost worker available` instead of spawning a subagent that inherits
 the senior model.
+
+Explicit model control is not a cost justification. If the coordinator chooses
+`gpt-5.6-terra`, `gpt-5.6-sol`, high, xhigh, max, or ultra, the routing reason
+must say why cheaper explicit options such as `gpt-5.4`, `gpt-5.5`, local Qwen,
+or direct execution are insufficient.
 
 Docs-only execution must not inherit a senior coordinator model. Use low/medium
 or local workers for the edit. If public command wording, route inventory,

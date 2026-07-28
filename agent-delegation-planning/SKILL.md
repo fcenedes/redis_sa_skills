@@ -198,6 +198,8 @@ Default lower when bounded and easy to verify. Escalate only for ambiguity, risk
 
 For Codex, Claude Code, Qwen/Ollama, LM Studio, or any other worker, record requested model/reasoning before dispatch and actual model/reasoning after completion when knowable. If the worker path cannot control model/reasoning and the task is low/medium-risk, use direct execution, explicit CLI/local worker, or record `No lower-cost worker available`; do not spawn an inherited senior worker.
 
+When Codex subagents expose `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, and `gpt-5.4`, choose the cheapest sufficient explicit model first: `gpt-5.4` for bounded implementation/docs/tests, `gpt-5.5` for complex coding or broader repo analysis, `gpt-5.6-luna` only when a fast latest-generation worker is needed, `gpt-5.6-terra` for longer or multi-file work where cheaper models are insufficient, and `gpt-5.6-sol` for high-risk audit/architecture/security/final verification. External `Sonnet`/`Opus` labels are model-class hints, not Codex model IDs. "Avoid inherited-model ambiguity" justifies explicit override, not selecting a newer or higher-cost model.
+
 Documentation execution defaults to low/medium. If docs touch public command wording, route inventories, release posture, live-proof semantics, security claims, or architecture boundaries, keep the docs edit low/medium and add a separate high Spec Writer/Auditor task for the risky claim. Do not use inherited senior-model/high-reasoning subagents for docs-only editing.
 
 Separate routing fields:
@@ -297,6 +299,7 @@ Every coordinator, worker, auditor, integrator, and handoff prompt must include 
 - Do not let auditor findings remain generic; every finding needs required fix, closure criteria, and suggested disposition.
 - Do not paste large logs, diffs, generated files, or long docs into plans or worker prompts.
 - Do not default to the coordinator's model or reasoning for worker tasks.
+- Do not use `gpt-5.6-terra`, `gpt-5.6-sol`, high, xhigh, max, or ultra merely because the subagent tool exposes explicit model/reasoning controls; record why cheaper explicit choices are insufficient.
 - Do not spawn inherited-model Codex/Claude subagents for low/medium work when explicit CLI/local/direct execution is available.
 - Do not route docs-only workers to inherited senior/high execution; use low/medium or split high-risk review into a separate auditor/spec task.
 - Do not use high/xhigh without a concrete risk or ambiguity reason.
