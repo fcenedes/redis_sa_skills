@@ -1,83 +1,41 @@
-# Internal Vite Plugin
+# Internal RedisInsight Plugin
 
-Build a Redis Insight plugin **inside** the RedisInsight monorepo.
+Use this route only inside a RedisInsight checkout for a plugin that ships with
+the product under `redisinsight/ui/src/packages/`.
 
-## Path
+## Source of Authority
 
-```
-RedisInsight/
-  redisinsight/
-    ui/
-      src/
-        packages/
-          <plugin-name>/
-            package.json
-            index.html
-            src/
-              main.tsx
-              components/
-            vite.config.ts
-```
+Read the checkout's `.ai/skills/redis-insight-plugin/SKILL.md` before changing
+files. Load the sibling skills it names, including the current `frontend`,
+`code-quality`, `testing`, `e2e-testing`, `type-check-baselines`, and Redis UI
+component guidance. Those files override this fallback when they conflict.
 
-If you are not working inside the RedisInsight repo, you do not want this — use [external-parcel-plugin.md](external-parcel-plugin.md) instead.
+Do not copy their current commands or folder rules into this repository. They
+change with RedisInsight and must remain upstream-owned.
 
-## Build Tool: Vite
+If the checkout does not contain the skills:
 
-Internal plugins integrate with the RedisInsight build, which already standardizes on Vite. Use the project's existing Vite config conventions and follow the surrounding plugin packages as templates.
+1. Report that repository-convention guidance is degraded.
+2. Inspect the closest current internal plugin package and shared Vite config.
+3. Use Vite through the repository's existing package/build entry points.
+4. Apply [product-readiness.md](product-readiness.md).
+5. Do not claim full convention compliance until the upstream rules are
+   available or a RedisInsight maintainer confirms the fallback.
 
-## Vite Config Sketch
+## Stable Invariants
 
-```ts
-// vite.config.ts
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+- Keep the package inside `redisinsight/ui/src/packages/<plugin-name>/`.
+- Reuse the repository's shared build, UI wrappers, themes, tests, and aliases.
+- Copy a current sibling package structure instead of inventing one.
+- Include the plugin in every product packaging path that ships static plugins.
+- Keep customer/demo plugins external and follow
+  [external-parcel-plugin.md](external-parcel-plugin.md).
 
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    lib: {
-      entry: 'src/main.tsx',
-      formats: ['es'],
-      fileName: () => 'index.js',
-    },
-    cssCodeSplit: false,
-    rollupOptions: {
-      output: { assetFileNames: 'styles.css' },
-    },
-  },
-});
-```
+## DO NOT
 
-Adjust to match the conventions of the existing internal packages — copy from a sibling rather than diverging.
-
-## index.html
-
-```html
-<!doctype html>
-<html>
-  <head><meta charset="utf-8" /></head>
-  <body class="theme_LIGHT">
-    <div id="app"></div>
-    <script type="module" src="./src/main.tsx"></script>
-  </body>
-</html>
-```
-
-The internal build produces a single `index.js` and `styles.css` consumed via the manifest.
-
-## Theme and Shared UI Caveats
-
-- Internal plugins **may** use the shared theme tokens and shared UI primitives — but only those with a stable contract.
-- Avoid relying on `ThemeProvider` features that are not exposed via a documented props surface.
-- Do not import from deep relative paths (`../../../../../`); use the monorepo's package alias if available.
-
-## Internal Plugin DO NOT
-
-- DO NOT bundle React or other shared runtime deps already provided by the host build.
-- DO NOT introduce a Parcel build inside the monorepo. Match the existing tooling.
-- DO NOT import from a sibling internal plugin — use shared utilities only.
-- DO NOT mutate global window state outside of the documented `window.state` surface.
-
-## When to Convert Internal → External
-
-If the plugin is meant to ship outside RedisInsight (customer demo, field use, GitHub release), port it to an external Parcel layout. Keep the React component code; replace the build tool, bundle every dependency, and follow [external-parcel-plugin.md](external-parcel-plugin.md).
+- DO NOT treat this fallback as newer than the checked-out `.ai/skills`.
+- DO NOT add a standalone Parcel build inside RedisInsight.
+- DO NOT import raw `@redis-ui/*` packages when the checkout requires `uiSrc`
+  wrappers.
+- DO NOT assume a green test ran unless the test file was collected.
+- DO NOT update a typecheck baseline merely to silence a failure.

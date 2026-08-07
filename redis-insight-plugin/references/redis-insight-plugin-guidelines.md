@@ -19,10 +19,13 @@ If you are unsure, build external. External works in every Redis Insight install
 
 ## Internal Plugin Development with Vite
 
+- Read the checked-out `.ai/skills/redis-insight-plugin/SKILL.md` and its
+  sibling skills first; they are authoritative for current repository rules.
 - Path: `RedisInsight/redisinsight/ui/src/packages/<plugin-name>/`.
-- Use Vite, not Parcel. Inherit RedisInsight's shared TS, theme, and component conventions.
-- Internal plugins **may** import from `uiSrc/` and shared components, but only when the import has a stable contract — internal layout helpers move often.
-- Avoid hard dependencies on `ThemeProvider` or other Insight-only providers in plugin code that might be reused externally later.
+- Use the repository's Vite entry points, UI wrappers, theme, and component
+  conventions. Do not restate or guess them from this fallback.
+- Apply [internal-vite-plugin.md](internal-vite-plugin.md) and
+  [product-readiness.md](product-readiness.md) only as routing and audit layers.
 
 ## External Plugin Development with Parcel
 
@@ -90,7 +93,7 @@ See [iterative-development.md](iterative-development.md). Always run Phase 1, th
 
 ## DO NOT Rules
 
-Reproduced from SKILL.md for convenience:
+Keep these external-plugin constraints local:
 
 - DO NOT skip Phase 1 or Phase 2.
 - DO NOT deploy `index.js`/`styles.css` at the plugin root — they live in `dist/`.
