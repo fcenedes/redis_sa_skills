@@ -4,215 +4,147 @@ description: Use when creating, modifying, debugging, deploying, or testing Redi
 license: MIT
 metadata:
   author: redis
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 # Redis Insight Workbench Plugin
 
-Build, deploy, and validate Redis Insight Workbench visualization plugins. Plugins render inside an iframe in Workbench and visualize the result of a Redis command. Trigger this skill for plugin manifests, `package.json` `visualizations`, `activationMethod` functions, `redisinsight-plugin-sdk` usage, Parcel/Vite plugin builds, iframe rendering, Redis command parsing, Docker RedisInsight deployment, `/api/plugins` verification, and Playwright plugin tests.
+Build, deploy, and validate Workbench visualization plugins. Choose the source
+of authority first: RedisInsight owns internal product code; this skill owns standalone field and customer plugins.
 
-Use `redis-product-ui` for every visual plugin UI. RedisInsight plugins use the RedisInsight product theme pair: `light` / `dark`, not `light2` / `dark2`.
+## Authority
 
-Official source-of-truth references:
+- Authorized: scaffold, build, and validate Workbench plugins.
+- Not authorized: deploy to production without confirmation or run destructive
+  Redis commands.
+- Assessment-only default: report findings for review/debug requests unless the
+  user requests implementation.
 
-- https://github.com/redis/RedisInsight/tree/main/docs/plugins
-- https://github.com/redis/RedisInsight/blob/main/docs/plugins/development.md
-- https://github.com/redis/RedisInsight/blob/main/docs/plugins/installation.md
+## First Decision: Delivery Target
 
-See [references/official-docs-summary.md](references/official-docs-summary.md) for a condensed summary.
+### Internal RedisInsight contribution
 
-## First Decision: Plugin Type
+Use this route only when the plugin lives under
+`redisinsight/ui/src/packages/` in a RedisInsight checkout.
 
-Decide before scaffolding anything else.
+1. Read the checked-out `.ai/skills/redis-insight-plugin/SKILL.md` first; see
+   the [upstream skill suite](https://github.com/redis/RedisInsight/tree/main/.ai/skills).
+2. Load its required sibling skills. At minimum, check `frontend`,
+   `code-quality`, `testing`, `e2e-testing`, `type-check-baselines`, and the
+   Redis UI component skill exposed by that checkout.
+3. Treat those checked-out skills as authoritative for layout, imports,
+   package-manager commands, test structure, and build integration.
+4. Apply [product-readiness.md](references/product-readiness.md) as an
+   additional audit distilled from shipped plugin work.
 
-- **External standalone plugin** — installed by a user into `~/.redis-insight/plugins/<name>/`. Build with **Parcel**. Bundle all dependencies. Do not import from `uiSrc/` or any RedisInsight monorepo internal. Default for almost every customer or demo plugin.
-- **Internal monorepo plugin** — lives inside `RedisInsight/redisinsight/ui/src/packages/<plugin-name>/` and ships with Redis Insight itself. Build with **Vite**. Only use this when the work is in the RedisInsight repo itself.
+If the checked-out skills are unavailable, report degraded guidance, use
+[internal-vite-plugin.md](references/internal-vite-plugin.md) plus the readiness
+audit, and do not claim full repository-convention compliance.
 
-See [references/external-parcel-plugin.md](references/external-parcel-plugin.md) and [references/internal-vite-plugin.md](references/internal-vite-plugin.md).
+### External standalone plugin
 
-## External Plugin Structure
+Use this route for customer, demo, and field plugins installed under
+`~/.redis-insight/plugins/<name>/`.
 
-```
-<plugin-name>/
-  package.json              # manifest + build scripts
-  src/
-    index.html              # iframe entry, has #app
-    main.tsx                # activation functions, default export
-    components/
-    styles/
-      styles.scss
-  dist/
-    index.js                # built bundle (referenced by manifest "main")
-    styles.css              # built styles (referenced by manifest "styles")
-```
+- Build with Parcel and bundle React, ReactDOM, and every runtime dependency.
+- Do not import `uiSrc/`, `@redis-ui/*`, or other RedisInsight internals.
+- Start with [external-parcel-plugin.md](references/external-parcel-plugin.md)
+  and the templates in `templates/`.
 
-## Required Manifest
+## External Plugin Contracts
 
-Top-level `package.json` fields:
+Require `package.json` fields `name`, `version`, `description`, `main`,
+`styles`, and a non-empty `visualizations` array. Require `id`, `name`,
+`activationMethod`, `matchCommands`, `description`, and `default` on every
+visualization. Set `default: false` unless explicitly requested. Make every
+`activationMethod` exactly match a function in the bundle's default export.
+See [plugin-manifest.md](references/plugin-manifest.md).
 
-- `name`
-- `version`
-- `description`
-- `main` — path to built JS (e.g. `./dist/index.js`).
-- `styles` — path to built CSS (e.g. `./dist/styles.css`).
-- `visualizations` — array of visualization descriptors.
+Make every activation function find `#app`, validate props, catch render
+errors, render empty/error states, and log with a plugin-specific prefix. See
+[error-handling.md](references/error-handling.md).
 
-Each visualization descriptor must include:
+For visual work, use `redis-product-ui` with RedisInsight `light` / `dark`
+themes. Emulate product tokens locally; never import monorepo UI packages.
+Start from [external-styles.scss](templates/external-styles.scss).
 
-- `id`
-- `name`
-- `activationMethod`
-- `matchCommands`
-- `description`
-- `default`
+## Mandatory External Build Phases
 
-Set `default: false` unless the user explicitly asks for it to be the default visualization.
+1. Vanilla DOM: prove activation, props, and iframe wiring.
+2. React: prove typed mounting and raw-result rendering.
+3. Visualization: add the real library, parser, and UX.
 
-The `activationMethod` value must **exactly** match an exported function name in the bundle. The plugin entry must export that function via the default export:
+Observe each phase working before starting the next. Use
+[iterative-development.md](references/iterative-development.md).
 
-```ts
-export default { renderMyView };
-```
+## Hardening and Verification
 
-Multiple visualizations:
+Before review, test exact command boundaries, mutually exclusive defaults,
+token-aware parsing, modifier-dependent response shapes, malformed/empty data,
+large results, stale visualization state, and mode-specific errors. Use
+[review-hardening.md](references/review-hardening.md) and
+[redis-command-parsing.md](references/redis-command-parsing.md).
 
-```ts
-export default {
-  renderMarkersView,
-  renderHeatmapView,
-};
-```
+For internal work, also prove host conventions, active and isolated E2E
+collection, React/theme integrity, typecheck-baseline discipline, and packaging
+parity with [product-readiness.md](references/product-readiness.md).
 
-See [references/plugin-manifest.md](references/plugin-manifest.md) for full examples and how to strip dev-only fields from the deployed manifest.
+For external work, run the project build, then verify bundle files,
+`activationMethod` names, and zero `process.env` references with
+`templates/verify-plugin.sh`. Deploy with the matching template, restart Redis
+Insight, and confirm `/api/plugins` lists the plugin and its visualizations. See
+[testing-and-deployment.md](references/testing-and-deployment.md).
 
-## Activation Function Contract
+## Security
 
-Every activation function must:
-
-1. Get the host element: `const root = document.getElementById('app');`
-2. Defensively validate props (`command`, `data`, modules, theme).
-3. Wrap render logic in `try/catch` and render an error state on failure.
-4. Render an empty state when `data` is missing or empty.
-5. Log with a plugin-specific prefix, e.g. `[GEO_PLUGIN]`, never bare `console.log`.
-
-See [references/error-handling.md](references/error-handling.md).
-
-## RedisInsight Product UI Contract
-
-Every plugin UI must follow RedisInsight product styling:
-
-- Load `redis-product-ui` when creating or changing plugin UI.
-- Use RedisInsight `light` / `dark` product themes from `redis-product-ui`.
-- For standalone external plugins, emulate the RedisInsight product tokens with local CSS variables; do not import RedisInsight monorepo internals or `@redis-ui/*`.
-- Detect iframe theme through `theme_LIGHT` / `theme_DARK` body classes or SDK theme helpers.
-- Use compact product components: table, toolbar, segmented states, empty/error/loading panels, badges, and inspector-style details.
-- Keep Redis brand red for brand moments only; do not use it as the default plugin CTA, heading, error, or status color.
-
-See [references/redisinsight-product-ui.md](references/redisinsight-product-ui.md) and use [templates/external-styles.scss](templates/external-styles.scss) as the baseline `src/styles/styles.scss`.
-
-## Mandatory Phased Workflow
-
-Build every new plugin in three phases. Do not skip phases — the failure mode in each phase tells you exactly what is wrong.
-
-- **Phase 1 — Vanilla wiring.** No React, no third-party libraries. Render plain DOM that proves activation, props, and iframe rendering work end-to-end.
-- **Phase 2 — React rendering.** Add React + ReactDOM. Render a typed component that displays `command`, `status`, and the raw response.
-- **Phase 3 — Full feature.** Add the actual visualization library (Leaflet, Chart.js, etc.) and the real UX.
-
-See [references/iterative-development.md](references/iterative-development.md) and the templates in `templates/`.
-
-## Review Hardening Loop
-
-Before asking for review, run a small adversarial pass against the exact surfaces the plugin touches:
-
-- Manifest matching/defaults: exact command boundaries, no default visualization conflicts, no regex backtracking traps.
-- Redis command parsing: token-aware option handling, raw-unit preservation, malformed rows, empty rows, keyword-like key/member names.
-- Visualization state: stale closures, safe Leaflet bounds, large result sets, mode-specific empty/error copy.
-- Tests: red regression first, then the smallest package/component/parser test set that proves the fix.
-
-See [references/review-hardening.md](references/review-hardening.md).
-
-## Build and Verify
-
-```bash
-yarn build
-test -f dist/index.js
-test -f dist/styles.css                       # if "styles" is declared
-grep -c "process.env" dist/index.js           # must be 0 in a Parcel build
-```
-
-Confirm each `activationMethod` name appears in the bundle:
-
-```bash
-grep -o "renderMyView" dist/index.js | head
-```
-
-## Deploy
-
-External plugin → user plugins folder:
-
-```bash
-mkdir -p ~/.redis-insight/plugins/<plugin-name>
-cp package.json ~/.redis-insight/plugins/<plugin-name>/
-cp -R dist ~/.redis-insight/plugins/<plugin-name>/dist
-```
-
-Restart Redis Insight, then verify:
-
-```bash
-curl -s http://localhost:5540/api/plugins
-```
-
-The response must include the plugin `name` and its visualizations. See [references/testing-and-deployment.md](references/testing-and-deployment.md) for Docker workarounds, Playwright smoke tests, and the static-plugin path inside the Docker image.
-
-## Security Rules
-
-- Plugins execute code in the Insight UI process. Only ship code you control or trust.
-- Never embed secrets, tokens, or credentials in the bundle.
-- No hidden network calls. Document any outbound HTTP and prefer none.
-- Default to read-only Redis commands (`XRANGE`, `GEOSEARCH`, `INFO`, `FT.SEARCH`). Never run destructive commands (`FLUSHDB`, `DEL`, `UNLINK`, `XTRIM`, `CLUSTER RESET`, `CONFIG SET`) without explicit user request and confirmation.
+- Ship only trusted code; never embed credentials or secrets.
+- Make no hidden network calls. Document every outbound HTTP dependency.
+- Default to read-only Redis commands.
+- Require explicit user request and confirmation before destructive commands
+  such as `FLUSHDB`, `DEL`, `UNLINK`, `XTRIM`, `CLUSTER RESET`, or `CONFIG SET`.
 
 ## DO NOT
 
-- DO NOT skip Phase 1 or Phase 2; each catches a different class of failure.
-- DO NOT deploy `index.js` / `styles.css` at the plugin root. They live in `dist/` and the manifest points at `./dist/...`.
-- DO NOT set `default: true` on a visualization unless the user asked for it.
-- DO NOT include `scripts` or `devDependencies` in the deployed manifest. Strip them before copying.
-- DO NOT use Vite for standalone external plugins. Use Parcel.
-- DO NOT import from `uiSrc/`, `@redis-ui/*`, or any RedisInsight monorepo internal in a standalone plugin.
-- DO NOT externalize React in a standalone plugin bundle. Bundle React and ReactDOM.
-- DO NOT style plugin UI with ad hoc inline brand colors. Use RedisInsight product UI variables/classes.
-- DO NOT use `light2` / `dark2` for RedisInsight plugins; those are for other Redis product UIs.
-- DO NOT skip `/api/plugins` verification after deploying.
-- DO NOT ship `process.env.*` references in the bundle. Replace at build time.
-- DO NOT assume one Redis response shape — `XRANGE`, `GEOSEARCH WITH...`, and `GEORADIUS` return very different structures. See [references/redis-command-parsing.md](references/redis-command-parsing.md).
+- DO NOT apply local internal conventions when checked-out upstream skills are
+  available; upstream wins on conflicts.
+- DO NOT claim internal readiness without proving E2E collection and every
+  supported packaging path affected by the change.
+- DO NOT use Vite for an external plugin or Parcel for an internal package.
+- DO NOT import RedisInsight internals or externalize React in a standalone
+  bundle.
+- DO NOT skip external Phase 1 or Phase 2.
+- DO NOT set overlapping visualizations as defaults.
+- DO NOT parse command options with raw substring searches.
+- DO NOT deploy dev scripts or `devDependencies` in an external manifest.
+- DO NOT ship `process.env.*` references or skip `/api/plugins` verification.
+- DO NOT use `light2` / `dark2`; RedisInsight uses `light` / `dark`.
 
 ## Final Checklist
 
-- Plugin type chosen and matches build tool (Parcel = external, Vite = internal).
-- `package.json` declares `main`, `styles`, and `visualizations` with required fields.
-- Every `activationMethod` matches a default-exported function.
-- Phases 1, 2, 3 each rendered successfully before moving on.
-- RedisInsight product UI applied with `redis-product-ui`, `light` / `dark` theme handling, and local CSS variables for standalone plugins.
-- Review hardening pass completed for manifest matching, command parsing, visualization state, and scoped tests.
-- Bundle verified: `dist/index.js`, `dist/styles.css`, no `process.env`.
-- Plugin deployed to `~/.redis-insight/plugins/<name>/` (or via the Docker workaround).
-- `curl http://localhost:5540/api/plugins` lists the plugin.
-- Workbench runs a matching command and renders the visualization.
-- Defensive empty/error states verified.
-- Optional Playwright smoke test passes.
+Prove each applicable item with command output or a file read from this session:
 
-## Reference Index
+- [ ] Delivery target selected before scaffolding.
+- [ ] Internal: checked-out plugin and sibling skills loaded, or degraded mode
+      reported explicitly.
+- [ ] Internal: readiness audit passes for host conventions, parser matrix,
+      collected/isolated E2E, runtime themes, typecheck, and packaging parity.
+- [ ] External: Parcel build, manifest, exports, three phases, product theme,
+      bundle checks, deployment path, and `/api/plugins` verified.
+- [ ] Matching Workbench command renders the intended visualization.
+- [ ] Empty, malformed, and thrown-error states render defensively.
+- [ ] Focused tests and the repository quality gate pass.
 
-| File | Load When |
-|------|-----------|
-| [official-docs-summary.md](references/official-docs-summary.md) | Need the canonical contract from Redis Insight docs. |
-| [redis-insight-plugin-guidelines.md](references/redis-insight-plugin-guidelines.md) | Need the long-form operational reference. |
-| [external-parcel-plugin.md](references/external-parcel-plugin.md) | Building a standalone plugin with Parcel. |
-| [internal-vite-plugin.md](references/internal-vite-plugin.md) | Building inside the RedisInsight monorepo with Vite. |
-| [plugin-manifest.md](references/plugin-manifest.md) | Writing or stripping `package.json` manifests. |
-| [iterative-development.md](references/iterative-development.md) | Phase 1/2/3 templates and pipeline. |
-| [redisinsight-product-ui.md](references/redisinsight-product-ui.md) | Applying RedisInsight product UI inside plugin iframes. |
-| [review-hardening.md](references/review-hardening.md) | Pre-review checklist for matcher, parser, Leaflet state, and scoped regression tests. |
-| [testing-and-deployment.md](references/testing-and-deployment.md) | Deploy paths, Docker workaround, `/api/plugins`, Playwright. |
-| [redis-command-parsing.md](references/redis-command-parsing.md) | Parsing `GEOSEARCH` / `GEORADIUS` / `XRANGE` responses. |
-| [third-party-libraries.md](references/third-party-libraries.md) | Leaflet, markercluster, heatmap, custom `.d.ts`. |
-| [error-handling.md](references/error-handling.md) | Defensive render, ErrorBoundary, log prefixes. |
+## References
+
+| File | Load when |
+|---|---|
+| [product-readiness.md](references/product-readiness.md) | Auditing internal product readiness. |
+| [internal-vite-plugin.md](references/internal-vite-plugin.md) | Upstream skills are missing or choosing internal delivery. |
+| [external-parcel-plugin.md](references/external-parcel-plugin.md) | Building a standalone plugin. |
+| [redis-insight-plugin-guidelines.md](references/redis-insight-plugin-guidelines.md) | Troubleshooting the long-form external workflow. |
+| [redisinsight-product-ui.md](references/redisinsight-product-ui.md) | Adapting product UI inside an external iframe. |
+| [plugin-manifest.md](references/plugin-manifest.md) | Writing or stripping manifests. |
+| [iterative-development.md](references/iterative-development.md) | Running the external three-phase workflow. |
+| [review-hardening.md](references/review-hardening.md) | Testing matcher, parser, and visualization failure classes. |
+| [testing-and-deployment.md](references/testing-and-deployment.md) | Deploying and verifying runtime loading. |
+| [third-party-libraries.md](references/third-party-libraries.md) | Integrating visualization libraries. |
+| [official-docs-summary.md](references/official-docs-summary.md) | Checking the stable plugin contract. |

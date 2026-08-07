@@ -65,3 +65,24 @@ The local `SKILL.md` can remain short:
 4. Put long operational details in references/templates, but remove duplicated internal RedisInsight conventions and geodata-specific examples that upstream has already generalized.
 
 This preserves the local skill's field-engineering value while preventing two copies of RedisInsight's fast-changing internal architecture, package-manager commands, UI system, and Playwright layout from drifting apart.
+
+## Implementation validation
+
+On 2026-08-07, five fresh-context control agents handled the same internal
+plugin product-readiness scenario without loading this skill. All five produced
+reasonable generic implementation checklists, but none routed first to the
+checked-out RedisInsight skill suite. Across the controls, the omitted gates
+included explicit Playwright collection, isolated E2E data, React deduplication,
+typecheck-baseline discipline, and Unix/Windows packaging parity.
+
+Five separate fresh-context agents then handled the scenario with the updated
+`redis-insight-plugin` skill. All five selected the internal route, required the
+checked-out upstream plugin and sibling skills, loaded the local readiness
+audit, and included parser matrices, collected/isolated E2E, theme/runtime,
+typecheck-baseline, and packaging-parity evidence. A separate external-plugin
+scenario retained the Parcel, bundled-runtime, phased-render, deployment, and
+`/api/plugins` workflow.
+
+Static verification also passed with `quick_validate.py`,
+`bash scripts/validate-skills.sh` (17 skills, 0 errors, 0 warnings), and
+`git diff --check`.

@@ -196,7 +196,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | redis-lucidchart-diagrams | 1.0.0 |
 | playwright-test | 1.0.0 |
 | playwright-cli-agent | 1.0.0 |
-| redis-insight-plugin | 1.0.0 |
+| redis-insight-plugin | 1.1.0 |
 | agent-delegation-routing | 1.1.1 |
 | agent-delegation-planning | 1.1.2 |
 | agent-spec-writing | 1.0.0 |
