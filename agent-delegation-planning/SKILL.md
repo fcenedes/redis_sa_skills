@@ -62,6 +62,7 @@ Every plan names required skills and token-economy choices: RTK for noisy output
 - Use packet mode only for highly parallel, file-owned work; packets supplement epics/tasks and require `allowed_files`, `forbidden_files`, dependencies, verification, and repair policy.
 - Interpret local terms from repo source-of-truth docs. If ambiguous, record checked sources, a working interpretation, risk, and a discovery task unless it blocks a true decision.
 - Pick the smallest sufficient provider/model/reasoning and keep provider, requested model, and reasoning as separate fields. Docs execution is low/medium unless a separate high-risk reviewer/spec task is justified.
+- When Codex subagents expose `gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, and `gpt-5.4`, choose the cheapest sufficient explicit model first: `gpt-5.4` for bounded implementation/docs/tests, `gpt-5.5` for complex coding or broader repo analysis, `gpt-5.6-luna` only when a fast latest-generation worker is needed, `gpt-5.6-terra` for longer or multi-file work where cheaper models are insufficient, and `gpt-5.6-sol` for high-risk audit/architecture/security/final verification. External `Sonnet`/`Opus` labels are model-class hints, not Codex model IDs. "Avoid inherited-model ambiguity" justifies explicit override, not selecting a newer or higher-cost model.
 - Track task status in `agent_memory` and tracker fallback with `planning`, `running`, `blocked`, `failed`, `done`, and `audited`; mark `done` only with verification evidence and `audited` only with an Auditor verdict.
 - Include Playwright gates for UI/browser work and documentation cleanup for non-trivial deliveries.
 
@@ -86,6 +87,7 @@ Each task must include ID, objective, skills, routing reason, repo/branch, role,
 - Do not skip anchoring for multi-agent, long-running, follow-up, readiness, or resumable plans.
 - Do not dispatch from broad chat, generic checklists, batch summaries, or incomplete packets.
 - Do not mix provider, model, and reasoning fields, or let workers silently inherit a senior/high coordinator model for low/medium work.
+- Do not use `gpt-5.6-terra`, `gpt-5.6-sol`, high, xhigh, max, or ultra merely because the subagent tool exposes explicit model/reasoning controls; record why cheaper explicit choices are insufficient.
 - Do not claim parallelism, completion, UI verification, `done`, or `audited` without current-session evidence.
 - Do not defer bounded repair work that the coordinator can fix or delegate immediately.
 - Do not pass secrets, private logs, generated artifacts, large diffs, or unrelated context into plans/prompts.
