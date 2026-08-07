@@ -41,6 +41,17 @@ Load references only when needed:
 | Documentation execution | low/medium by default; high only for separate public-contract, release, security, or architecture audit/spec role |
 | Final high-risk review | Claude Opus through explicit bridge/tool or human/Claude-side routing plus Codex high/xhigh verification |
 
+Codex subagent cost rule: if explicit overrides expose `gpt-5.6-sol`,
+`gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, and `gpt-5.4`, start with the
+cheapest sufficient explicit model. Use `gpt-5.4` for bounded
+implementation/docs/tests, `gpt-5.5` for complex coding or broader repo
+analysis, `gpt-5.6-luna` for fast latest-generation needs, `gpt-5.6-terra` only
+when cheaper models are insufficient for longer/multi-file agentic work, and
+`gpt-5.6-sol` only for high-risk audit, architecture, security, subtle
+regression, or final verification. External `Sonnet`/`Opus` labels are
+model-class hints, not Codex model IDs. Avoiding inheritance ambiguity requires
+an explicit model; it does not justify a newer or higher-cost model by itself.
+
 These defaults are calibrated per model generation. See [routing-table](references/routing-table.md) for model-specific effort guidance.
 
 ## Role Selection
@@ -114,6 +125,7 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 - Do not dispatch from a chat-only summary, generic checklist, incomplete packet, or unanchored resume.
 - Do not omit requested/actual model, requested/actual reasoning, inheritance status, routing reason, ownership, verification, or fallback.
 - Do not silently let workers inherit the coordinator model or reasoning level.
+- Do not use `gpt-5.6-terra`, `gpt-5.6-sol`, high, xhigh, max, or ultra merely because explicit model/reasoning controls are available; record why cheaper explicit choices are insufficient.
 - Do not use inherited senior-model/high-reasoning workers for docs-only or low/medium work.
 - Do not serialize independent worker tracks or claim parallel execution without recording actual execution streams.
 - Do not defer bounded coordinator-solvable blockers to a future delegation.

@@ -126,11 +126,14 @@ Both skeletons still need the full field set below (routing reason, model/reason
 - Do not make all roles Codex-only unless the user explicitly asks or no other provider is viable.
 - Default bounded implementation: Codex CLI medium, Claude Code Sonnet-class medium, or equivalent.
 - Cheap mechanical tasks: local/Qwen/Ollama, Claude Haiku-class, Codex low, or equivalent when available and verifiable.
+- Codex subagent model ladder when `gpt-5.6-sol`/`terra`/`luna` plus `gpt-5.5`/`gpt-5.4` are exposed: default low/medium workers to `gpt-5.4`; use `gpt-5.5` for complex coding or broader repo analysis; use `gpt-5.6-luna` only for fast latest-generation needs; use `gpt-5.6-terra` only when longer/multi-file agentic work exceeds cheaper models; reserve `gpt-5.6-sol` for high-risk audit, architecture, security, subtle regression, or final verification.
 - Documentation execution: low/medium only by default; if docs carry public command, route, release, live-proof, security, or architecture risk, add a separate high Spec Writer/Auditor task.
 - Inherited senior-model/high-reasoning subagents are forbidden for docs-only execution.
 - If the worker path cannot control model/reasoning for low/medium work, use direct execution, explicit CLI/local worker, or record `No lower-cost worker available`; do not spawn an inherited senior worker.
+- Explicit model control is a gate, not a cost justification. "Avoids inherited-model ambiguity" permits an explicit override only after cheaper explicit options have been considered.
 - High effort only for multi-file, UI, integration, or nontrivial debugging.
 - Xhigh only for architecture ambiguity, subtle regressions, security logic, or final high-risk verification.
+- `max` and `ultra`, when exposed, require an explicit user request or a recorded security/architecture/release-risk reason.
 - If unsure, consult `agent-delegation-routing/references/routing-table.md`.
 - Every task below records why its model and reasoning are sufficient.
 

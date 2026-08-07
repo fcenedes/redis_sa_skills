@@ -1,13 +1,15 @@
 # Agent Routing Table
 
-Model guidance changes. Verify current vendor docs before making durable claims
-about exact model names, pricing, limits, or availability. As of the 2026-07
-guidance used to update this skill: Anthropic's Fable 5 (Mythos class) is above
-Opus in capability; effort, not rule density, is the primary control lever.
-Anthropic positions Sonnet for most coding, Opus for hard or wide work, and
-Haiku for quick mechanical work; OpenAI positions Codex as long-horizon agentic
-coding with low/medium/high/xhigh reasoning effort; Qwen positions Qwen3-Coder
-as an agentic coding model with Qwen Code tooling.
+Model guidance changes. Verify current vendor docs or the tool schema before
+making durable claims about exact model names, pricing, limits, or availability.
+As of the 2026-07 Codex app/subagent schema, callable Codex workers include
+`gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, and `gpt-5.4`.
+Anthropic labels such as Sonnet and Opus are external routing labels, not Codex
+model IDs. Anthropic's Fable 5 (Mythos class) is above Opus in capability;
+effort, not rule density, is the primary control lever. OpenAI positions Codex
+as long-horizon agentic coding with explicit model and
+low/medium/high/xhigh reasoning controls; Qwen positions Qwen3-Coder as an
+agentic coding model with Qwen Code tooling.
 
 Sources to re-check when updating this file:
 
@@ -20,6 +22,13 @@ Sources to re-check when updating this file:
 
 Use Claude-side routing for judgment, Codex for execution inside a repo, and
 Qwen for bounded local worker tasks.
+
+Cost rule: explicit model control is necessary but not sufficient. Pick the
+cheapest sufficient explicit model/reasoning pair, and record why each
+higher-cost or newer-generation choice is needed. "Avoids inherited-model
+ambiguity" justifies using an explicit override; it does not justify selecting
+`gpt-5.6-terra`, `gpt-5.6-sol`, high, or xhigh when `gpt-5.4`, `gpt-5.5`, local
+Qwen, or direct execution would be sufficient.
 
 Claude choices require an explicit bridge/tool/CLI, a Claude-side coordinator, or
 human routing. Codex coordinators must not use uncontrolled Claude handoffs; use
@@ -45,6 +54,26 @@ invocations, use [command-patterns](command-patterns.md).
 | Final integration, commit, push | Codex medium/high | Strong local repo and tool workflow. |
 | Final strategic review | Claude Opus or Codex high/xhigh | Use Claude through an explicit bridge/tool or human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only when risk is high. |
 
+## Codex Subagent Model Ladder
+
+Use this when a Codex subagent or Codex app task exposes the 2026-07 model
+choices. If availability differs, re-check the tool schema and keep the same
+cost-first rule.
+
+| Model | Use for | Avoid for |
+|-------|---------|-----------|
+| `gpt-5.4` | Low/medium bounded implementation, docs, tests, grep-driven edits, small refactors, and verifiable file-local fixes. | Work needing latest-generation agentic persistence, broad repo synthesis, or high-risk judgment. |
+| `gpt-5.5` | Complex coding, research, broader repo analysis, and implementation that outgrows `gpt-5.4` but does not need 5.6. | Cheap docs/mechanical tasks, or final high-risk authority when `gpt-5.6-sol`/explicit senior audit is justified. |
+| `gpt-5.6-luna` | Fast latest-generation worker when latency/tool robustness matters and `gpt-5.4` is not enough. | Default implementation workers where older cheaper models suffice. |
+| `gpt-5.6-terra` | Balanced latest-generation coding for multi-file or longer agentic work after a cheaper model is insufficient or clearly risky. | Routine implementation, docs, tests, or audits chosen only to avoid inheritance ambiguity. |
+| `gpt-5.6-sol` | Frontier audit, architecture/security review, subtle regression analysis, major migration planning, or final high-risk verification. | Normal implementation workers and low/medium-risk reviews. |
+
+Reasoning effort stays separate from model. Prefer `low` for mechanical tasks,
+`medium` for normal coding/docs/tests, `high` for multi-file integration or
+nontrivial debugging, and `xhigh` only for named high-risk ambiguity. `max` and
+`ultra`, when exposed, require an explicit user request or a recorded
+security/architecture/release-risk reason.
+
 ## Role Mapping
 
 Same boundary: Claude entries require an explicit bridge/tool, Claude-side
@@ -55,9 +84,9 @@ targets.
 |------|------|-------------------|
 | Split ambiguous work | Coordinator | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing |
 | Make requirements executable | Spec Writer | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing |
-| Edit repo files | Implementor | Codex medium/high |
-| Check completion | Verifier | Codex high, or Claude Sonnet by human/Claude-side routing |
-| Challenge claims | Auditor | Codex high/xhigh, or Claude Opus by human/Claude-side routing |
+| Edit repo files | Implementor | Codex `gpt-5.4` medium by default; escalate per ladder |
+| Check completion | Verifier | Codex `gpt-5.5`/`gpt-5.6-terra` high when evidence is nontrivial, or Claude Sonnet by human/Claude-side routing |
+| Challenge claims | Auditor | Codex `gpt-5.6-sol` high/xhigh only for high-risk claims, or Claude Opus by human/Claude-side routing |
 | Review PR/diff | PR Reviewer | Codex review, or Claude Opus by human/Claude-side routing |
 | Drive PR loops | PR Shepherd | Codex medium/high |
 | Build product UI | UI Designer | Codex high |
