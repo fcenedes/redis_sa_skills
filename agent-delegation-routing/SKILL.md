@@ -135,6 +135,32 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 - Do not treat skipped tests or missing live systems as passing verification.
 - Run the full detailed guardrails in [routing-guardrails](references/routing-guardrails.md) when dispatching or auditing routed work.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The latest model is safest for every task" | Start with the cheapest sufficient model; record why cheaper choices are insufficient before escalating. |
+| "Dispatching a subagent is always better than doing it inline" | Over-delegation wastes tokens. Sequential single-file tasks should be executed directly. |
+| "The worker can figure out which files to touch" | Every worker needs explicit `allowed_files`, `forbidden_files`, and ownership boundaries before dispatch. |
+| "Routing advice is the same as a plan" | This skill dispatches from an existing plan; use `agent-delegation-planning` to create one first. |
+| "Inheriting the coordinator model is fine for workers" | Silent model inheritance wastes budget; explicitly set the smallest sufficient model per task. |
+| "We can verify after all workers finish" | Each worker must have exact verification commands; deferred verification becomes claim-based. |
+
+## Interaction with Other Skills
+
+- **agent-delegation-planning** (upstream): requires a file-backed plan before routing work to workers.
+- **agent-capability-ledger** (upstream): reconcile before routing follow-up work that may duplicate delivered scope.
+- **agent-memory-coordination** (complementary): use for shared prompts, ownership maps, and outcome tracking.
+- **agent-spec-writing** (indirect upstream): specs feed into plans which feed into routing.
+
+## Verification
+
+- [ ] The plan file referenced by the routing dispatch exists on disk (`ls` on the plan path confirms).
+- [ ] Every worker prompt includes explicit `allowed_files` and `forbidden_files` fields (`grep -c 'allowed_files\|forbidden_files'` returns at least one match per worker prompt).
+- [ ] Each task has `model` and `reasoning` set explicitly (not inherited from the coordinator); `grep` for both fields in each task block confirms.
+- [ ] Every task specifies at least one verification command that can be run independently (`grep -i 'verification'` per task returns a concrete command, not a placeholder).
+- [ ] No worker prompt contains secrets, tokens, or credentials (`grep -riE 'api_key|token|secret|password'` on prompts returns empty).
+
 ## Checklist
 
 - [ ] Confirmed the task is not one-file/trivial/no-handoff work.

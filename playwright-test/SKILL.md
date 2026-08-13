@@ -120,6 +120,29 @@ See [references/playwright-test-patterns.md](references/playwright-test-patterns
 - DO NOT use this skill to manually drive a browser for exploration, bug repro, or screenshots — use `playwright-cli-agent` for that, then bring back semantic locators.
 - DO NOT paste Playwright CLI element refs (e.g. `#a4b2c`) into a spec. They are session-scoped and expire on navigation/close; translate to `getByRole/Label/Text` instead.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Manual testing is faster for this one check" | Manual testing does not persist and cannot run in CI; write a spec. |
+| "A CSS selector chain is fine for now" | Long CSS chains, `nth-child`, XPath, and layout-dependent selectors are brittle; use semantic locators. |
+| "waitForTimeout is just a quick fix" | `waitForTimeout` is a flake source; use web-first assertions or condition-based waits. |
+| "Logging in through the UI in each test is more realistic" | Use `storageState` and an auth setup project; UI login per test is slow and flaky. |
+| "The test order doesn't matter because they all pass" | Each `test(...)` must be independent; deleting or reordering any other test must not change its outcome. |
+| "We can mock external APIs later" | Unmocked third-party calls make tests flaky and slow; use `page.route` from the start. |
+
+## Interaction with Other Skills
+
+- **playwright-cli-agent** (upstream): use for live exploration and selector discovery before writing specs.
+- **rtk-cli** (complementary): use RTK for test runner output but not for `--ui`, `codegen`, `show-report`, or `show-trace`.
+
+## Verification
+
+- [ ] Test files follow the project naming convention (`find . -name '*.spec.ts' -o -name '*.test.ts' | head` lists discovered test files)
+- [ ] `npx playwright test --list` exits 0 and shows discovered tests matching the expected count
+- [ ] Playwright config exists at the project root (`ls playwright.config.ts` or `ls playwright.config.js` succeeds)
+- [ ] CI pipeline includes a Playwright step (`grep -r 'playwright' .github/workflows/ || grep -r 'playwright' .gitlab-ci.yml` finds at least one match)
+
 ## Final Checklist
 
 Each item must be literally verifiable (yes/no) before calling the task done:

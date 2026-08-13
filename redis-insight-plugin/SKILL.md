@@ -117,6 +117,28 @@ Insight, and confirm `/api/plugins` lists the plugin and its visualizations. See
 - DO NOT ship `process.env.*` references or skip `/api/plugins` verification.
 - DO NOT use `light2` / `dark2`; RedisInsight uses `light` / `dark`.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Vite works fine for an external plugin" | External standalone plugins must use Parcel; Vite is for internal RedisInsight packages only. |
+| "We can skip Phase 1 and go straight to React" | The three-phase workflow (vanilla DOM, React, visualization) is mandatory; each phase must be observed working. |
+| "Importing from uiSrc is easier than bundling" | External plugins must not import RedisInsight internals; bundle React and all dependencies. |
+| "The plugin works in dev so deployment testing is unnecessary" | Run `verify-plugin.sh`, deploy, restart RedisInsight, and confirm `/api/plugins` lists the plugin. |
+| "One default visualization is fine for multiple matches" | Do not set overlapping visualizations as defaults; only one may be `default: true`. |
+| "Substring parsing is good enough for command options" | Use proper token-aware parsing for Redis command options; raw substring searches miss edge cases. |
+
+## Interaction with Other Skills
+
+- **redis-product-ui** (complementary): use `redis-product-ui` with RedisInsight `light`/`dark` themes for visual work inside plugin iframes.
+
+## Verification
+
+- [ ] Plugin `package.json` exists and is valid JSON — `cat package.json | python3 -m json.tool` exits `0` with required fields `name`, `version`, `main`, `styles`, and a non-empty `visualizations` array.
+- [ ] Plugin loads in RedisInsight without errors — after deployment to `~/.redis-insight/plugins/<name>/`, `curl -s http://localhost:5540/api/plugins` returns JSON listing the plugin and its visualizations.
+- [ ] Every `activationMethod` in the manifest matches an exported function in the built bundle — `bash templates/verify-plugin.sh` exits `0` with no unresolved activation methods.
+- [ ] Plugin icon and metadata are present — `ls dist/` (or the configured output dir) contains the bundle file referenced by `main`, the stylesheet referenced by `styles`, and an icon file if declared in the manifest.
+
 ## Final Checklist
 
 Prove each applicable item with command output or a file read from this session:

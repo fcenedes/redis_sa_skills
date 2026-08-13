@@ -70,6 +70,25 @@ The source directory must contain `document.json`. Optional `data/` and `images/
 - Do not use outdated Redis Query Engine or RQE naming; use Redis Search.
 - Do not invent Redis product capabilities, command syntax, or Lucid import fields.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "A PNG export is enough for the customer" | When editable shapes are required, deliver a `.lucid` Standard Import source, not a flattened image. |
+| "Lucidchart is better than Excalidraw for SA diagrams" | Both are valid peer formats; choose the one the SA, customer, or repo workflow prefers. |
+| "Generic box labels are fine for a first draft" | Every shape must name a real Redis domain object, command, or runtime concept; no generic IDs. |
+| "Long labels will auto-scale in Lucidchart" | Use short multiline labels; do not rely on Lucid auto-scaling to fit text inside boxes. |
+| "We can commit the .lucid zip for convenience" | Do not commit generated `.lucid` zip files unless the user explicitly asks for binary handoff. |
+| "Redis Query Engine is the current name" | Use Redis Search, not Redis Query Engine or RQE. |
+
+## Verification
+
+- [ ] `document.json` parses as valid JSON with unique page, shape, and line IDs.
+- [ ] `python redis-lucidchart-diagrams/scripts/package_lucid_import.py <source>` exits 0.
+- [ ] Text labels fit inside their boxes after import (short multiline labels used).
+- [ ] Redis commands and data structures use current, accurate naming and syntax.
+- [ ] Redis context, live state, audit evidence, and worker paths are visually distinct.
+
 ## Quality Checklist
 
 - Deliverable format matches the SA/customer preference.

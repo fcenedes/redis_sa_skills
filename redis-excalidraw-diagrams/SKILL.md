@@ -88,6 +88,25 @@ After rendering, open or read the PNG and check:
 
 Repeat render-view-fix until the PNG is ready to share. Do not deliver technical diagrams based on JSON inspection alone.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The JSON looks right so we can skip rendering" | JSON that looks right is not validated; always render to PNG and visually inspect. |
+| "Generic boxes with labels are fine for this diagram" | Every shape must carry a real Redis role, command, or evidence artifact; no unlabeled generic boxes. |
+| "A custom color fits this diagram better" | Every fill, stroke, and text color must trace back to the color palette reference; no invented colors. |
+| "Redis Red everywhere makes the diagram look branded" | Use Redis Red for primary Redis-owned components and critical emphasis, not as decoration. |
+| "Simple diagrams don't need evidence artifacts" | Even conceptual diagrams should use real Redis command names, data structures, and terms when relevant. |
+| "The arrows mostly go where they should" | Arrows must not cross through labels, code blocks, or component shapes; route around elements. |
+
+## Verification
+
+- [ ] Redis-specific facts were verified against current docs or user-provided source material.
+- [ ] Every color used traces back to `references/color-palette.md`.
+- [ ] `uv run python render_excalidraw.py <diagram> --output <png>` completed successfully.
+- [ ] Rendered PNG was visually inspected for clipping, overlap, unreadable text, and arrow routing.
+- [ ] Evidence artifacts (commands, schemas, metrics) use real Redis examples, not placeholders.
+
 ## Quality Checklist
 
 Each item must be proved by a command output or file read from this session, not by memory or prior conversation.

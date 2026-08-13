@@ -67,6 +67,23 @@ Restart Codex Desktop and Claude Desktop after client config changes. In Claude 
 - Do not override `BIND_HOST` to `0.0.0.0` or a LAN/public IP while `DISABLE_AUTH=true`/`AUTH_MODE=disabled`; if a teammate needs remote access, warn explicitly and require real auth (API key/token or a reverse proxy with auth) before widening the bind address.
 - Do not silently comply with a request to "expose this so others can connect"; state the network-exposure-without-auth risk first, then proceed only with explicit acknowledgment or an auth plan.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Setting BIND_HOST to 0.0.0.0 is fine for team sharing" | Widening the bind address with auth disabled exposes the memory server to the network; require real auth first. |
+| "The Codex auth warning means memory is broken" | `Authentication not supported` is a non-blocking OAuth label for local no-auth MCP; verify with a tool call or health check. |
+| "We can use Redis Stack instead of Redis 8" | The templates require official Redis 8 images; Redis Stack is not supported. |
+| "The .env.local can be committed for easy sharing" | `.env.local` contains `OPENAI_API_KEY` and must never be committed; share only the `.env.local.example` template. |
+| "Skipping the health check saves time" | `scripts/check_local_agent_memory.sh` validates REST, SSE, and HTTP transports; skipping leaves silent failures. |
+
+## Verification
+
+- [ ] Docker container for the Agent Memory stack is running and healthy (`docker compose ps` shows all services `Up` with no restart loops).
+- [ ] Memory API responds to a health check (`curl -s http://localhost:8000/api/health` returns a success status).
+- [ ] The Redis data volume persists across container restarts (`docker compose down && docker compose up -d` followed by a memory search still returns previously stored data).
+- [ ] A backup mechanism exists: either `scripts/backup_agent_memory.sh` is present, or a manual `docker exec redis redis-cli BGSAVE` succeeds and the dump file is confirmed on the volume.
+
 ## Checklist
 
 Each item must be proved by a command output or file read from this session, not by memory or prior conversation.

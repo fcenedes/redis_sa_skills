@@ -21,6 +21,18 @@ A collection of agent skills for Redis solutions architecture built by Solution 
 | [redis-excalidraw-diagrams](redis-excalidraw-diagrams/SKILL.md) | Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Search, Streams, replication, clustering, observability, and Redis Cloud systems. |
 | [redis-lucidchart-diagrams](redis-lucidchart-diagrams/SKILL.md) | Create Redis-focused Lucidchart architecture diagrams, Lucid Standard Import sources, customer workshop visuals, and editable SA handoff files. |
 
+### Engineering Lifecycle
+
+| Skill | Description |
+|-------|-------------|
+| [source-driven-development](source-driven-development/SKILL.md) | Ground every framework decision in official documentation. DETECT→FETCH→IMPLEMENT→CITE workflow with source hierarchy, retrieval safety, and UNVERIFIED flagging. |
+| [doubt-driven-development](doubt-driven-development/SKILL.md) | Subject every non-trivial decision to a fresh-context adversarial review. CLAIM→EXTRACT→DOUBT→RECONCILE→STOP with 4-tier classification and cross-model escalation. |
+| [performance-optimization](performance-optimization/SKILL.md) | Measure-first performance optimization. MEASURE→IDENTIFY→FIX→VERIFY→GUARD with "neutral is a revert" policy, attempt ledger, and Redis benchmark commands. |
+| [observability-and-instrumentation](observability-and-instrumentation/SKILL.md) | Instrument code so production behavior is visible and diagnosable. RED/USE frameworks, structured logging, two-severity alerting, and Redis redis_exporter integration. |
+| [shipping-and-launch](shipping-and-launch/SKILL.md) | Ship to production with confidence. Pre-launch checklists, feature flag lifecycle, quantitative rollout thresholds (green/yellow/red), and rollback-plan-before-deploy gates. |
+| [deprecation-and-migration](deprecation-and-migration/SKILL.md) | Manage deprecation and migration safely. Expand/Contract for schema changes, Strangler pattern, Zombie Code diagnosis, Churn Rule, and Redis version migration 6→7→8. |
+| [ci-cd-and-automation](ci-cd-and-automation/SKILL.md) | Automate CI/CD pipelines with quality gates. Agent CI feedback loop, deployment strategies, test sharding, caching patterns, and GitHub Actions examples with Redis. |
+
 ### Testing & Browser Automation
 
 | Skill | Description |
@@ -111,6 +123,15 @@ npx skills add fcenedes/redis_sa_skills --skill redis-presentation-decks
 npx skills add fcenedes/redis_sa_skills --skill redis-excalidraw-diagrams
 npx skills add fcenedes/redis_sa_skills --skill redis-lucidchart-diagrams
 
+# Engineering lifecycle
+npx skills add fcenedes/redis_sa_skills --skill source-driven-development
+npx skills add fcenedes/redis_sa_skills --skill doubt-driven-development
+npx skills add fcenedes/redis_sa_skills --skill performance-optimization
+npx skills add fcenedes/redis_sa_skills --skill observability-and-instrumentation
+npx skills add fcenedes/redis_sa_skills --skill shipping-and-launch
+npx skills add fcenedes/redis_sa_skills --skill deprecation-and-migration
+npx skills add fcenedes/redis_sa_skills --skill ci-cd-and-automation
+
 # Testing & browser automation
 npx skills add fcenedes/redis_sa_skills --skill playwright-test
 npx skills add fcenedes/redis_sa_skills --skill playwright-cli-agent
@@ -152,6 +173,13 @@ Use agent-capability-ledger before a follow-up readiness plan to classify done, 
 Use agent-memory-docker to create a shared local memory stack and configure Codex, Claude Code, and Claude Desktop.
 Use agent-memory-docker to install the default shared-memory policy for every new Codex and Claude Code session.
 Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory prompts with strict file ownership and a final integration gate.
+Use source-driven-development to verify that all Redis client API calls in this file reference current official documentation.
+Use doubt-driven-development to adversarially review the caching strategy before shipping to production.
+Use performance-optimization to profile the Redis pipeline batch and verify the optimization reduced p99 latency.
+Use observability-and-instrumentation to add structured logging and redis_exporter metrics to the order service.
+Use shipping-and-launch to create a staged rollout plan with quantitative thresholds for the new search feature.
+Use deprecation-and-migration to plan the Redis 6→7 migration with Expand/Contract for the session schema.
+Use ci-cd-and-automation to set up GitHub Actions with Redis service containers and quality gate pipeline.
 ```
 
 ## Suggested Skill Combinations
@@ -167,6 +195,9 @@ Use agent-memory-coordination to dispatch Track H/I/J workers from saved memory 
 | Shared local agent memory | `agent-memory-docker` + `rtk-cli` |
 | Delegated agent work | `agent-spec-writing` + `agent-capability-ledger` + `agent-delegation-planning` + `agent-delegation-routing` + `agent-plan-lifecycle` + `agent-memory-coordination` + `rtk-cli` + `caveman` |
 | Parallel agent coordination | `agent-capability-ledger` + `agent-memory-coordination` + `agent-delegation-routing` + `agent-plan-lifecycle` + Superpowers + `rtk-cli` |
+| Production readiness | `shipping-and-launch` + `observability-and-instrumentation` + `ci-cd-and-automation` + `performance-optimization` |
+| Safe migration | `deprecation-and-migration` + `doubt-driven-development` + `shipping-and-launch` |
+| High-confidence delivery | `source-driven-development` + `doubt-driven-development` + `playwright-test` |
 | Compact agent workflow | `rtk-cli` + `caveman` |
 
 ## Roadmap
@@ -177,7 +208,7 @@ Skills in this repo today are listed under [Available Skills](#available-skills)
 |-------|---------------|
 | Customer engagement | `redis-discovery-workshop`, `redis-demo-builder` |
 | Redis architecture | `redis-vector-search-rag`, `redis-streams-architecture`, `redis-cloud-sizing` |
-| Operations | `redis-performance-troubleshooting`, `redis-observability-runbook`, `redis-enterprise-migration` |
+| Operations | `redis-performance-troubleshooting`, `redis-cloud-operations-runbook` |
 
 See open PRs for skills landing imminently.
 
@@ -204,6 +235,13 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | agent-capability-ledger | 1.0.1 |
 | agent-memory-docker | 1.1.0 |
 | agent-memory-coordination | 1.1.1 |
+| source-driven-development | 1.0.0 |
+| doubt-driven-development | 1.0.0 |
+| performance-optimization | 1.0.0 |
+| observability-and-instrumentation | 1.0.0 |
+| shipping-and-launch | 1.0.0 |
+| deprecation-and-migration | 1.0.0 |
+| ci-cd-and-automation | 1.0.0 |
 
 ## Skill Structure
 

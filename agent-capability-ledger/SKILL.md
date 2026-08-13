@@ -127,6 +127,32 @@ sync rules: [redis-array-mirror](references/redis-array-mirror.md).
 - Do not include project-specific seed packets in this generic skill.
 - Do not use this skill to store or manage worker-dispatch prompts, ownership maps, or gate results in memory; that is `agent-memory-coordination`'s scope.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Memory says it's done so the ledger should too" | Memory is a cache; only repo evidence with a verification command counts as proof. |
+| "The chat summary covers what was delivered" | Chat summaries are not evidence. Find the file path, commit, or test output. |
+| "One row can cover both the API and the CLI" | Split rows when ownership, proof type, or acceptance criteria differ. |
+| "Marking it done now and adding proof later is fine" | A row without evidence path and verification command is `partial`, not `done`. |
+| "The old plan already tracked this capability" | Superseded plans do not count; check the current ledger row status. |
+| "We can skip the ledger for a small follow-up" | Follow-up plans without ledger reconciliation re-plan delivered work. |
+
+## Interaction with Other Skills
+
+- **agent-delegation-planning** (downstream): after ledger identifies delta work, hand off to planning for task creation.
+- **agent-plan-lifecycle** (complementary): use lifecycle to promote, close, or archive audited plan work that the ledger tracks.
+- **agent-memory-coordination** (complementary): mirror ledger status into shared memory when available.
+- **agent-spec-writing** (upstream): specs may define capabilities that the ledger then tracks for delivery proof.
+
+## Verification
+
+- [ ] Ledger file exists at the expected path and contains the required columns (capability, status, proof class, evidence path, verification command, residual gap, next delta task).
+- [ ] Every skill directory under the repo has a corresponding ledger row (run `ls` against skill dirs and diff with ledger capability IDs).
+- [ ] All status values in the ledger are one of `done`, `partial`, `missing`, `blocked`, or `superseded` (no typos or non-standard values).
+- [ ] Every `done` row has a non-empty evidence path that resolves to an existing file or commit (`ls` or `git log` confirms).
+- [ ] Capability IDs follow the `<DOMAIN>.<AREA>.<NUM>` pattern with no duplicates (`sort` and `uniq -d` on the ID column returns empty).
+
 ## Checklist
 
 - [ ] Existing ledger found, or baseline ledger created.

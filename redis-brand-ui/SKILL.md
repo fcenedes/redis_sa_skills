@@ -95,6 +95,28 @@ Do not remove or overwrite current profiles when adding future guidance. See [st
 - Use Tailwind's default color palette names (`red-500`, `gray-900`) — use the custom Redis token names.
 - Build the primary UI of a dashboard, admin panel, or developer tool with this skill alone — use `redis-product-ui` for that surface.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Tailwind's red-500 is close enough to Redis Red" | Always use exactly `#FF4438`; no other red hex or Tailwind default is acceptable. |
+| "White text on Redis Red passes WCAG" | White normal-size text on `#FF4438` and `#EB352A` does not meet WCAG AA. |
+| "Pure black looks fine for dark text" | Never use `#000000`; primary text is `#091A23`, secondary is `#163341`. |
+| "Space Mono works for body text in a technical doc" | Space Mono is for code and technical labels only; body text uses Space Grotesk. |
+| "This is a product dashboard so brand UI applies" | Dashboards, admin panels, and developer tools use `redis-product-ui`, not this skill. |
+| "We can skip the contrast check for an internal demo" | Run `node scripts/check-contrast.js` for every delivery; internal demos are still Redis-branded. |
+
+## Interaction with Other Skills
+
+- **redis-product-ui** (complementary): use for dashboards, admin panels, and developer tools; this skill covers marketing, brand chrome, and logo usage.
+
+## Verification
+
+- [ ] Every color value in the output matches the Redis brand palette (`#FF4438`, `#EB352A`, `#091A23`, `#163341`, `#FFFFFF`, `#B9C2C6`) — confirm with `grep -rn '#' <output-dir> | grep -iE '[0-9a-f]{6}'` and verify no off-brand hex codes appear.
+- [ ] Typography uses the approved font stack only — `grep -rn 'font-family' <output-dir>` returns only Space Grotesk, Space Mono, TT Trailers (display only), or Geist (docs only).
+- [ ] `node scripts/check-contrast.js` exits `0` — all foreground/background pairs in `references/contrast-pairs.json` pass their expected WCAG contrast ratios.
+- [ ] No hardcoded color values exist outside CSS custom properties — `grep -rn 'color:\s*#' <output-dir>` returns only references within `:root` or `[data-theme]` variable declarations.
+
 ## Reference Index
 
 | File | Load When |

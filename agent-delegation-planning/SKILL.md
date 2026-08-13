@@ -93,6 +93,32 @@ Each task must include ID, objective, skills, routing reason, repo/branch, role,
 - Do not pass secrets, private logs, generated artifacts, large diffs, or unrelated context into plans/prompts.
 - Run the full detailed guardrails in [planning-guardrails](references/planning-guardrails.md) when producing or auditing a delegated plan.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The plan is obvious enough to keep in chat" | Plans must be file-backed with ownership, routing, verification, and audit contracts. |
+| "All tasks need the coordinator's model for quality" | Most implementation and docs tasks need the cheapest sufficient model; escalate only with recorded justification. |
+| "We can figure out verification after implementation" | Every task requires exact verification commands before dispatch; post-hoc verification is claim-based. |
+| "This is too small to need a formal plan" | If it involves multiple files, workers, or handoffs, it needs ownership, routing, and gates. Direct execution is fine for single-file work. |
+| "Autonomous means we can commit freely" | Autonomy controls continuation, not commits. Commit policy is a separate explicit gate. |
+| "The auditor can just re-read my results" | Auditors must re-run verification commands independently; self-review misses claim-vs-evidence mismatches. |
+
+## Interaction with Other Skills
+
+- **agent-spec-writing** (upstream): use before planning when requirements are still being authored.
+- **agent-capability-ledger** (upstream): reconcile before follow-up, readiness, or "what remains" plans.
+- **agent-delegation-routing** (downstream): use after the plan exists to dispatch work to workers.
+- **agent-memory-coordination** (complementary): use when prompts, status, or ownership must be shared across agents.
+- **agent-plan-lifecycle** (downstream): use after plan creation for status tracking, promotion, closure, or archive.
+
+## Verification
+
+- [ ] A plan directory exists under `docs/agent-plans/` matching `<YYYY-MM-DD>-<slug>/` and contains at least one plan file (`ls docs/agent-plans/` confirms).
+- [ ] A `tracker.md` file exists in the plan directory with task rows showing status values (`ls` and `grep` confirm).
+- [ ] A `coordinator-prompt.md` file exists in the plan directory (`ls` confirms).
+- [ ] Every task block in the plan file(s) includes the required fields: role, provider, model, reasoning, owned files, forbidden files, exact verification command, and done evidence (`grep` for each field name returns a match per task).
+
 ## Checklist
 
 - [ ] Each item is proved by a command output or file read from this session, not by memory or prior conversation.

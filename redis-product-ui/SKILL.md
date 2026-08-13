@@ -85,6 +85,30 @@ Build Redis product surfaces from the public Redis UI Storybook patterns. Use th
 - Prefer `Filters`/`SearchBar` over ad hoc dropdowns for anything the user will query repeatedly.
 - Use `Tabs` for peer views of the same entity; use `Stepper` only for linear multi-step setup.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Brand red works as the primary CTA color everywhere" | Redis Red is for brand moments; use semantic families (`primary`, `danger`, `success`) for product UI states. |
+| "Storybook tokens are official brand colors" | Storybook-derived tokens are product implementation guidance, not official brand-palette claims. |
+| "Cards look better than tables for this data" | Prefer tables over card grids for any list of more than ~8 similar operational items. |
+| "Dark mode can wait until v2" | Do not omit dark mode when the user asks for Redis UI product fidelity. |
+| "Pagination and virtualization together handle any table size" | Never use both; for very large tables prefer virtualization alone. |
+| "This marketing landing page is a product UI" | Marketing pages, landing pages, and docs sites use `redis-brand-ui`, not this skill. |
+
+## Interaction with Other Skills
+
+- **redis-brand-ui** (complementary): use for marketing, brand chrome, and logo rules; this skill covers product app surfaces.
+- **redis-insight-plugin** (downstream): plugins use this skill's `light`/`dark` themes for visual work inside plugin iframes.
+
+## Verification
+
+- [ ] Components render in the target framework — open the built output in a browser or run the dev server and confirm no console errors with `grep -i 'error' <browser-console-output>` or equivalent check.
+- [ ] Responsive breakpoints tested — verify layout at mobile (375px), tablet (768px), and desktop (1280px) widths using browser dev tools or Playwright viewport resizing; no horizontal overflow or broken layouts at any breakpoint.
+- [ ] Accessibility audit passes — run `npx axe-core-cli <url>` or equivalent (axe browser extension, Lighthouse accessibility score >= 90) with zero critical or serious violations reported.
+- [ ] Dark mode variants exist if required — `grep -rn 'data-theme.*dark\|prefers-color-scheme.*dark\|\.dark\s' <output-dir>` returns matches confirming dark mode token declarations or theme class usage.
+- [ ] No brand-red misuse in product semantic states — `grep -rn '#FF4438\|#EB352A' <output-dir>` returns matches only in brand-moment contexts (hero, logo accent), not in success/warning/danger/status indicators.
+
 ## Checklist (must be literally verifiable)
 
 Each item must be proved by a command output or file read from this session, not by memory or prior conversation.

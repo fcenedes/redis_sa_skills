@@ -211,6 +211,32 @@ cache/pointer index only.
 - Do not skip the resume ritual when anchored plan files exist.
 - Do not use this skill to build or maintain the capability ledger's row data (status, proof class, evidence path); that ownership belongs to `agent-capability-ledger`. This skill owns worker-prompt and gate-result memory, not capability-row memory sync.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Memory is the source of truth for this project" | Versioned repo docs, trackers, and ledgers are source of truth; memory is a synchronization cache. |
+| "The write tool is not available so we skip memory" | Discover lazy-loaded tools before declaring write-unavailable; report backend and discovery result. |
+| "Storing the full charter in memory saves time" | Store compact pointers to anchor files, not their contents; memory is not a parallel source of truth. |
+| "Workers can share files and sort it out later" | Each worker needs a disjoint write set; reserve shared files for the integrator. |
+| "The broad namespace works for everything" | Use the narrowest useful namespace so agents do not retrieve unrelated memories. |
+| "Memory from last session is still accurate" | Stale memory must be verified against current repo state before applying. |
+
+## Interaction with Other Skills
+
+- **agent-delegation-planning** (upstream): plans define the work that memory coordination caches and dispatches.
+- **agent-capability-ledger** (complementary): ledger rows are mirrored in memory as status summaries and pointers.
+- **agent-delegation-routing** (complementary): routing uses memory for shared prompts and ownership maps.
+- **agent-plan-lifecycle** (complementary): lifecycle state changes trigger memory updates for coordination.
+
+## Verification
+
+- [ ] Memory namespace is declared in the coordination plan or worker prompts (`grep -i 'namespace'` on plan/prompt files returns a concrete value).
+- [ ] All memory write calls include a `user_id` field (`grep -i 'user_id'` on dispatched prompts or memory write logs confirms).
+- [ ] No stored memories contain secrets, tokens, credentials, or raw logs (`search_long_term_memory` for sensitive keywords returns empty).
+- [ ] A `search_long_term_memory` call for the declared namespace returns the memories that were written during this session (confirming writes landed).
+- [ ] Memory records for anchored plans store pointers to repo files, not full file contents (`get_long_term_memory` on recent writes shows paths, not large text blobs).
+
 ## Checklist
 
 - [ ] Backend, namespace, `user_id`, search variants, fallback, and seed status reported.

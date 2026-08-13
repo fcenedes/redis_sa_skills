@@ -79,6 +79,31 @@ decision evidence.
 - Do not use this skill to build or maintain the capability ledger itself; that ownership belongs to `agent-capability-ledger` (lifecycle only reads and updates ledger rows during promotion).
 - Do not suggest ending the session to save context. Continue lifecycle operations until the plan reaches a terminal state or you are genuinely blocked.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The auditor approved it verbally so we can mark it promoted" | Promotion requires recorded durable evidence: ledger updates, spec/docs changes, commit SHAs. |
+| "Archiving cleans up the mess from a failed plan" | Archive preserves history; do not use it to hide failed, blocked, or unaudited work. |
+| "The plan is done because all tasks show done" | Tasks at `done` still need auditor verdict before the plan reaches `audited`, and promotion before `promoted`. |
+| "We can skip promotion for small plans" | Even small plans need their durable truth updated (ledger, specs, docs) before archiving. |
+| "Chat history proves the work was completed" | Chat is not evidence; re-read anchor files and verification output from the current session. |
+| "Ending the session saves context for later" | Continue lifecycle operations until the plan reaches a terminal state or you are genuinely blocked. |
+
+## Interaction with Other Skills
+
+- **agent-delegation-planning** (upstream): creates the anchored plan files this skill tracks through lifecycle states.
+- **agent-capability-ledger** (complementary): during promotion, update ledger rows with delivery evidence.
+- **agent-memory-coordination** (complementary): lifecycle state changes should update memory pointers when available.
+- **agent-spec-writing** (complementary): promoted specs may feed back into the spec system as durable truth.
+
+## Verification
+
+- [ ] `tracker.md` task statuses match actual file state (e.g., tasks marked `done` have corresponding evidence files or commit SHAs)
+- [ ] Plan `00-index.md` contains a `state:` field set to a valid lifecycle state (`planned`, `running`, `verified`, `audited`, `promoted`, or `archived`)
+- [ ] Every task marked `done` or `audited` has at least one evidence link (file path, command output, or commit SHA) recorded in the tracker or index
+- [ ] Archived plans reside in the correct archive directory and `archive.md` exists with residual risks listed
+
 ## Checklist
 
 Each item must be proved by a command output or file read from this session, not by memory or prior conversation.

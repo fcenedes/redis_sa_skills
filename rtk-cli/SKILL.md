@@ -98,6 +98,28 @@ When bypassing, briefly state why so the user understands the choice.
 - DO NOT chain `rtk proxy` for commands that already have a first-class RTK form.
 - DO NOT use rtk-cli to compress the agent's own written prose — that's caveman's job.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The output is small enough to skip RTK" | If the command can produce many lines (git log, grep, find, test), use RTK; small output is the happy path, not the guarantee. |
+| "cat/head/tail is fine for reading files" | Use `rtk read` for any non-trivial file; raw cat/head/tail bypasses token optimization. |
+| "RTK might change the command behavior" | RTK filters output, not semantics. If exit status or output looks suspicious, fall back to raw and report it. |
+| "Wrapping an interactive command with RTK saves tokens too" | Never wrap interactive or streaming commands (docker logs -f, tail -f, REPLs, TUIs) with RTK. |
+| "rtk proxy is a good default wrapper" | Use first-class RTK forms (rtk git, rtk grep, rtk read, rtk test); `rtk proxy` is for commands without a dedicated form. |
+| "Broadening the grep scope will catch more" | Run the smallest scoped command first; broaden only after narrowing proves insufficient. |
+
+## Interaction with Other Skills
+
+- **caveman** (complementary): caveman compresses agent prose; RTK compresses shell/tool output. Use both for max token savings.
+
+## Verification
+
+- [ ] `rtk --version` returns the expected version string (e.g. `rtk X.Y.Z`) and not a "command not found" error or output from a different `rtk` package.
+- [ ] `rtk gain` shows token savings data — output includes a savings summary with byte/token counts and does not error.
+- [ ] Hook-based rewriting is active — run `git status` in a hooked shell and confirm (via `rtk gain --history`) that the command was routed through RTK rather than executed raw.
+- [ ] `rtk discover` runs without errors — exits `0` and reports any missed RTK-wrapping opportunities from recent Claude Code history.
+
 ## Pairs With caveman
 
 RTK compresses **shell/tool output**; caveman compresses **agent prose**. Use both

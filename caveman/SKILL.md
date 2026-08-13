@@ -102,6 +102,28 @@ RTK compresses **shell/tool output**; caveman compresses **agent prose**. Use bo
 together for max token savings: let `rtk-cli` shrink what a command prints, then use
 caveman to shrink what you say about it. See the `rtk-cli` skill for the shell side.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "Code comments should be compressed too" | Never compress code, identifiers, comments, or tool output -- only agent prose. |
+| "Dropping the verb saves tokens" | Dropping a leading verb creates ambiguity ("Restart" vs "Restart server"); keep verbs when removal changes meaning. |
+| "The safety warning can be shorter" | Safety, security, and destructive-action warnings must use full clear prose, never compressed. |
+| "Ultra mode is always better for token savings" | Ultra is only for explicit user request; default is `full`. Using ultra without a trigger loses readability. |
+| "Caveman should persist across sessions" | Caveman is per-conversation only; each new session starts in `normal` unless re-triggered. |
+| "Abbreviating the file path saves space" | File paths, command flags, error strings, and identifiers must be exact, character for character. |
+
+## Interaction with Other Skills
+
+- **rtk-cli** (complementary): RTK compresses shell/tool output; caveman compresses agent prose. Use both for max token savings.
+
+## Verification
+
+- [ ] Response is shorter in character count than an uncompressed equivalent would be for the same content
+- [ ] All code identifiers, file paths, command flags, and error strings are reproduced exactly as they appear in source (character-for-character match)
+- [ ] Active mode (`lite`, `full`, `ultra`, or `normal`) matches the user's last explicit mode request in this session
+- [ ] Every safety, security, or destructive-action warning is given in full uncompressed prose regardless of active mode
+
 ## Final Checklist (each item must be literally true before sending)
 
 Each item must be proved by a command output or file read from this session, not by memory or prior conversation.

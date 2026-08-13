@@ -87,6 +87,31 @@ a proposal, source-of-truth update, or handoff-ready delta.
 - Do not use a spec as a task tracker; status belongs in plan lifecycle files.
 - Do not dispatch workers, choose models, or grant commit/push permissions.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "This bug fix is small enough to skip a spec" | If there is a durable behavior change, multi-agent handoff, or contract impact, write the delta first. |
+| "The requirements are obvious from the code" | Implicit requirements drift; write acceptance scenarios so agents can verify without reading your mind. |
+| "A narrative description is clearer than a delta" | Compact deltas are actionable by agents; narrative summaries are ambiguous and hard to verify. |
+| "We can write the spec after implementation" | Post-hoc specs describe what was built, not what should be true; write before implementation. |
+| "Chat context is enough for the implementor" | Chat is ephemeral; specs must be file-backed so agents across sessions can execute without chat memory. |
+| "Adding YAML frontmatter will help organize specs" | Do not add frontmatter, indexes, or lifecycle systems unless the repo already uses them. |
+
+## Interaction with Other Skills
+
+- **agent-delegation-planning** (downstream): hand off executable implementation work after the spec delta is clear.
+- **agent-plan-lifecycle** (downstream): use after delivery to promote audited changes into durable truth or archive.
+- **agent-capability-ledger** (complementary): specs define capabilities that the ledger tracks for delivery proof.
+
+## Verification
+
+- [ ] Change delta file exists at the path declared in the spec or handoff document (`ls <declared-path>` succeeds)
+- [ ] Every REQ entry in the delta has at least one acceptance scenario with an observable check (command, API response, UI state, or file output)
+- [ ] All DEFERRED items include a revisit trigger or condition that specifies when to re-evaluate
+- [ ] Validation report section is present in the spec and reports 0 errors (`grep -c 'Errors: 0'` or equivalent structural check)
+- [ ] No orphan requirements exist: every REQ ID referenced in acceptance scenarios maps back to a defined requirement entry
+
 ## Checklist
 
 Each item must be proved by a command output or file read from this session, not by memory or prior conversation.

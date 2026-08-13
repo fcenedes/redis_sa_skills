@@ -86,6 +86,24 @@ DO NOT:
 - Use this skill for a generic slide request with no Redis product, architecture, or technical content (e.g. a generic team offsite icebreaker deck) — build plain Reveal.js/HTML directly instead.
 - Produce `.pptx`, Google Slides, or other non-Reveal.js deck formats with this skill; it only generates Reveal.js HTML.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The slides look right in the HTML editor" | Always run overflow and screenshot checks; DOM inspection misses clipping and rendering issues. |
+| "Detailed architecture prose on the slide helps the audience" | Convert detail into diagrams, evidence blocks, charts, or speaker notes; slides are not documents. |
+| "Any red is close enough for Redis branding" | Use exactly Redis Red `#FF4438`; non-brand reds, pure black, and system fonts violate brand defaults. |
+| "Speaker notes are optional for technical slides" | Every slide needing a talk track must have `<aside class="notes">`; presenter-only detail stays off the visible slide. |
+| "Charts don't need maintainAspectRatio: false" | Charts without `maintainAspectRatio: false` in a bounded container will break on resize. |
+| "This generic deck template works for a Redis architecture talk" | Do not use generic SaaS layouts for Redis technical or solution architecture decks. |
+
+## Verification
+
+- [ ] Slide deck uses the Redis brand template — `grep -c '#FF4438' presentation.html` returns at least 1, and `grep -c 'Space Grotesk' presentation.html` returns at least 1.
+- [ ] All diagrams and charts render correctly — `node <skill-dir>/scripts/check-charts.js presentation.html` exits `0` and `node <skill-dir>/scripts/check-overflow.js presentation.html` exits `0`.
+- [ ] Speaker notes are present for key slides — `grep -c '<aside class="notes">' presentation.html` returns a count matching or exceeding the number of content slides that need a talk track.
+- [ ] No proprietary customer data appears in slides — `grep -riE '(confidential|internal.only|customer.name|NDA)' presentation.html` returns no matches, or every match is inside a speaker note with explicit clearance.
+
 ## Reference Index
 
 | File | Load When |

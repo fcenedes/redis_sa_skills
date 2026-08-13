@@ -117,6 +117,29 @@ Do **not** wrap interactive Playwright CLI commands with RTK — they expect a T
 - DO NOT run destructive flows (delete, purge, drop) without a screenshot of the prompt and explicit user confirmation.
 - DO NOT wrap interactive browser CLI commands with RTK.
 
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "I can paste the CLI ref directly into the spec file" | CLI snapshot refs are session-scoped and ephemeral; translate to `getByRole/Label/Text` before leaving this skill. |
+| "This production URL is probably fine for a quick check" | Never interact with production; target only local/dev/staging. If the URL is ambiguous, ask first. |
+| "A coordinate-based click is faster than finding the ref" | Coordinate clicks are brittle; use refs from snapshots or semantic locators. |
+| "I already know what the page looks like from the JSON" | Always screenshot at meaningful checkpoints; JSON inspection is not visual validation. |
+| "Writing the spec directly is faster than exploring first" | Use this skill to discover stable selectors and reproduce behavior before authoring `playwright-test` specs. |
+| "Wrapping the browser CLI with RTK will save tokens" | Do not wrap interactive Playwright CLI commands with RTK; they expect a TTY. |
+
+## Interaction with Other Skills
+
+- **playwright-test** (downstream): after discovering stable selectors and reproducing behavior, hand off to `playwright-test` for spec authoring.
+- **rtk-cli** (complementary): use RTK for surrounding shell work (git, file search, builds) but not for interactive browser CLI commands.
+
+## Verification
+
+- [ ] Playwright CLI is installed and reachable (`npx playwright --version` exits 0 and prints a version string)
+- [ ] Browser binaries are present (`npx playwright install --dry-run` reports no missing browsers, or `ls $(npx playwright install --dry-run 2>&1 | grep -oE '/.*chromium')` confirms the path)
+- [ ] Test target URL is accessible (`curl -s -o /dev/null -w '%{http_code}' http://localhost:<port>` returns 200 or expected status)
+- [ ] Screenshot and trace output directory exists and is writable (`ls -d <output-dir>` succeeds)
+
 ## Final Checklist
 
 Each item must be literally verifiable (yes/no) before calling the task done:
