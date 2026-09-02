@@ -11,26 +11,26 @@ Audience guidance: Use for technical decision makers, architects, platform teams
 | 1 | Customer-branded title | `[SA-BANK:title-customer]` | No | Include confirmed logo and meeting context. |
 | 2 | Agenda | `[SA-BANK:agenda-numbered]` | No | Match sections to the customer's decision process. |
 | 3 | Current state overview | `[SA-BANK:current-state-architecture]` | No | Show existing stack and operational boundaries. |
-| 4 | Current pains | `[SA-BANK:pains-list]` | No | Tie pain points to measurable impact. |
-| 5 | Stakeholder map | `[SA-BANK:pains-stakeholder-map]` | Yes | Add when multiple teams own the decision. |
+| 4 | Current pains | `[SA-BANK:current-state-pain-points]` | No | Tie pain points to measurable impact. |
+| 5 | Stakeholder map | `[SA-BANK:current-state-stakeholder-map]` | Yes | Add when multiple teams own the decision. |
 | 6 | Why anything | `[SA-BANK:three-whys-anything]` | No | Establish why the status quo needs change. |
 | 7 | Why Redis | `[SA-BANK:three-whys-redis]` | No | Connect Redis capabilities to the stated pains. |
-| 8 | Why now | `[SA-BANK:three-whys-now]` | No | Use deadlines, risk, cost, or roadmap pressure. |
+| 8 | Why now | `[SA-BANK:three-whys-why-now]` | No | Use deadlines, risk, cost, or roadmap pressure. |
 | 9 | Redis value proposition | `[SA-BANK:value-platform-overview]` | No | Keep broad value to one slide. |
 | 10 | Technical scope | `[SA-BANK:scope-master-table]` | No | Define topics, success criteria, and metrics. |
-| 11 | Workstream breakdown | `[SA-BANK:scope-workstream]` | Yes | Use for complex or multi-team TDDs. |
+| 11 | Workstream breakdown | `[SA-BANK:scope-workstream-breakdown]` | Yes | Use for complex or multi-team TDDs. |
 | 12 | Current to future architecture | `[SA-BANK:architecture-current-future]` | No | Show before and after together when possible. |
 | 13 | Target architecture | `[SA-BANK:future-state-target-architecture]` | No | Use toolkit shapes for simple diagrams. |
-| 14 | Deployment options | `[SA-BANK:architecture-deployment-options]` | Yes | Add when region, cloud, or tenancy choices matter. |
+| 14 | Deployment options | `[SA-BANK:architecture-deployment-options-ring]` | Yes | Add when region, cloud, or tenancy choices matter. |
 | 15 | TDD scorecard: workstream 1 | `[SA-BANK:tdd-scorecard-workstream]` | No | Pair key metrics with validated scenarios. |
 | 16 | TDD scorecard: workstream 2 | `[SA-BANK:tdd-scorecard-workstream]` | Yes | Add one per major workstream. |
-| 17 | Exit criteria | `[SA-BANK:tdd-exit-criteria]` | No | Make pass/fail decision criteria explicit. |
+| 17 | Exit criteria | `[SA-BANK:tdd-exit-criteria-card]` | No | Make pass/fail decision criteria explicit. |
 | 18 | POC plan | `[SA-BANK:poc-prerequisites]` | No | Include prerequisites and responsibilities. |
 | 19 | POC timeline | `[SA-BANK:poc-timeline]` | No | Show dates, owners, and dependencies. |
 | 20 | Phased implementation | `[SA-BANK:implementation-jumpstart-adopt-scale]` | No | Connect TDD outcome to rollout path. |
 | 21 | Mutual action plan | `[SA-BANK:map-action-owner-timeline]` | No | Assign next steps and dates. |
 | 22 | Case study or reference | `[SA-BANK:case-study-customer-facing]` | Yes | Use only when relevant to the customer context. |
-| 23 | Pricing and sizing | `[SA-BANK:sizing-pricing-table]` | Yes | Include when commercial fit is in scope. |
+| 23 | Pricing and sizing | `[SA-BANK:sizing-shard-pricing-table]` | Yes | Include when commercial fit is in scope. |
 | 24 | ROI or TCO summary | `[SA-BANK:roi-business-case-summary]` | Yes | Use when economic justification is part of approval. |
 | 25 | Closing and next steps | `[SA-BANK:closing-next-steps]` | No | Keep open actions concrete. |
 
@@ -44,17 +44,17 @@ Audience guidance: Use after a POC, benchmark, or hands-on validation. Lead with
 | 2 | Agenda | `[SA-BANK:agenda-numbered]` | No | Separate objective recap, evidence, verdict, and next steps. |
 | 3 | POC objectives recap | `[SA-BANK:poc-objectives-recap]` | No | Restate agreed success criteria. |
 | 4 | Methodology | `[SA-BANK:poc-methodology]` | No | Include environment, datasets, load shape, and assumptions. |
-| 5 | KPI synthesis | `[SA-BANK:poc-kpi-synthesis]` | No | Show the executive verdict in one slide. |
+| 5 | KPI synthesis | `[SA-BANK:poc-results-kpi-synthesis]` | No | Show the executive verdict in one slide. |
 | 6 | Workstream result 1 | `[SA-BANK:poc-result-workstream]` | No | Use charts where available. |
 | 7 | Workstream result 2 | `[SA-BANK:poc-result-workstream]` | Yes | Add for each validated scenario. |
 | 8 | Workstream result 3 | `[SA-BANK:poc-result-workstream]` | Yes | Keep repeated slides concise. |
 | 9 | Head-to-head comparison | `[SA-BANK:competitor-head-to-head]` | Yes | Use only for competitor displacement. |
-| 10 | Operator comparison | `[SA-BANK:poc-operator-comparison]` | Yes | Add when multiple runbooks or operating models were tested. |
-| 11 | Conclusions and verdict | `[SA-BANK:poc-verdict]` | No | State pass, partial pass, or not met against criteria. |
+| 10 | Operator comparison | `[SA-BANK:poc-results-operator-comparison]` | Yes | Add when multiple runbooks or operating models were tested. |
+| 11 | Conclusions and verdict | `[SA-BANK:poc-results-verdict]` | No | State pass, partial pass, or not met against criteria. |
 | 12 | Gaps and assumptions | `[SA-BANK:poc-results-gaps]` | Yes | Include when proof has limits. |
 | 13 | Phased implementation | `[SA-BANK:implementation-quarterly-milestones]` | No | Convert evidence into rollout steps. |
-| 14 | Pricing | `[SA-BANK:sizing-pricing-table]` | Yes | Include when final commercial approval follows the POC. |
-| 15 | Support and governance | `[SA-BANK:support-governance-cadence]` | Yes | Add for production readiness conversations. |
+| 14 | Pricing | `[SA-BANK:sizing-shard-pricing-table]` | Yes | Include when final commercial approval follows the POC. |
+| 15 | Support and governance | `[SA-BANK:governance-cadence]` | Yes | Add for production readiness conversations. |
 | 16 | Mutual action plan | `[SA-BANK:map-action-owner-timeline]` | No | Assign owners for remaining approval and launch tasks. |
 | 17 | Closing | `[SA-BANK:closing-thank-you]` | No | Keep the closing short. |
 
@@ -66,11 +66,11 @@ Audience guidance: Use for architects, platform engineers, security stakeholders
 |---|-------|--------------------|----------|-------|
 | 1 | Title | `[SA-BANK:title-customer]` | No | Name the architecture scope. |
 | 2 | Current architecture | `[SA-BANK:architecture-current]` | No | Show systems, traffic, data ownership, and pain points. |
-| 3 | Pain points | `[SA-BANK:pains-list]` | No | Link each pain to an architectural constraint. |
+| 3 | Pain points | `[SA-BANK:current-state-pain-points]` | No | Link each pain to an architectural constraint. |
 | 4 | Proposed architecture | `[SA-BANK:architecture-proposed]` | No | Use Redis components and integration boundaries. |
 | 5 | Component deep dive: data model | `[SA-BANK:architecture-component-deep-dive]` | Yes | Add when data shape is a key decision. |
-| 6 | Component deep dive: deployment | `[SA-BANK:architecture-deployment-options]` | Yes | Add for cloud, region, network, or tenancy decisions. |
-| 7 | Component deep dive: operations | `[SA-BANK:support-governance-cadence]` | Yes | Add for production operations review. |
+| 6 | Component deep dive: deployment | `[SA-BANK:architecture-deployment-options-ring]` | Yes | Add for cloud, region, network, or tenancy decisions. |
+| 7 | Component deep dive: operations | `[SA-BANK:governance-cadence]` | Yes | Add for production operations review. |
 | 8 | What good looks like | `[SA-BANK:future-state-good-looks-like]` | No | Define target-state quality and measurable outcomes. |
 | 9 | Migration path | `[SA-BANK:implementation-jumpstart-adopt-scale]` | No | Show phases and cutover assumptions. |
 | 10 | Risks and open questions | `[SA-BANK:scope-master-table]` | Yes | Use when architecture input is incomplete. |
@@ -103,9 +103,9 @@ Audience guidance: Use for economic buyers, sponsors, procurement partners, and 
 | 1 | Title | `[SA-BANK:title-customer]` | No | Name the investment decision. |
 | 2 | Executive summary | `[SA-BANK:roi-executive-summary]` | No | Put the one-slide verdict up front. |
 | 3 | Current state costs | `[SA-BANK:roi-current-state-costs]` | No | Break down infrastructure, operations, downtime, and opportunity cost. |
-| 4 | Pain and cost drivers | `[SA-BANK:pains-list]` | Yes | Use when costs need context. |
+| 4 | Pain and cost drivers | `[SA-BANK:current-state-pain-points]` | Yes | Use when costs need context. |
 | 5 | Redis proposed architecture | `[SA-BANK:future-state-target-architecture]` | No | Keep architecture brief and value-focused. |
-| 6 | Redis cost model | `[SA-BANK:sizing-pricing-table]` | No | Show shard sizing, capacity assumptions, and pricing input. |
+| 6 | Redis cost model | `[SA-BANK:sizing-shard-pricing-table]` | No | Show shard sizing, capacity assumptions, and pricing input. |
 | 7 | TCO side-by-side | `[SA-BANK:roi-tco-side-by-side]` | No | Compare current state with Redis. |
 | 8 | Cost waterfall | `[SA-BANK:roi-cost-waterfall]` | No | Show where savings come from. |
 | 9 | ROI timeline | `[SA-BANK:roi-timeline]` | No | Include payback period and major milestones. |

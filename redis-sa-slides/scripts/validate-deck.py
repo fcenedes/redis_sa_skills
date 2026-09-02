@@ -31,6 +31,38 @@ PLACEHOLDER_PATTERNS: tuple[tuple[str, re.Pattern[str]], ...] = (
     ),
 )
 
+# Brand rule: use "fast" — flag these substitutes as warnings.
+FAST_SYNONYMS: tuple[str, ...] = ("quick", "rapid", "real-time", "agile")
+_FAST_SYNONYM_RE = re.compile(
+    r"\b(" + "|".join(re.escape(w) for w in FAST_SYNONYMS) + r")\b",
+    re.IGNORECASE,
+)
+
+# Font names permitted by the Redis brand guidelines.
+_PERMITTED_FONTS = {"space grotesk", "space mono"}
+_FONT_REF_RE = re.compile(r"[Ff]ont:\s*([A-Za-z][A-Za-z0-9 ]+)")
+
+# Retired cube graphic — best-effort detection in extracted text.
+_CUBE_REF_RE = re.compile(
+    r'(?:\[cube\]|alt=["\']?(?:Redis )?cube["\']?|\bredis cube\b|\bcube graphic\b)',
+    re.IGNORECASE,
+)
+
+# Known permitted content-gap patterns (used with --allow-reported-gaps).
+PERMITTED_GAP_PATTERNS: tuple[str, ...] = (
+    "customer logo",
+    "need metric",
+    "customer name",
+    "customer domain",
+    "meeting date",
+    "presenter",
+    "confidentiality",
+)
+_PERMITTED_GAP_RE = re.compile(
+    r"\[TODO:\s*(" + "|".join(re.escape(p) for p in PERMITTED_GAP_PATTERNS) + r")\s*\]",
+    re.IGNORECASE,
+)
+
 SIGNIFICANT_SHORT_WORDS = {
     "a",
     "an",
@@ -89,7 +121,11 @@ class Finding:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Validate text-extracted redis-sa-slides deck content."
+        description="Validate text-extracted redis-sa-slides deck content.",
+        epilog=(
+            "Best-effort checks for font names and retired cube graphics "
+            "depend on text extraction including metadata."
+        ),
     )
     parser.add_argument(
         "input",
@@ -102,6 +138,15 @@ def parse_args() -> argparse.Namespace:
         choices=("json", "jsonl"),
         default="json",
         help="Output format for findings. Defaults to json.",
+    )
+    parser.add_argument(
+        "--allow-reported-gaps",
+        action="store_true",
+        default=False,
+        help=(
+            "Do not flag [TODO: ...] markers that match known permitted "
+            "gap patterns (e.g. 'customer logo', 'need metric')."
+        ),
     )
     return parser.parse_args()
 
@@ -141,12 +186,30 @@ def is_title_case_violation(line: str) -> bool:
     return title_cased >= 3 and title_cased / len(scored_words) >= 0.65
 
 
-def validate_lines(source_name: str, lines: Iterable[str]) -> list[Finding]:
+def _is_metadata_line(line: str) -> bool:
+    """Return True for SA-BANK tags and metadata prefixes that are exempt from brand word checks."""
+    stripped = line.strip()
+    return stripped.startswith(("[SA-BANK:", "SOURCE:", "INTENT:", "LOGIC:"))
+
+
+def validate_lines(
+    source_name: str,
+    lines: Iterable[str],
+    *,
+    allow_reported_gaps: bool = False,
+) -> list[Finding]:
     findings: list[Finding] = []
 
     for line_no, line in enumerate(lines, start=1):
         for issue, pattern in PLACEHOLDER_PATTERNS:
             if pattern.search(line):
+                # When allow_reported_gaps is set, skip permitted TODO patterns.
+                if (
+                    allow_reported_gaps
+                    and issue == "placeholder TODO marker"
+                    and _PERMITTED_GAP_RE.search(line)
+                ):
+                    continue
                 findings.append(Finding(source_name, line_no, issue, "error"))
 
         if "\u2014" in line:
@@ -160,6 +223,43 @@ def validate_lines(source_name: str, lines: Iterable[str]) -> list[Finding]:
         if is_title_case_violation(line):
             findings.append(
                 Finding(source_name, line_no, "brand violation: use sentence case for titles", "warning")
+            )
+
+        # Finding 5: forbidden synonyms of "fast" (skip metadata lines).
+        if not _is_metadata_line(line):
+            for match in _FAST_SYNONYM_RE.finditer(line):
+                word = match.group(1)
+                findings.append(
+                    Finding(
+                        source_name,
+                        line_no,
+                        f"brand violation: use 'fast' instead of '{word}'",
+                        "warning",
+                    )
+                )
+
+        # Finding 6a: best-effort non-permitted font detection.
+        for font_match in _FONT_REF_RE.finditer(line):
+            font_name = font_match.group(1).strip()
+            if font_name.lower() not in _PERMITTED_FONTS:
+                findings.append(
+                    Finding(
+                        source_name,
+                        line_no,
+                        f"brand violation: non-permitted font '{font_name}'",
+                        "warning",
+                    )
+                )
+
+        # Finding 6b: best-effort retired cube graphic detection.
+        if _CUBE_REF_RE.search(line):
+            findings.append(
+                Finding(
+                    source_name,
+                    line_no,
+                    "brand violation: retired Redis cube graphic detected",
+                    "warning",
+                )
             )
 
     return findings
@@ -178,7 +278,9 @@ def emit_findings(findings: list[Finding], output_format: str) -> None:
 def main() -> int:
     args = parse_args()
     source_name, lines = read_input(args.input)
-    findings = validate_lines(source_name, lines)
+    findings = validate_lines(
+        source_name, lines, allow_reported_gaps=args.allow_reported_gaps
+    )
     emit_findings(findings, args.format)
     return 1 if findings else 0
 
