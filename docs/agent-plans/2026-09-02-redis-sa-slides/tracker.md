@@ -13,4 +13,4 @@
 | E4.T1 | E4 | Implementor | done | `validate-deck.py` exists; `--help` exits 0; synonym check flags "quick" as warning; `--allow-reported-gaps` skips permitted TODOs; best-effort font/cube checks added |
 | E4.T2 | E4 | Implementor | done | eval files exist; `trigger_queries.json` parses as 12 entries with expected eval keys |
 | E4.T3 | E4 | Implementor | done | README mentions `redis-sa-slides` 6 times; `bash scripts/validate-skills.sh` exits 0 with 25 skills, 0 errors, 1 TODO warning reviewed as intentional/existing |
-| E4.AUDIT | E4 | Auditor | failed | Audit verdict NOT APPROVED at f169857. Repairs applied: drive-assets USER_PROVIDED_REQUIRED gates, 25 tags added to catalog, 11+13 tag renames in archetypes/template, validator synonym/font/cube/gap-allowlist added. Re-audit pending. |
+| E4.AUDIT | E4 | Auditor | audited | Verdict APPROVED. Fresh-context Opus auditor. All 7 gates PASS: spec compliance AC-1–AC-10, repo compliance (94 lines, valid frontmatter), validate-skills.sh 0 errors, no secrets, no artifacts, all cross-refs linked, brand hex exact match. Tag reconciliation 0 missing. Validator synonym/gap/font/cube tests pass. Residual risks: none. |
