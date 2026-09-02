@@ -18,6 +18,7 @@ A collection of agent skills for Redis solutions architecture built by Solution 
 | [redis-brand-ui](redis-brand-ui/SKILL.md) | Apply Redis official brand guidelines to frontend UI implementations. Covers colors, typography, components, dark mode, and HeroUI/NextUI theme configuration. |
 | [redis-product-ui](redis-product-ui/SKILL.md) | Build Redis product, dashboard, admin, RedisInsight-like, developer-tool, prototype, and demo UIs using Redis UI Storybook-derived application patterns, tokens, component states, and layouts. |
 | [redis-presentation-decks](redis-presentation-decks/SKILL.md) | Create Redis-focused Reveal.js presentation decks for solution architecture, customer briefings, technical workshops, product narratives, QBRs, and sales engineering storytelling. |
+| [redis-sa-slides](redis-sa-slides/SKILL.md) | Build customer-facing Redis SA Google Slides decks from a shared template, SA slide bank, customer logo flow, architecture diagrams, and TDD/ROI quality checks. |
 | [redis-excalidraw-diagrams](redis-excalidraw-diagrams/SKILL.md) | Create Redis-focused Excalidraw architecture diagrams for caching, vector search, Redis Search, Streams, replication, clustering, observability, and Redis Cloud systems. |
 | [redis-lucidchart-diagrams](redis-lucidchart-diagrams/SKILL.md) | Create Redis-focused Lucidchart architecture diagrams, Lucid Standard Import sources, customer workshop visuals, and editable SA handoff files. |
 
@@ -120,6 +121,7 @@ npx skills add fcenedes/redis_sa_skills --skill rtk-cli
 npx skills add fcenedes/redis_sa_skills --skill redis-brand-ui
 npx skills add fcenedes/redis_sa_skills --skill redis-product-ui
 npx skills add fcenedes/redis_sa_skills --skill redis-presentation-decks
+npx skills add fcenedes/redis_sa_skills --skill redis-sa-slides
 npx skills add fcenedes/redis_sa_skills --skill redis-excalidraw-diagrams
 npx skills add fcenedes/redis_sa_skills --skill redis-lucidchart-diagrams
 
@@ -157,6 +159,9 @@ After installing a skill, ask your agent for the Redis artifact you need:
 
 ```text
 Use redis-presentation-decks to create a Redis Cloud vector search architecture deck for a technical workshop.
+Use redis-sa-slides to build a TDD deck for Unicaja with current-state pains, future-state architecture, quantified success criteria, and next steps.
+Use redis-sa-slides to create a POC results restitution deck with KPI synthesis, workstream results, verdict, pricing, and governance slides.
+Use redis-sa-slides to prepare an ROI business case deck with TCO comparison, cost waterfall, payback timeline, assumptions, and recommendation.
 Use redis-product-ui to build a RedisInsight-like key inspection dashboard with light/dark mode, filters, tables, drawers, and toast feedback.
 Use redis-excalidraw-diagrams to draw a Redis Streams consumer group architecture with commands, acknowledgements, and observability paths.
 Use redis-lucidchart-diagrams to create a Lucidchart-editable Redis agent orchestration layer using Standard Import source.
@@ -223,6 +228,7 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | redis-brand-ui | 1.1.0 |
 | redis-product-ui | 1.2.0 |
 | redis-presentation-decks | 1.0.0 |
+| redis-sa-slides | 1.0.0 |
 | redis-excalidraw-diagrams | 1.0.0 |
 | redis-lucidchart-diagrams | 1.0.0 |
 | playwright-test | 1.0.0 |

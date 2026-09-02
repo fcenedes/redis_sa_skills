@@ -10,7 +10,7 @@
 | E3.T2 | E3 | Implementor | done | `sa-slide-catalog.md` exists; `SA-BANK` = 25; table pipes = 22; category rows = 20 |
 | E3.T3 | E3 | Implementor | done | `deck-archetypes.md` exists; TDD/POC/Architecture/QBR/Business section counts = 1 each |
 | E3.T4 | E3 | Implementor | done | `tdd-quality-rubric.md` exists; sections 1-4 counts = 1 each; `ANSWERED` = 14; POC checklist items = 8 |
-| E4.T1 | E4 | Implementor | planning | |
-| E4.T2 | E4 | Implementor | planning | |
-| E4.T3 | E4 | Implementor | planning | |
+| E4.T1 | E4 | Implementor | done | `validate-deck.py` exists, executable, `--help` exits 0; violation sample exits 1 and flags em dash plus exclamation point |
+| E4.T2 | E4 | Implementor | done | eval files exist; `trigger_queries.json` parses as 12 entries with expected eval keys |
+| E4.T3 | E4 | Implementor | done | README mentions `redis-sa-slides` 6 times; `bash scripts/validate-skills.sh` exits 0 with 25 skills, 0 errors, 1 TODO warning reviewed as intentional/existing |
 | E4.AUDIT | E4 | Auditor | planning | |

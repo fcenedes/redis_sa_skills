@@ -12,13 +12,16 @@ Do not store tokens, downloaded logos, customer assets, or search results in thi
 
 ## Primary lookup
 
-Use the logo.dev image endpoint:
+Use the logo.dev image endpoint with the configured runtime token parameter and
+PNG format:
 
 ```text
-https://img.logo.dev/{domain}?token={LOGO_DEV_TOKEN}&format=png
+https://img.logo.dev/{domain}
 ```
 
-Replace `{domain}` with the confirmed customer domain and `{LOGO_DEV_TOKEN}` with the runtime token. Keep the token out of logs and generated files.
+Replace `{domain}` with the confirmed customer domain and pass the runtime token
+through the request mechanism provided by the environment. Keep the token out of
+logs and generated files.
 
 ## Response handling
 

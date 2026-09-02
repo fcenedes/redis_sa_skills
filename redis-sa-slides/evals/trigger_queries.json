@@ -1,0 +1,86 @@
+[
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-sa-slides",
+    "expected_behavior": "Trigger redis-sa-slides, identify the TDD archetype, plan a customer-facing Google Slides deck, and use the SA template and slide bank workflow.",
+    "must_not": "Must not create a generic presentation or bypass the Google Slides API-first workflow.",
+    "query": "Build a TDD deck for Acme"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-sa-slides",
+    "expected_behavior": "Trigger redis-sa-slides, select the POC results/restitution archetype, and include KPI synthesis, workstream results, verdict, and next steps.",
+    "must_not": "Must not treat this as a standalone charting or document-writing task.",
+    "query": "Create POC results slides for the customer restitution next Friday"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-sa-slides",
+    "expected_behavior": "Trigger redis-sa-slides, select the architecture review archetype, and decide whether diagrams belong in Google Slides shapes or delegated diagram skills.",
+    "must_not": "Must not route directly to a diagram-only skill unless the user asks only for the diagram deliverable.",
+    "query": "Make an architecture review for customer X covering current state, target Redis architecture, and migration path"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-sa-slides",
+    "expected_behavior": "Direct slash invocation. Start the redis-sa-slides workflow and ask for missing customer, deck type, or source details before building.",
+    "must_not": "Must not ignore the direct skill invocation.",
+    "query": "/redis-sa-slides"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-sa-slides",
+    "expected_behavior": "Direct dollar invocation. Use the Redis SA deck workflow and keep output scoped to Google Slides deck planning or creation.",
+    "must_not": "Must not switch to Reveal.js, PowerPoint, or a generic slide skill.",
+    "query": "$redis-sa-slides"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-sa-slides",
+    "expected_behavior": "Trigger redis-sa-slides, select the QBR archetype, and plan relationship summary, usage health, achievements, roadmap, and actions.",
+    "must_not": "Must not produce a broad account-plan document instead of a deck.",
+    "query": "QBR deck for next week with usage metrics and action items"
+  },
+  {
+    "should_trigger": true,
+    "expected_skill": "redis-sa-slides",
+    "expected_behavior": "Trigger redis-sa-slides, select the ROI/business case archetype, and include TCO comparison, ROI timeline, assumptions, recommendation, and next steps.",
+    "must_not": "Must not reduce the request to a spreadsheet calculator unless the user asks for one.",
+    "query": "ROI business case slides for replacing our current cache with Redis"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": null,
+    "expected_behavior": "Do not trigger redis-sa-slides because the request is a quick internal team slide with no Redis SA customer-facing deck context.",
+    "must_not": "Must not force the SA template, slide bank, or customer logo workflow onto a generic internal slide.",
+    "query": "Make a quick internal team slide for our weekly sync"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-presentation-decks",
+    "expected_behavior": "Recognize that the requested output is a Reveal.js presentation, not a Google Slides SA deck, and route to the presentation deck workflow.",
+    "must_not": "Must not apply the Google Slides API-first redis-sa-slides workflow.",
+    "query": "Create a Reveal.js presentation about Redis vector search"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-excalidraw-diagrams",
+    "expected_behavior": "Recognize this as a standalone Redis architecture diagram request and route to the diagram skill rather than deck creation.",
+    "must_not": "Must not create a multi-slide deck when the user asked only for a diagram.",
+    "query": "Draw a Redis architecture diagram for a cache-aside pattern"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "google-drive:google-docs",
+    "expected_behavior": "Recognize this as a Google Docs proposal request, not a slide deck request.",
+    "must_not": "Must not convert the proposal into a Redis SA slide deck without user approval.",
+    "query": "Write a Google Doc proposal for our Redis migration plan"
+  },
+  {
+    "should_trigger": false,
+    "expected_skill": "redis-product-ui",
+    "expected_behavior": "Recognize this as a web or marketing page request and avoid invoking redis-sa-slides.",
+    "must_not": "Must not create slides when the requested deliverable is a landing page.",
+    "query": "Build a marketing landing page for Redis consulting services"
+  }
+]

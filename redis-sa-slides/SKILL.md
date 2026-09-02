@@ -33,7 +33,7 @@ Build customer-facing Redis SA decks in Google Slides from the SA Template Deck,
 ## Customer Logo Flow
 
 1. Ask for or infer the customer domain; do not guess when multiple companies could match.
-2. Try `https://img.logo.dev/{domain}?token=...&format=png` when a logo.dev token is available.
+2. Try the logo.dev image endpoint with a configured token parameter and PNG format when a logo.dev token is available.
 3. Show the candidate logo to the user and wait for confirmation before embedding it.
 4. If logo.dev fails, ask before using web search for a transparent SVG or PNG candidate.
 5. If no confirmed logo is available, leave `[TODO: customer logo]` on the title slide and report the gap. Do not embed generic, stale, or lookalike logos.
