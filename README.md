@@ -153,6 +153,9 @@ Or add to your project manually by copying the skill directory into your `.agent
 
 ## Usage Examples
 
+For ordered recipes that explain which skills to invoke first, why they appear,
+and what each one permits, see [Skill Usage Guide](docs/skill-usage-guide.md).
+
 After installing a skill, ask your agent for the Redis artifact you need:
 
 ```text
