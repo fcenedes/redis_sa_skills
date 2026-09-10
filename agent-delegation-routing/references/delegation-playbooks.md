@@ -44,7 +44,7 @@ Use after every non-trivial implementation task.
 
 Use when one pass is not enough.
 
-1. Claude Opus through an explicit bridge/tool or human/Claude-side routing, or an equivalent senior model,
+1. Claude Opus 4.6 through an explicit bridge/tool or human/Claude-side routing, or an equivalent senior model,
    reviews architecture and threat assumptions.
 2. Codex high/xhigh inspects repo evidence and runs verification.
 3. Coordinator compares findings and resolves contradictions with code evidence.

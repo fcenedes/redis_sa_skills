@@ -29,27 +29,27 @@ ollama list
 
 ## Model Control Gate
 
-Before dispatching a worker, confirm the chosen path can set or reasonably
-select the requested model and reasoning, then confirm the selected model is the
-cheapest sufficient explicit choice. If a host subagent tool only inherits the
-coordinator model, including Claude Code Task/subagents, do not use it for
-bounded low/medium-risk work. If the path exposes explicit Codex subagent
-models, do not jump to `gpt-5.6-terra` or `gpt-5.6-sol` merely to avoid
-inheritance ambiguity; prefer lower-cost explicit choices such as `gpt-5.4`,
-`gpt-5.5`, local Qwen, or direct execution when they fit.
+Before dispatching, inspect model and effort controls on the destination
+runtime. Use the current [routing table](routing-table.md) and
+[price/cost method](model-pricing.md); do not infer price from model age.
+Record requested and actual settings, billing surface, service tier, price
+source/date or unknown, and fallback. Unsupported effort is `not supported`.
 
-Acceptable bounded-worker paths:
+Acceptable worker paths for either coordinator:
 
-- `codex exec` with `-m` and/or `-c reasoning.effort=<level>` when available.
-- Codex subagents with explicit model override, using `gpt-5.4` for routine
-  bounded work, `gpt-5.5` for more complex coding, `gpt-5.6-luna` for fast
-  latest-generation needs, `gpt-5.6-terra` for longer/multi-file work only when
-  cheaper models are insufficient, and `gpt-5.6-sol` for high-risk audit or
-  architecture/security/final verification.
-- `ollama run <qwen-model>` or another explicit local model.
-- An explicit cross-agent bridge, tool, or CLI that can run the requested agent
-  family with a scoped prompt and no inherited senior-model ambiguity.
-- A human/Claude-side route explicitly selected outside Codex or outside an inherited Claude Code subagent path.
+- Codex CLI with explicit `-m` and `-c model_reasoning_effort=...`.
+- Codex subagents with explicit supported overrides: Luna for bounded work,
+  Terra for normal implementation, Sol for complex work, Astra for justified
+  escalation. GPT-5.4/5.5 are compatibility/pinned alternatives, not budget defaults.
+- Native Claude Code subagents with explicit model and supported effort controls;
+  resolve aliases to actual model IDs. Do not assume all Claude tools inherit.
+- Claude CLI with `--model` and, when supported, `--effort`.
+- `ollama run <qwen-model>` or another verified local model.
+- An explicit scoped cross-provider bridge/tool/CLI or human handoff.
+
+If a tool only inherits a senior model for bounded low/medium work, use an
+explicit CLI/local route or execute directly. Check the tool's override and
+context-fork restrictions rather than silently accepting inheritance.
 
 If none is available, write:
 
@@ -81,40 +81,40 @@ not describe local validation or same-agent review as an independent audit.
 ## Codex Non-Interactive Worker
 
 ```bash
-rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "<worker prompt>"
+rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -m gpt-5.6-luna -c 'model_reasoning_effort="medium"' "<worker prompt>"
 ```
 
 Fallback:
 
 ```bash
-codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "<worker prompt>"
+codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -m gpt-5.6-luna -c 'model_reasoning_effort="medium"' "<worker prompt>"
 ```
 
 Use for repo-aware implementation, tests, refactors, frontend verification, and
 integration fixes.
 
-Set Codex reasoning through config when needed:
+For a justified complex worker, choose Sol and high effort explicitly:
 
 ```bash
-rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -c reasoning.effort=\"high\" "<worker prompt>"
+rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -m gpt-5.6-sol -c 'model_reasoning_effort="high"' "<worker prompt>"
 ```
 
 Fallback:
 
 ```bash
-codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -c reasoning.effort=\"high\" "<worker prompt>"
+codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -m gpt-5.6-sol -c 'model_reasoning_effort="high"' "<worker prompt>"
 ```
 
 ## Codex Review Worker
 
 ```bash
-rtk proxy codex -C /path/to/repo review "<review prompt>"
+rtk proxy codex -C /path/to/repo -m gpt-5.6-terra -c 'model_reasoning_effort="medium"' review "<review prompt>"
 ```
 
 Fallback:
 
 ```bash
-codex -C /path/to/repo review "<review prompt>"
+codex -C /path/to/repo -m gpt-5.6-terra -c 'model_reasoning_effort="medium"' review "<review prompt>"
 ```
 
 Use for focused review when the output should be findings, not edits.
@@ -123,14 +123,43 @@ Use for focused review when the output should be findings, not edits.
 Review current branch against `main`:
 
 ```bash
-rtk proxy codex -C /path/to/repo review --base main "<review prompt>"
+rtk proxy codex -C /path/to/repo -m gpt-5.6-terra -c 'model_reasoning_effort="medium"' review --base main "<review prompt>"
 ```
 
 Fallback:
 
 ```bash
-codex -C /path/to/repo review --base main "<review prompt>"
+codex -C /path/to/repo -m gpt-5.6-terra -c 'model_reasoning_effort="medium"' review --base main "<review prompt>"
 ```
+
+## Claude Native And CLI Workers
+
+From Claude Code, prefer a native subagent whose model and supported effort can
+be set explicitly. Use Haiku 4.5 for bounded tasks, Sonnet 5 for ordinary coding,
+explicit `claude-opus-4-6` for complex Opus work, and newer Opus/Fable only
+for demonstrated benefit after accounting for the newer tokenizer. Resolve
+`haiku`/`sonnet` aliases; avoid the floating `opus` alias for the Opus 4.6 route. Use the CLI when
+the native tool cannot express the required settings.
+
+Run in the assigned repository with an existing scoped worker prompt:
+
+```bash
+rtk proxy claude --print --model claude-sonnet-5 --effort medium < /tmp/worker-prompt.txt
+```
+
+Raw fallback:
+
+```bash
+claude --print --model claude-sonnet-5 --effort medium < /tmp/worker-prompt.txt
+```
+
+This medium-effort example assumes quality was validated for the bounded task;
+use high for demanding Sonnet work. Omit `--effort` on Haiku 4.5 and record
+`not supported`. Keep existing permissions and prompt ownership constraints.
+Check `claude --help` and [model controls](https://code.claude.com/docs/en/model-config)
+for the installed version. Environment settings or organization caps can change
+applied effort; record actual settings or unknown, not merely the request.
+For Claude API workers, use `output_config.effort`, not Codex config keys.
 
 ## Local Qwen Through Ollama
 
@@ -156,15 +185,15 @@ separate terminals, tmux panes, or background jobs with one prompt file and one
 log per worker. Do not combine multiple workers in one prompt.
 
 ```bash
-rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(rtk read /tmp/worker-a.txt)" > /tmp/worker-a.log 2>&1 &
-rtk proxy ollama run <qwen-model> "$(rtk read /tmp/worker-b.txt)" > /tmp/worker-b.log 2>&1 &
+rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -m gpt-5.6-luna -c 'model_reasoning_effort="medium"' - < /tmp/worker-a.txt > /tmp/worker-a.log 2>&1 &
+rtk proxy ollama run <qwen-model> "$(cat /tmp/worker-b.txt)" > /tmp/worker-b.log 2>&1 &
 wait
 ```
 
 Fallback:
 
 ```bash
-codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(cat /tmp/worker-a.txt)" > /tmp/worker-a.log 2>&1 &
+codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -m gpt-5.6-luna -c 'model_reasoning_effort="medium"' - < /tmp/worker-a.txt > /tmp/worker-a.log 2>&1 &
 ollama run <qwen-model> "$(cat /tmp/worker-b.txt)" > /tmp/worker-b.log 2>&1 &
 wait
 ```
@@ -189,19 +218,19 @@ Use when you want Codex's repo workflow around a local model.
 ## Long Prompt Files
 
 ```bash
-rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(rtk read /tmp/worker-prompt.txt)"
-rtk proxy ollama run <qwen-model> "$(rtk read /tmp/worker-prompt.txt)"
+rtk proxy codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -m gpt-5.6-luna -c 'model_reasoning_effort="medium"' - < /tmp/worker-prompt.txt
+rtk proxy ollama run <qwen-model> "$(cat /tmp/worker-prompt.txt)"
 ```
 
 Fallback:
 
 ```bash
-codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo "$(cat /tmp/worker-prompt.txt)"
+codex --ask-for-approval never --sandbox workspace-write exec -C /path/to/repo -m gpt-5.6-luna -c 'model_reasoning_effort="medium"' - < /tmp/worker-prompt.txt
 ollama run <qwen-model> "$(cat /tmp/worker-prompt.txt)"
 ```
 
-If `rtk read` filters content too aggressively for the prompt, use `cat` and
-state that exact prompt fidelity was required.
+Pass prompt files intact using stdin for Codex/Claude; do not filter prompt content.
+For Ollama command substitution, use `cat` when exact prompt fidelity is required.
 
 ## Patch Handoff
 

@@ -22,6 +22,8 @@ reviewing, or auditing routed work.
 - Do not mark a packet done when boundary violations, missing dependencies, or skipped verification are unresolved.
 - Do not omit requested model, requested reasoning effort, or routing reason.
 - Do not omit actual model, actual reasoning, or inheritance status from worker reports; write `unknown` if not knowable.
+- Do not infer price from generation or use API rates as subscription charges.
+- Do not invent unsupported effort values or assume an API model is callable from a worker tool.
 - Do not silently let workers inherit the coordinator model or reasoning level.
 - Do not call Codex or Claude Code subagents that can only inherit the coordinator model for low/medium-risk work.
 - Do not use inherited senior-model/high-reasoning workers for docs-only execution; split high-risk review from low/medium docs editing.
@@ -49,9 +51,11 @@ reviewing, or auditing routed work.
 - Multi-task work has an executable epic/task plan from `agent-delegation-planning`.
 - Packet-mode work has a packet index; every packet has dependency, allowlist, denylist, verification, and output contract.
 - Each plan task is mapped to dispatch/direct/serialized/blocked/not-applicable before execution.
-- Requested/actual model, reasoning, inheritance status, and routing reason recorded.
+- Requested/actual model, supported reasoning (or not supported), inheritance, and routing reason recorded.
+- Availability, billing surface, service tier, price source/date or unknown, and fallback recorded.
+- Premium model/effort choice justified by quality, latency, and total cost including retries/review.
 - Worker dispatch path can set model/reasoning, or inherited execution is explicitly rejected.
-- Docs-only workers use low/medium reasoning, or a named high-risk contract/release/security reason is recorded for a separate reviewer.
+- Docs-only workers use low/medium where supported (Haiku: not supported), or a named high-risk contract/release/security reason is recorded for a separate reviewer.
 - Git status checked; unrelated changes protected.
 - Parallelization decision recorded; independent tracks batched or serialization justified.
 - Parallel claims match actual execution streams, not just planned batches.
