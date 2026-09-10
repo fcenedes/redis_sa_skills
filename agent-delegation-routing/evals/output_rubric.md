@@ -18,6 +18,22 @@ When a written plan existed and the request named "which worker," "dispatch," "r
 
 Did the output select the smallest role/model that preserves quality (Routing Matrix, Role Selection), rather than defaulting to the most capable/expensive worker?
 
+## Current models and both providers
+
+Does it support native Claude and Codex routes, verify callable IDs/effort, and include Astra, Sonnet 5, Opus 5, and Fable 5.1 without forcing migrations from explicit pins?
+
+## Cost and efficiency
+
+Does it avoid the old-first price ladder, distinguish API/subscription/local costs and service tiers, and account for retries, cache writes/reads, review, and latency before claiming savings?
+
+## Tokenizer and Opus preference
+
+Does it prefer explicit Opus 4.6, account for the roughly 30% newer-tokenizer increase without double-counting billed tokens, and require evidence before upgrading to newer Opus/Fable?
+
+## Effort correctness
+
+Does it distinguish Codex CLI `model_reasoning_effort`, Responses API `reasoning.effort`, and Claude `output_config.effort`/`--effort`, while marking Haiku effort unsupported?
+
 ## Output usefulness
 
 Is the Worker Prompt Contract (or packet dispatch decision) self-contained: role, model, reasoning, ownership, constraints, verify command, output format, `Commit allowed: no`?
@@ -45,3 +61,5 @@ Did the skill stay inside the prompt/dispatch contract and avoid re-deriving epi
 ## Final-answer quality
 
 Does the final response classify any blocker as bounded-fix/repair-task/decision-needed/environment-blocked, and does it avoid claiming parallel execution unless separate workers actually ran?
+
+Run the model/cost cases in [routing-scenarios](routing-scenarios.md) when changing the routing table.

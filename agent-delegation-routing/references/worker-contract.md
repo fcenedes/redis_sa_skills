@@ -21,7 +21,7 @@ For failures, prefer a narrow `R#` repair packet with exact files and re-checks.
 
 ## Worker Prompt Contract
 
-Every delegated task must be self-contained:
+Every delegated task must be self-contained: Use `not supported` as the effort value when the model lacks that control.
 
 ```text
 Role:
@@ -31,6 +31,10 @@ Actual model: unknown until completion
 Actual reasoning effort: unknown until completion
 Inherited from coordinator: unknown until completion
 Routing reason:
+Availability source:
+Billing surface and service tier:
+Price source/date or unknown:
+Fallback and escalation trigger:
 Repo:
 Branch:
 Source of truth:
@@ -62,7 +66,7 @@ outside the assigned scope.
 
 Do not use inherited-model subagents for bounded work in Codex or Claude Code. If model control is unavailable, use CLI/local workers with explicit model settings, do the work directly, or report no lower-cost worker is available.
 
-Documentation tasks have a stricter cost rule: do not spawn inherited senior-model/high-reasoning subagents for docs-only execution. Use low/medium reasoning, a local/Qwen worker, a lower-cost CLI worker, or do the docs edit directly. Escalate only a separate Spec Writer/Auditor when the docs decide or certify a public contract, release posture, security claim, or architecture boundary.
+Documentation tasks have a stricter cost rule: do not spawn inherited senior-model/high-reasoning subagents for docs-only execution. Use low/medium reasoning where supported (Haiku: not supported), a local/Qwen worker, a lower-cost CLI worker, or do the docs edit directly. Escalate only a separate Spec Writer/Auditor when the docs decide or certify a public contract, release posture, security claim, or architecture boundary.
 
 Ledger maintenance is usually low/medium: grep evidence, update rows, and record
 commands. Use high only for Capability Auditor work involving cross-repo

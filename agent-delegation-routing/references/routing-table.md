@@ -1,204 +1,133 @@
 # Agent Routing Table
 
-Model guidance changes. Verify current vendor docs or the tool schema before
-making durable claims about exact model names, pricing, limits, or availability.
-As of the 2026-07 Codex app/subagent schema, callable Codex workers include
-`gpt-5.6-sol`, `gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, and `gpt-5.4`.
-Anthropic labels such as Sonnet and Opus are external routing labels, not Codex
-model IDs. Anthropic's Fable 5 (Mythos class) is above Opus in capability;
-effort, not rule density, is the primary control lever. OpenAI positions Codex
-as long-horizon agentic coding with explicit model and
-low/medium/high/xhigh reasoning controls; Qwen positions Qwen3-Coder as an
-agentic coding model with Qwen Code tooling.
+Reviewed: **2026-09-10**. Treat these routes as starting hypotheses to validate
+on representative tasks, not measured cross-model performance rankings. Use the
+[pricing snapshot and cost method](model-pricing.md) for dated prices. Honor
+explicit user/project model pins; report unavailable pins instead of silently
+substituting. Support both Codex and Claude coordinators and workers.
 
-Sources to re-check when updating this file:
+## Selection Order
 
-- Anthropic Claude Code model guidance.
-- OpenAI Codex model documentation.
-- OpenAI reasoning effort documentation.
-- Qwen3-Coder and Qwen Code documentation.
+1. Confirm authorization, tools, context needs, quality gates, and deadline.
+2. Inspect the host's callable model IDs and supported effort levels. A public
+   API model, local cache entry, or vendor alias does not prove worker access.
+3. Choose the least costly available route likely to pass those gates. Include
+   context transfer, retries, review, tool charges, and latency in the decision.
+4. Set model and effort explicitly; record the cost basis and fallback. Escalate
+   for a concrete capability gap or failed quality gate, not a newer version.
+5. Compare accepted results and actual usage before promoting a recurring route.
 
-## Short Version
+Claude coordinators may use their native Claude workers. Cross-provider routing
+requires an explicit bridge/tool/CLI or human handoff; Claude names are not
+Codex IDs. Use direct execution when delegation overhead exceeds its benefit.
+For contracts and commands, load [specialist-roles](specialist-roles.md) and
+[command-patterns](command-patterns.md) only as needed.
 
-Use Claude-side routing for judgment, Codex for execution inside a repo, and
-Qwen for bounded local worker tasks.
+## Codex Models
 
-Cost rule: explicit model control is necessary but not sufficient. Pick the
-cheapest sufficient explicit model/reasoning pair, and record why each
-higher-cost or newer-generation choice is needed. "Avoids inherited-model
-ambiguity" justifies using an explicit override; it does not justify selecting
-`gpt-5.6-terra`, `gpt-5.6-sol`, high, or xhigh when `gpt-5.4`, `gpt-5.5`, local
-Qwen, or direct execution would be sufficient.
+The reviewed host exposes Astra, Sol, Terra, Luna, and GPT-5.5. GPT-5.4 is absent
+from this host's subagent schema; retain it only for other verified routes.
+Re-check availability on the destination host at dispatch time.
 
-Claude choices require an explicit bridge/tool/CLI, a Claude-side coordinator, or
-human routing. Codex coordinators must not use uncontrolled Claude handoffs; use
-Codex/local alternatives, a scoped bridge request, or ask the user to route work
-to Claude.
+| Explicit model | Starting route | Escalation or fallback condition |
+|---|---|---|
+| `gpt-5.6-luna` | Bounded docs, tests, small fixes, mechanical edits; low/medium. | Move to Terra when repository reasoning or tool use exceeds its demonstrated reliability. |
+| `gpt-5.6-terra` | Normal implementation, bounded multi-file work, ordinary review; medium. | Move to Sol for harder debugging, integration, or broader dependencies. Multiple files alone do not require high effort. |
+| `gpt-5.6-sol` | Complex coding, sustained repo work, difficult regressions, substantive audits; medium/high. | Move to Astra when ambiguity, consequences, or observed quality justify the premium. Sol is not restricted to final review. |
+| `gpt-6-astra` | Demanding architecture, unresolved subtle bugs, high-risk cross-system judgment. | Start with the lowest effort that preserves quality; justify premium model and additional effort separately. |
+| `gpt-5.5` | Explicit pins, compatibility, or a workload where evaluations favor it. | Do not label it cheaper than Sol: its current standard token rates are higher. |
+| `gpt-5.4` | Compatibility/pinned work on a host that actually exposes it. | Do not use as the default budget worker: Luna and Terra have lower current token rates. |
 
-For role contracts, use [specialist-roles](specialist-roles.md). For command
-invocations, use [command-patterns](command-patterns.md).
+This division follows the current [Codex catalog](https://learn.chatgpt.com/docs/models),
+[Luna](https://developers.openai.com/api/docs/models/gpt-5.6-luna),
+[Terra](https://developers.openai.com/api/docs/models/gpt-5.6-terra), and
+[Sol](https://developers.openai.com/api/docs/models/gpt-5.6-sol) descriptions,
+with repo-specific task recommendations rather than vendor benchmark claims.
 
-## Task Routing
+## Task And Role Defaults
 
-| Task | Best first choice | Why |
-|------|-------------------|-----|
-| Architecture, plan, design review | Claude Opus or Codex high/xhigh | Use Claude through an explicit bridge/tool or human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only for major ambiguity or high-risk decisions. |
-| Normal feature implementation | Codex medium or Claude Sonnet | Use Codex when repo and tool execution matter; use Sonnet only through an explicit bridge/tool or human/Claude-side routing. |
-| Large multi-file implementation | Codex high | Better persistence and repo execution without always paying max reasoning cost. |
-| Hard debugging or subtle regression | Claude Opus or Codex high/xhigh | Use Opus only through an explicit bridge/tool or human/Claude-side routing; use Codex high/xhigh for deep inspect/edit/run loops. |
-| Security-sensitive review | Claude Opus plus Codex high verification | Use two-model review when an explicit bridge/tool, a human, or a Claude-side coordinator routes the Claude pass. |
-| Mechanical refactor | Qwen local, Codex low/medium, or Claude Haiku | Cheap and fast when file ownership is bounded; Claude Haiku requires an explicit bridge/tool or human/Claude-side routing. |
-| Test generation | Qwen local, Codex medium, or Claude Haiku | Good worker task; Claude Haiku requires an explicit bridge/tool or human/Claude-side routing and coordinator reviews usefulness. |
-| Boilerplate, docs, rename, grep-driven edits | Qwen local, Codex low/medium, or Claude Haiku | Low-risk and easy to verify; Claude Haiku requires an explicit bridge/tool or human/Claude-side routing. Use high only for a separate public-contract/release/security review. |
-| Frontend prototype | Codex high | Stronger at producing, running, and verifying actual UI. |
-| Final integration, commit, push | Codex medium/high | Strong local repo and tool workflow. |
-| Final strategic review | Claude Opus or Codex high/xhigh | Use Claude through an explicit bridge/tool or human/Claude-side routing; Codex coordinators use Codex high by default and xhigh only when risk is high. |
+| Task / role | Codex starting route | Claude starting route |
+|---|---|---|
+| Docs Worker, mechanical patch, ledger maintenance | Direct edit, tested local Qwen, or Luna low/medium. | Direct edit or Haiku 4.5 where sufficient; Sonnet 5 for harder content. |
+| Implementor, Packet Worker, ordinary PR Reviewer | Terra medium. | Sonnet 5 medium after quality validation, otherwise high. |
+| Coordinator, Spec Writer, Packet Reviewer | Terra medium for bounded scope; Sol medium/high for complex dependencies. | Sonnet 5 for bounded scope; Opus 4.6 high for ambiguous or consequential work. |
+| UI Designer | Terra medium for known patterns; Sol/high for difficult interaction or visual problems. | Sonnet 5; Opus 4.6 for complex UI problems. Require browser/visual verification on either route. |
+| Verifier, Capability Auditor, integration | Terra medium for straightforward evidence; Sol high for difficult gates. | Sonnet 5 for ordinary evidence; Opus 4.6 high for difficult gates. |
+| Architecture, hard debugging, high-risk Auditor | Sol high; Astra when a concrete capability gap justifies it. | Opus 4.6 high; newer Opus/Fable only when demonstrated quality or latency gains justify total cost. |
 
-## Codex Subagent Model Ladder
+For a required independent final gate, use a fresh-context verifier with access
+to the evidence. Independence does not require a different provider or the most
+expensive model. Use two-model review when the plan requires it or its expected
+benefit justifies the extra cost; preserve every verification gate.
 
-Use this when a Codex subagent or Codex app task exposes the 2026-07 model
-choices. If availability differs, re-check the tool schema and keep the same
-cost-first rule.
+## Codex Effort And Surface Support
 
-| Model | Use for | Avoid for |
-|-------|---------|-----------|
-| `gpt-5.4` | Low/medium bounded implementation, docs, tests, grep-driven edits, small refactors, and verifiable file-local fixes. | Work needing latest-generation agentic persistence, broad repo synthesis, or high-risk judgment. |
-| `gpt-5.5` | Complex coding, research, broader repo analysis, and implementation that outgrows `gpt-5.4` but does not need 5.6. | Cheap docs/mechanical tasks, or final high-risk authority when `gpt-5.6-sol`/explicit senior audit is justified. |
-| `gpt-5.6-luna` | Fast latest-generation worker when latency/tool robustness matters and `gpt-5.4` is not enough. | Default implementation workers where older cheaper models suffice. |
-| `gpt-5.6-terra` | Balanced latest-generation coding for multi-file or longer agentic work after a cheaper model is insufficient or clearly risky. | Routine implementation, docs, tests, or audits chosen only to avoid inheritance ambiguity. |
-| `gpt-5.6-sol` | Frontier audit, architecture/security review, subtle regression analysis, major migration planning, or final high-risk verification. | Normal implementation workers and low/medium-risk reviews. |
+| Effort | Starting use |
+|---|---|
+| `low` | Mechanical changes, bounded extraction, simple questions. |
+| `medium` | Normal implementation, tests, docs, routine review. |
+| `high` | Difficult debugging, integration, substantive security/architecture review. |
+| `xhigh` | Named unresolved complexity where high is insufficient. |
+| `max`, `ultra` | Only when exposed and a user request or recorded risk/quality gap justifies the extra budget. |
 
-Reasoning effort stays separate from model. Prefer `low` for mechanical tasks,
-`medium` for normal coding/docs/tests, `high` for multi-file integration or
-nontrivial debugging, and `xhigh` only for named high-risk ambiguity. `max` and
-`ultra`, when exposed, require an explicit user request or a recorded
-security/architecture/release-risk reason.
+On the reviewed subagent surface, all five current Codex models support
+low/medium/high/xhigh; Luna also supports max; Astra/Sol/Terra also support
+max/ultra. GPT-5.5 has no max/ultra there. Do not infer support from a different
+API or app tool's broader argument enum. Codex CLI uses `model_reasoning_effort`;
+the Responses API uses `reasoning.effort`. See the
+[CLI configuration reference](https://learn.chatgpt.com/docs/config-file/config-reference).
 
-## Role Mapping
+## Claude Models And Effort
 
-Same boundary: Claude entries require an explicit bridge/tool, Claude-side
-coordinator, or human routing; they are not uncontrolled Codex delegation
-targets.
+Prefer `claude-opus-4-6` for Opus work. Resolve this explicit ID instead of an
+`opus` alias that may upgrade it. Newer Opus/Fable models remain available as
+justified escalations, not automatic replacements. Compare tokenizer-adjusted
+cost using the [pricing method](model-pricing.md#tokenizer-adjusted-comparison).
 
-| Need | Role | Default Execution |
-|------|------|-------------------|
-| Split ambiguous work | Coordinator | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing |
-| Make requirements executable | Spec Writer | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing |
-| Edit repo files | Implementor | Codex `gpt-5.4` medium by default; escalate per ladder |
-| Check completion | Verifier | Codex `gpt-5.5`/`gpt-5.6-terra` high when evidence is nontrivial, or Claude Sonnet by human/Claude-side routing |
-| Challenge claims | Auditor | Codex `gpt-5.6-sol` high/xhigh only for high-risk claims, or Claude Opus by human/Claude-side routing |
-| Review PR/diff | PR Reviewer | Codex review, or Claude Opus by human/Claude-side routing |
-| Drive PR loops | PR Shepherd | Codex medium/high |
-| Build product UI | UI Designer | Codex high |
-| Reconcile delivered/missing capability rows | Capability Ledger Maintainer | Qwen local, Codex low/medium, or Claude Haiku/Sonnet by human/Claude-side routing |
-| Audit readiness or ledger claims | Capability Auditor | Codex medium/high, or Claude Sonnet/Opus by human/Claude-side routing |
-| Cheap bounded patch | Qwen Worker | Qwen local/Ollama |
+Use native Claude delegation from Claude Code, or resolve the exact model in
+an explicit bridge. These are Claude API IDs, not guarantees about a
+subscription's default or a bridge's available models.
 
-## Claude
+| Model / API ID | Starting route | Effort |
+|---|---|---|
+| Haiku 4.5 / `claude-haiku-4-5-20251001` | Small summaries, straightforward docs, boilerplate. | No `output_config.effort` support; record not supported rather than inventing low. |
+| Sonnet 5 / `claude-sonnet-5` | Cost-conscious coding and routine agent work. | High is vendor default; medium is a cost-saving candidate after evaluation. |
+| Opus 4.6 / `claude-opus-4-6` | Preferred Opus route for complex coding, ambiguous specs, architecture, hard review. | High for demanding work; low/medium when sufficient. Supports max, not xhigh. |
+| Opus 5 / `claude-opus-5` | Escalation when measured benefits justify the newer tokenizer and total task cost. | High initially for demanding work; do not transfer its effort settings to Opus 4.6. |
+| Fable 5.1 / `claude-fable-5-1` | Hard reasoning and long agent runs when Opus is insufficient. | High initially for demanding work; evaluate low/medium for simpler workloads. |
+| Fable 5, Opus 4.8/4.7, Sonnet 4.6 | Explicit pins, compatibility, or measured workload advantage. | Consult the exact version; effort recommendations do not transfer automatically. |
 
-This section is guidance for Claude-side coordinators, humans, or explicit
-bridge/tool routes deciding to run Claude. It is not permission for uncontrolled
-Codex-to-Claude handoff.
+Fable 5.1 is the current Fable revision; Mythos 5.1 is an invitation-only
+counterpart, not a default dispatch target. Its lower cache-read price can help
+some repeated-context workloads, but output and cache-write costs still matter.
+See [Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/overview).
 
-| Model | Use for | Avoid for |
-|-------|---------|-----------|
-| Fable 5 | Everything Opus does, with stronger instruction-following and autonomous execution. Default for Claude Code. | Step-by-step recipes (follow the contract model instead), "explain your reasoning" prompts. |
-| Opus | Planning, architecture, hard debugging, ambiguous specs, final reviews, high-stakes reasoning. | Bulk edits, cheap loops, mechanical changes. |
-| Sonnet | Most coding, refactors, tests, known bugs, implementation from a plan. | Very cheap repetitive tasks. |
-| Haiku | Renames, summaries, small docs, regex/log explanations, simple boilerplate. | Architecture, broad repo edits, subtle bugs. |
+Claude's [effort guidance](https://platform.claude.com/docs/en/build-with-claude/effort)
+is version-specific: Opus 4.6 supports low/medium/high/max, not xhigh.
+Opus 4.7/4.8 coding guidance starts at xhigh, whereas
+Opus 5, Sonnet 5, and Fable 5.1 default to high. Low/medium routes are cost
+optimizations to validate, not claims of equal quality. Haiku 4.5 does not
+support that effort parameter. Keep objective, authority, and verification
+explicit at every effort level.
 
-Practical pattern on the Claude side: Opus plans, Sonnet executes.
+## Local Qwen / Ollama / LM Studio
 
-## Fable 5 (Claude Code)
+Consider [Qwen3-Coder-Next](https://huggingface.co/Qwen/Qwen3-Coder-Next) alongside
+already installed Qwen3-Coder variants. Verify the exact runtime tag,
+quantization, tool support, memory fit, and time to an accepted result. Next has
+80B total parameters and 3B active; active parameters alone do not determine RAM.
+Do not download a large model merely to avoid a small API charge.
 
-Fable 5 is Anthropic's Mythos-class model, above Opus in capability.
-Control model: contract-based. Define objective, success criteria,
-authority boundary, and obligation of proof. Do not compensate with
-step-by-step recipes -- Fable either follows them rigidly (even when
-they're wrong for the task) or contests them mid-task.
+Use a tested local model for bounded patches, tests, summaries, and docs; keep
+final high-risk authority with an appropriately capable independent reviewer.
+Local inference has hardware, energy, queueing, and review costs; do not call it
+free or automatically cheapest. Return a unified diff for patch handoff, with
+owned files, verification, and blockers. Never apply without diff review.
 
-Effort is the primary lever:
+## Routing Evidence
 
-| Effort | Use for | Notes |
-|--------|---------|-------|
-| low | Grep, summaries, tiny docs, simple edits | Fable low >= previous-gen xhigh for routine work. |
-| medium | Normal bounded coding, tests, docs, fixes | Default for most worker tasks. |
-| high | Multi-file implementation, integration, debugging | Default for coordinators and non-trivial work. |
-| xhigh | Architecture, subtle regression, security, final verification | Use sparingly -- over-deliberation on routine work. |
-
-Before adding rules to control Fable behavior, lower effort first.
-At high effort on routine work, Fable over-collects context and
-deliberates beyond the task's needs.
-
-Fresh-context verifiers outperform self-review. For final gates,
-spawn a new verification agent rather than re-checking your own work.
-
-Anti-pitfalls:
-- Do not include "explain your reasoning" or "show your thinking" in
-  prompts -- this can trigger reasoning_extraction refusal and fall
-  back to Opus 4.8.
-- For autonomous pipelines, add: "You operate autonomously. For
-  reversible actions that follow from the request, proceed without
-  asking."
-- In long sessions, do not suggest ending or summarizing to save
-  context -- continue until the task is complete.
-
-## Codex Reasoning
-
-| Effort | Use for |
-|--------|---------|
-| low | Quick questions, small edits, simple file-local changes. |
-| medium | Default normal coding, tests, docs, straightforward bugfixes. |
-| high | Multi-file features, frontend work, integration, nontrivial debugging. |
-| xhigh | Hard repo archaeology, subtle bugs, security logic, major migrations, final deep verification. |
-
-Do not default every task, coordinator, spec writer, or auditor to xhigh. Higher
-effort can improve quality on hard tasks, but costs time and tokens and can
-over-elaborate. Use xhigh only for named high-risk ambiguity, subtle regression,
-security logic, major migration, or final deep verification.
-
-Docs rule: docs execution defaults to low/medium. Public command wording, route
-inventories, release posture, and live-proof semantics may justify a high
-Spec Writer or Auditor pass, but not inherited high-reasoning docs workers. If
-the dispatch path can only inherit a senior coordinator model, do the docs edit
-directly or use a lower-cost CLI/local worker.
-
-## Qwen Local
-
-Use Qwen as a worker, not coordinator.
-
-Good tasks:
-
-- Generate tests for a module.
-- Convert examples to docs.
-- Produce a patch for a narrow bug.
-- Rename an API in specified files only.
-- Summarize source files.
-- Review a diff for obvious mistakes.
-
-Avoid:
-
-- Final authority.
-- Broad architecture.
-- Cross-repo reasoning.
-- Edits touching shared config or lockfiles.
-- Security-sensitive work without senior Claude-side or Codex review.
-
-Best Qwen prompt style:
-
-```text
-You own only: <files>
-Do not edit anything else.
-Return a unified diff only.
-Do not commit.
-Run or state this verification: <command>
-Report blockers.
-```
-
-## Default Team Setup
-
-- Fable 5: default Claude Code coordinator/auditor when Claude-side routing is available; use contract prompts and tune effort before adding rules.
-- Claude Opus: write or review the plan when routed by a human or Claude-side coordinator.
-- Codex medium/high: implement and run gates based on risk.
-- Qwen local: parallel bounded worker for tests, docs, and mechanical patches.
-- Claude Opus by human/Claude-side routing, or Codex xhigh: final review only when risk is high.
+Record requested/actual model and effort, inheritance, availability source,
+billing surface, service tier, price source/date or `unknown`, quality rationale,
+fallback, and the escalation trigger. Do not invent dollar savings or success
+rates. If a route fails, preserve its evidence and pass a compact failure summary
+to the next worker; do not repeat the same ineffective prompt indefinitely.

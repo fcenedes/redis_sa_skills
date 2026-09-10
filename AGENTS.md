@@ -76,26 +76,19 @@ Run `bash scripts/validate-skills.sh` before opening a PR. The script checks fro
 
 ## Model and Cost Optimization
 
-### Fable 5
+### Model Selection
 
-Fable 5 is the Claude Code default. Use reasoning effort as the primary control lever: lower effort for routine work before adding more rules. See [routing-table.md](agent-delegation-routing/references/routing-table.md) for detailed model routing and effort guidance.
+Support both Codex and Claude Code. Use the dated [routing table](agent-delegation-routing/references/routing-table.md) and [pricing reference](agent-delegation-routing/references/model-pricing.md), and verify the destination runtime before dispatch. Honor explicit model pins. Choose by quality, total cost, and latency; do not assume older models are cheaper or that the configured coordinator is the economical worker default.
 
-### Tokenizer Inflation: Opus 4.7
+### Token Counts And Fast Mode
 
-Opus 4.7 uses a new tokenizer that inflates token counts by up to ~35% compared to Opus 4.6 for equivalent work. If you are seeing unexpectedly high token usage or cost:
+Prefer explicit `claude-opus-4-6` for Opus work. Claude 4.7 and later use a newer tokenizer producing roughly 30% more tokens for the same text; at equal per-token rates this raises token cost correspondingly. Require demonstrated benefit before choosing newer Opus/Fable. Compare token counts and rates together for other families, and do not add a 30% multiplier to usage already measured with the newer tokenizer. See the [tokenizer comparison](agent-delegation-routing/references/model-pricing.md#tokenizer-adjusted-comparison).
 
-- Prefer **Opus 4.6** (`claude-opus-4-6`) for cost-sensitive workflows. Same capabilities, significantly fewer tokens.
-- In Claude Code, toggle with `/fast` (Opus 4.6 fast mode) or set `model: claude-opus-4-6` in configuration.
-- Combine with [RTK](rtk-cli/SKILL.md) for an additional 60-90% reduction on shell output tokens.
+Compare actual billed tokens and accepted-task cost across model versions. Tokenizer changes can alter cost for the same text; they do not prove equal capabilities. Claude `/fast` purchases lower latency at premium rates and may switch models; use explicit model selection for cost control. See [Claude fast mode](https://code.claude.com/docs/en/fast-mode).
 
 ### Prompt Caching
 
-Enable prompt caching to reduce costs by up to 90% on repeated system prompt and context reads:
-
-- Cached input tokens cost 90% less than uncached reads.
-- Default cache TTL is 5 minutes. Each cache hit resets the timer.
-- **Extend effective TTL to 1 hour** by ensuring at least one request hits within every 5-minute window, or by configuring `cache_control` breakpoints on large, stable context blocks (system prompts, skill definitions, reference documents).
-- Structure prompts so that stable content (system instructions, skill text, repo context) appears first and changes last — this maximizes cache hit rate.
+Keep stable instructions and reusable context before changing content. Count cache writes, hits, expiration, output, and retries using the selected model's rates. For Claude API caching, a hit refreshes the existing TTL; choose `ttl: "1h"` explicitly when supported and worthwhile. Do not send keepalive requests solely to preserve a cache. See [Claude caching](https://platform.claude.com/docs/en/build-with-claude/prompt-caching).
 
 ### Claude Code Environment Variables
 
@@ -115,16 +108,16 @@ export CLAUDE_STREAM_IDLE_TIMEOUT_MS=600000           # 10-minute idle timeout (
 
 ### DO NOTs
 
-- Do not default to Opus 4.7 for batch or cost-sensitive workloads without accounting for the ~35% tokenizer overhead.
+- Do not rank models by age, infer subscription charges from API rates, or enable premium fast mode as a cost-saving measure.
 - Do not disable prompt caching unless debugging cache-specific issues.
 - Do not place volatile content (timestamps, request IDs) before stable content in prompts — it breaks cache alignment.
 - Do not leave `CLAUDE_STREAM_IDLE_TIMEOUT_MS` at default for repos with slow builds or large test suites — streams will timeout mid-run.
 
-## Fable 5 Control Model
+## Agent Control Model
 
-Fable 5 (Mythos-class) is the most capable Claude model. It drifts by
-strength, not weakness: it evaluates rules instead of blindly following
-them. Control comes from contracts, not prescriptions.
+For both Codex and Claude, define the objective, authority boundary, success
+criteria, and evidence required. Select model and effort for the task rather
+than assuming one model is always the default or most capable.
 
 ### Authority Boundary Convention
 
@@ -143,10 +136,10 @@ independently.
 
 ### Effort as Primary Lever
 
-Before adding rules to control model behavior, lower reasoning effort.
-Fable at low effort outperforms previous-gen models at xhigh for routine
-tasks. High effort on routine work causes over-collection and
-over-deliberation.
+Evaluate lower effort for routine work before adding more instructions.
+Retain the setting only when quality gates still pass. Follow the exact
+model and runtime guidance; identical effort labels are not comparable
+across generations, and some models do not support effort controls.
 
 ### Anti-Pitfalls
 

@@ -33,17 +33,17 @@ Claude-side work. Do not use uncontrolled Claude handoffs.
 
 | Role | Use When | Good First Model | Must Return |
 |------|----------|------------------|-------------|
-| Coordinator | Work needs decomposition, ownership, integration, or multiple workers. | Codex medium/high, or Claude Sonnet/Opus via explicit bridge/tool or human/Claude-side routing | Plan, ownership map, gates, integration status. |
-| Spec Writer | Requirements are ambiguous or acceptance criteria are missing. | Codex medium/high, or Claude Sonnet/Opus via explicit bridge/tool or human/Claude-side routing | Goal, non-goals, source of truth, acceptance criteria, verification plan. |
+| Coordinator | Work needs decomposition, ownership, integration, or multiple workers. | Codex medium/high, or Claude Sonnet/Opus 4.6 via explicit bridge/tool or human/Claude-side routing | Plan, ownership map, gates, integration status. |
+| Spec Writer | Requirements are ambiguous or acceptance criteria are missing. | Codex medium/high, or Claude Sonnet/Opus 4.6 via explicit bridge/tool or human/Claude-side routing | Goal, non-goals, source of truth, acceptance criteria, verification plan. |
 | Implementor | One bounded code task is ready to execute. | Codex medium/high, or Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Files changed, summary, commands run, blockers. |
-| Verifier | Work needs evidence-based approval or rejection. | Codex high, or Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Verdict, confidence, evidence, failed gates, next fix. |
-| Auditor | Claims about architecture, runtime seams, security, or release readiness need scrutiny. | Codex high/xhigh, or Claude Opus via explicit bridge/tool or human/Claude-side routing | Findings with evidence, impact, required fix, closure criteria. |
-| PR Reviewer | A PR/diff needs high-confidence actionable feedback. | Codex review/high, or Claude Opus via explicit bridge/tool or human/Claude-side routing | Findings ordered by severity and release-gate notes. |
+| Verifier | Work needs evidence-based approval or rejection. | Codex medium/high, or Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Verdict, confidence, evidence, failed gates, next fix. |
+| Auditor | Claims about architecture, runtime seams, security, or release readiness need scrutiny. | Codex high/xhigh, or Claude Opus 4.6 via explicit bridge/tool or human/Claude-side routing | Findings with evidence, impact, required fix, closure criteria. |
+| PR Reviewer | A PR/diff needs high-confidence actionable feedback. | Codex review/medium; high for substantive risk, or Claude Opus 4.6 via explicit bridge/tool or human/Claude-side routing | Findings ordered by severity and release-gate notes. |
 | PR Shepherd | An existing PR needs coordinated fixes, CI, comments, and readiness tracking. | Codex medium/high | PR status, blockers, delegated fixes, verification state. |
-| UI Designer | Product UI needs design-system, a11y, responsive, and visual evidence. | Codex high | UI changes, tokens/components used, screenshots/a11y/responsive checks. |
+| UI Designer | Product UI needs design-system, a11y, responsive, and visual evidence. | Codex medium/high | UI changes, tokens/components used, screenshots/a11y/responsive checks. |
 | Docs Worker | Documentation-only edits with bounded source of truth. | Qwen local, Codex low/medium, or Claude Haiku via explicit bridge/tool or human/Claude-side routing | Changed docs, commands/checks run, assumptions, blockers. |
 | Capability Ledger Maintainer | Evidence-backed ledger updates and delta classification. | Qwen local, Codex low/medium, or Claude Haiku via explicit bridge/tool or human/Claude-side routing | Ledger rows changed, evidence paths, commands, residual gaps. |
-| Capability Auditor | Ledger/readiness claims need independent evidence review. | Codex medium/high, or Claude Sonnet/Opus via explicit bridge/tool or human/Claude-side routing | Verdict, unsupported claims, missing proof, corrected status. |
+| Capability Auditor | Ledger/readiness claims need independent evidence review. | Codex medium/high, or Claude Sonnet/Opus 4.6 via explicit bridge/tool or human/Claude-side routing | Verdict, unsupported claims, missing proof, corrected status. |
 | Packet Worker | One file-owned packet is ready with dependencies and verification. | Codex low/medium, Qwen local, or Claude Haiku/Sonnet via explicit bridge/tool or human/Claude-side routing | Packet status, files changed, commands, blockers. |
 | Packet Reviewer | A packet needs boundary-first review before integration. | Codex medium/high, or Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Boundary verdict, failed gates, repair-packet recommendation. |
 | Qwen Worker | A narrow local worker task can be verified cheaply. | Qwen local/Ollama | Unified diff or concise report, verification result, blockers. |
@@ -52,14 +52,13 @@ The coordinator may override any default when scope, risk, cost, or tool
 availability justifies it. Record the reason when overriding a safer default
 with a cheaper or less capable worker.
 
-When Codex subagents expose exact model overrides, choose the cheapest
-sufficient explicit model first. `gpt-5.4` fits bounded implementation, docs,
-tests, and small refactors; `gpt-5.5` fits complex coding or broader repo
-analysis; `gpt-5.6-luna` fits fast latest-generation needs; `gpt-5.6-terra` is
-for longer or multi-file agentic work after cheaper models are insufficient;
-`gpt-5.6-sol` is for high-risk audit, architecture, security, subtle regression,
-or final verification. Do not treat external `Sonnet`/`Opus` labels as callable
-Codex model IDs.
+Use the current [routing table](routing-table.md) for both providers: Luna for
+bounded Codex work, Terra for normal implementation, Sol for complex work, and
+Astra for justified escalation; Haiku 4.5, Sonnet 5, Opus 4.6, and justified newer Opus/Fable routes cover
+the corresponding Claude routes. Roles do not impose a provider or price tier.
+Use [model-pricing](model-pricing.md) rather than generation numbers to compare
+cost. Treat the generic role tables as risk guidance; the model-specific table
+controls version and effort selection (including Haiku's unsupported effort).
 
 ## Model Alternatives
 
@@ -74,26 +73,30 @@ the user to route work to Claude.
 
 | Role | Default | Claude Alternative | Codex Alternative | Local Alternative | Recommended Think |
 |------|---------|--------------------|-------------------|-------------------|-------------------|
-| Coordinator | Codex medium/high or Claude-side Sonnet | Claude Opus for high-risk ambiguity | Codex high only for broad/risky plans | none | medium/high |
-| Spec Writer | Codex medium/high or Claude-side Sonnet | Claude Opus for ambiguous specs | Codex high only for broad/risky specs | none | medium/high |
-| Implementor | Codex medium | Claude Sonnet | Codex high for multi-file work | Qwen for narrow patches | medium/high |
-| Verifier | Codex high | Claude Sonnet or Opus | Codex xhigh for risky gates | Qwen only for obvious checks | high |
-| Auditor | Codex high/xhigh or Claude-side Opus | none for high-risk judgment | Codex high for repo evidence, xhigh only for high-risk ambiguity | none | high/xhigh |
-| PR Reviewer | Codex review | Claude Opus for strategic risk | Codex high/xhigh | Qwen only for obvious diff scan | high |
+| Coordinator | Codex medium/high or Claude-side Sonnet | Claude Opus 4.6 for high-risk ambiguity | Codex high only for broad/risky plans | none | medium/high |
+| Spec Writer | Codex medium/high or Claude-side Sonnet | Claude Opus 4.6 for ambiguous specs | Codex high only for broad/risky specs | none | medium/high |
+| Implementor | Codex medium | Claude Sonnet | Codex high for difficult integration | Qwen for narrow patches | medium/high |
+| Verifier | Codex medium/high | Claude Sonnet or Opus 4.6 | Codex high/xhigh for risky gates | Qwen only for obvious checks | medium/high |
+| Auditor | Codex high/xhigh or Claude-side Opus 4.6 | none for high-risk judgment | Codex high for repo evidence, xhigh only for high-risk ambiguity | none | high/xhigh |
+| PR Reviewer | Codex review/medium | Claude Opus 4.6 for strategic risk | Codex high/xhigh for difficult review | Qwen only for obvious diff scan | medium/high |
 | PR Shepherd | Codex medium/high | Claude Sonnet for comment drafting | Codex high for CI/fix loops | none | medium/high |
-| UI Designer | Codex high | Claude Sonnet for design critique | Codex high/xhigh | none | high |
+| UI Designer | Codex medium/high | Claude Sonnet for design critique | Codex high for difficult UI problems | none | medium/high |
 | Docs Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet via explicit bridge/tool or human/Claude-side routing | Codex medium for public docs contracts | Qwen Coder | low/medium |
 | Capability Ledger Maintainer | Codex low/medium or Qwen local | Claude Haiku/Sonnet via explicit bridge/tool or human/Claude-side routing | Codex medium for complex evidence | Qwen Coder | low/medium |
-| Capability Auditor | Codex medium/high or Claude-side Sonnet | Claude Opus for high-risk readiness | Codex high for cross-repo evidence | none | medium/high |
+| Capability Auditor | Codex medium/high or Claude-side Sonnet | Claude Opus 4.6 for high-risk readiness | Codex high for cross-repo evidence | none | medium/high |
 | Packet Worker | Codex low/medium or Qwen local | Claude Haiku/Sonnet via explicit bridge/tool or human/Claude-side routing | Codex medium/high only when packet risk requires it | Qwen Coder | low/medium |
 | Packet Reviewer | Codex medium/high | Claude Sonnet via explicit bridge/tool or human/Claude-side routing | Codex high for risky boundaries | Qwen only for obvious allowlist checks | medium/high |
 | Qwen Worker | Qwen local/Ollama | Claude Haiku | Codex low/medium | Qwen Coder | low/medium |
 
+The Recommended Think column describes Codex effort. For Claude, use the
+model-specific supported levels; Opus 4.6 uses high for demanding roles and
+does not accept xhigh.
+
 Default version policy:
 
-- Claude: use the configured current stable Opus, Sonnet, or Haiku variant only when operating from Claude, an explicit bridge/tool, or explicit human routing.
+- Claude: use explicit `claude-opus-4-6` for Opus work by default. Use newer Opus/Fable only for demonstrated benefit after tokenizer-adjusted cost comparison. Resolve Sonnet/Haiku separately using the routing table; honor explicit pins.
 - Codex: use the cheapest sufficient explicit Codex model with the listed reasoning effort; if exact subagent overrides are available, apply the Codex subagent ladder above.
-- Qwen/local: use the strongest locally installed Qwen Coder model that fits latency and memory.
+- Qwen/local: use the least costly sufficient installed Qwen Coder model; measure latency, memory fit, and review overhead.
 - If exact model identity matters, the coordinator records the model name and why.
 
 ## Cost Guardrails
@@ -105,7 +108,7 @@ docs, and mechanical checks use low/medium unless a named risk requires more.
 
 ## Routing Evidence
 
-Every delegated task and worker report must record:
+Every delegated task and worker report must record: Use `not supported` as the effort value when the model lacks that control.
 
 ```text
 Requested model:
@@ -116,7 +119,7 @@ Inherited from coordinator: yes/no/unknown
 Routing reason:
 ```
 
-Use `Routing reason: default for role` when the role table default is used. For
+Name the concrete model/effort pair and task fit even when using a role default. For
 overrides, record the concrete reason: cost, latency, local availability,
 repo-tool need, high-risk review, security sensitivity, or bounded low-risk
 scope. If the actual model or reasoning level is unknown, write `unknown`
@@ -133,10 +136,10 @@ Qwen/Ollama/local worker, or do the task directly. If none is available, report
 `No lower-cost worker available` instead of spawning a subagent that inherits
 the senior model.
 
-Explicit model control is not a cost justification. If the coordinator chooses
-`gpt-5.6-terra`, `gpt-5.6-sol`, high, xhigh, max, or ultra, the routing reason
-must say why cheaper explicit options such as `gpt-5.4`, `gpt-5.5`, local Qwen,
-or direct execution are insufficient.
+Explicit model control is not a cost justification. Record why a premium model
+or extra effort is needed, using current rates and the quality gate. Include
+billing surface, service tier, price source/date or unknown, availability source,
+and fallback. Do not claim older models or local inference are always cheaper.
 
 Docs-only execution must not inherit a senior coordinator model. Use low/medium
 or local workers for the edit. If public command wording, route inventory,

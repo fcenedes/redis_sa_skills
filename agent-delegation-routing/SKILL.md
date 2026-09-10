@@ -4,18 +4,18 @@ description: Use when a coordinator agent needs to route coding work to Codex CL
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.1.1
+  version: 1.2.0
 ---
 
 # Agent Delegation Routing
 
 Route work to the right worker with explicit scope, command shape, verification, and diff review. After a file-backed plan exists, use this skill to execute or dispatch that plan. Use `agent-capability-ledger` before routing follow-up/readiness work that may duplicate delivered scope, `agent-delegation-planning` before routing multi-task work, and `agent-memory-coordination` for shared prompts, ownership, or outcomes.
 
-Short version: use Claude-side routing for judgment, Codex for repo execution, and Qwen for bounded local work. Codex may request Claude-side audit only through an explicit bridge, tool, or CLI with a scoped no-secrets/no-push prompt; otherwise Claude entries are external choices for Claude-side coordinators or humans.
+Support Codex and Claude Code coordinators equally: use native workers with explicit model controls, and an explicit scoped bridge/tool/CLI for cross-provider work. Choose by task fit and total cost; use local Qwen when verified hardware and quality make it worthwhile.
 
 Load references only when needed:
 
-- Need model choice: read [routing-table](references/routing-table.md).
+- Need model choice: read [routing-table](references/routing-table.md); for prices, cache/tier effects, and cost per accepted task, read [model-pricing](references/model-pricing.md).
 - Need role contracts: read [specialist-roles](references/specialist-roles.md).
 - Need anchored or resumed plan dispatch, `charter.md`, `00-index.md`, `components.md`, `decisions.md`, resume ritual, or rigid worker reports: read [anchoring](../agent-delegation-planning/references/anchoring.md).
 - Need commands or workflows: read [command-patterns](references/command-patterns.md) or [delegation-playbooks](references/delegation-playbooks.md).
@@ -32,47 +32,28 @@ Load references only when needed:
 
 ## Routing Matrix
 
-| Need | Default route |
-|---|---|
-| Judgment | Codex high/xhigh, or Claude Opus through explicit bridge/tool or human/Claude-side routing |
-| Repo execution | Codex CLI medium/high/xhigh, based on risk |
-| Normal implementation | Codex medium, or Claude Sonnet through explicit bridge/tool or human/Claude-side routing |
-| Cheap bounded work | local Qwen/Ollama, LM Studio, Claude Haiku through explicit bridge/tool or human/Claude-side routing, or fast models |
-| Documentation execution | low/medium by default; high only for separate public-contract, release, security, or architecture audit/spec role |
-| Final high-risk review | Claude Opus through explicit bridge/tool or human/Claude-side routing plus Codex high/xhigh verification |
+| Need | Codex route | Claude route |
+|---|---|---|
+| Cheap bounded work | Direct/local or Luna low/medium | Direct/local or Haiku 4.5; effort unsupported on Haiku |
+| Normal implementation/review | Terra medium | Sonnet 5; medium after quality validation, otherwise high |
+| Complex coding/integration | Sol medium/high | Opus 4.6 high for demanding work |
+| Demanding judgment/high-risk audit | Sol high; Astra for justified escalation | Opus 4.6 high; newer Opus/Fable only for proven benefit |
+| Documentation execution | Low/medium; separate high-risk contract review | Haiku or Sonnet at supported cost-conscious settings; separate high-risk review |
 
-Codex subagent cost rule: if explicit overrides expose `gpt-5.6-sol`,
-`gpt-5.6-terra`, `gpt-5.6-luna`, `gpt-5.5`, and `gpt-5.4`, start with the
-cheapest sufficient explicit model. Use `gpt-5.4` for bounded
-implementation/docs/tests, `gpt-5.5` for complex coding or broader repo
-analysis, `gpt-5.6-luna` for fast latest-generation needs, `gpt-5.6-terra` only
-when cheaper models are insufficient for longer/multi-file agentic work, and
-`gpt-5.6-sol` only for high-risk audit, architecture, security, subtle
-regression, or final verification. External `Sonnet`/`Opus` labels are
-model-class hints, not Codex model IDs. Avoiding inheritance ambiguity requires
-an explicit model; it does not justify a newer or higher-cost model by itself.
-
-These defaults are calibrated per model generation. See [routing-table](references/routing-table.md) for model-specific effort guidance.
+Choose the cheapest sufficient **available** model/effort pair using current
+billing rates and task evidence. Older does not mean cheaper: do not default to
+GPT-5.4/5.5 ahead of Luna/Terra/Sol. Honor explicit pins. Treat API prices,
+subscription usage, and local hardware cost separately; record unknown costs.
+Prefer explicit `claude-opus-4-6` for Opus work; account for newer Claude
+tokenizers producing roughly 30% more tokens for the same text before upgrading.
+Record retries, cache/context transfer, verification, latency, and the reason
+for escalation. A final review does not automatically need a premium model or
+two providers. Model IDs, effort support, and dated prices live in the linked
+references; re-check them on the destination runtime.
 
 ## Role Selection
 
-Pick the smallest role that preserves quality:
-
-- Coordinator: split work, assign owners, integrate evidence.
-- Spec Writer: turn ambiguous work into acceptance criteria and gates.
-- Implementor: execute one bounded code task.
-- Verifier: approve or reject with evidence.
-- Auditor: inspect architecture, runtime seams, delivery claims, and gates.
-- PR Reviewer: leave high-confidence review findings only.
-- PR Shepherd: move an existing PR toward merge readiness without merging.
-- UI Designer: deliver product UI with visual, accessibility, and responsive evidence.
-- Capability Ledger Maintainer: update ledger rows from repo evidence, usually low/medium.
-- Capability Auditor: verify ledger claims against evidence, medium/high only when cross-repo or high-risk.
-- Packet Worker: execute one packet with strict `allowed_files` and `forbidden_files`.
-- Packet Reviewer: check dependency order, file boundaries, verification, and repair-packet need.
-- Qwen Worker: perform narrow local patch or analysis tasks.
-For role contracts, read [specialist-roles](references/specialist-roles.md).
-Do not create a specialist role when a simple worker prompt is enough.
+Pick the smallest role that preserves quality. Use [specialist-roles](references/specialist-roles.md) for Coordinator, Spec Writer, Implementor, Verifier, Auditor, PR/UI, ledger, packet, and local-worker contracts. Do not create a specialist role when a simple worker prompt is enough.
 
 Dispatch check: ambiguous work starts with Coordinator or Spec Writer; repo
 edits go to Implementor; final approval goes to Verifier or Auditor; cheap
@@ -125,7 +106,7 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 - Do not dispatch from a chat-only summary, generic checklist, incomplete packet, or unanchored resume.
 - Do not omit requested/actual model, requested/actual reasoning, inheritance status, routing reason, ownership, verification, or fallback.
 - Do not silently let workers inherit the coordinator model or reasoning level.
-- Do not use `gpt-5.6-terra`, `gpt-5.6-sol`, high, xhigh, max, or ultra merely because explicit model/reasoning controls are available; record why cheaper explicit choices are insufficient.
+- Do not rank cost by generation, assume local inference is free, or select premium models/high effort without a task-specific reason; compare current rates and accepted-task cost.
 - Do not use inherited senior-model/high-reasoning workers for docs-only or low/medium work.
 - Do not serialize independent worker tracks or claim parallel execution without recording actual execution streams.
 - Do not defer bounded coordinator-solvable blockers to a future delegation.
@@ -134,17 +115,6 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 - Do not wrap interactive agent sessions with RTK.
 - Do not treat skipped tests or missing live systems as passing verification.
 - Run the full detailed guardrails in [routing-guardrails](references/routing-guardrails.md) when dispatching or auditing routed work.
-
-## Common Rationalizations
-
-| Rationalization | Reality |
-|---|---|
-| "The latest model is safest for every task" | Start with the cheapest sufficient model; record why cheaper choices are insufficient before escalating. |
-| "Dispatching a subagent is always better than doing it inline" | Over-delegation wastes tokens. Sequential single-file tasks should be executed directly. |
-| "The worker can figure out which files to touch" | Every worker needs explicit `allowed_files`, `forbidden_files`, and ownership boundaries before dispatch. |
-| "Routing advice is the same as a plan" | This skill dispatches from an existing plan; use `agent-delegation-planning` to create one first. |
-| "Inheriting the coordinator model is fine for workers" | Silent model inheritance wastes budget; explicitly set the smallest sufficient model per task. |
-| "We can verify after all workers finish" | Each worker must have exact verification commands; deferred verification becomes claim-based. |
 
 ## Interaction with Other Skills
 
@@ -157,7 +127,7 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 
 - [ ] The plan file referenced by the routing dispatch exists on disk (`ls` on the plan path confirms).
 - [ ] Every worker prompt includes explicit `allowed_files` and `forbidden_files` fields (`grep -c 'allowed_files\|forbidden_files'` returns at least one match per worker prompt).
-- [ ] Each task has `model` and `reasoning` set explicitly (not inherited from the coordinator); `grep` for both fields in each task block confirms.
+- [ ] Each task has an explicit model and supported reasoning setting (or `not supported`); inspect both fields and the destination schema.
 - [ ] Every task specifies at least one verification command that can be run independently (`grep -i 'verification'` per task returns a concrete command, not a placeholder).
 - [ ] No worker prompt contains secrets, tokens, or credentials (`grep -riE 'api_key|token|secret|password'` on prompts returns empty).
 
@@ -168,8 +138,8 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 - [ ] Existing plan, source of truth, ownership, forbidden files, and verification gates are explicit.
 - [ ] Capability ledger, anchoring, local terminology, packet contract, and shared-memory needs were checked when applicable.
 - [ ] Each task is mapped to dispatch/direct/serialized/blocked/not-applicable before execution.
-- [ ] Dispatch path can set model/reasoning, or inherited execution is explicitly rejected.
-- [ ] Docs-only workers stay low/medium unless a separate high-risk reviewer/spec task is justified.
+- [ ] Dispatch path can set model/supported effort; availability, billing surface, tier, price source/date or unknown, and fallback are recorded.
+- [ ] Docs workers use low/medium where supported (Haiku: not supported); high-risk review is separately justified.
 - [ ] Git status was checked and unrelated changes are protected.
 - [ ] Parallelization decision and actual execution mode are recorded.
 - [ ] Worker output was reviewed for ownership, rigid report fields, blocker disposition, and verification evidence.
