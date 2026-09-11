@@ -13,6 +13,8 @@ Sentinel policy (one rule per field kind):
 Slot rules (mechanical ones are checked by `scripts/validate-change-delta.py`,
 semantic ones by the attestations in `references/spec-quality-gate.md`):
 
+- Detail level: a small model at medium effort implements each REQ from this
+  document alone (files, commands, expected outputs, constants all present).
 - `Then:` uses one of the gate's six observable forms.
 - Every number is derived (arithmetic inline), cited (`file:line`, doc URL,
   rule file, or a standard in `Standards cited:`), or `(measure)`.

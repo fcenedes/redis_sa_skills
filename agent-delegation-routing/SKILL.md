@@ -4,7 +4,7 @@ description: Use when a coordinator agent needs to route coding work to Codex CL
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.2.0
+  version: 1.2.1
 ---
 
 # Agent Delegation Routing
@@ -34,7 +34,7 @@ Load references only when needed:
 
 | Need | Codex route | Claude route |
 |---|---|---|
-| Cheap bounded work | Direct/local or Luna low/medium | Direct/local or Haiku 4.5; effort unsupported on Haiku |
+| Cheap bounded work, and any REQ from a change delta that passed the `agent-spec-writing` gate | Direct/local or Luna low/medium | Direct/local or Haiku 4.5; effort unsupported on Haiku |
 | Normal implementation/review | Terra medium | Sonnet 5; medium after quality validation, otherwise high |
 | Complex coding/integration | Sol medium/high | Opus 4.6 high for demanding work |
 | Demanding judgment/high-risk audit | Sol high; Astra for justified escalation | Opus 4.6 high; newer Opus/Fable only for proven benefit |
@@ -121,7 +121,7 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 - **agent-delegation-planning** (upstream): requires a file-backed plan before routing work to workers.
 - **agent-capability-ledger** (upstream): reconcile before routing follow-up work that may duplicate delivered scope.
 - **agent-memory-coordination** (complementary): use for shared prompts, ownership maps, and outcome tracking.
-- **agent-spec-writing** (indirect upstream): specs feed into plans which feed into routing.
+- **agent-spec-writing** (indirect upstream): a REQ from a gate-passing change delta routes to the cheap tier by default; escalate one tier only when its Test Strategy command fails or the gate recorded the REQ as not small-model-ready.
 
 ## Verification
 
