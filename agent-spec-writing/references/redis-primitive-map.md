@@ -2,7 +2,8 @@
 
 Load only when a spec touches Redis. Companion to gate check 4 in
 [spec-quality-gate](spec-quality-gate.md): it names, per primitive, the rule
-file to cite from the `redis-development` bundle and the domain skill to load.
+file to cite from the `redis-development` bundle and the domain skill to load,
+both from https://github.com/redis/agent-skills.
 
 Source: https://github.com/redis/agent-skills — the `redis-development` plugin
 bundle (rule files under `rules/`, compiled in its `AGENTS.md`) and eight
