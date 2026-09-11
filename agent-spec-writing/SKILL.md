@@ -4,7 +4,7 @@ description: Use when writing, updating, or reviewing source-of-truth specs, req
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.3.1
+  version: 1.3.2
 ---
 
 # Agent Spec Writing
@@ -127,7 +127,7 @@ each REQ implementable by a small model at medium effort from the spec alone.
 
 Change deltas (set `SPEC` to the draft path):
 
-- [ ] `python3 scripts/validate-change-delta.py "$SPEC"` exits 0 (paste the summary counts)
+- [ ] `python3 "$SKILL_ROOT/scripts/validate-change-delta.py" "$SPEC"` exits 0 (paste its SUMMARY line; `SKILL_ROOT` = the directory holding this SKILL.md)
 - [ ] Every REVIEW numeric token classified; every attestation label has `pass (detail)`
 - [ ] `grep -cE '^- Errors: 0$' "$SPEC"` returns 1 and no gate result is open
 - [ ] Revision History has a row for this edit; DEFERRED rows have owner and revisit trigger

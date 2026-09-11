@@ -4,13 +4,13 @@ description: Use when writing an execution plan that will be delegated to coding
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 # Agent Delegation Planning
 
 Write file-backed plans that are directly executable by delegated agents. A plan is a binding ownership, routing, skill, and verification contract, not a narrative checklist.
 
-Use `agent-spec-writing` before planning when requirements or source-of-truth behavior are still being authored; when a change delta exists, its `Derived order` constrains wave ordering, its Test Strategy seeds task verification, its `D-<n>` decisions are cited by plan assumptions, and its Baseline becomes a measurement task; the plan still decides waves, ownership, and contracts. Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-repo, or "what remains" plans. Use `agent-delegation-routing` after the plan exists, `agent-memory-coordination` when prompts/status/ownership must be shared, and `agent-plan-lifecycle` after plan creation for status, resume, promotion, closure, or archive.
+Use `agent-spec-writing` before planning when requirements or source-of-truth behavior are still being authored; when a change delta exists, its Dependency DAG edges (`Depends on:`) constrain waves (`Derived order` is one validated serial order, not the constraint), its Test Strategy seeds task verification, each open `D-<n>` is a blocker for the REQs it blocks (those tasks are not dispatched until it is resolved), and a Baseline with `(measure)` cells becomes a measurement task; the plan still decides waves, ownership, and contracts. Use `agent-capability-ledger` before follow-up, readiness, cross-tranche, cross-repo, or "what remains" plans. Use `agent-delegation-routing` after the plan exists, `agent-memory-coordination` when prompts/status/ownership must be shared, and `agent-plan-lifecycle` after plan creation for status, resume, promotion, closure, or archive.
 
 Load references only when needed:
 
@@ -110,7 +110,7 @@ Each task must include ID, objective, skills, routing reason, repo/branch, role,
 
 ## Interaction with Other Skills
 
-- **agent-spec-writing** (upstream): use before planning when requirements are still being authored; its Derived order constrains waves, Test Strategy seeds Verify with, `D-<n>` decisions are cited by plan assumptions, Baseline becomes a measurement task.
+- **agent-spec-writing** (upstream): use before planning when requirements are still being authored; its Dependency DAG edges constrain waves, Test Strategy seeds Verify with, each open `D-<n>` blocks dispatch of the REQs it names, a Baseline with `(measure)` cells becomes a measurement task.
 - **agent-capability-ledger** (upstream): reconcile before follow-up, readiness, or "what remains" plans.
 - **agent-delegation-routing** (downstream): use after the plan exists to dispatch work to workers.
 - **agent-memory-coordination** (complementary): use when prompts, status, or ownership must be shared across agents.

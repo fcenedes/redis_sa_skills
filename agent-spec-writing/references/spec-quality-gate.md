@@ -14,25 +14,37 @@
 
 ## Two kinds of check
 
-Mechanical checks are asserted by the validator; run it and paste its summary
-line into the Validation Report:
+Mechanical checks are asserted by the validator. `SKILL_ROOT` is the directory
+holding this skill's `SKILL.md` (installed: `~/.agents/skills/agent-spec-writing`;
+in the repo: `agent-spec-writing`). Run it and paste its `SUMMARY` line into
+the Validation Report:
 
 ```bash
-SPEC=path/to/change-delta.md   # edit to the draft's path
-python3 "$(dirname "$0")/../scripts/validate-change-delta.py" "$SPEC"   # or the absolute skill path
+SKILL_ROOT=~/.agents/skills/agent-spec-writing
+SPEC=path/to/change-delta.md
+python3 "$SKILL_ROOT/scripts/validate-change-delta.py" "$SPEC"
 ```
 
-Exit 0 = no structural errors. It checks: REQ id grammar
-`REQ-<seg>(-<seg>)*` and duplicates; unresolved `<placeholders>` outside
-backticks; every required slot per section; exactly one `Depends on:` per REQ
-resolving to `none` or known ids; `Then:` present; DAG edges equal to the
-fields, acyclic, `Derived order:` a valid topological order; every `REQ-`
-token resolves; Open Decisions ids `D-<n>` unique; Assumptions classes and
-pointers; a Test Strategy row per non-deferred REQ; thirteen gate labels with
-results in grammar; `- Errors:` integer; a Revision History row; unquoted
-lowercase weasel words; RFC 2119 keywords without RFC 2119 in
-`Standards cited:`. It prints, for human classification, every numeric token
-in REQ bodies (REVIEW) and every sequencing clause (WARNINGS).
+Exit 0 means no structural error and `- Errors: 0` declared; exit 1 otherwise;
+exit 2 for a bad path or option. Fenced code is skipped for structure,
+included for numbers. It asserts: REQ heading grammar `### REQ-<seg>(-<seg>)*: title`
+and duplicates; unresolved `<placeholders>` outside backticks (camelCase
+included); every required slot per section present and non-empty, with
+`n/a: <reason>` the only scalar sentinel and `none` only for `Depends on:`;
+exactly one `Depends on:` per REQ resolving to known ids; a non-empty `Then:`;
+DAG edges equal to the fields, acyclic; `Derived order:` ids only, each REQ
+once, a valid topological order; every `REQ-` token resolves; no duplicate
+`##` section; table sections have a data row or a `none` / `n/a:` line;
+Open Decisions first column `ID` with unique `D-<n>`; Assumptions class and
+pointer kind; a Test Strategy row per non-deferred REQ keyed by exact id;
+thirteen labels each `pass (<detail>)` or `N fixed (<detail>)`, never `n/a`;
+`- Errors:` an integer that must be 0; `- Warnings:` and `- Info:` non-empty
+(`none` allowed); a Revision History row; unquoted lowercase weasel words; RFC
+2119 keywords without RFC 2119 in `Standards cited:`. It prints, for human
+classification, every numeric token with its unit in REQ bodies (REVIEW,
+compact forms such as `200KB`, `1s`, `3attempts` included) and every
+sequencing clause (WARNINGS). The known-good input is
+`evals/fixtures/minimal-valid-delta.md`; the unfilled template is expected to fail.
 
 Semantic checks are attestations: the author records evidence for each in
 the Validation Report. An attestation without evidence is an open check.
@@ -53,7 +65,8 @@ inline), cited (`file:line`, doc URL, rule file, or a standard in
 capture command, constant defined by a cited source). Record
 `pass (N tokens classified)`. Fail cases from the baseline:
 `Response body < 200 KB`, `~200-400 cluster centroids`, `within 1s`,
-`192 KB memory budget` with no arithmetic, `threshold 0.3` with no metric.
+`192 KB memory budget` with no arithmetic, `threshold 0.3` with no metric,
+compact forms `200KB` and `3attempts` with no derivation.
 
 ## 2. Weasel lint (validator)
 
@@ -114,20 +127,27 @@ skill and cited in `Evidence checked:`.
 Fail case from the baseline: replay guard written as `SET applied:<id> NX`
 before `MULTI`. `MULTI` has no conditional execution, and a check outside the
 transaction is not atomic with it. Shape that holds, per the transactions doc
-above:
+above and `rules/cluster-hash-tags.md`:
 
-1. `WATCH applied:<id>`; `GET applied:<id>`. If present: `UNWATCH`, skip.
-2. `MULTI`; queue the work; `SET applied:<id> EX <ttl>`; `EXEC`.
-3. `EXEC` returns nil when the watched key changed: retry up to a stated
-   bound, then return the stated terminal response. Every exit before `EXEC`
-   issues `UNWATCH` (or discards the connection) so a pooled connection is not
-   left watching.
-4. Redis keeps executing queued commands after a runtime error inside `EXEC`,
-   so `applied:<id>` can be set while one queued command failed. Use this
-   pattern only when every queued command is type-safe and idempotent, and
-   state the recovery contract for a partial `EXEC`.
-5. In Redis Cluster the watched key and every written key share one hash
-   slot via a hash tag (`rules/cluster-hash-tags.md`).
+1. One dedicated connection for the whole sequence. `WATCH` and `MULTI` state
+   is connection-local; a pooled connection is not shared or returned
+   mid-sequence.
+2. `WATCH applied:<id>`; `GET applied:<id>`. If present: `UNWATCH`, return
+   "already applied".
+3. `MULTI`; queue every command including `SET applied:<id> EX <ttl>`; `EXEC`.
+   Any abort after `MULTI` and before `EXEC` uses `DISCARD` (which also
+   unwatches) or closes the connection; `UNWATCH` sent after `MULTI` is only
+   queued and cleans nothing.
+4. `EXEC` returns nil when the watched key changed: retry the whole sequence
+   up to a stated bound N, then return the stated terminal response.
+5. `EXEC` returns an array: inspect every element. Redis continues past a
+   runtime error inside the transaction and has no rollback, so any error
+   element means partial failure even though `applied:<id>` is now set. Report
+   failure, never success, and run the REQ's stated recovery contract
+   (compensating commands or an idempotent re-run). Type safety and idempotency
+   reduce the chance of partial failure; they are not rollback.
+6. In Redis Cluster every key named in `WATCH` and in every queued command,
+   read or write, shares one hash slot via a hash tag.
 
 ## 5. Cross-REQ interactions (attestation)
 
@@ -205,8 +225,11 @@ topological order. Document order is free.
 
 ## 11. Slots (validator for presence, attestation for applicability)
 
-Validator: every required slot present per section, `Then:` present,
-`Handoff task, if any:` a title only. Author attests:
+Validator: every required slot present and non-empty per section, `Then:`
+non-empty. Author attests:
+
+- every `Handoff task, if any:` is a title only (no owner, model, steps, or
+  estimate);
 
 - every `Then:` uses one of six forms: named command plus expected output;
   API response (HTTP status plus body shape, or protocol-native reply shape);

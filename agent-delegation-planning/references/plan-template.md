@@ -68,7 +68,7 @@ Both skeletons still need the full field set below (routing reason, model/reason
   - status:
 - Source of truth:
 - Spec/change source:
-- Change delta: <path>; when it follows the `agent-spec-writing` change-delta shape, its `Derived order`, Test Strategy rows, Open Decisions (`D-<n>`), Baseline (REQ-00), and capability names are inputs to the fields below; batches, waves, ownership, and task contracts are decided here
+- Change delta: <path>; when it follows the `agent-spec-writing` change-delta shape, its Dependency DAG edges, Test Strategy rows, Open Decisions (`D-<n>`), Baseline (REQ-00), and capability names are inputs to the fields below; batches, waves, ownership, and task contracts are decided here
 - Local terminology sources:
 - Known local changes:
 - Goal:
@@ -77,8 +77,8 @@ Both skeletons still need the full field set below (routing reason, model/reason
 - Autonomy: autonomous | checkpoint | manual  (default autonomous: once execution starts, run all waves to `audited`, validate inline, return only on a true decision-blocker)
 - Commit policy: allowed | not allowed  (default not allowed; autonomy never grants commit permission; push and default-branch changes gated on explicit user approval)
 - Plan lifecycle state: planned | running | verified | audited | promoted | archived | blocked | failed | superseded
-- Assumptions: plan-level assumptions; cite the change delta's `D-<n>` for any that rest on an open decision, and do not restate its dispositioned Assumptions
-- Open questions:
+- Assumptions: plan-level assumptions only; an open `D-<n>` is never an assumption
+- Open questions: <each open `D-<n>` from the change delta with the REQs it blocks; tasks for those REQs are not dispatched until the decision is recorded>
 
 ## Persistence Rule
 
@@ -177,7 +177,7 @@ Both skeletons still need the full field set below (routing reason, model/reason
 - Packet reference: `agent-delegation-planning/references/packet-mode.md`
 - Packet index path:
 - Packet file/section paths:
-- Dependency waves: <chosen here; must respect the change delta's `Derived order` when present (a topological order constrains waves, it does not define them)>
+- Dependency waves: <chosen here from the change delta's Dependency DAG edges (`Depends on:`) when present; independent REQs share a wave; `Derived order` is one validated serial order, not the constraint>
   - wave 1:
   - wave 2:
   - wave n:
@@ -513,7 +513,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Decision: parallel batch / serial because <reason> / not parallelizable because <reason>
 - Actual execution mode: parallel workers / direct serial / parallelizable but serialized because <tool/runtime limitation>
 - Packet mode: not used / used via <packet index path>
-- Dependency waves: <chosen here; must respect the change delta's `Derived order` when present>
+- Dependency waves: <chosen here from the change delta's Dependency DAG edges when present>
 - Batch files: none / routing summaries only. They must reference task IDs from `epic-<id>.md` and must not replace task contracts.
 - Batch note for coordinator: batches are scheduling only; `epic-<id>.md` files are authoritative task contracts.
 - Parallel batch 1:
