@@ -4,7 +4,7 @@ description: Use when writing, updating, or reviewing source-of-truth specs, req
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.3.2
+  version: 1.3.3
 ---
 
 # Agent Spec Writing
@@ -49,11 +49,11 @@ spec-compliance against a diff, use [spec-compliance-review](references/spec-com
    `openspec/specs/` nor `specs/` exists, follow the nearest existing spec
    directory's layout; with no spec directory at all, write a standard Markdown
    spec using the template.
-5. For any spec touching Redis, load the official skills from
-   https://github.com/redis/agent-skills (`redis-development` bundle plus the
-   domain skill per primitive; map in the gate). Cite only a rule file that
-   contains the claim; otherwise a redis.io URL. If the skills are absent, ask
-   the user to install them and use official docs meanwhile.
+5. For every platform primitive the spec relies on, load that platform's
+   official skill before writing (gate check 4 lists known platforms; Redis
+   map in `references/redis-primitive-map.md`). Cite only a rule file that
+   contains the claim; otherwise the official doc URL. If a skill is absent,
+   ask the user to install it and use official docs meanwhile.
 6. Classify the requested change as `ADDED`, `MODIFIED`, `REMOVED`,
    `SUPERSEDED`, or `DEFERRED`.
 7. Fill every template slot per REQ using the template's sentinel policy
@@ -120,7 +120,7 @@ each REQ implementable by a small model at medium effort from the spec alone.
 - **agent-delegation-planning** (downstream): reads the Derived order, Test Strategy, Open Decisions, and Baseline as inputs; it alone decides batches, waves, ownership, and task contracts.
 - **agent-plan-lifecycle** (downstream): use after delivery to promote audited changes into durable truth or archive.
 - **agent-capability-ledger** (complementary): assigns `<DOMAIN>.<AREA>.<NUM>` IDs to the capability names the spec lists.
-- **redis/agent-skills** (upstream, mandatory for Redis specs): `redis-development` bundle plus the eight domain skills; local `redis-query-engine` and `redis-vector-search` are older aliases of `redis-search`.
+- **Platform skills** (upstream, per primitive): the platform's official skill is the citation source; for Redis that is `redis-development` plus the redis/agent-skills domain skills, mapped in `references/redis-primitive-map.md`.
 - **performance-optimization**, **shipping-and-launch** (complementary): Baseline (REQ-00) and Consumer Rollback feed their measure-first and rollback-before-deploy gates.
 
 ## Verification
@@ -142,7 +142,7 @@ Each item must be proved by a command output or file read from this session, not
 
 - [ ] Confirmed the task has durable behavior, design, or contract impact, or a handoff; otherwise changed directly.
 - [ ] Source-of-truth files were checked and cited with `file:line`.
-- [ ] Redis specs: `redis-development` and the relevant redis/agent-skills domain skills were loaded; every primitive claim cites a rule file containing it or a doc URL.
+- [ ] Every platform primitive claim cites a rule file from the platform's official skill that contains the claim, or an official doc URL.
 - [ ] Existing spec layout, naming, metadata, status, and indexes were preserved; local terms use repo definitions.
 - [ ] Change entries are classified as ADDED/MODIFIED/REMOVED/SUPERSEDED/DEFERRED and the consistency triad holds.
 - [ ] Validator exit 0; attestations recorded; repo-native validation commands recorded when they exist.
