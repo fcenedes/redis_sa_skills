@@ -64,7 +64,7 @@ For every platform primitive the spec relies on (transactions, TTL, index behavi
 
 ## Gate evidence
 
-Does the Validation Report list all 13 quality-gate labels with no open result and an `Errors` count that includes any open check, does the weasel lint return 0 unquoted lowercase hits inside REQ bodies, does the gate-11 result name every REQ, is one unit used per quantity across the document, and is there no clause that changes a REQ's final target after another REQ lands?
+Did the transcript run `scripts/validate-change-delta.py` to exit 0, does the Validation Report list all 13 labels in the `pass (detail)` grammar with no open result and an `Errors` count that includes any open check, does the weasel lint return 0 unquoted lowercase hits inside REQ bodies, does the gate-11 result name every REQ, is one unit used per quantity across the document, and is there no clause that changes a REQ's final target after another REQ lands?
 
 ## Family and authority fit
 
