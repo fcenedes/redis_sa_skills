@@ -68,7 +68,7 @@ Both skeletons still need the full field set below (routing reason, model/reason
   - status:
 - Source of truth:
 - Spec/change source:
-- Change delta:
+- Change delta: <path>; when it follows the `agent-spec-writing` change-delta shape, take its `Derived order`, Test Strategy rows, Open Decisions, Baseline (REQ-00), and capability names as inputs (fields below name where each lands)
 - Local terminology sources:
 - Known local changes:
 - Goal:
@@ -77,7 +77,7 @@ Both skeletons still need the full field set below (routing reason, model/reason
 - Autonomy: autonomous | checkpoint | manual  (default autonomous: once execution starts, run all waves to `audited`, validate inline, return only on a true decision-blocker)
 - Commit policy: allowed | not allowed  (default not allowed; autonomy never grants commit permission; push and default-branch changes gated on explicit user approval)
 - Plan lifecycle state: planned | running | verified | audited | promoted | archived | blocked | failed | superseded
-- Assumptions:
+- Assumptions: inherited from the change delta's Open Decisions and dispositioned Assumptions (cite the row); list only plan-local additions here
 - Open questions:
 
 ## Persistence Rule
@@ -87,6 +87,7 @@ Both skeletons still need the full field set below (routing reason, model/reason
 - Large plan: write `00-overview.md`, one `epic-<id>.md` per epic, explicit integrator/auditor task contracts when nontrivial, `tracker.md`, and `coordinator-prompt.md`.
 - Anchored plan: for multi-agent, long-running, follow-up, readiness, or resumable work, also write `charter.md`, `00-index.md`, `components.md`, and `decisions.md`.
 - Lifecycle tracking: anchored plans use `agent-plan-lifecycle`; `00-index.md` records the plan state separately from task status and promotion/archive status.
+- Change delta inputs: a Baseline (REQ-00) with `(measure)` cells becomes a measurement task scheduled before the REQs that cite it; capability names in the delta's Execution Handoff get `<DOMAIN>.<AREA>.<NUM>` IDs via `agent-capability-ledger`, never in the plan
 - Change delta: if requirements or source-of-truth behavior are being authored, use `agent-spec-writing` and include a `change-delta.md` or existing spec/change path.
 - Epic trigger: 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, multiple delivery surfaces, multiple crates/packages, or CI/live-system tracks require epic files. Convert user-provided batches/phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are authoritative.
 - Packet mode: optional for highly parallel file-owned work. It supplements epics/tasks with a packet index, dependency waves, and packet contracts; it does not replace epic/task contracts.
@@ -175,7 +176,7 @@ Both skeletons still need the full field set below (routing reason, model/reason
 - Packet reference: `agent-delegation-planning/references/packet-mode.md`
 - Packet index path:
 - Packet file/section paths:
-- Dependency waves:
+- Dependency waves: <from the change delta's `Derived order` when present, else derived here; wave 1 = REQs with no incomplete dependency>
   - wave 1:
   - wave 2:
   - wave n:
@@ -332,7 +333,7 @@ Use this section for a small request where epics would add noise.
 - Compatibility constraints:
 - Example test shape:
 - Steps: exact steps here; references to another file may supplement, not replace them
-- Verify with: exact commands here; references to another file may supplement, not replace them
+- Verify with: exact commands here; start from the change delta's Test Strategy row for this task's REQ when present; references to another file may supplement, not replace them
 - Output format:
 - Playwright evidence if UI/browser work:
   - Skill:
@@ -504,7 +505,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Decision: parallel batch / serial because <reason> / not parallelizable because <reason>
 - Actual execution mode: parallel workers / direct serial / parallelizable but serialized because <tool/runtime limitation>
 - Packet mode: not used / used via <packet index path>
-- Dependency waves:
+- Dependency waves: <from the change delta's `Derived order` when present, else derived here>
 - Batch files: none / routing summaries only. They must reference task IDs from `epic-<id>.md` and must not replace task contracts.
 - Batch note for coordinator: batches are scheduling only; `epic-<id>.md` files are authoritative task contracts.
 - Parallel batch 1:
