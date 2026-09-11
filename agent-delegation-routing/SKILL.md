@@ -4,7 +4,7 @@ description: Use when a coordinator agent needs to route coding work to Codex CL
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.2.1
+  version: "1.3.0"
 ---
 
 # Agent Delegation Routing
@@ -55,10 +55,7 @@ references; re-check them on the destination runtime.
 
 Pick the smallest role that preserves quality. Use [specialist-roles](references/specialist-roles.md) for Coordinator, Spec Writer, Implementor, Verifier, Auditor, PR/UI, ledger, packet, and local-worker contracts. Do not create a specialist role when a simple worker prompt is enough.
 
-Dispatch check: ambiguous work starts with Coordinator or Spec Writer; repo
-edits go to Implementor; final approval goes to Verifier or Auditor; cheap
-bounded patches may go to Qwen Worker; ledger updates go to Capability Ledger
-Maintainer; security, architecture, and high-risk readiness claims do not.
+Dispatch check: ambiguous work → Coordinator or Spec Writer; repo edits → Implementor; final approval → Verifier or Auditor; cheap bounded patches → Qwen Worker; ledger updates → Capability Ledger Maintainer, never security, architecture, or high-risk readiness claims.
 
 Dispatch sub-agents only when work is genuinely parallel, file-disjoint, or needs fresh-context verification. For sequential single-file tasks, execute directly. Over-delegation wastes tokens and obscures accountability.
 
@@ -102,19 +99,25 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 - Do not use this skill for a one-file fix, a trivial edit, or any task with no durable plan and no multi-agent handoff; just make the change directly.
 - Do not make Codex use an uncontrolled Claude handoff; require an explicit bridge/tool/CLI with scoped prompt, or route through the user or a Claude-side coordinator.
 - Do not delegate ambiguous product, architecture, or security decisions to a bounded worker.
-- Do not interpret local terms from generic model knowledge when repo source-of-truth definitions exist.
-- Do not dispatch from a chat-only summary, generic checklist, incomplete packet, or unanchored resume.
+- Do not dispatch a prompt without the Mission Block (mission, not the mission, spec gap policy) from [specialist-roles](references/specialist-roles.md); do not accept `DONE` without a REQ traceability table; do not let a worker's or coordinator's design replace the spec's.
+- Do not interpret local terms from generic knowledge when repo definitions exist; do not dispatch from a chat-only summary, generic checklist, incomplete packet, or unanchored resume.
 - Do not omit requested/actual model, requested/actual reasoning, inheritance status, routing reason, ownership, verification, or fallback.
 - Do not silently let workers inherit the coordinator model or reasoning level.
-- Do not rank cost by generation, assume local inference is free, or select premium models/high effort without a task-specific reason; compare current rates and accepted-task cost.
-- Do not use inherited senior-model/high-reasoning workers for docs-only or low/medium work.
-- Do not serialize independent worker tracks or claim parallel execution without recording actual execution streams.
-- Do not defer bounded coordinator-solvable blockers to a future delegation.
-- Do not let workers commit, push, touch secrets, overwrite unrelated local changes, or edit outside owned files.
-- Do not apply local-model patches without `git apply --check` and diff review.
-- Do not wrap interactive agent sessions with RTK.
-- Do not treat skipped tests or missing live systems as passing verification.
+- Do not rank cost by generation, assume local inference is free, select premium models or high effort without a task-specific reason, or let docs-only and low/medium work inherit senior-model/high-reasoning workers.
+- Do not serialize independent worker tracks or claim parallel execution without recording actual streams; do not defer bounded coordinator-solvable blockers to a future delegation.
+- Do not let workers commit, push, touch secrets, overwrite unrelated changes, or edit outside owned files; apply local-model patches only after `git apply --check` and diff review.
+- Do not wrap interactive agent sessions with RTK; do not treat skipped tests or missing live systems as passing verification.
 - Run the full detailed guardrails in [routing-guardrails](references/routing-guardrails.md) when dispatching or auditing routed work.
+
+## Common Rationalizations
+
+| Rationalization | Reality |
+|---|---|
+| "The spec is over-specified; I'll simplify" | Simplifying is redesign. Implement as written; file the concern as DONE_WITH_CONCERNS with the REQ id. |
+| "I know a better approach" | Not the mission. A better approach goes back to the spec author as a NEEDS_CONTEXT question, not into the diff. |
+| "The spec didn't cover X, so I designed it" | A gap is a stop condition, not a licence. Return NEEDS_CONTEXT naming the REQ and the question. |
+| "I implemented the spirit of the spec" | The spirit is unverifiable; the Then scenarios are the contract. Traceability table or it is not done. |
+| "The audit checks that it works" | Working is necessary, not sufficient. Spec fidelity is the first gate: every REQ met with evidence, every change mapped to a REQ. |
 
 ## Interaction with Other Skills
 
@@ -142,6 +145,6 @@ After each worker returns, inspect `rtk git diff --stat` and targeted file diffs
 - [ ] Docs workers use low/medium where supported (Haiku: not supported); high-risk review is separately justified.
 - [ ] Git status was checked and unrelated changes are protected.
 - [ ] Parallelization decision and actual execution mode are recorded.
-- [ ] Worker output was reviewed for ownership, rigid report fields, blocker disposition, and verification evidence.
+- [ ] Worker output was reviewed for ownership, rigid report fields, blocker disposition, verification evidence, and a REQ traceability table with no unrequested changes.
 - [ ] Focused tests and final quality gate completed or skip reasons are recorded.
 - [ ] Detailed checklist in [routing-guardrails](references/routing-guardrails.md) passes before declaring routed work complete.

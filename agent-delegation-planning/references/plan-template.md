@@ -89,6 +89,7 @@ Both skeletons still need the full field set below (routing reason, model/reason
 - Lifecycle tracking: anchored plans use `agent-plan-lifecycle`; `00-index.md` records the plan state separately from task status and promotion/archive status.
 - Change delta inputs: a Baseline (REQ-00) with `(measure)` cells becomes a measurement task scheduled before the REQs that cite it; capability names in the delta's Execution Handoff get `<DOMAIN>.<AREA>.<NUM>` IDs via `agent-capability-ledger`, never in the plan
 - Change delta: if requirements or source-of-truth behavior are being authored, use `agent-spec-writing` and include a `change-delta.md` or existing spec/change path.
+- Spec fidelity gate: first-return checkpoint — dispatch the smallest REQ first, check its traceability table REQ-by-REQ before dispatching the rest, kill the batch on drift
 - Epic trigger: 2+ batches, 2+ workers, 2+ ownership areas, multiple phases, multiple delivery surfaces, multiple crates/packages, or CI/live-system tracks require epic files. Convert user-provided batches/phases into epics and tasks. Batch files may exist only as routing summaries; `epic-<id>.md` files are authoritative.
 - Packet mode: optional for highly parallel file-owned work. It supplements epics/tasks with a packet index, dependency waves, and packet contracts; it does not replace epic/task contracts.
 - Memory records:
@@ -301,6 +302,9 @@ Use this section for a small request where epics would add noise.
 ### Task T1: <name>
 
 - Objective:
+- Mission: implement REQ-<ids> from <change delta path> exactly as written; the spec is the contract
+- Not the mission: redesign, extend, simplify, or fill a spec gap with own design
+- Spec gap policy: return NEEDS_CONTEXT naming the REQ id and the exact question
 - Required skills:
   - `rtk-cli`: `<command-output reason>`
   - `caveman`: `<prose compression reason>`
@@ -334,7 +338,7 @@ Use this section for a small request where epics would add noise.
 - Example test shape:
 - Steps: exact steps here; references to another file may supplement, not replace them
 - Verify with: exact commands here; start from the change delta's Test Strategy row for this task's REQ when present; references to another file may supplement, not replace them
-- Output format:
+- Output format: <rigid report plus REQ traceability table: REQ | Then scenario | files:lines | verify command | output | verdict; DONE without it is rejected>
 - Playwright evidence if UI/browser work:
   - Skill:
   - URL/dev server:
@@ -375,12 +379,15 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Forbidden areas:
 - Dependencies:
 - Parallelizable with:
-- Acceptance criteria:
+- Acceptance criteria: <the REQ's Then scenarios copied verbatim from the change delta; a paraphrase is a defect>
 - Verification gate:
 
 #### Task E1.T1: <name>
 
 - Objective:
+- Mission: implement REQ-<ids> from <change delta path> exactly as written; the spec is the contract
+- Not the mission: redesign, extend, simplify, or fill a spec gap with own design
+- Spec gap policy: return NEEDS_CONTEXT naming the REQ id and the exact question
 - Required skills:
   - `rtk-cli`: `<command-output reason>`
   - `caveman`: `<prose compression reason>`
@@ -414,7 +421,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
 - Example test shape:
 - Steps: exact steps here; references to another file may supplement, not replace them
 - Verify with: exact commands here; references to another file may supplement, not replace them
-- Output format:
+- Output format: <rigid report plus REQ traceability table: REQ | Then scenario | files:lines | verify command | output | verdict; DONE without it is rejected>
 - Playwright evidence if UI/browser work:
   - Skill:
   - URL/dev server:
@@ -452,6 +459,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
   - `caveman`: concise findings without dropping evidence
   - `agent-delegation-routing`: pick Auditor model/reasoning
 - Worker role: Auditor
+- Audit mode: spec_fidelity first (every REQ met/partial/missing/contradicts with evidence; unrequested changes are findings), then quality gates
 - Preferred worker/provider: cross-agent auditor when an explicit bridge/tool or handoff is available
 - Fallback worker/provider: independent Auditor in available coding agent
 - Prompt instruction: `Use $agent-delegation-routing if available to confirm role, model/reasoning, ownership, command shape, and fallback before starting.`
@@ -477,7 +485,7 @@ Use this section for multi-goal, multi-area, multi-worker, or phased work.
   - runtime/security risk where applicable
 - Verdict: APPROVED / NOT APPROVED / BLOCKED
 - Findings format: file/line, gate, issue, required fix, residual risk
-- Output format:
+- Output format: <rigid report plus REQ traceability table: REQ | Then scenario | files:lines | verify command | output | verdict; DONE without it is rejected>
   - verdict:
   - findings:
   - verification evidence:
