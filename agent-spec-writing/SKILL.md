@@ -11,7 +11,9 @@ metadata:
 
 Write durable requirements artifacts that agents can execute without relying on
 chat memory. A spec is the source of truth for what should be true; it is not an
-execution plan or worker routing contract.
+execution plan or worker routing contract. Its purpose is economic: the
+expensive reasoning happens once here, so implementation can be delegated to a
+small model at medium effort and still produce the expected result.
 
 Use this skill before `agent-delegation-planning` when the request is to define,
 propose, clarify, or change behavior. Use `agent-plan-lifecycle` after delivery
@@ -69,7 +71,8 @@ Judgment rules the validator cannot check: every number derived, cited, or
 `(measure)`; one unit per quantity; count per cycle derived for any REQ adding
 queries, round trips, timers, or subscriptions; metric and range named for any
 threshold; primitive behavior verified and cited, platform-native product
-preferred; the final target specified once, never "retarget after REQ-X lands".
+preferred; the final target specified once, never "retarget after REQ-X lands";
+each REQ implementable by a small model at medium effort from the spec alone.
 
 ## Spec Quality Rules
 

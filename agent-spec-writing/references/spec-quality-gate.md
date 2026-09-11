@@ -172,10 +172,14 @@ The validator lists sequencing clauses (`retarget`, `after REQ-x lands`,
 failure: specify the final target once, delete the clause. A clause that only
 states a precondition moves into `Depends on:`. Record `pass (N reviewed)`.
 
-## 9. Interoperability test (attestation)
+## 9. Delegation test (attestation)
 
-Per REQ: could two engineers implement this independently and produce
-interoperable results? If not, add the missing detail. Categories that are
+Per REQ, two questions. Could two engineers implement it independently and
+produce interoperable results? Could a small model at medium effort (Luna,
+Haiku tier) implement it from the spec alone, with no repo archaeology and no
+design decision left to make? A "no" to either means the spec is incomplete:
+add the detail. The worker must find in the REQ the files to touch, the exact
+commands, the expected outputs, and every constant. Categories that are
 missing most often:
 
 - wire shape (field list, types, units, array vs object), including how
@@ -186,7 +190,12 @@ missing most often:
 - retry bound and failure response for any coherence protocol;
 - count per cycle, derived, for any REQ that adds queries, round trips,
   timers, or subscriptions;
-- metric name and range for any threshold on a similarity, distance, or score.
+- metric name and range for any threshold on a similarity, distance, or score;
+- the decision itself, where the REQ still says "choose", "decide", or "pick".
+
+Record `pass (REQ-01 small-model-ready, ...)`. A REQ that needs a stronger
+worker is recorded as such and the reason named; that is a signal for
+`agent-delegation-routing`, not a pass.
 
 ## 10. Dependency DAG (validator)
 

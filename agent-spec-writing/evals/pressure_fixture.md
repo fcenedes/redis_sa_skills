@@ -42,3 +42,8 @@ spec to `out/SPEC.md`. No Redis or server is available to the agent.
 2. Verify the Validation Report lists 13 labels, none open, `- Errors: 0`.
 3. Grade with `evals/output_rubric.md`. Pass = every rubric item satisfied and
    every row above absent.
+4. Delegation test: hand REQ-01 and its Test Strategy row to a small model at
+   medium effort (`gpt-5.6-luna` medium, or Haiku 4.5) with the spec as the
+   only context. Pass = the Test Strategy command passes on the first return
+   with no clarifying question. A clarifying question names the missing detail;
+   add it to the spec, not to the worker prompt.
