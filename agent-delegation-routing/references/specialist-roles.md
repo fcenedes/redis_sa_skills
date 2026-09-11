@@ -151,7 +151,7 @@ Spec Writer/Auditor reviews the contract or claim.
 
 Workers must report exactly one status:
 
-- `DONE`: task complete; proceed to verification.
+- `DONE`: task complete with a REQ traceability table; proceed to verification. `DONE` without the table is treated as `DONE_WITH_CONCERNS`.
 - `DONE_WITH_CONCERNS`: task complete but concerns need coordinator review.
 - `NEEDS_CONTEXT`: missing context; coordinator provides it before retry.
 - `BLOCKED`: cannot complete; coordinator changes context, model, scope, or escalates.
@@ -173,6 +173,32 @@ coverage target is greater than 85%.
 - Failure, retry, cancellation, and idempotency behavior must be tested or documented.
 - Skipped tests, missing live systems, or missing env vars are skips, not passes.
 
+## Mission Block
+
+Every contract below starts with these three fields. They exist because strong
+models (Fable, Astra, Opus, Sol) reliably drift from the spec toward their own
+design when the mission is implied rather than stated. Waste shows up as a
+deliverable that runs but does not match any REQ.
+
+```text
+Mission: <verb> REQ-<ids> from <change delta path> exactly as written. The spec is the contract; your judgment is not.
+Not the mission: redesign, extend, simplify, "improve", fill an unspecified gap with your own design, or change scope.
+Spec gap policy: on a gap or contradiction, STOP and return NEEDS_CONTEXT naming the REQ id and the exact question. Do not invent.
+```
+
+Deliverable rule: `DONE` is accepted only with a REQ traceability table, one
+row per REQ in the mission:
+
+```text
+| REQ | Then scenario (verbatim) | Evidence (files:lines) | Verify command | Output excerpt | Verdict met/partial/missing/contradicts |
+```
+
+Any changed file with no REQ row is unrequested work and a finding.
+
+First-return checkpoint: the coordinator dispatches the smallest REQ first,
+runs the spec-fidelity check on that return before dispatching the rest, and
+kills the batch on drift. Waste is bounded to one REQ, not the plan.
+
 ## Coordinator Contract
 
 Use for planning and integration. Do not take over primary implementation scope,
@@ -182,6 +208,9 @@ decision is needed.
 
 ```text
 Role: Coordinator
+Mission:
+Not the mission:
+Spec gap policy:
 Requested model:
 Requested reasoning effort:
 Routing reason:
@@ -192,6 +221,7 @@ Active residual:
 Workers available:
 Constraints:
 Required gates:
+Spec fidelity gate: first-return checkpoint on <smallest REQ task>; REQ traceability required for every DONE
 Blocker policy:
 - bounded blocker: fix directly in coordinator/integrator scope or dispatch immediate repair task/packet
 - decision blocker: escalate with exact question and source evidence
@@ -242,6 +272,9 @@ Use for bounded code changes.
 
 ```text
 Role: Implementor
+Mission:
+Not the mission:
+Spec gap policy:
 Requested model:
 Requested reasoning effort:
 Routing reason:
@@ -252,12 +285,13 @@ Active residual:
 You own:
 Do not touch:
 Task:
-Acceptance criteria:
+Acceptance criteria: <the REQ's Then scenarios, copied verbatim from the change delta>
 Constraints:
-Verify with:
+Verify with: <the REQ's Test Strategy command>
 Commit allowed: no
 Output:
 - STATUS: DONE / DONE_WITH_CONCERNS / NEEDS_CONTEXT / BLOCKED
+- REQ traceability table (required for DONE; see Mission Block)
 - requested model
 - requested reasoning effort
 - actual model
@@ -279,6 +313,9 @@ Use after implementation or before claiming completion.
 
 ```text
 Role: Verifier
+Mission: verify REQ-<ids> from <change delta path>; spec fidelity first, quality gates second
+Not the mission: judge whether the design is good; judge whether it is the specified design
+Spec gap policy:
 Requested model:
 Requested reasoning effort:
 Routing reason:
@@ -303,9 +340,11 @@ Output:
 - routing reason
 - anchor files read
 - active residual
+- REQ traceability check: every REQ met/partial/missing/contradicts with evidence; every changed file mapped to a REQ or flagged unrequested
 - evidence
 - failed gates
 - smallest next fix if not approved
+NOT APPROVED when any REQ scenario lacks evidence or any change has no REQ.
 Do not implement fixes.
 ```
 
@@ -315,6 +354,9 @@ Use for architecture, runtime seam, security, or release-gate claims.
 
 ```text
 Role: Auditor
+Mission: audit REQ-<ids> from <change delta path>; spec fidelity is the first gate
+Not the mission: re-derive the design or the requirements
+Spec gap policy:
 Requested model:
 Requested reasoning effort:
 Routing reason:
@@ -324,7 +366,7 @@ Source of truth:
 Anchor files read:
 Active residual:
 Evidence to inspect:
-Audit mode: architecture_gate / quality_gate / regression_gate / release_gate / deep_audit
+Audit mode: spec_fidelity (always first) then architecture_gate / quality_gate / regression_gate / release_gate / deep_audit
 Output:
 - STATUS: APPROVED / NOT APPROVED / BLOCKED
 - executive verdict
@@ -337,7 +379,8 @@ Output:
 - anchor files read
 - active residual
 - checks run
-- closed claims
+- REQ traceability verdicts (met/partial/missing/contradicts) and unrequested changes
+- closed claims (each mapped to a REQ id)
 - open claims
 - findings with evidence, impact, required fix, closure criteria
 - blocker disposition recommendation: coordinator direct fix / repair task / repair packet / decision needed / environment blocked

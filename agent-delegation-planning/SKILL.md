@@ -4,7 +4,7 @@ description: Use when writing an execution plan that will be delegated to coding
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: "1.2.1"
+  version: "1.3.0"
 ---
 # Agent Delegation Planning
 
@@ -80,6 +80,7 @@ Each task must include ID, objective, skills, routing reason, repo/branch, role,
 
 - Do not use this skill for one-file, trivial, or no-handoff work; execute directly.
 - Do not write generic plans that omit ownership, skills, model, reasoning, exact verification, audit, or tracking.
+- Do not write a task without `Mission`, `Not the mission`, and `Spec gap policy`; do not paraphrase REQ scenarios into acceptance criteria; do not accept `DONE` without a REQ traceability table.
 - Do not interpret local terms from generic knowledge when repo definitions exist.
 - Do not stop an autonomous plan except for a true decision-blocker, unavailable required environment/access, scope change, destructive action, or unverifiable work.
 - Do not confuse `Autonomy` with `Execution`, or treat autonomy as commit/push permission.
@@ -103,6 +104,9 @@ Each task must include ID, objective, skills, routing reason, repo/branch, role,
 | "This is too small to need a formal plan" | If it involves multiple files, workers, or handoffs, it needs ownership, routing, and gates. Direct execution is fine for single-file work. |
 | "Autonomous means we can commit freely" | Autonomy controls continuation, not commits. Commit policy is a separate explicit gate. |
 | "The auditor can just re-read my results" | Auditors must re-run verification commands independently; self-review misses claim-vs-evidence mismatches. |
+| "A strong model will understand the intent" | Strong models drift most: they redesign. State the mission, forbid the rest, and demand traceability. |
+| "We'll check spec fidelity at the end" | By then every REQ is wrong the same way. Checkpoint on the first return; kill the batch on drift. |
+| "The spec had a gap, the worker filled it sensibly" | A gap is a NEEDS_CONTEXT stop, not a design licence. The fill goes back to the spec, then to the worker. |
 
 ## Interaction with Other Skills
 

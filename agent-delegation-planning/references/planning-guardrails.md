@@ -18,6 +18,26 @@ executing, or auditing a delegated plan.
 - Ambiguous local terminology becomes a discovery task with a recorded working
   interpretation unless the ambiguity blocks a true decision.
 
+## Spec Fidelity
+
+Strong coordinator or worker models drift from the spec toward their own
+design when the mission is implied. Every plan enforces:
+
+- Every task block carries `Mission`, `Not the mission`, and `Spec gap policy`.
+- `Acceptance criteria` are the REQ's `Then` scenarios copied verbatim from the
+  change delta; a paraphrase is a defect because it is where redesign starts.
+- `DONE` is accepted only with a REQ traceability table (REQ, scenario,
+  files:lines, verify command, output, verdict). A changed file with no REQ is
+  unrequested work and a finding.
+- The Auditor task runs `spec_fidelity` before any other audit mode.
+- First-return checkpoint: the smallest REQ task is dispatched first and its
+  traceability checked before the rest of the batch goes out.
+
+Red flags in a worker or coordinator report, each meaning stop and re-anchor
+to the spec: "simplified", "improved", "took the liberty", "the spec did not
+cover so I", "in the spirit of", a design section in an implementor report, a
+diff touching files outside every REQ's `Impacted files/components`.
+
 ## Detailed DO NOT
 
 - Do not use planning for one-file, trivial, or no-handoff work.

@@ -4,7 +4,7 @@ description: Use when writing, updating, or reviewing source-of-truth specs, req
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.3.0
+  version: 1.3.1
 ---
 
 # Agent Spec Writing
@@ -23,7 +23,8 @@ Load [change-delta-template](templates/change-delta-template.md) when producing
 a proposal, source-of-truth update, or handoff-ready delta. Run
 [spec-quality-gate](references/spec-quality-gate.md): all thirteen checks on
 change deltas (mechanical ones via `scripts/validate-change-delta.py`), the
-family subset on other documents, and as the rubric for review-only work.
+family subset on other documents, and as the rubric for review-only work. For
+spec-compliance against a diff, use [spec-compliance-review](references/spec-compliance-review.md).
 
 ## Authority
 
