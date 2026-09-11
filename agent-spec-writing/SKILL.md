@@ -4,7 +4,7 @@ description: Use when writing, updating, or reviewing source-of-truth specs, req
 license: Apache-2.0
 metadata:
   author: fcenedes
-  version: 1.3.3
+  version: 1.3.4
 ---
 
 # Agent Spec Writing
@@ -50,8 +50,9 @@ spec-compliance against a diff, use [spec-compliance-review](references/spec-com
    directory's layout; with no spec directory at all, write a standard Markdown
    spec using the template.
 5. For every platform primitive the spec relies on, load that platform's
-   official skill before writing (gate check 4 lists known platforms; Redis
-   map in `references/redis-primitive-map.md`). Cite only a rule file that
+   official skill before writing (gate check 4 lists known platforms; for
+   Redis that is https://github.com/redis/agent-skills, mapped in
+   `references/redis-primitive-map.md`). Cite only a rule file that
    contains the claim; otherwise the official doc URL. If a skill is absent,
    ask the user to install it and use official docs meanwhile.
 6. Classify the requested change as `ADDED`, `MODIFIED`, `REMOVED`,
@@ -120,7 +121,7 @@ each REQ implementable by a small model at medium effort from the spec alone.
 - **agent-delegation-planning** (downstream): reads the Derived order, Test Strategy, Open Decisions, and Baseline as inputs; it alone decides batches, waves, ownership, and task contracts.
 - **agent-plan-lifecycle** (downstream): use after delivery to promote audited changes into durable truth or archive.
 - **agent-capability-ledger** (complementary): assigns `<DOMAIN>.<AREA>.<NUM>` IDs to the capability names the spec lists.
-- **Platform skills** (upstream, per primitive): the platform's official skill is the citation source; for Redis that is `redis-development` plus the redis/agent-skills domain skills, mapped in `references/redis-primitive-map.md`.
+- **Platform skills** (upstream, per primitive): the platform's official skill is the citation source; for Redis that is `redis-development` plus the domain skills from https://github.com/redis/agent-skills, mapped in `references/redis-primitive-map.md`.
 - **performance-optimization**, **shipping-and-launch** (complementary): Baseline (REQ-00) and Consumer Rollback feed their measure-first and rollback-before-deploy gates.
 
 ## Verification

@@ -60,7 +60,7 @@ Is every assumption dispositioned as Verified / Verification step / Decision wit
 
 ## Primitive verification
 
-For every platform primitive the spec relies on (transactions, TTL, index behavior, pub/sub, streams), did the transcript load the platform's official skill (for Redis: `redis-development` plus the matching redis/agent-skills domain skill, per `references/redis-primitive-map.md`) or official docs and cite a rule file that contains the claim or a doc URL, rather than asserting behavior from memory or citing a file that lacks the claim?
+For every platform primitive the spec relies on (transactions, TTL, index behavior, pub/sub, streams), did the transcript load the platform's official skill (for Redis: `redis-development` plus the matching domain skill from https://github.com/redis/agent-skills, per `references/redis-primitive-map.md`) or official docs and cite a rule file that contains the claim or a doc URL, rather than asserting behavior from memory or citing a file that lacks the claim?
 
 ## Gate evidence
 
