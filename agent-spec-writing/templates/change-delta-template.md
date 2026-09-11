@@ -1,27 +1,29 @@
 # Change Delta Template
 
-Use this file when a requirement change needs to become durable source-of-truth
-or an execution handoff. Fill every slot. The only empty values are
-`n/a: <reason>` and, in `Depends on:` alone, `none`; a blank slot or a
-surviving `<placeholder>` is a gate failure.
+Copy the block below when a requirement change needs to become durable
+source-of-truth or an execution handoff. Fill every slot.
 
-Slot rules (checked by [spec-quality-gate](spec-quality-gate.md) and the SKILL.md Verification list):
+Sentinel policy (one rule per field kind):
 
-- `Then:` uses one of the gate's six observable forms (command output, API
-  response, metric, file plus reader command, UI state plus check, audit
-  evidence plus locator).
-- Every number is derived (arithmetic inline), cited (`file:line`, doc URL, or
-  a standard in `Standards cited:`), or written `(measure)`.
-- `Depends on:` lists REQ ids or `none`. The Dependency DAG section is built
-  from these fields only.
-- `Failure mode` and `Observability` are filled for every runtime REQ;
-  REQs that write durable state also state the crash-mid-write outcome and
-  fill `Rollback`.
-- `Contract shape` is filled for any REQ that adds or changes an interface
-  (endpoint, message, key layout, CLI flag, file format).
-- `Handoff task` is a title only: no owner, model, steps, or estimate.
-- Assumptions are dispositioned, not listed: every row keeps its text, a
-  Class, and a pointer to where it was resolved.
+- Scalar slot (`- Label: value`): `n/a: <reason>` when it does not apply.
+- List field (`Depends on:`, `Standards cited:`, `Warnings:`, `Info:`): `none`.
+- Table or free-text section: one row or line reading `none` or `n/a: <reason>`.
+- A surviving `<placeholder>` outside backticks is a validator error.
+
+Slot rules (mechanical ones are checked by `scripts/validate-change-delta.py`,
+semantic ones by the attestations in `references/spec-quality-gate.md`):
+
+- `Then:` uses one of the gate's six observable forms.
+- Every number is derived (arithmetic inline), cited (`file:line`, doc URL,
+  rule file, or a standard in `Standards cited:`), or `(measure)`.
+- `Depends on:` appears exactly once per REQ: `none` or REQ ids. The
+  Dependency DAG lists exactly those edges.
+- `Failure mode:` and `Observability:` are filled for every runtime REQ;
+  state writers also state the crash-mid-write outcome and fill `Rollback:`.
+- `Contract shape:` is filled for any REQ that adds or changes an interface.
+- `Handoff task, if any:` is a title only.
+- Assumptions are dispositioned, never deleted; Decision rows point to a
+  `D-<n>` id in Open Decisions.
 - DEFERRED = out of scope this revision (trigger-gated). Open Decisions =
   in scope, unanswered (date-gated). A row appears in exactly one.
 
@@ -35,20 +37,20 @@ OpenSpec change path, if any:
 Document family:
 Discovery/index updates needed:
 Units used in this document: <quantity → unit, one unit per quantity>
-Standards cited: <e.g. RFC 9110 for HTTP status codes; or none>
+Standards cited: <RFC 9110 for HTTP status codes, RFC 2119 for MUST/SHOULD/MAY, ... or none>
 Author:
 Date:
-Revision: <n; one for a new document, otherwise the existing revision plus one>
+Revision: <repo-native revision if the spec family has one; else 1 for a new document, previous + 1 for an edit>
 
 ## Summary
 
-<REQ count, grouping, one line on how order is derived (see Dependency DAG)>
+<REQ count, grouping used, and the derived order (see Dependency DAG)>
 
 ## Baseline (REQ-00)
 
 Include when any REQ claims a performance, size, latency, cost, or volume
-change; otherwise write `n/a: no performance claims`. Every `Current` cell is
-`(measure)` until captured.
+change; otherwise one line `n/a: no performance claims`. Every `Current` cell
+is `(measure)` until captured.
 
 | Metric | Current | Target | Capture procedure (exact command or DevTools steps) | Used by |
 |---|---|---|---|---|
@@ -59,7 +61,7 @@ change; otherwise write `n/a: no performance claims`. Every `Current` cell is
 ### REQ-<id>: <requirement>
 
 - Source:
-- Depends on: <REQ ids or none>
+- Depends on: <none, or REQ ids>
 - Baseline row: <metric name from REQ-00, or n/a: not a performance change>
 - Rationale:
 - Evidence checked: <file:line, doc URL, rule file>
@@ -75,7 +77,7 @@ change; otherwise write `n/a: no performance claims`. Every `Current` cell is
 - Observability: <one INFO / FT.INFO / log line / metric proving it works in production, or n/a: static content>
 - Compatibility impact:
 - Verification: <command whose output proves the scenario>
-- Handoff task, if any: <title only>
+- Handoff task, if any: <title only, or n/a: no implementation work>
 
 ## MODIFIED
 
@@ -85,7 +87,7 @@ change; otherwise write `n/a: no performance claims`. Every `Current` cell is
 - Previous behavior: <file:line>
 - New behavior:
 - Why:
-- Depends on: <REQ ids or none>
+- Depends on: <none, or REQ ids>
 - Baseline row: <metric name, or n/a: not a performance change>
 - Evidence checked: <file:line, doc URL, rule file>
 - Impacted files/components: <paths or component names>
@@ -102,7 +104,7 @@ change; otherwise write `n/a: no performance claims`. Every `Current` cell is
 - Migration:
 - Verification:
 - Supersedes:
-- Handoff task, if any: <title only>
+- Handoff task, if any: <title only, or n/a: no implementation work>
 
 ## REMOVED
 
@@ -111,8 +113,8 @@ change; otherwise write `n/a: no performance claims`. Every `Current` cell is
 - Source:
 - Removed behavior: <file:line>
 - Why:
-- Depends on: <REQ ids or none>
-- Baseline row: <or n/a>
+- Depends on: <none, or REQ ids>
+- Baseline row: <metric name, or n/a: not a performance change>
 - Evidence checked: <file:line>
 - Impacted files/components: <paths or component names>
 - Contract shape: <what consumers stop receiving, or n/a: no interface change>
@@ -126,14 +128,14 @@ change; otherwise write `n/a: no performance claims`. Every `Current` cell is
 - Observability: <how absence is confirmed in production>
 - Compatibility impact:
 - Verification:
-- Handoff task, if any: <title only>
+- Handoff task, if any: <title only, or n/a: no implementation work>
 
 ## SUPERSEDED
 
 | Old item | Superseded by | Why | Evidence |
 |---|---|---|---|
 
-If this table has rows, MODIFIED or REMOVED cannot be "none".
+If this table has rows, MODIFIED or REMOVED cannot be `none`.
 
 ## DEFERRED
 
@@ -142,22 +144,21 @@ If this table has rows, MODIFIED or REMOVED cannot be "none".
 
 ## Dependency DAG
 
-Edges only from the per-REQ dependency fields. Migration order is the
-topological sort of this list. Document order is free; the Summary states the
-grouping used when it differs from the derived order.
+Edges only from the per-REQ `Depends on:` fields, one per line as
+`REQ-<a> -> REQ-<b>` meaning a must land before b. Document order is free.
 
 ```
 REQ-<a> -> REQ-<b>
 ```
 
-Derived order: <REQ ids in execution order>
+Derived order: <every REQ id once, in a valid topological order>
 
 ## Cross-REQ Interactions
 
-One line per pair of REQs that touch the same key prefix, table, endpoint, timer,
-TTL, or returned object. State `none` or the conflict and its resolution.
+One row per shared resource (key prefix, table, endpoint, timer, TTL, returned
+object) touched by two or more REQs; or one row `none`.
 
-| REQ pair | Shared resource | Interaction | Resolution |
+| Shared resource | REQs | Interaction | Resolution |
 |---|---|---|---|
 
 ## Non-Goals
@@ -176,8 +177,8 @@ command), or `Decision` (pointer: Open Decisions id; do not repeat the text).
 
 ## Open Decisions
 
-| Decision | Options | Recommendation | Owner | Due | Blocks |
-|---|---|---|---|---|---|
+| ID | Decision | Options | Recommendation | Owner | Due | Blocks |
+|---|---|---|---|---|---|---|
 
 ## Test Strategy
 
@@ -194,21 +195,20 @@ it lives). Or n/a: <reason>.>
 
 ## Consumer Rollback
 
-<One line per REQ with a non-n/a Contract shape: how the client, consumer, or
-downstream agent reverts without a server change. Or n/a: <reason>.>
+<One line per REQ whose Contract shape changes what an existing consumer
+receives: how that consumer reverts without a server change. Or n/a: <reason>.>
 
 ## Validation Report
 
-- Errors: <count of open gate checks plus other errors; 0 only when none is open>
-- Warnings:
-- Info:
-- Quality gate: <thirteen labelled results, see gate Recording section>
+- Errors: <integer; 0 only when no gate check is open>
+- Warnings: <list, or none>
+- Info: <list, or none>
+- Quality gate: <thirteen labelled results, grammar in the gate's Recording section>
 
 ## Execution Handoff
 
 - Planning skill:
 - Suggested plan directory:
-- Dependency waves (from Derived order):
 - Capability names for the ledger (IDs assigned by agent-capability-ledger):
 - Validation commands: see Test Strategy
 
