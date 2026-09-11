@@ -232,8 +232,8 @@ Versioning is per skill through `metadata.version` in each `SKILL.md`. No archiv
 | playwright-cli-agent | 1.1.0 |
 | redis-insight-plugin | 1.1.0 |
 | agent-delegation-routing | 1.3.0 |
-| agent-delegation-planning | 1.3.0 |
-| agent-spec-writing | 1.3.1 |
+| agent-delegation-planning | 1.3.1 |
+| agent-spec-writing | 1.3.2 |
 | agent-plan-lifecycle | 1.0.0 |
 | agent-capability-ledger | 1.0.1 |
 | agent-memory-docker | 1.1.0 |
