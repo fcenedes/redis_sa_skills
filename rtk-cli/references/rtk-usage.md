@@ -23,6 +23,35 @@ rtk init -g --auto-patch
 
 This installs the native hook (`rtk hook claude`) in `~/.claude/settings.json`, writes `~/.claude/RTK.md`, and adds an `@RTK.md` reference to `~/.claude/CLAUDE.md`. Upgrading from a pre-0.37.2 install that used the legacy `rtk-rewrite.sh` shell hook? Re-run `rtk init -g` to migrate. Preview without writing: `rtk init -g --dry-run -v`.
 
+## Claude Code Sandbox and RTK Tracking
+
+Claude Code's sandboxed Bash tool only allows writes to the project directory, `$TMPDIR`, and a few system paths. RTK keeps its tracking database (`history.db`) and, in `sqlite` recall mode, the recall store in its data directory, which is outside that allowlist. Symptoms:
+
+- `rtk gain` fails with `Failed to initialize tracking database: unable to open database file`.
+- Filter commands (`rtk git`, `rtk grep`, `rtk pytest`, ...) run fine but record nothing: `rtk gain` totals stop growing, `rtk gain --history` shows no entries from sandboxed sessions, `rtk recall --list` stays empty.
+- No warning is printed, even with `-v`. The hook (`rtk hook claude`) itself still rewrites commands because it runs outside the sandbox.
+
+Fix (one-time, per machine): allow-list RTK's data directory for sandbox writes in `~/.claude/settings.json`:
+
+```json
+{
+  "sandbox": {
+    "filesystem": {
+      "allowWrite": ["~/Library/Application Support/rtk"]
+    }
+  }
+}
+```
+
+| OS    | RTK data directory                    |
+|-------|---------------------------------------|
+| macOS | `~/Library/Application Support/rtk`   |
+| Linux | `~/.local/share/rtk` (or `$XDG_DATA_HOME/rtk`) |
+
+`~/` expansion is supported. The same entry can go in the project's `.claude/settings.local.json` for a per-project scope, or be added from the `/sandbox` panel (Filesystem tab) in an interactive `claude` session. In testing (Claude Code desktop, macOS, rtk 0.49.0) the setting applied to the running session immediately; if tracking still fails, start a new session.
+
+Agents: when you see the symptom, propose this change to the user and wait for approval before editing their settings. After the change, verify with a sandboxed `rtk wc -l <file>` followed by `rtk gain --history` showing that entry.
+
 ## Other Agents
 
 ```bash

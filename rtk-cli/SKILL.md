@@ -5,7 +5,7 @@ compatibility: Requires the rtk binary (rtk-ai/rtk, 0.49+) on PATH; falls back t
 license: MIT
 metadata:
   author: redis
-  version: "1.2.0"
+  version: "1.2.1"
 ---
 # RTK CLI (Rust Token Killer)
 
@@ -54,9 +54,18 @@ reachingforthejack/rtk — "Rust Type Kit"), fall back to raw shell commands for
 session and say so. Do not silently pretend RTK ran.
 
 If `rtk gain` prints `Failed to initialize tracking database`, the Bash sandbox is
-blocking writes to RTK's history DB. Filtering still works; only savings tracking is
-off. Do not treat this as "RTK is broken". Full recovery steps are in
-[references/rtk-usage.md](references/rtk-usage.md).
+blocking writes to RTK's data directory. Filtering still works, but **every sandboxed
+`rtk` call silently skips tracking and `rtk recall` storage**. Do not treat this as
+"RTK is broken". Propose the one-time fix to the user once per setup (it edits their
+settings, so ask before applying):
+
+```json
+// ~/.claude/settings.json — lets sandboxed rtk write its history/recall DB
+"sandbox": { "filesystem": { "allowWrite": ["~/Library/Application Support/rtk"] } }
+```
+
+Linux: use `~/.local/share/rtk` instead. Details in
+[references/rtk-usage.md](references/rtk-usage.md#claude-code-sandbox-and-rtk-tracking).
 
 ## Core Workflow
 
