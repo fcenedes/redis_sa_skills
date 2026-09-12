@@ -24,7 +24,7 @@ raw by default just because the word "rtk" wasn't said.
 ## Task Fit
 
 PASS: The specific RTK subcommand used matches the task (`rtk git diff` for diffs,
-`rtk test "..."` for test runs, `rtk read` for files, `rtk grep`/`rtk find` for
+`rtk pytest`/`rtk cargo test`/generic `rtk test <cmd>` for test runs, `rtk read` for files, `rtk grep -r`/`rtk rg`/`rtk find` for
 search) rather than a generic or mismatched wrapper.
 
 ## Output Usefulness

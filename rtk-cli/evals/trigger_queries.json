@@ -9,14 +9,14 @@
   {
     "should_trigger": true,
     "expected_skill": "rtk-cli",
-    "expected_behavior": "Use rtk test \"<test command>\" to run the suite so noisy logs are stripped while failing test titles/counts are kept.",
+    "expected_behavior": "Use the dedicated wrapper when one exists (rtk pytest, rtk cargo test, rtk jest, rtk go test) or the generic rtk test <test command> otherwise, so noisy logs are stripped while failing test titles/counts are kept.",
     "must_not": "Must not run the raw test command and paste the full verbose log into the response.",
     "query": "can you run our test suite and tell me if it passes"
   },
   {
     "should_trigger": true,
     "expected_skill": "rtk-cli",
-    "expected_behavior": "Use rtk grep \"TODO\" . (path-scoped where possible) instead of raw grep -r, to avoid dumping every match unfiltered.",
+    "expected_behavior": "Use rtk grep -r \"TODO\" . or rtk rg \"TODO\" . (path-scoped where possible) instead of raw grep -r; -r is required for directory searches.",
     "must_not": "Must not broaden to an unscoped raw grep when a path-scoped rtk grep would return a smaller, equally useful result.",
     "query": "grep for TODO across the whole repo"
   },
@@ -72,7 +72,7 @@
   {
     "should_trigger": true,
     "expected_skill": "rtk-cli",
-    "expected_behavior": "Run the installation-verification steps (rtk --version, rtk gain) and report whether it's installed, watching for the reachingforthejack/rtk name collision.",
+    "expected_behavior": "Run the installation-verification steps (rtk --version, rtk init --show, rtk hook check) and report whether it's installed, watching for the reachingforthejack/rtk name collision.",
     "must_not": "Must not assume rtk is installed without running the verification commands first.",
     "query": "is rtk actually installed on this machine, I'm not sure"
   },
